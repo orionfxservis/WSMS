@@ -61,15 +61,10 @@
         <!-- Login -->
         <div class="auth-panel active" id="panel-login">
           <div class="form-group">
-            <label>Email or Username</label>
-            <input type="text" placeholder="Enter email or username" id="login-email"/>
+            <label>Admin Username</label>
+            <input type="text" value="admin" id="login-email" readonly style="background: var(--bg); cursor: not-allowed;"/>
           </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" placeholder="Enter password" id="login-pass"/>
-          </div>
-          <div style="text-align:right;margin-bottom:.75rem;"><a href="#" style="font-size:.8rem;color:var(--primary);">Forgot password?</a></div>
-          <button class="btn btn-primary" onclick="doLogin()">Sign In</button>
+          <button class="btn btn-primary" onclick="doLogin()">Sign In as Admin</button>
           <p class="auth-link">Don't have an account? <a onclick="switchAuthTab('signup')">Sign Up</a></p>
         </div>
 
@@ -174,29 +169,32 @@
       <img src="images/logo/wsms-logo.png" alt="WSMS Logo" style="height:45px;width:auto;background:#fff;padding:4px;border-radius:8px;">
     </div>
     <div class="sidebar-nav">
-      <div class="nav-section">Main</div>
-      <div class="nav-item active" onclick="showSection('overview',this)"><span class="ni">🏠</span> Dashboard</div>
-      <div class="nav-section">Operations</div>
+      <div class="nav-section">MAIN</div>
+      <div class="nav-item active" onclick="showSection('overview',this)"><span class="ni">📊</span> Dashboard</div>
+      
+      <div class="nav-section">OPERATIONS</div>
       <div class="nav-item" onclick="showSection('customers',this)"><span class="ni">👥</span> Customers</div>
-      <div class="nav-item" onclick="showSection('deliveries',this)"><span class="ni">🚚</span> Deliveries</div>
+      <div class="nav-item" onclick="showSection('deliveries',this)"><span class="ni">🚚</span> Orders & Deliveries</div>
       <div class="nav-item" onclick="showSection('inventory',this)"><span class="ni">📦</span> Inventory</div>
-      <div class="nav-section">Finance</div>
-      <div class="nav-item" onclick="showSection('expenses',this)"><span class="ni">💰</span> Expenses</div>
-      <div class="nav-section">Management</div>
-      <div class="nav-item" onclick="showSection('stations',this)"><span class="ni">🏭</span> Stations</div>
-      <div class="nav-item" onclick="showSection('reports',this)"><span class="ni">📊</span> Reports</div>
-      <div class="nav-section">Account</div>
-      <div class="nav-item" onclick="showSection('settings',this)"><span class="ni">⚙️</span> Settings</div>
-    </div>
-    <div class="sidebar-user">
-      <div class="user-info">
-        <div class="user-avatar">AK</div>
-        <div>
-          <div class="user-name">Ahmed Khan</div>
-          <div class="user-role">Supplier</div>
-        </div>
+      
+      <div class="nav-section">FINANCE</div>
+      <div class="nav-item" onclick="var sub = document.getElementById('accounts-submenu'); sub.style.display = sub.style.display === 'none' ? 'flex' : 'none';"><span class="ni">🧾</span> Accounts <span style="margin-left:auto; font-size: 0.7rem;">▼</span></div>
+      <div id="accounts-submenu" style="display: none; flex-direction: column; padding-left: 1.5rem; gap: 0.2rem; font-size: 0.9rem; margin-bottom: 0.5rem; margin-top: -0.25rem;">
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('accounts',this)">Sales Invoices</div>
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('accounts',this)">Customer Receipts</div>
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('accounts',this)">Supplier Payments</div>
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('expenses',this)">Expenses</div>
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('accounts',this)">Customer Ledger</div>
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('accounts',this)">Supplier Ledger</div>
+        <div class="nav-item" style="padding: 0.4rem 1rem;" onclick="showSection('accounts',this)">Cash Flow Report</div>
       </div>
-      <button class="logout-btn" onclick="showLanding()">🚪 Logout</button>
+
+      <div class="nav-section">MANAGEMENT</div>
+      <div class="nav-item" onclick="showSection('stations',this)"><span class="ni">🏭</span> Filling Stations</div>
+      <div class="nav-item" onclick="showSection('reports',this)"><span class="ni">📈</span> Reports</div>
+      
+      <div class="nav-section">ACCOUNT</div>
+      <div class="nav-item" onclick="showSection('settings',this)"><span class="ni">⚙️</span> Settings</div>
     </div>
   </div>
 
@@ -204,16 +202,41 @@
   <div class="main">
     <div class="topbar">
       <h1 id="topbar-title">Dashboard</h1>
-      <div class="topbar-right">
-        <div class="search-bar">🔍 <input placeholder="Search..."/></div>
+      <div class="topbar-right" style="display: flex; gap: 0.5rem; align-items: center;">
+        <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;">+ New Customer</button>
+        <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;">+ New Order</button>
+        <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;">+ Add Delivery</button>
+        <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;">+ Record Payment</button>
+        <button class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.4rem 0.6rem;">+ Generate Invoice</button>
+        <div class="search-bar" style="margin-left: 0.5rem;">🔍 <input placeholder="Search..."/></div>
         <div class="notif-btn">🔔<span class="notif-dot"></span></div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-left: 0.5rem; border-left: 1px solid var(--border); padding-left: 1rem;">
+          <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.8rem; background: var(--primary); color: white;">SA</div>
+          <div style="display: flex; flex-direction: column;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text);">System Admin</span>
+          </div>
+          <button onclick="showLanding()" style="margin-left: 0.25rem; padding: 0.25rem; background: transparent; color: var(--danger); border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center;" title="Logout">🚪</button>
+        </div>
       </div>
     </div>
     <div class="content">
 
       <!-- OVERVIEW -->
       <div class="section active" id="section-overview">
-        <div class="page-title"><h2>Dashboard Overview</h2><p>Welcome back, Ahmed! Here's what's happening today.</p></div>
+        <div class="page-title"><h2>Dashboard Overview</h2><p>Welcome back, Admin! Here's what's happening today.</p></div>
+
+        <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--danger); font-weight: 700;">
+            ⚠️ <span style="font-size: 1.1rem;">Alerts & Warnings</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="background: var(--danger); color: white; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 800;">12</span> <span style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Customers Overdue</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="background: var(--danger); color: white; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 800;">35</span> <span style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Bottles Not Returned</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="background: var(--danger); color: white; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 800;">5</span> <span style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Deliveries Delayed</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="background: var(--danger); color: white; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 800;">3</span> <span style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Drivers Offline</span></div>
+          </div>
+        </div>
+
         <div class="stats-mini">
           <div class="stat-mini fill-blue">
             <div class="sv">1,247</div>
@@ -265,6 +288,170 @@
             </div>
           </div>
         </div>
+
+        <div class="charts-row">
+          <!-- Delivery Status Section -->
+          <div class="chart-card">
+            <h3 style="margin-bottom: 1.25rem;">🚚 Delivery Status</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); border-radius: 6px;">
+                <span style="font-weight: 600; color: var(--success);">🟢 Delivered Today</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: var(--success);">120</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(3, 105, 161, 0.1); border-left: 4px solid var(--primary); border-radius: 6px;">
+                <span style="font-weight: 600; color: var(--primary);">🔵 In Transit</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">18</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); border-radius: 6px;">
+                <span style="font-weight: 600; color: var(--warning);">🟡 Pending</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: var(--warning);">7</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); border-radius: 6px;">
+                <span style="font-weight: 600; color: var(--danger);">🔴 Cancelled</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: var(--danger);">2</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottle Tracking Widget -->
+          <div class="chart-card">
+            <h3 style="margin-bottom: 1.25rem;">🍼 Bottle Tracking</h3>
+            <div style="text-align: center; margin-bottom: 1rem; background: rgba(3, 105, 161, 0.05); padding: 1.25rem; border-radius: 10px; border: 1px solid rgba(3, 105, 161, 0.1);">
+              <div style="font-size: 2.25rem; font-weight: 800; color: var(--primary); line-height: 1;">5,000</div>
+              <div style="font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Total Bottles</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div style="background: var(--bg); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text);">2,100</div>
+                <div style="font-size: 0.7rem; color: var(--muted); font-weight: 600; margin-top: 0.15rem;">At Warehouse</div>
+              </div>
+              <div style="background: var(--bg); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text);">2,550</div>
+                <div style="font-size: 0.7rem; color: var(--muted); font-weight: 600; margin-top: 0.15rem;">With Customers</div>
+              </div>
+              <div style="background: rgba(245, 158, 11, 0.05); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(245, 158, 11, 0.2);">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--warning);">120</div>
+                <div style="font-size: 0.7rem; color: var(--warning); font-weight: 600; margin-top: 0.15rem;">Damaged</div>
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.05); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(239, 68, 68, 0.2);">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--danger);">230</div>
+                <div style="font-size: 0.7rem; color: var(--danger); font-weight: 600; margin-top: 0.15rem;">Lost</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-row" style="grid-template-columns: repeat(3, 1fr);">
+          <!-- Outstanding Payments -->
+          <div class="chart-card">
+            <h3 style="margin-bottom: 1.25rem;">💰 Outstanding Payments</h3>
+            <div style="font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 0.75rem;">Customers With Due Payments</div>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                <div>
+                  <div style="font-weight: 700; color: var(--text);">Ahmed Traders</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; color: var(--danger);">PKR 25,000</div>
+                  <button class="btn btn-outline btn-sm" style="font-size: 0.65rem; padding: 0.2rem 0.5rem; margin-top: 0.25rem;">Send Reminder</button>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                <div>
+                  <div style="font-weight: 700; color: var(--text);">ABC Mart</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; color: var(--danger);">PKR 18,500</div>
+                  <button class="btn btn-outline btn-sm" style="font-size: 0.65rem; padding: 0.2rem 0.5rem; margin-top: 0.25rem;">Send Reminder</button>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 700; color: var(--text);">Ali Enterprises</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; color: var(--danger);">PKR 12,000</div>
+                  <button class="btn btn-outline btn-sm" style="font-size: 0.65rem; padding: 0.2rem 0.5rem; margin-top: 0.25rem;">Send Reminder</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Revenue Analytics -->
+          <div class="chart-card">
+            <h3 style="margin-bottom: 1.25rem;">📊 Revenue Analytics</h3>
+            <div style="font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 0.75rem;">Current Month</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 1.25rem;">
+              <div style="background: rgba(16, 185, 129, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <div style="font-size: 0.65rem; color: var(--success); font-weight: 700; text-transform: uppercase;">Revenue</div>
+                <div style="font-size: 0.9rem; font-weight: 800; color: var(--success); margin-top: 0.15rem;">84.2K</div>
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <div style="font-size: 0.65rem; color: var(--danger); font-weight: 700; text-transform: uppercase;">Expenses</div>
+                <div style="font-size: 0.9rem; font-weight: 800; color: var(--danger); margin-top: 0.15rem;">32.5K</div>
+              </div>
+              <div style="background: rgba(3, 105, 161, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <div style="font-size: 0.65rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Profit</div>
+                <div style="font-size: 0.9rem; font-weight: 800; color: var(--primary); margin-top: 0.15rem;">51.7K</div>
+              </div>
+            </div>
+            <div style="height: 80px; display: flex; align-items: flex-end; gap: 0.5rem; position: relative;">
+               <svg viewBox="0 0 300 100" style="width: 100%; height: 100%; overflow: visible;">
+                 <line x1="0" y1="20" x2="300" y2="20" stroke="var(--border)" stroke-dasharray="4" />
+                 <line x1="0" y1="50" x2="300" y2="50" stroke="var(--border)" stroke-dasharray="4" />
+                 <line x1="0" y1="80" x2="300" y2="80" stroke="var(--border)" stroke-dasharray="4" />
+                 <path d="M 10 70 L 80 50 L 150 60 L 220 30 L 290 10" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                 <circle cx="10" cy="70" r="4" fill="#fff" stroke="var(--primary)" stroke-width="2"/>
+                 <circle cx="80" cy="50" r="4" fill="#fff" stroke="var(--primary)" stroke-width="2"/>
+                 <circle cx="150" cy="60" r="4" fill="#fff" stroke="var(--primary)" stroke-width="2"/>
+                 <circle cx="220" cy="30" r="4" fill="#fff" stroke="var(--primary)" stroke-width="2"/>
+                 <circle cx="290" cy="10" r="4" fill="#fff" stroke="var(--primary)" stroke-width="2"/>
+               </svg>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); font-weight: 600; margin-top: 0.5rem;">
+               <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span>
+            </div>
+          </div>
+
+          <!-- Route Management -->
+          <div class="chart-card">
+            <h3 style="margin-bottom: 1.25rem;">🗺️ Route Management</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; position: relative; overflow: hidden;">
+                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary);"></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text);">Route A</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">35</div>
+                  <div style="font-size: 0.65rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Deliveries</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; position: relative; overflow: hidden;">
+                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--success);"></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text);">Route B</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; font-size: 1.1rem; color: var(--success);">28</div>
+                  <div style="font-size: 0.65rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Deliveries</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; position: relative; overflow: hidden;">
+                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--warning);"></div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text);">Route C</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 800; font-size: 1.1rem; color: var(--warning);">42</div>
+                  <div style="font-size: 0.65rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Deliveries</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="table-card">
           <div class="table-header"><h3>📋 Recent Activity</h3></div>
           <div class="activity-list">
@@ -689,15 +876,59 @@
       </div>
 
       <!-- SETTINGS -->
+      <style>
+        #section-settings .form-group input {
+          padding: 0.4rem 0.6rem;
+          font-size: 0.85rem;
+        }
+      </style>
       <div class="section" id="section-settings">
         <div class="page-title"><h2>Settings</h2><p>Manage your account and preferences.</p></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
           <div class="chart-card">
             <h3 style="margin-bottom:1.25rem;">👤 Profile Information</h3>
-            <div class="form-group"><label>Full Name</label><input value="Ahmed Khan" type="text"/></div>
-            <div class="form-group"><label>Email</label><input value="ahmed@example.com" type="email"/></div>
-            <div class="form-group"><label>Phone</label><input value="0300-1234567" type="text"/></div>
-            <div class="form-group"><label>Account Type</label><input value="Supplier" type="text" readonly style="background:var(--bg);"/></div>
+            <div style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; align-items: center;">
+              <div style="position: relative; width: 72px; height: 72px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; font-weight: bold; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0;">
+                <img id="profile-pic-preview" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;" />
+                <span id="profile-pic-initials">SA</span>
+              </div>
+              <div>
+                <label class="btn btn-outline btn-sm" style="cursor: pointer; display: inline-block;">
+                  Upload Photo
+                  <input type="file" accept="image/*" style="display: none;" onchange="
+                    const file = this.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = function(e) {
+                        document.getElementById('profile-pic-preview').src = e.target.result;
+                        document.getElementById('profile-pic-preview').style.display = 'block';
+                        document.getElementById('profile-pic-initials').style.display = 'none';
+                      }
+                      reader.readAsDataURL(file);
+                    }
+                  " />
+                </label>
+                <div style="font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem;">Recommended: Square image, max 2MB.</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-bottom: 0.75rem;">
+              <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                <label>Full Name</label>
+                <input value="System Admin" type="text" />
+              </div>
+              <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                <label>Phone No.</label>
+                <input value="-" type="text" />
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0.75rem;">
+              <label>Email Address</label>
+              <input value="admin@wsms.com" type="email" />
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label>Account Type <span style="font-size: 0.7rem; font-weight: 400; color: var(--muted); margin-left: 0.25rem;">(Set by Admin)</span></label>
+              <input value="Administrator" type="text" readonly title="Only Admin can edit this at the time of account creation" style="background:var(--bg); cursor: not-allowed;"/>
+            </div>
             <button class="btn btn-primary btn-sm" style="margin-top:.5rem;">Save Changes</button>
           </div>
           <div class="chart-card">

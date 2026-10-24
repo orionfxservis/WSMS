@@ -1,31 +1,20 @@
-# WSMS Project Structure
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-This repository contains the codebase for the Water Supply Management System (WSMS). The project adheres to a clean, modular workflow to separate styling, scripts, structure, and assets.
+# Run and deploy your AI Studio app
 
-## Directory Workflow
+This contains everything you need to run your app locally.
 
-The workflow and file structure is organized as follows:
+View your app in AI Studio: https://ai.studio/apps/a72f7e49-84ff-4776-8b0a-31d91e8a340b
 
-```
-/css/style.css
-    - Contains all global styles, themes, and responsive design rules.
-/js/script.js
-    - Contains all JavaScript logic, state management, and interactivity for the dashboard and pages. All JS files should be placed here.
-/images/logo/logo.png
-    - Contains image assets. The main vector logo is placed here.
-/pages/about.html
-    - The "About Us" page detailing company information.
-/pages/cookies.html
-    - The Cookie Policy.
-/pages/privacy.html
-    - The Privacy Notice.
-/pages/terms.html
-    - The Terms of Service.
-index.html
-    - The main landing page, authentication, and comprehensive dashboard view.
-```
+## Run Locally
 
-## How to Contribute
-- **Styling Changes:** Make all updates to `/css/style.css`.
-- **Script Changes:** Place all new scripts and modifications in the `/js/` folder.
-- **New Pages:** Add any new secondary or legal pages to the `/pages/` directory and ensure they link the global CSS and JS properly.
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

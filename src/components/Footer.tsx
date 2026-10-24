@@ -1,0 +1,230 @@
+import React, { useState } from 'react';
+import { Droplet, ShieldCheck, Heart, ArrowUp, FileText, CheckCircle2, ExternalLink } from 'lucide-react';
+
+export const Footer: React.FC = () => {
+  const [modalLegalTitle, setModalLegalTitle] = useState<string | null>(null);
+
+  const legalDocuments: Record<string, string> = {
+    Terms: `Terms of Service (Water Supply Management System - Sindh & Pakistan Jurisdiction)
+Last Updated: January 2025
+
+These Terms of Service explain your rights and responsibilities when using the Water Supply Management System (WSMS). The laws of Pakistan apply to this agreement, including the Contract Act 1872, Electronic Transactions Ordinance 2002 and Prevention of Electronic Crimes Act 2016.
+
+SECTION 1. ABOUT THE PLATFORM: WSMS is a browser-based CRM & inventory tool for water suppliers. It stores records inside your device with zero unauthorized cloud transmission.
+SECTION 2. ACCOUNT CREATION: You are responsible for protecting credentials and all activities occurring under your account.
+SECTION 3. ALLOWED USE: Must comply with Pakistan law; fraudulent data, code reverse-engineering, or tampering is strictly prohibited.
+SECTION 4. DATA OWNERSHIP: All customer, sales, and inventory data entered belongs entirely to you.
+SECTION 5. DATA STORAGE: Stored securely in your browser's local storage.
+SECTION 6. SERVICE LIMITATIONS: Provided on an "as-is" and "as-available" basis without warranties.
+SECTION 7. INTELLECTUAL PROPERTY: Design, brand, and proprietary code belong to Orion Pixels.
+SECTION 8. TERMINATION: Access can be suspended upon terms violation; clearing device storage concludes use.
+SECTION 9. LIMITATION OF LIABILITY: Governed under Pakistani law; total liability limited to amounts paid in the preceding 12 months.
+SECTION 10. GOVERNING LAW & DISPUTES: Courts of Karachi, Sindh.
+SECTION 11. CHANGES: Subject to periodic updates.
+SECTION 12. CONTACT: Orion Pixels Support.`,
+    Privacy: `Privacy Policy (Water Supply Management System - Sindh & Pakistan Jurisdiction)
+Last Updated: January 2025
+
+This Privacy Policy explains how WSMS handles your information under the laws of Pakistan, including Article 14 of the Constitution, the Prevention of Electronic Crimes Act 2016 (PECA), and principles of the Draft Personal Data Protection Bill.
+
+SECTION 1. NATURE OF WSMS: WSMS is an offline tool. It does not send your data to the cloud or store anything on a remote server. All information stays inside your browser on your device.
+SECTION 2. INFORMATION COLLECTED: Collects only business information you enter (Name, Company, Customers, Deliveries, Cans filled/delivered, Expenses, Payments, Inventory). No CNIC, banking, or biometric tracking.
+SECTION 3. TECHNICAL DATA: Uses basic browser/session info for local operations. No third-party analytics trackers, advertising cookies, or surveillance scripts.
+SECTION 4. DATA USAGE: Exclusively used to run WSMS features, generate calculations and charts, and store records.
+SECTION 5. DATA STORAGE: Stored entirely in your browser localStorage. You have complete control.
+SECTION 6. DATA SECURITY: Protected by local browser sandboxing; you are responsible for device-level security.
+SECTION 7. DATA RETENTION: Retained as long as it remains in your browser; deleted immediately when cleared.
+SECTION 8. DATA SHARING: Never shared, sold, or traded with third parties. Shared only upon lawful court order under PECA 2016.
+SECTION 9. YOUR RIGHTS: Full rights to view, correct, export, or delete your data at any time.
+SECTION 10. CHILDREN'S PRIVACY: For users 18 years and older.
+SECTION 11. INTERNATIONAL TRANSFERS: Zero data transfers outside Pakistan.
+SECTION 12. JURISDICTION: All privacy matters fall under the courts of Karachi, Sindh.
+SECTION 13. POLICY CHANGES: Periodic updates published with revised timestamp.
+SECTION 14. CONTACT: Orion Pixels Support.`,
+    Cookies: `Cookie Policy & Local Storage
+WSMS uses minimal functional cookies and browser localStorage to remember role preferences, session tokens, and cached offline delivery manifests for low-connectivity delivery routes.`,
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <footer
+      className="bg-[#08101e] text-slate-400 border-t border-sky-950 pt-16 pb-12"
+      role="contentinfo"
+      aria-label="Site Footer"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand Info */}
+          <div className="md:col-span-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#005fa3] to-[#00d4ff] flex items-center justify-center p-1.5 shadow-md shadow-sky-600/20">
+                <img
+                  src="/logo.png"
+                  alt="WSMS Water Drops Logo"
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                  width="36"
+                  height="36"
+                />
+              </div>
+              <span className="text-xl font-bold text-white tracking-tight">WSMS</span>
+            </div>
+
+            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
+              Water Supply Management System — modern CRM and real-time inventory management for commercial drinking water distributors and filling plants.
+            </p>
+
+            <div className="flex items-center gap-3 text-xs text-sky-400">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>Sindh Regional Node Operational</span>
+              </span>
+              <span>·</span>
+              <span>WCAG 2.1 AA Compliant</span>
+            </div>
+          </div>
+
+          {/* Quick Navigation Links */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">System Modules</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="#features" className="hover:text-sky-300 transition-colors">
+                  Can Inventory Ledger
+                </a>
+              </li>
+              <li>
+                <a href="#features" className="hover:text-sky-300 transition-colors">
+                  Route & Fleet Tracking
+                </a>
+              </li>
+              <li>
+                <a href="#field-hub" className="hover:text-sky-300 transition-colors">
+                  Labour & Driver Portal
+                </a>
+              </li>
+              <li>
+                <a href="#demo" className="hover:text-sky-300 transition-colors">
+                  ROI & Balance Calculator
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal Compliance */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Compliance & Legal</h4>
+            <div className="flex flex-col space-y-2 text-sm">
+              <a
+                href="/pages/terms.html"
+                className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center justify-between group no-underline"
+                title="Open Terms of Service (/pages/terms.html)"
+              >
+                <div className="flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-300 transition-colors" />
+                  <span className="group-hover:text-sky-300 transition-colors font-medium">Terms</span>
+                </div>
+                <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-300 transition-colors" />
+              </a>
+              <a
+                href="/pages/privacy.html"
+                className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center justify-between group no-underline"
+                title="Open Privacy Policy (/pages/privacy.html)"
+              >
+                <div className="flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-300 transition-colors" />
+                  <span className="group-hover:text-sky-300 transition-colors font-medium">Privacy</span>
+                </div>
+                <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-300 transition-colors" />
+              </a>
+              <button
+                type="button"
+                onClick={() => setModalLegalTitle('Cookies')}
+                className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center gap-1.5"
+              >
+                <FileText className="w-3.5 h-3.5 text-slate-500" />
+                <span>Cookies</span>
+              </button>
+              <span className="text-xs text-slate-500 pt-1">Sindh SFA Standards Compliant</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar with Copyright & Back to Top */}
+        <div className="pt-8 border-t border-slate-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <p>© 2025 Orion Pixels. All rights reserved.</p>
+
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0077cc]"
+            aria-label="Back to top of page"
+          >
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Legal Document Quick Modal */}
+      {modalLegalTitle && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="legal-doc-title"
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200"
+        >
+          <div className="bg-slate-900 text-slate-200 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h3 id="legal-doc-title" className="text-lg font-bold text-white flex items-center gap-2">
+                <FileText className="w-5 h-5 text-sky-400" />
+                {modalLegalTitle}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setModalLegalTitle(null)}
+                className="text-slate-400 hover:text-white text-sm cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+            <pre className="font-sans text-xs sm:text-sm text-slate-300 whitespace-pre-line leading-relaxed max-h-60 overflow-y-auto">
+              {legalDocuments[modalLegalTitle]}
+            </pre>
+            <div className="pt-2 flex items-center justify-between gap-3">
+              {modalLegalTitle === 'Terms' && (
+                <a
+                  href="/pages/terms.html"
+                  className="text-xs text-sky-400 hover:text-sky-300 underline font-semibold flex items-center gap-1"
+                >
+                  <span>Open Full /pages/terms.html</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              {modalLegalTitle === 'Privacy' && (
+                <a
+                  href="/pages/privacy.html"
+                  className="text-xs text-sky-400 hover:text-sky-300 underline font-semibold flex items-center gap-1"
+                >
+                  <span>Open Full /pages/privacy.html</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={() => setModalLegalTitle(null)}
+                className="px-4 py-2 bg-[#0077cc] hover:bg-[#005fa3] text-white font-semibold rounded-lg text-xs ml-auto cursor-pointer"
+              >
+                I Understand
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </footer>
+  );
+};

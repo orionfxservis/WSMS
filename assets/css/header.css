@@ -19,29 +19,83 @@
   z-index: 1000;
 }
 
-/* Header Left Section (Logo) */
+/* Header Left Section (Logo & Company Name) */
 .header-left {
   display: flex !important;
   align-items: center !important;
-  gap: 12px;
+  gap: 10px;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
-.header-left img {
-  height: 40px !important;
-  width: auto !important;
+.header-logo-container {
+  width: 42px;
+  height: 42px;
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.header-logo-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
   display: block !important;
   margin: 0 !important;
   padding: 0 !important;
-  object-fit: contain !important;
+}
+
+.header-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.header-brand-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .header-logo {
-  font-size: 22px !important;
+  font-size: 20px !important;
   color: white !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   margin: 0 !important;
   padding: 0 !important;
   line-height: 1 !important;
+  letter-spacing: -0.5px;
+}
+
+.header-portal-tag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #dbeafe;
+  background: rgba(255,255,255,0.2);
+  padding: 2px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.header-company-name {
+  font-size: 11px;
+  color: #dbeafe;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+@media (max-width: 620px) {
+  .header-company-name {
+    display: none;
+  }
 }
 
 /* Header Right Section (User Info) */

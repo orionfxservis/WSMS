@@ -1,6 +1,6 @@
 {
   "name": "WSMS - Water Supply Management System",
-  "description": "Modern, accessible water supply CRM and management platform with real-time inventory tracking, dispatch logs, and mobile-first interface for labours and suppliers.",
+  "description": "Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

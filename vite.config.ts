@@ -9,17 +9,15 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(import.meta.dirname, '.'),
+        '@': path.resolve(__dirname, '.'),
       },
     },
     build: {
+      chunkSizeWarningLimit: 2000,
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            if (id.includes('lucide-react')) {
-              return 'vendor-icons';
-            }
-          },
+          entryFileNames: 'assets/app.js',
+          assetFileNames: 'assets/app.[ext]',
         },
       },
     },

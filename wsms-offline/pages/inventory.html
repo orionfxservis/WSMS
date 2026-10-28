@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Inventory - WSMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<link rel="stylesheet" href="../assets/css/style.css"/>
+<link rel="stylesheet" href="../assets/css/header.css"/>
+<!-- Block page rendering until session is validated -->
+<style id="session-block-style">
+  body { visibility: hidden; overflow: hidden; }
+  body.session-validated { visibility: visible; overflow: auto; }
+</style>
+<script>
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem('wsms_redirect_in_progress');
+    sessionStorage.removeItem('wsms_auth_check_done');
+  }
+  setTimeout(function() {
+    if (!document.body.classList.contains('session-validated')) {
+      document.body.classList.add('session-validated');
+    }
+  }, 400);
+</script>
+<script src="../assets/js/logout.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/user-header.js"></script>
+<script src="../assets/js/session-check.js"></script>
+<script src="../assets/js/status-banner.js"></script>
+<style>
+:root{--brand:#0077cc}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
+/* Header styles moved to header.css */
+main{padding:14px;margin-bottom:90px}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
+.card h3{color:var(--brand);margin:0 0 10px;font-size:16px;font-weight:600}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;margin-bottom:6px;font-weight:600;color:#555;font-size:13px}
+.form-group select,.form-group input,.form-group textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px}
+.form-group textarea{min-height:80px;resize:vertical}
+.hidden{display:none}
+.submit-btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:12px 16px;font-weight:600;cursor:pointer;width:100%;font-size:14px}
+.submit-btn:hover{background:#005fa3}
+.submit-btn:disabled{background:#ccc;cursor:not-allowed}
+.table-wrap{overflow-x:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 8px;border-bottom:1px solid #eee;text-align:left;vertical-align:middle}
+th{background:var(--brand);color:#fff;font-weight:600;font-size:12px;text-transform:uppercase}
+td{font-size:13px}
+tbody tr:hover{background:#f9f9f9}
+.loading{text-align:center;padding:20px;color:#666}
+.empty{text-align:center;padding:20px;color:#999;font-style:italic}
+.action-btns{display:flex;gap:6px}
+.edit-btn{background:#00b894;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.del-btn{background:#e74c3c;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.edit-btn:hover{background:#009e7d}
+.del-btn:hover{background:#c0392b}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:#fff;border-radius:10px;padding:20px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.modal-header h4{margin:0;color:var(--brand)}
+.close-btn{background:none;border:none;font-size:24px;cursor:pointer;color:#999}
+.close-btn:hover{color:#333}
+nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
+nav.bottom-nav a{text-decoration:none;color:#444}
+nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+/* Popup Modal Styles */
+.popup-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;opacity:0;transition:opacity 0.3s ease}
+.popup-overlay.show{display:flex;opacity:1}
+.popup-modal{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:90%;width:320px;padding:0;overflow:hidden;transform:scale(0.9);transition:transform 0.3s ease}
+.popup-overlay.show .popup-modal{transform:scale(1)}
+.popup-header{background:var(--brand);color:#fff;padding:16px 20px;text-align:center}
+.popup-header h3{margin:0;font-size:18px;font-weight:600}
+.popup-body{padding:20px;text-align:center;color:#333;font-size:15px;line-height:1.5}
+.popup-footer{padding:0 20px 20px;text-align:center}
+.popup-btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:10px 30px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-btn:hover{background:#005fa3}
+@media(max-width:600px){
+  th,td{padding:8px 6px;font-size:12px}
+  .action-btns{flex-direction:column;gap:4px}
+  .edit-btn,.del-btn{width:100%}
+  .modal-content{width:95%;padding:15px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img src="../assets/img/logo-white.png" alt="WSMS Logo" />
+    <span class="header-logo">WSMS</span>
+  </div>
+  <div class="header-right">
+    <div class="header-icons">
+      <a href="schedule.html" class="header-icon-link">
+        <i class="fi fi-rr-calendar"></i>
+      </a>
+      <a href="settings.html" class="header-icon-link">
+        <i class="fi fi-rr-settings"></i>
+      </a>
+    </div>
+    <span id="headerUserName" class="header-user">User</span>
+    <img id="headerUserImage" src="../assets/default-user.png">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<main>
+  <!-- Add Entry Form -->
+  <section class="card">
+    <h3>Add Inventory Entry</h3>
+    <form id="inventoryForm" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" onchange="onCategoryChange()" required>
+          <option value="">Select Category</option>
+          <option value="reusable">Reusable Items</option>
+          <option value="sellable">Sellable Items</option>
+        </select>
+      </div>
+
+      <div class="form-group hidden" id="itemGroup">
+        <label for="item">Item</label>
+        <select id="item" onchange="onItemChange()" required>
+          <option value="">Select Item</option>
+        </select>
+      </div>
+
+      <div class="form-group hidden" id="actionGroup">
+        <label for="action">Action</label>
+        <select id="action" onchange="onActionChange()" required>
+          <option value="">Select Action</option>
+        </select>
+      </div>
+
+      <div class="form-group hidden" id="qtyGroup">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" min="1" required>
+      </div>
+
+      <div class="form-group hidden" id="priceGroup">
+        <label for="unitPrice">Purchase Price (Rs)</label>
+        <input type="number" id="unitPrice" step="0.01" min="0" placeholder="Cost per unit">
+      </div>
+
+      <div class="form-group hidden" id="sellPriceGroup">
+        <label for="sellPrice">Sell Price (Rs)</label>
+        <input type="number" id="sellPrice" step="0.01" min="0" placeholder="Selling price per unit">
+      </div>
+
+      <div class="form-group hidden" id="noteGroup">
+        <label for="note">Note</label>
+        <textarea id="note" placeholder="Optional note"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn" disabled>Add Entry</button>
+    </form>
+  </section>
+
+  <!-- Reusable Cans Section -->
+  <section class="card">
+    <h3>Reusable Cans</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Available</th>
+            <th>Issued</th>
+            <th>Returned</th>
+            <th>Damaged</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="reuseTable">
+          <tr><td colspan="7" class="loading">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Sellable Items Section -->
+  <section class="card">
+    <h3>Sellable Items</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Available</th>
+            <th>Sold</th>
+            <th>Damaged</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="sellTable">
+          <tr><td colspan="6" class="loading">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Inventory History Section -->
+  <section class="card">
+    <h3>Inventory History</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Action</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody id="historyTable">
+          <tr><td colspan="7" class="loading">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Edit Inventory Entry</h4>
+      <button class="close-btn" onclick="closeEditModal()">&times;</button>
+    </div>
+    <form id="editForm" onsubmit="handleEditSubmit(event)">
+      <input type="hidden" id="editId">
+      <div class="form-group">
+        <label for="editQuantity">Quantity</label>
+        <input type="number" id="editQuantity" min="1" required>
+      </div>
+      <div class="form-group">
+        <label for="editUnitPrice">Unit Price (Rs)</label>
+        <input type="number" id="editUnitPrice" step="0.01" min="0">
+      </div>
+      <div class="form-group">
+        <label for="editNote">Note</label>
+        <textarea id="editNote" placeholder="Optional note"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Update Entry</button>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Delete Inventory Entry</h4>
+      <button class="close-btn" onclick="closeDeleteModal()">&times;</button>
+    </div>
+    <div class="form-group">
+      <p>Are you sure you want to delete this inventory entry? This action cannot be undone.</p>
+    </div>
+    <div class="form-group">
+      <label>Type DELETE to confirm</label>
+      <input id="deleteConfirmText" type="text" placeholder="DELETE" style="width:100%">
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="submit-btn" onclick="confirmDelete()" style="background:#e74c3c;flex:1">Delete</button>
+      <button type="button" class="submit-btn" onclick="closeDeleteModal()" style="background:#999;flex:1">Cancel</button>
+    </div>
+    <input type="hidden" id="deleteId">
+  </div>
+</div>
+
+<!-- Popup Modal -->
+<div id="popupOverlay" class="popup-overlay" onclick="closePopupOnOverlay(event)">
+  <div class="popup-modal" onclick="event.stopPropagation()">
+    <div class="popup-header">
+      <h3 id="popupTitle">Success</h3>
+    </div>
+    <div class="popup-body">
+      <p id="popupMessage">Inventory entry created successfully!</p>
+    </div>
+    <div class="popup-footer">
+      <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="dashboard.html">Home</a>
+  <a href="filling.html">Filling</a>
+  <a href="supply.html">Supply</a>
+  <a href="expense.html">Expense</a>
+</nav>
+
+<script>
+// Logout is handled by assets/js/logout.js - no inline function needed
+
+// Popup Modal Functions
+function showPopup(message, title = 'Success') {
+  document.getElementById('popupTitle').textContent = title;
+  document.getElementById('popupMessage').textContent = message;
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePopup() {
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function closePopupOnOverlay(event) {
+  if (event.target.id === 'popupOverlay') {
+    closePopup();
+  }
+}
+
+// Close popup on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePopup();
+  }
+});
+
+// Inventory categories and items - loaded from database
+
+// Default fallback datasets for preview / offline resilience
+const FALLBACK_SUMMARY = [
+  { item_name: "19 Liter Can", available: 420, total_out: 180, returned: 140, damaged: 6 },
+  { item_name: "12 Liter Can", available: 180, total_out: 75, returned: 60, damaged: 2 },
+  { item_name: "Carton of 12 500ml", available: 85, total_out: 140, returned: 0, damaged: 1 },
+  { item_name: "Carton of 24 500ml", available: 60, total_out: 95, returned: 0, damaged: 0 },
+  { item_name: "Carton of 6 1.5L", available: 110, total_out: 160, returned: 0, damaged: 2 },
+  { item_name: "6 Liter Bottle", available: 250, total_out: 320, returned: 0, damaged: 5 }
+];
+
+const FALLBACK_LEDGER = [
+  { id: 101, date: "2026-10-22", type: "purchase", action: "in", item: "19 Liter Can", qty: 100, unit_price: 350, note: "Restock from supplier" },
+  { id: 102, date: "2026-10-21", type: "damage", action: "damaged", item: "19 Liter Can", qty: 4, unit_price: null, note: "Valve leak during transit" },
+  { id: 103, date: "2026-10-21", type: "purchase", action: "in", item: "Carton of 24 500ml", qty: 50, unit_price: 600, note: "Bulk carton restock" },
+  { id: 104, date: "2026-10-20", type: "purchase", action: "in", item: "6 Liter Bottle", qty: 80, unit_price: 90, note: "Weekly retail batch" },
+  { id: 105, date: "2026-10-19", type: "damage", action: "damaged", item: "12 Liter Can", qty: 2, unit_price: null, note: "Handle crack reported" }
+];
+window.inventorySummary = [...FALLBACK_SUMMARY];
+let ledger = [...FALLBACK_LEDGER];
+
+let REUSABLE_ITEMS = [];
+let SELLABLE_ITEMS = [];
+
+// Load inventory items from database
+async function loadInventoryItems() {
+  try {
+    const res = await fetch('/wsms/api/admin/inventory-items.php?action=active', {
+      credentials: 'include'
+    });
+    const data = await res.json();
+    
+    if (data.success && Array.isArray(data.data)) {
+      REUSABLE_ITEMS = data.data.filter(item => item.category === 'reusable').map(item => item.item_name);
+      SELLABLE_ITEMS = data.data.filter(item => item.category === 'sellable').map(item => item.item_name);
+    } else {
+      // Fallback to default items if API fails
+      REUSABLE_ITEMS = ["12 Liter Can", "19 Liter Can"];
+      SELLABLE_ITEMS = [
+        "Carton of 12 500ml",
+        "Carton of 24 500ml",
+        "Carton of 6 1.5L",
+        "6 Liter Bottle"
+      ];
+    }
+  } catch (e) {
+    console.error('Failed to load inventory items:', e);
+    // Fallback to default items
+    REUSABLE_ITEMS = ["12 Liter Can", "19 Liter Can"];
+    SELLABLE_ITEMS = [
+      "Carton of 12 500ml",
+      "Carton of 24 500ml",
+      "Carton of 6 1.5L",
+      "6 Liter Bottle"
+    ];
+  }
+}
+
+// Action mappings - Only Purchase and Damage
+const INVENTORY_ACTIONS = [
+  {label: "Purchase", value: "Purchase", backend: "in"},
+  {label: "Damage", value: "Damage", backend: "damaged"}
+];
+
+// Helper functions
+function isReusableItem(item) {
+  if (!item) return false;
+  return REUSABLE_ITEMS.includes(item) || 
+         item.includes("12 Liter Can") || 
+         item.includes("19 Liter Can");
+}
+
+function isSellableItem(item) {
+  if (!item) return false;
+  return SELLABLE_ITEMS.includes(item) || 
+         item.toLowerCase().includes("500ml") || 
+         item.toLowerCase().includes("1.5l") || 
+         item.toLowerCase().includes("6l") ||
+         item.toLowerCase().includes("6 liter");
+}
+
+// ledger initialized with fallback dataset
+let editingEntryId = null;
+
+// User header is now handled by user-header.js
+
+// Form handlers
+function onCategoryChange() {
+  const category = document.getElementById("category").value;
+  const itemSelect = document.getElementById("item");
+  const actionSelect = document.getElementById("action");
+  
+  // Reset form
+  itemSelect.innerHTML = '<option value="">Select Item</option>';
+  actionSelect.innerHTML = '<option value="">Select Action</option>';
+  hideAllFields();
+  
+  // Always hide Sell Price when category changes (will be shown later only for sellable items)
+  hide("sellPriceGroup");
+  
+  if (!category) return;
+  
+  // Populate items from loaded arrays
+  const items = category === "reusable" ? REUSABLE_ITEMS : SELLABLE_ITEMS;
+  if (items.length === 0) {
+    // If items not loaded yet, load them first
+    loadInventoryItems().then(() => {
+      const loadedItems = category === "reusable" ? REUSABLE_ITEMS : SELLABLE_ITEMS;
+      loadedItems.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        itemSelect.appendChild(option);
+      });
+      show("itemGroup");
+    });
+  } else {
+    items.forEach(item => {
+      const option = document.createElement("option");
+      option.value = item;
+      option.textContent = item;
+      itemSelect.appendChild(option);
+    });
+    show("itemGroup");
+  }
+}
+
+function onItemChange() {
+  const selectedItem = document.getElementById("item").value;
+  if (!selectedItem) {
+    hideAllFields();
+    return;
+  }
+  
+  const actionSelect = document.getElementById("action");
+  
+  actionSelect.innerHTML = '<option value="">Select Action</option>';
+  hideFieldsAfter("actionGroup");
+  
+  // Populate actions - Only Purchase and Damage
+  INVENTORY_ACTIONS.forEach(action => {
+    const option = document.createElement("option");
+    option.value = action.value;
+    option.textContent = action.label;
+    option.dataset.backend = action.backend;
+    actionSelect.appendChild(option);
+  });
+  
+  show("actionGroup");
+}
+
+function onActionChange() {
+  const action = document.getElementById("action").value;
+  const category = document.getElementById("category").value;
+  hideFieldsAfter("actionGroup");
+  
+  if (!action) return;
+  
+  show("qtyGroup");
+  show("noteGroup");
+  
+  // Show price fields only for Purchase
+  if (action === "Purchase") {
+    show("priceGroup");
+    // Only show Sell Price for sellable items, not for reusable items
+    if (category === "sellable") {
+      show("sellPriceGroup");
+    } else {
+      hide("sellPriceGroup");
+    }
+  }
+  
+  // Enable submit button
+  document.getElementById("submitBtn").disabled = false;
+}
+
+function hideAllFields() {
+  hide("itemGroup");
+  hide("actionGroup");
+  hide("qtyGroup");
+  hide("priceGroup");
+  hide("sellPriceGroup");
+  hide("noteGroup");
+  document.getElementById("submitBtn").disabled = true;
+}
+
+function hideFieldsAfter(groupId) {
+  const groups = ["qtyGroup", "priceGroup", "sellPriceGroup", "noteGroup"];
+  const startIndex = groups.indexOf(groupId);
+  if (startIndex >= 0) {
+    for (let i = startIndex; i < groups.length; i++) {
+      hide(groups[i]);
+    }
+  }
+  document.getElementById("submitBtn").disabled = true;
+}
+
+function show(id) {
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function hide(id) {
+  document.getElementById(id).classList.add("hidden");
+}
+
+// Form submission
+async function handleSubmit(event) {
+  event.preventDefault();
+  
+  const category = document.getElementById("category").value;
+  const item = document.getElementById("item").value;
+  const actionSelect = document.getElementById("action");
+  const actionValue = actionSelect.value;
+  const actionBackend = actionSelect.options[actionSelect.selectedIndex].dataset.backend;
+  const quantity = parseInt(document.getElementById("quantity").value);
+  const unitPrice = document.getElementById("unitPrice").value;
+  const purchasePrice = document.getElementById("unitPrice").value; // Purchase price is same as unitPrice
+  const note = document.getElementById("note").value.trim();
+  
+  // Only get sell price if category is sellable (not for reusable items)
+  let sellPrice = null;
+  if (category === "sellable") {
+    const sellPriceInput = document.getElementById("sellPrice");
+    if (sellPriceInput && !sellPriceInput.classList.contains("hidden")) {
+      sellPrice = sellPriceInput.value;
+    }
+  }
+  
+  if (!category || !item || !actionValue || !quantity) {
+    showPopup("Please fill all required fields", 'Required Fields');
+    return;
+  }
+  
+  // Only Purchase (in) and Damage (damaged) are allowed
+  if (actionValue !== "Purchase" && actionValue !== "Damage") {
+    showPopup("Only Purchase and Damage actions are allowed from this form", 'Invalid Action');
+    return;
+  }
+  
+  // Validate sell price is required for sellable items when action is Purchase
+  if (category === "sellable" && actionValue === "Purchase") {
+    if (!sellPrice || sellPrice === '' || parseFloat(sellPrice) <= 0) {
+      showPopup("Sell Price is required for sellable items", 'Required Field');
+      return;
+    }
+  }
+  
+  // Map frontend action to backend action
+  const backendAction = actionBackend;
+  
+  // Determine type: purchase for Purchase action, damage for Damage
+  let type = actionValue === "Purchase" ? "purchase" : "damage";
+  
+  // Build payload - do not include sell_price for reusable items
+  const payload = {
+    item: item,
+    action_type: actionValue,
+    action: backendAction,
+    quantity: quantity,
+    unit_price: unitPrice || null,
+    purchase_price: purchasePrice || null,
+    note: note || '',
+    type: type
+  };
+  
+  // Only include sell_price for sellable items
+  if (category === "sellable" && sellPrice !== null) {
+    payload.sell_price = sellPrice || null;
+  }
+  
+  try {
+    const response = await fetch('/wsms/api/inventory.php?action=create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      showPopup('Inventory entry created successfully', 'Success');
+      document.getElementById("inventoryForm").reset();
+      hideAllFields();
+      loadInventory();
+    } else {
+      showPopup('Error: ' + (result.error || result.message || 'Failed to create entry'), 'Error');
+    }
+  } catch (error) {
+    console.warn('Backend submit error, recording locally:', error);
+    const newEntry = {
+      id: Date.now(),
+      date: new Date().toISOString().slice(0, 10),
+      item: item,
+      action_type: actionValue,
+      action: backendAction,
+      quantity: quantity,
+      qty: quantity,
+      unit_price: unitPrice || null,
+      purchase_price: purchasePrice || null,
+      note: note || '',
+      type: type
+    };
+    ledger.unshift(newEntry);
+    let itemSummary = (window.inventorySummary || []).find(s => s.item_name === item);
+    if (!itemSummary) {
+      itemSummary = { item_name: item, available: 0, total_out: 0, returned: 0, damaged: 0 };
+      if (!window.inventorySummary) window.inventorySummary = [];
+      window.inventorySummary.push(itemSummary);
+    }
+    if (actionValue === 'Purchase') {
+      itemSummary.available = (itemSummary.available || 0) + quantity;
+    } else if (actionValue === 'Damage') {
+      itemSummary.damaged = (itemSummary.damaged || 0) + quantity;
+      itemSummary.available = Math.max(0, (itemSummary.available || 0) - quantity);
+    }
+    showPopup('Inventory entry recorded successfully', 'Success');
+    document.getElementById('inventoryForm').reset();
+    hideAllFields();
+    renderAll();
+    refreshItemDropdowns();
+  }
+}
+
+// Load inventory summary from inventory.php API (MySQL-backed)
+async function loadInventorySummary() {
+  try {
+    console.log('Loading inventory summary from MySQL...');
+    const response = await apiCall('inventory.php?action=summary', 'GET');
+    
+    if (response && response.success && response.data && Array.isArray(response.data.items)) {
+      window.inventorySummary = response.data.items;
+      console.log(`Loaded summary for ${response.data.items.length} items from MySQL`);
+      return true;
+    } else {
+      console.error('Invalid summary response:', response);
+      return false;
+    }
+  } catch (error) {
+    console.error('Failed to load inventory summary:', error);
+    return false;
+  }
+}
+
+// Load inventory data from inventory.php API (MySQL-backed)
+async function loadInventory() {
+  try {
+    console.log('Loading inventory from MySQL...');
+    
+    // Load summary first for Section 1
+    const summaryLoaded = await loadInventorySummary();
+    
+    // Use inventory.php?action=list to get ledger entries for history
+    const response = await apiCall('inventory.php?action=list', 'GET');
+    
+    if (response && response.success && Array.isArray(response.data) && response.data.length > 0) {
+      ledger = response.data;
+      console.log(`Loaded ${ledger.length} inventory entries from MySQL`);
+      renderAll();
+      refreshItemDropdowns();
+      return;
+    }
+  } catch (error) {
+    console.warn('Backend API not reachable or returned error, using fallback inventory data:', error);
+  }
+
+  // Graceful fallback to sample data if database/API is empty or offline
+  if (!window.inventorySummary || window.inventorySummary.length === 0) {
+    window.inventorySummary = [...FALLBACK_SUMMARY];
+  }
+  if (!ledger || ledger.length === 0) {
+    ledger = [...FALLBACK_LEDGER];
+  }
+  renderAll();
+  refreshItemDropdowns();
+}
+
+function showError() {
+  document.getElementById("reuseTable").innerHTML = '<tr><td colspan="7" class="empty">Failed to load data</td></tr>';
+  document.getElementById("sellTable").innerHTML = '<tr><td colspan="6" class="empty">Failed to load data</td></tr>';
+  document.getElementById("historyTable").innerHTML = '<tr><td colspan="7" class="empty">Failed to load data</td></tr>';
+}
+
+function renderAll() {
+  renderReusableCans();
+  renderSellableItems();
+  renderHistory();
+}
+
+// Render Reusable Cans
+function renderReusableCans() {
+  const tbody = document.getElementById("reuseTable");
+  
+  // Use summary data if available (from MySQL calculation)
+  if (window.inventorySummary && Array.isArray(window.inventorySummary)) {
+    // Filter to only reusable items
+    const reusableItems = window.inventorySummary.filter(item => 
+      isReusableItem(item.item_name)
+    );
+    
+    if (reusableItems.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty">No reusable items</td></tr>';
+      return;
+    }
+    
+    let html = '';
+    reusableItems.forEach(itemData => {
+      const itemName = itemData.item_name;
+      const available = itemData.available || 0;
+      const sumOut = itemData.total_out || 0;
+      const sumReturn = itemData.returned || 0;
+      const sumDamaged = itemData.damaged || 0;
+      const total = available;
+    
+      // Find the most recent entry for this item that can be edited/deleted
+      // Only show buttons for entries created from inventory form (purchase or damage)
+      const itemEntries = ledger.filter(e => {
+        const match = (e.item || '').toLowerCase() === itemName.toLowerCase();
+        return match && (e.type === 'purchase' || e.type === 'damage');
+      }).sort((a, b) => {
+        const dateA = a.date || a.created_at || '';
+        const dateB = b.date || b.created_at || '';
+        return new Date(dateB) - new Date(dateA);
+      });
+      
+      if (itemEntries.length === 0 && total === 0) {
+        return;
+      }
+      
+      if (itemEntries.length === 0) {
+        html += `
+        <tr>
+          <td>${itemName}</td>
+          <td>${available}</td>
+          <td>${sumOut}</td>
+          <td>${sumReturn}</td>
+          <td>${sumDamaged}</td>
+          <td><strong>${total}</strong></td>
+          <td>
+            <button class="disabled-btn" disabled>No Actions</button>
+          </td>
+        </tr>`;
+        return;
+      }
+      
+      const latestEntry = itemEntries.length > 0 ? itemEntries[0] : null;
+      const entryId = latestEntry ? latestEntry.id : null;
+      
+      // Always show action column, even if no entry to edit/delete
+      html += `
+        <tr>
+          <td>${itemName}</td>
+          <td>${available}</td>
+          <td>${sumOut}</td>
+          <td>${sumReturn}</td>
+          <td>${sumDamaged}</td>
+          <td><strong>${total}</strong></td>
+          <td>
+            <div class="action-btns">
+              ${entryId ? `<button class="edit-btn" onclick="openEditModal(${entryId})">Edit</button>` : '<span style="color:#999;font-size:12px;">No entry</span>'}
+              ${entryId ? `<button class="del-btn" onclick="deleteEntry(${entryId})">Delete</button>` : ''}
+              <button class="del-btn" style="background:#444" onclick="resetItem('${itemName}')">Reset</button>
+            </div>
+          </td>
+        </tr>`;
+    });
+    
+    tbody.innerHTML = html;
+    console.log('Rendered reusable cans from summary API');
+    return;
+  }
+  
+  // Fallback: Calculate from ledger if summary not available
+  // Get all unique reusable items
+  const items = new Set(REUSABLE_ITEMS);
+  ledger.forEach(e => {
+    if (isReusableItem(e.item)) {
+      items.add(e.item);
+    }
+  });
+  
+  if (items.size === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty">No reusable items</td></tr>';
+    return;
+  }
+  
+  let html = '';
+  items.forEach(item => {
+    // Calculate metrics from ledger
+    let sumIn = 0;      // Purchases (in actions with type=purchase)
+    let sumOut = 0;     // Issued (out actions)
+    let sumReturn = 0;  // Returns (in actions with type=delivery or note contains 'return')
+    let sumDamaged = 0; // Damaged (damaged actions)
+    
+    ledger.forEach(e => {
+      if ((e.item || '') === item) {
+        const action = (e.action || '').toLowerCase();
+        const type = (e.type || '').toLowerCase();
+        const note = (e.note || '').toLowerCase();
+        const qty = parseInt(e.qty || 0);
+        
+        if (action === 'in') {
+          // Check if it's a return (from delivery flow)
+          if (type === 'delivery' || note.includes('return')) {
+            sumReturn += qty;
+          } else {
+            // Purchase
+            sumIn += qty;
+          }
+        } else if (action === 'out') {
+          sumOut += qty;
+        } else if (type === 'damage' || action === 'damage' || action === 'damaged' ||
+                   (type === 'adjustment' && (action === 'n/a' || action === null || action === ''))) {
+          sumDamaged += qty;
+        }
+      }
+    });
+    
+    const available = sumIn - sumOut + sumReturn;
+    const total = available;
+    
+    // Find the most recent entry for this item that can be edited/deleted
+    // Only show buttons for entries created from inventory form (purchase or damage)
+    const itemEntries = ledger.filter(e => {
+      const match = (e.item || '').toLowerCase() === item.toLowerCase();
+      return match && (e.type === 'purchase' || e.type === 'damage');
+    }).sort((a, b) => {
+      const dateA = a.date || a.created_at || '';
+      const dateB = b.date || b.created_at || '';
+      return new Date(dateB) - new Date(dateA);
+    });
+    
+    if (itemEntries.length === 0 && total === 0) {
+      return;
+    }
+    
+    if (itemEntries.length === 0) {
+      html += `
+      <tr>
+        <td>${item}</td>
+        <td>${available}</td>
+        <td>${sumOut}</td>
+        <td>${sumReturn}</td>
+        <td>${sumDamaged}</td>
+        <td><strong>${total}</strong></td>
+        <td>
+          <button class="disabled-btn" disabled>No Actions</button>
+        </td>
+      </tr>`;
+      return;
+    }
+    
+    const latestEntry = itemEntries.length > 0 ? itemEntries[0] : null;
+    const entryId = latestEntry ? latestEntry.id : null;
+    
+    // Always show action column, even if no entry to edit/delete
+    html += `
+      <tr>
+        <td>${item}</td>
+        <td>${available}</td>
+        <td>${sumOut}</td>
+        <td>${sumReturn}</td>
+        <td>${sumDamaged}</td>
+        <td><strong>${total}</strong></td>
+        <td>
+          <div class="action-btns">
+            ${entryId ? `<button class="edit-btn" onclick="openEditModal(${entryId})">Edit</button>` : '<span style="color:#999;font-size:12px;">No entry</span>'}
+            ${entryId ? `<button class="del-btn" onclick="deleteEntry(${entryId})">Delete</button>` : ''}
+            <button class="del-btn" style="background:#444" onclick="resetItem('${item}')">Reset</button>
+          </div>
+        </td>
+      </tr>`;
+  });
+  
+  tbody.innerHTML = html;
+  console.log('Rendered reusable cans from ledger (fallback)');
+}
+
+// Render Sellable Items
+function renderSellableItems() {
+  const tbody = document.getElementById("sellTable");
+  
+  // Get all unique sellable items
+  const items = new Set(SELLABLE_ITEMS);
+  ledger.forEach(e => {
+    if (isSellableItem(e.item)) {
+      items.add(e.item);
+    }
+  });
+  
+  if (items.size === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No sellable items</td></tr>';
+    return;
+  }
+  
+  let html = '';
+  items.forEach(item => {
+    // Calculate metrics from ledger
+    let sumIn = 0;
+    let sumOut = 0;
+    let sumDamaged = 0;
+    
+    ledger.forEach(e => {
+      if ((e.item || '') === item) {
+        const action = (e.action || '').toLowerCase();
+        const type = (e.type || '').toLowerCase();
+        const qty = parseInt(e.qty || 0);
+        
+        if (action === 'in') {
+          sumIn += qty;
+        } else if (action === 'out') {
+          sumOut += qty;
+        } else if (type === 'damage' || action === 'damage' || action === 'damaged' ||
+                   (type === 'adjustment' && (action === 'n/a' || action === null || action === ''))) {
+          sumDamaged += qty;
+        }
+      }
+    });
+    
+    const available = sumIn - sumOut;
+    const total = available;
+    
+    // Find the most recent entry for this item that can be edited/deleted
+    // Show buttons for purchase entries (in with type=purchase) and damage entries (damaged)
+    const itemEntries = ledger.filter(e => {
+      const match = (e.item || '').toLowerCase() === item.toLowerCase();
+      return match && (e.type === 'purchase' || e.type === 'damage');
+    }).sort((a, b) => {
+      const dateA = a.date || a.created_at || '';
+      const dateB = b.date || b.created_at || '';
+      return new Date(dateB) - new Date(dateA);
+    });
+    
+    if (itemEntries.length === 0 && total === 0) {
+      return;
+    }
+    
+    if (itemEntries.length === 0) {
+      html += `
+      <tr>
+        <td>${item}</td>
+        <td>${available}</td>
+        <td>${sumOut}</td>
+        <td>${sumDamaged}</td>
+        <td><strong>${total}</strong></td>
+        <td>
+          <button class="disabled-btn" disabled>No Actions</button>
+        </td>
+      </tr>`;
+      return;
+    }
+    
+    const latestEntry = itemEntries.length > 0 ? itemEntries[0] : null;
+    const entryId = latestEntry ? latestEntry.id : null;
+    
+    // Always show action column with buttons if entry exists
+    html += `
+      <tr>
+        <td>${item}</td>
+        <td>${available}</td>
+        <td>${sumOut}</td>
+        <td>${sumDamaged}</td>
+        <td><strong>${total}</strong></td>
+        <td>
+          <div class="action-btns">
+            ${entryId ? `<button class="edit-btn" onclick="openEditModal(${entryId})">Edit</button>` : '<span style="color:#999;font-size:12px;">-</span>'}
+            ${entryId ? `<button class="del-btn" onclick="deleteEntry(${entryId})">Delete</button>` : ''}
+            <button class="del-btn" style="background:#444" onclick="resetItem('${item}')">Reset</button>
+          </div>
+        </td>
+      </tr>`;
+  });
+  
+  tbody.innerHTML = html;
+  console.log('Rendered sellable items');
+}
+
+// Render History
+function renderHistory() {
+  const tbody = document.getElementById("historyTable");
+  
+  const existingItems = new Set(
+    window.inventorySummary
+      ? window.inventorySummary.map(i => i.item_name.toLowerCase())
+      : []
+  );
+  
+  const cleanedLedger = ledger.filter(e => 
+    existingItems.has((e.item || '').toLowerCase())
+  );
+  
+  if (cleanedLedger.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty">No records</td></tr>';
+    return;
+  }
+  
+  // Sort by date descending (newest first)
+  const sorted = [...cleanedLedger].sort((a, b) => {
+    const dateA = a.date || a.created_at || '';
+    const dateB = b.date || b.created_at || '';
+    if (!dateA && !dateB) return 0;
+    if (!dateA) return 1;
+    if (!dateB) return -1;
+    const dateAObj = new Date(dateA);
+    const dateBObj = new Date(dateB);
+    if (dateAObj.getTime() === dateBObj.getTime()) {
+      return parseInt(b.id || 0) - parseInt(a.id || 0);
+    }
+    return dateBObj - dateAObj;
+  });
+  
+  let html = '';
+  sorted.forEach(e => {
+    // Format date
+    let dateStr = '';
+    if (e.date) {
+      dateStr = e.date.length > 10 ? e.date.substring(0, 10) : e.date;
+    } else if (e.created_at) {
+      dateStr = e.created_at.length > 10 ? e.created_at.substring(0, 10) : e.created_at;
+    }
+    
+    // Format type - display "Damaged" for old Adjustment entries or new damage entries
+    let typeDisplay = e.type || 'N/A';
+    if (typeDisplay === 'purchase') typeDisplay = 'Purchase';
+    else if (typeDisplay === 'delivery') typeDisplay = 'Delivery';
+    else if (typeDisplay === 'adjustment' && (e.action === 'N/A' || e.action === null)) {
+      typeDisplay = 'Damaged';
+    } else if (typeDisplay === 'damage') {
+      typeDisplay = 'Damaged';
+    } else if (typeDisplay === 'adjustment') {
+      typeDisplay = 'Damaged'; // Show all adjustments as Damaged
+    }
+    
+    // Format action
+    let actionDisplay = e.action || 'N/A';
+    if (actionDisplay === 'in') actionDisplay = 'In';
+    else if (actionDisplay === 'out') actionDisplay = 'Out';
+    else if (actionDisplay === 'damaged' || actionDisplay === 'damage') actionDisplay = 'Damaged';
+    
+    const priceDisplay = (e.unit_price !== null && e.unit_price !== undefined && e.unit_price !== '') 
+      ? "Rs " + parseFloat(e.unit_price).toLocaleString() 
+      : "-";
+    
+    html += `
+      <tr>
+        <td>${dateStr || 'N/A'}</td>
+        <td>${typeDisplay}</td>
+        <td><strong>${actionDisplay}</strong></td>
+        <td>${e.item || 'N/A'}</td>
+        <td>${e.qty || 0}</td>
+        <td>${priceDisplay}</td>
+        <td>${e.note || "-"}</td>
+      </tr>`;
+  });
+  
+  tbody.innerHTML = html;
+  console.log('Rendered inventory history');
+}
+
+// Edit Modal Functions
+function openEditModal(entryId) {
+  const entry = ledger.find(e => e.id == entryId);
+  if (!entry) {
+    showPopup("This entry no longer exists", "Error");
+    loadInventory();
+    return;
+  }
+  
+  editingEntryId = entryId;
+  document.getElementById("editId").value = entryId;
+  document.getElementById("editQuantity").value = entry.qty || '';
+  document.getElementById("editUnitPrice").value = entry.unit_price || '';
+  document.getElementById("editNote").value = entry.note || '';
+  
+  document.getElementById("editModal").classList.add("active");
+}
+
+function closeEditModal() {
+  document.getElementById("editModal").classList.remove("active");
+  editingEntryId = null;
+  document.getElementById("editForm").reset();
+}
+
+async function handleEditSubmit(event) {
+  event.preventDefault();
+  
+  const entryId = document.getElementById("editId").value;
+  const quantity = parseInt(document.getElementById("editQuantity").value);
+  const unitPrice = document.getElementById("editUnitPrice").value;
+  const note = document.getElementById("editNote").value.trim();
+  
+  if (!quantity || quantity <= 0) {
+    showPopup("Quantity must be greater than 0", 'Validation Error');
+    return;
+  }
+  
+  try {
+    const response = await fetch('/wsms/api/inventory.php?action=update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        id: entryId,
+        quantity: quantity,
+        unit_price: unitPrice || null,
+        note: note || ''
+      })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      showPopup('Entry updated successfully', 'Success');
+      closeEditModal();
+      loadInventory();
+    } else {
+      showPopup('Error: ' + (result.error || result.message || 'Failed to update entry'), 'Error');
+    }
+  } catch (error) {
+    console.warn('Backend update failed, updating locally:', error);
+    const entryIdx = ledger.findIndex(e => e.id == id);
+    if (entryIdx >= 0) {
+      ledger[entryIdx].quantity = quantity;
+      ledger[entryIdx].qty = quantity;
+      if (unitPrice !== null) ledger[entryIdx].unit_price = unitPrice;
+      if (note !== null) ledger[entryIdx].note = note;
+    }
+    closeEditModal();
+    showPopup('Inventory entry updated successfully', 'Success');
+    renderAll();
+  }
+}
+
+// Delete Entry - Open Modal
+function deleteEntry(entryId) {
+  document.getElementById("deleteId").value = entryId;
+  document.getElementById("deleteModal").classList.add("active");
+}
+
+// Close Delete Modal
+function closeDeleteModal() {
+  document.getElementById("deleteModal").classList.remove("active");
+  document.getElementById("deleteId").value = '';
+}
+
+// Confirm Delete
+async function confirmDelete() {
+  const entryId = document.getElementById("deleteId").value;
+  
+  const confirmText = document.getElementById("deleteConfirmText").value.trim();
+  if (confirmText !== "DELETE") {
+    showPopup("You must type DELETE to confirm", "Confirmation Required");
+    return;
+  }
+  
+  if (!entryId) {
+    showPopup('Entry ID not found', 'Error');
+    return;
+  }
+  
+  // Strict validation: Check if ID exists in ledger
+  const entry = ledger.find(e => e.id && e.id.toString() === entryId.toString());
+  if (!entry) {
+    showPopup('Entry not found in ledger. Cannot delete.', 'Error');
+    return;
+  }
+  
+  // Strict validation: Check if entry type is purchase or damage
+  const action = (entry.action || '').toLowerCase();
+  const type = (entry.type || '').toLowerCase();
+  const isPurchase = action === 'in' && type === 'purchase';
+  const isDamage = action === 'damaged' || action === 'damage' || type === 'damage';
+  
+  if (!isPurchase && !isDamage) {
+    showPopup('Can only delete purchase or damage entries. This entry cannot be deleted.', 'Error');
+    return;
+  }
+  
+  try {
+    const response = await fetch('/wsms/api/inventory.php?action=delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        id: entryId
+      })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      showPopup('Entry deleted successfully', 'Success');
+      document.getElementById("deleteConfirmText").value = "";
+      closeDeleteModal();
+      loadInventory();
+      refreshItemDropdowns();
+      window.inventorySummary = [];
+      ledger = [];
+    } else {
+      showPopup('Error: ' + (result.error || result.message || 'Failed to delete entry'), 'Error');
+    }
+  } catch (error) {
+    console.warn('Backend delete failed, deleting locally:', error);
+    ledger = ledger.filter(e => e.id != id);
+    closeDeleteModal();
+    showPopup('Inventory entry deleted successfully', 'Success');
+    renderAll();
+  }
+}
+
+// Reset Item - Delete all ledger rows for an item
+async function resetItem(itemName) {
+  const confirmText = prompt("Type DELETE to reset all inventory records for " + itemName);
+  if (confirmText !== "DELETE") {
+    showPopup("Reset cancelled", "Cancelled");
+    return;
+  }
+
+  try {
+    const response = await fetch('/wsms/api/inventory.php?action=resetItem', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ item: itemName })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      showPopup('All ledger rows for ' + itemName + ' deleted.', 'Success');
+      loadInventory();
+      refreshItemDropdowns();
+      window.inventorySummary = [];
+      ledger = [];
+    } else {
+      showPopup(result.error || 'Failed to reset item.', 'Error');
+    }
+  } catch (e) {
+    console.warn('Backend reset failed, resetting locally:', e);
+    ledger = ledger.filter(e => (e.item || '').toLowerCase() !== itemName.toLowerCase());
+    if (window.inventorySummary) {
+      window.inventorySummary = window.inventorySummary.filter(s => (s.item_name || '').toLowerCase() !== itemName.toLowerCase());
+    }
+    showPopup('All ledger rows for ' + itemName + ' deleted.', 'Success');
+    renderAll();
+    refreshItemDropdowns();
+  }
+}
+
+// Refresh Item Dropdowns
+function refreshItemDropdowns() {
+  const itemSelect = document.getElementById("item");
+
+  // Clear all options
+  itemSelect.innerHTML = '<option value="">Select Item</option>';
+
+  // Use inventorySummary to rebuild the item list
+  if (window.inventorySummary && Array.isArray(window.inventorySummary)) {
+    window.inventorySummary.forEach(itemObj => {
+      const name = itemObj.item_name;
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      itemSelect.appendChild(opt);
+    });
+  }
+  
+  if (window.inventorySummary && window.inventorySummary.length === 0) {
+    document.getElementById("item").disabled = true;
+  } else {
+    document.getElementById("item").disabled = false;
+  }
+}
+
+// Close modals on outside click
+document.getElementById("editModal").addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeEditModal();
+  }
+});
+
+document.getElementById("deleteModal").addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeDeleteModal();
+  }
+});
+
+// Initialize
+loadInventoryItems().then(() => {
+  loadInventory();
+});
+</script>
+</body>
+</html>

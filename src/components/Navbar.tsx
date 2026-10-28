@@ -137,19 +137,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-lg p-1"
               aria-label="WSMS Home - Water Supply Management System"
             >
-              <div className="relative w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+              <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white flex items-center justify-center p-1 group-hover:scale-105 transition-transform shadow-xs overflow-hidden shrink-0">
                 <img
-                  src="/logo.png"
-                  alt="WSMS Water Drops Logo"
-                  className="w-full h-full object-contain filter drop-shadow"
-                  loading="lazy"
-                  width="36"
-                  height="36"
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
+                  src="./assets/aistudio/wsms-icon_a21bed6f.png"
+                  alt="WSMS Mineral Water Supply Logo"
+                  className="w-full h-full object-contain"
+                  loading="eager"
+                  width="48"
+                  height="48"
                 />
-                <Droplet className="w-5 h-5 text-white absolute hidden only:block" />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">

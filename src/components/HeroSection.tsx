@@ -49,21 +49,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="space-y-3">
               <h1
                 id="hero-heading"
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-white"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl font-extrabold tracking-tight leading-[1.18] text-white"
               >
-                Streamline Your <br className="hidden sm:inline" />
+                Mineral Water Supply <br className="hidden sm:inline" />
                 <span className="text-white drop-shadow-xs">
-                  Water Supply Operations
+                  Management Software in Pakistan
                 </span>
               </h1>
 
-              <p className="text-lg sm:text-xl font-medium text-blue-100 max-w-2xl mx-auto lg:mx-0">
-                Modern CRM Solution for Commercial & Residential Water Distribution
+              <p className="text-base sm:text-lg md:text-xl font-bold text-blue-100 max-w-2xl mx-auto lg:mx-0 leading-snug">
+                Smart Business Management for Water Suppliers, Distributors & 19-Litre Canes Delivery Services
               </p>
             </div>
 
-            <p className="text-sm sm:text-base text-blue-50 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Manage customers, deliveries, 19L reusable cans, filling stations, and operational expenses in one unified, real-time ecosystem. Built for efficiency, designed for field drivers and suppliers.
+            <p className="text-sm sm:text-base text-blue-50 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Manage Customer Accounts, daily 19-litre Water Canes Filling Records, Delivery Operations, Reusable Canea Inventory, Supplier Payments, Invoices & Business Expenses from one centralized platform. Track daily Transactions, Monitor Operating Costs & Maintain Accurate Financial Records to manage your Water Distribution Business more efficiently.
             </p>
 
             {/* Core Pill-free Feature Highlights */}

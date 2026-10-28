@@ -2422,7 +2422,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <div className="flex items-center gap-2">
                 {activeModal === 'customers' && (
                   <a
-                    href="/pages/customers.html"
+                    href="./pages/customers.html"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
@@ -2434,7 +2434,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 )}
                 {activeModal === 'stations' && (
                   <a
-                    href="/pages/stations.html"
+                    href="./pages/stations.html"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
@@ -2446,7 +2446,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 )}
                 {activeModal === 'inventory' && (
                   <a
-                    href="/pages/inventory.html"
+                    href="./pages/inventory.html"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
@@ -2458,7 +2458,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 )}
                 {activeModal === 'reports' && (
                   <a
-                    href="/pages/report.html"
+                    href="./pages/report.html"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
@@ -3809,7 +3809,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 {/* Actions */}
                 <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
                   <a
-                    href="/pages/report.html"
+                    href="./pages/report.html"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-2.5 text-center bg-[#0077cc] hover:bg-[#005fa3] text-white font-bold text-xs rounded-lg transition-colors cursor-pointer no-underline shadow-xs flex items-center justify-center gap-1.5"

@@ -38,11 +38,24 @@ SECTION 8. DATA SHARING: Never shared, sold, or traded with third parties. Share
 SECTION 9. YOUR RIGHTS: Full rights to view, correct, export, or delete your data at any time.
 SECTION 10. CHILDREN'S PRIVACY: For users 18 years and older.
 SECTION 11. INTERNATIONAL TRANSFERS: Zero data transfers outside Pakistan.
-SECTION 12. JURISDICTION: All privacy matters fall under the courts of Karachi, Sindh.
 SECTION 13. POLICY CHANGES: Periodic updates published with revised timestamp.
 SECTION 14. CONTACT: Orion Pixels Support.`,
-    Cookies: `Cookie Policy & Local Storage
-WSMS uses minimal functional cookies and browser localStorage to remember role preferences, session tokens, and cached offline delivery manifests for low-connectivity delivery routes.`,
+    Cookies: `Cookie Policy (Water Supply Management System - Sindh & Pakistan Standards)
+Last Updated: January 2025
+
+This Cookie Policy explains how WSMS uses cookies in compliance with Pakistan's electronic transaction and privacy standards.
+
+SECTION 1. ABOUT COOKIES: Cookies are small text files stored by your browser. WSMS uses cookies solely for essential functionality.
+SECTION 2. TYPES OF COOKIES USED:
+- 2.1 Essential Cookies: Keep you logged in, maintain session state, load local records correctly, and ensure smooth navigation. WSMS will not function properly without them.
+- 2.2 No Tracking Cookies: Zero advertising cookies, analytics cookies, third-party trackers, or marketing pixels. Platform works offline without external network communications.
+SECTION 3. WHY WE USE COOKIES: Identify active login, maintain session authentication, prevent repeated operations, and support offline-first operation.
+SECTION 4. USER CONTROL: Can be disabled in your browser settings. Essential cookies are required for platform operation.
+SECTION 5. DATA STORED: Temporary session token and basic app state. Never stores customer data, delivery records, financial details, or personal identifiers in cookies.
+SECTION 6. SECURITY: Protected by browser sandboxing and never shared with external parties.
+SECTION 7. DELETION: Can be cleared anytime through browser settings.
+SECTION 8. POLICY UPDATES: Governed by periodic revisions with timestamp updates.
+SECTION 9. CONTACT: Orion Pixels Support.`,
   };
 
   const scrollToTop = () => {
@@ -61,14 +74,14 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#005fa3] to-[#00d4ff] flex items-center justify-center p-1.5 shadow-md shadow-sky-600/20">
+              <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center p-1 shadow-md shadow-sky-600/20 shrink-0 overflow-hidden">
                 <img
-                  src="/logo.png"
-                  alt="WSMS Water Drops Logo"
+                  src="./assets/aistudio/wsms-icon_a21bed6f.png"
+                  alt="WSMS Mineral Water Supply Logo"
                   className="w-full h-full object-contain"
                   loading="lazy"
-                  width="36"
-                  height="36"
+                  width="44"
+                  height="44"
                 />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">WSMS</span>
@@ -120,7 +133,7 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Compliance & Legal</h4>
             <div className="flex flex-col space-y-2 text-sm">
               <a
-                href="/pages/terms.html"
+                href="./pages/terms.html"
                 className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center justify-between group no-underline"
                 title="Open Terms of Service (/pages/terms.html)"
               >
@@ -131,7 +144,7 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
                 <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-300 transition-colors" />
               </a>
               <a
-                href="/pages/privacy.html"
+                href="./pages/privacy.html"
                 className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center justify-between group no-underline"
                 title="Open Privacy Policy (/pages/privacy.html)"
               >
@@ -141,14 +154,17 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
                 </div>
                 <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-300 transition-colors" />
               </a>
-              <button
-                type="button"
-                onClick={() => setModalLegalTitle('Cookies')}
-                className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center gap-1.5"
+              <a
+                href="./pages/cookies.html"
+                className="text-left hover:text-sky-300 transition-colors cursor-pointer text-slate-400 flex items-center justify-between group no-underline"
+                title="Open Cookie Policy (/pages/cookies.html)"
               >
-                <FileText className="w-3.5 h-3.5 text-slate-500" />
-                <span>Cookies</span>
-              </button>
+                <div className="flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-300 transition-colors" />
+                  <span className="group-hover:text-sky-300 transition-colors font-medium">Cookies</span>
+                </div>
+                <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-300 transition-colors" />
+              </a>
               <span className="text-xs text-slate-500 pt-1">Sindh SFA Standards Compliant</span>
             </div>
           </div>
@@ -156,7 +172,7 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
 
         {/* Bottom Bar with Copyright & Back to Top */}
         <div className="pt-8 border-t border-slate-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© 2025 Orion Pixels. All rights reserved.</p>
+          <p>© 2025 Water Supply Management System. All rights reserved.</p>
 
           <button
             type="button"
@@ -198,7 +214,7 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
             <div className="pt-2 flex items-center justify-between gap-3">
               {modalLegalTitle === 'Terms' && (
                 <a
-                  href="/pages/terms.html"
+                  href="./pages/terms.html"
                   className="text-xs text-sky-400 hover:text-sky-300 underline font-semibold flex items-center gap-1"
                 >
                   <span>Open Full /pages/terms.html</span>
@@ -207,10 +223,19 @@ WSMS uses minimal functional cookies and browser localStorage to remember role p
               )}
               {modalLegalTitle === 'Privacy' && (
                 <a
-                  href="/pages/privacy.html"
+                  href="./pages/privacy.html"
                   className="text-xs text-sky-400 hover:text-sky-300 underline font-semibold flex items-center gap-1"
                 >
                   <span>Open Full /pages/privacy.html</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              {modalLegalTitle === 'Cookies' && (
+                <a
+                  href="./pages/cookies.html"
+                  className="text-xs text-sky-400 hover:text-sky-300 underline font-semibold flex items-center gap-1"
+                >
+                  <span>Open Full /pages/cookies.html</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               )}

@@ -4,8 +4,7 @@
   // ensure we do not block pages or redirect to the login page
   const isDevEnv = window.location.hostname === 'localhost' || 
                    window.location.hostname === '127.0.0.1' || 
-                   window.location.port === '3000' ||
-                   !window.location.hostname.includes('orionpixels.com');
+                   window.location.port === '3000' || window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com');
   if (isDevEnv) {
     function unblock() {
       if (document.body) document.body.classList.add('session-validated');
@@ -237,8 +236,7 @@
           // If in local development or preview environment without PHP backend, allow access
           const isDevEnv = window.location.hostname === 'localhost' || 
                            window.location.hostname === '127.0.0.1' || 
-                           window.location.port === '3000' ||
-                           !window.location.hostname.includes('orionpixels.com');
+                           window.location.port === '3000' || window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com');
           if (isDevEnv) {
             console.warn('[Session Check] Local preview environment detected. Allowing access without redirect.');
             hideLoadingOverlay();
@@ -430,8 +428,7 @@
       console.error('Session validation failed:', error);
       const isDevEnv = window.location.hostname === 'localhost' || 
                        window.location.hostname === '127.0.0.1' || 
-                       window.location.port === '3000' ||
-                       !window.location.hostname.includes('orionpixels.com');
+                       window.location.port === '3000' || window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com');
       if (isDevEnv) {
         hideLoadingOverlay();
         return;

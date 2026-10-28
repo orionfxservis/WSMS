@@ -10,16 +10,10 @@ import { initialInventory, initialDeliveries, initialStations } from './data/moc
 import { CanInventory, DeliveryRecord, StationData, UserRole, AppViewMode } from './types';
 import { Smartphone, CheckCircle2, ArrowRight, LayoutDashboard } from 'lucide-react';
 
-// Code-split large operational views to minimize initial bundle size and load time
-const DashboardView = lazy(() =>
-  import('./components/DashboardView').then((m) => ({ default: m.DashboardView }))
-);
-const LabourSupplierHub = lazy(() =>
-  import('./components/LabourSupplierHub').then((m) => ({ default: m.LabourSupplierHub }))
-);
-const AccessibilityTester = lazy(() =>
-  import('./components/AccessibilityTester').then((m) => ({ default: m.AccessibilityTester }))
-);
+// Direct imports for instant zero-latency view switching and unified offline bundling
+import { DashboardView } from './components/DashboardView';
+import { LabourSupplierHub } from './components/LabourSupplierHub';
+import { AccessibilityTester } from './components/AccessibilityTester';
 
 const ViewSkeleton: React.FC<{ title: string }> = ({ title }) => (
   <div className="max-w-7xl mx-auto px-4 py-20 flex flex-col items-center justify-center min-h-[40vh] text-center space-y-3">
@@ -39,19 +33,7 @@ export default function App() {
     email: string;
   } | null>(null);
 
-  // Preload heavy operational views during idle time after landing page has rendered
-  useEffect(() => {
-    const preload = () => {
-      import('./components/DashboardView');
-      import('./components/LabourSupplierHub');
-      import('./components/AccessibilityTester');
-    };
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      (window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(preload);
-    } else {
-      setTimeout(preload, 1200);
-    }
-  }, []);
+
 
   const handleSuccessLogin = (role: UserRole, email: string) => {
     setAuthenticatedUser({ role, email });

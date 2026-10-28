@@ -339,21 +339,21 @@ export const LabourSupplierHub: React.FC<LabourSupplierHubProps> = ({
                 {/* Quick Links Section matching dashboard.html */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <a
-                    href="/pages/customers.html"
+                    href="./pages/customers.html"
                     className="p-3 text-center rounded-[10px] font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-xs text-xs sm:text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer no-underline"
                   >
                     <Users className="w-4 h-4" />
                     <span>Customers</span>
                   </a>
                   <a
-                    href="/pages/stations.html"
+                    href="./pages/stations.html"
                     className="p-3 text-center rounded-[10px] font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-xs text-xs sm:text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer no-underline"
                   >
                     <Building2 className="w-4 h-4" />
                     <span>Filling Stations</span>
                   </a>
                   <a
-                    href="/pages/inventory.html"
+                    href="./pages/inventory.html"
                     onClick={(e) => {
                       if (!e.ctrlKey && !e.metaKey) {
                         e.preventDefault();
@@ -366,7 +366,7 @@ export const LabourSupplierHub: React.FC<LabourSupplierHubProps> = ({
                     <span>Inventory</span>
                   </a>
                   <a
-                    href="/pages/report.html"
+                    href="./pages/report.html"
                     onClick={(e) => {
                       if (!e.ctrlKey && !e.metaKey) {
                         e.preventDefault();

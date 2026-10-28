@@ -32,7 +32,7 @@ async function logout() {
   localStorage.removeItem('crm_session');
   
   // Redirect to login page - always use absolute path
-  window.location.href = '/wsms/index.html';
+  const isLocal = window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com'); window.location.href = isLocal ? '../index.html' : '/wsms/index.html';
 }
 
 // Auto-execute if this script is loaded directly

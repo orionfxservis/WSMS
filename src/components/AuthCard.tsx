@@ -179,14 +179,14 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
     >
       {/* Brand Header */}
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#005fa3] via-[#0077cc] to-[#00d4ff] p-2.5 shadow-lg shadow-sky-600/30 mb-3">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white p-2 shadow-lg shadow-sky-600/15 border border-slate-100 mb-3">
           <img
-            src="/logo.png"
-            alt="WSMS Logo"
+            src="./assets/aistudio/wsms-icon_a21bed6f.png"
+            alt="WSMS Mineral Water Supply Logo"
             className="w-full h-full object-contain"
-            loading="lazy"
-            width="56"
-            height="56"
+            loading="eager"
+            width="64"
+            height="64"
           />
         </div>
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight">

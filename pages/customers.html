@@ -110,18 +110,29 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </div>
 
 <div class="header">
-  <div class="header-left">
-    <img src="../assets/img/logo-white.png" alt="WSMS Logo" />
-    <span class="header-logo">WSMS</span>
-  </div>
+    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+    <div class="header-logo-container">
+      <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
+    </div>
+    <div class="header-brand-text">
+      <div class="header-brand-title">
+        <span class="header-logo">WSMS</span>
+        <span class="header-portal-tag">Portal</span>
+      </div>
+      <span class="header-company-name">Water Supply Management System</span>
+    </div>
+  </a>
   <div class="header-right">
     <div class="header-icons">
-      <a href="dashboard.html" class="header-icon-link" title="Dashboard">
-        <i class="fi fi-rr-apps"></i>
-      </a>
-      <a href="filling.html" class="header-icon-link" title="Filling">
-        <i class="fi fi-rr-fill"></i>
-      </a>
+      <a href="dashboard.html" class="header-icon-link" title="Dashboard"><i class="fi fi-rr-home"></i></a>
+      <a href="filling.html" class="header-icon-link" title="Filling Operations"><i class="fi fi-rr-water-bottle"></i></a>
+      <a href="supply.html" class="header-icon-link" title="Supply & Deliveries"><i class="fi fi-rr-truck-side"></i></a>
+      <a href="expense.html" class="header-icon-link" title="Expenses & Ledger"><i class="fi fi-rr-receipt"></i></a>
+      <a href="customers.html" class="header-icon-link" title="Customers"><i class="fi fi-rr-users"></i></a>
+      <a href="stations.html" class="header-icon-link" title="Filling Stations"><i class="fi fi-rr-shop"></i></a>
+      <a href="schedule.html" class="header-icon-link" title="Schedule"><i class="fi fi-rr-calendar"></i></a>
+      <a href="settings.html" class="header-icon-link" title="Settings"><i class="fi fi-rr-settings"></i></a>
+      <a href="../index.html" class="header-icon-link" title="Main Website"><i class="fi fi-rr-globe"></i></a>
     </div>
     <span id="headerUserName" class="header-user">Operator</span>
     <img id="headerUserImage" src="../assets/default-user.png" alt="User">
@@ -228,14 +239,14 @@ let fullCustomers = [];
 
 // Fallback customers list for preview or standalone mode
 const FALLBACK_CUSTOMERS = [
-  { id: 101, name: 'Al-Madina General Hospital', phone: '0300-2134567', address: 'Plot 44, PECHS Block 2, Karachi', deposit: 5000, discount: 20, pending_cans: 15, pending_payment: 3600, customer_rates: { '19 Liter Can': { rate: 60, discount: 20, final: 40 } } },
-  { id: 102, name: 'Standard Chartered Clifton Branch', phone: '0321-9876543', address: 'Khayaban-e-Shamsheer, DHA Phase 5', deposit: 4000, discount: 0, pending_cans: 8, pending_payment: 2400, customer_rates: { '19 Liter Can': { rate: 60, discount: 0, final: 60 } } },
-  { id: 103, name: 'Gulshan Executive Apartments', phone: '0333-5551234', address: 'Block 13-C, University Road, Gulshan', deposit: 3000, discount: 15, pending_cans: 22, pending_payment: 5800, customer_rates: { '19 Liter Can': { rate: 60, discount: 15, final: 45 } } },
-  { id: 104, name: 'Crown Textile Mills HQ', phone: '0345-8889900', address: 'Sector 15, Korangi Industrial Area', deposit: 8000, discount: 30, pending_cans: 40, pending_payment: 12000, customer_rates: { '19 Liter Can': { rate: 60, discount: 30, final: 30 } } },
-  { id: 105, name: 'Dr. Tariq Dental Clinic', phone: '0301-4433221', address: 'Shahrah-e-Faisal, Nursery', deposit: 2000, discount: 10, pending_cans: 4, pending_payment: 1200, customer_rates: { '19 Liter Can': { rate: 60, discount: 10, final: 50 } } },
-  { id: 106, name: 'Ayesha Manzil Bakery & Cafe', phone: '0312-7788990', address: 'Federal B Area Block 7', deposit: 2500, discount: 10, pending_cans: 12, pending_payment: 3100, customer_rates: { '19 Liter Can': { rate: 60, discount: 10, final: 50 } } },
-  { id: 107, name: 'Siddiqui Law Associates', phone: '0302-3344556', address: 'Court Road, Saddar', deposit: 1500, discount: 0, pending_cans: 5, pending_payment: 1500, customer_rates: { '19 Liter Can': { rate: 60, discount: 0, final: 60 } } },
-  { id: 108, name: 'Bahria Town Sector B Villa 12', phone: '0322-1122334', address: 'Precinct 1, Bahria Town Karachi', deposit: 3500, discount: 0, pending_cans: 10, pending_payment: 2800, customer_rates: { '19 Liter Can': { rate: 65, discount: 0, final: 65 } } },
+  { id: 101, name: 'Metro Cash & Carry (Staff Canteen)', phone: '0300-1234567', address: 'University Road, Gulshan, Karachi', deposit: 30000, discount: 20, pending_cans: 30, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 20, final: 48 } } },
+  { id: 102, name: 'Indus Hospital & Health Network', phone: '0321-9876543', address: 'Korangi Sector 31, Karachi', deposit: 25000, discount: 0, pending_cans: 25, pending_payment: 4500, customer_rates: { '19 Liter Can': { rate: 60, discount: 0, final: 60 } } },
+  { id: 103, name: 'Dolmen Mall Food Court', phone: '0333-2345678', address: 'Clifton Block 4, Karachi', deposit: 40000, discount: 15, pending_cans: 40, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 15, final: 51 } } },
+  { id: 104, name: 'Aga Khan Labs Executive Wing', phone: '0300-4567890', address: 'Stadium Road, Karachi', deposit: 15000, discount: 30, pending_cans: 15, pending_payment: 1800, customer_rates: { '19 Liter Can': { rate: 60, discount: 30, final: 42 } } },
+  { id: 105, name: 'Dr. Tariq Dental Clinic', phone: '0301-8765432', address: 'Nursery, Shahrah-e-Faisal, Karachi', deposit: 8000, discount: 10, pending_cans: 8, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 10, final: 54 } } },
+  { id: 106, name: 'Ayesha Manzil Bakery & Cafe', phone: '0345-6789012', address: 'Block 7, Federal B Area, Karachi', deposit: 14000, discount: 12, pending_cans: 14, pending_payment: 2160, customer_rates: { '19 Liter Can': { rate: 60, discount: 12, final: 53 } } },
+  { id: 107, name: 'Siddiqui Law Associates', phone: '0315-1122334', address: 'Court Road, Saddar, Karachi', deposit: 10000, discount: 15, pending_cans: 10, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 15, final: 51 } } },
+  { id: 108, name: 'Bahria Town Sector B Villa 12', phone: '0302-9988776', address: 'Precinct 1, Super Highway, Karachi', deposit: 16000, discount: 0, pending_cans: 16, pending_payment: 3200, customer_rates: { '19 Liter Can': { rate: 60, discount: 0, final: 60 } } }
 ];
 
 const FALLBACK_ITEMS = [

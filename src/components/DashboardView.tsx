@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NewsTicker } from './NewsTicker';
 import { CanInventory, DeliveryRecord, StationData, TravelStop } from '../types';
 import { initialTravelStops, initialNotifications } from '../data/mockData';
@@ -503,6 +503,31 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const totalFillingEntries = fillings.length;
   const avgFillingCost = totalFillingEntries > 0 ? Math.round(totalFillingCost / totalFillingEntries) : 0;
 
+  // Synchronize state with shared store for cross-page consistency
+  useEffect(() => {
+    try {
+      const store = {
+        summary: {
+          total_deliveries: sumDeliveriesCount,
+          total_revenue: sumRevenue,
+          total_expenses: sumExpense,
+          profit: sumProfit,
+          active_customers: customersList.length,
+          in_circulation: inventory.totalCirculation
+        },
+        inventory,
+        deliveries,
+        fillings,
+        expenses,
+        stations: stationList,
+        customers: customersList
+      };
+      localStorage.setItem('wsms_shared_store_v1', JSON.stringify(store));
+    } catch (e) {
+      // safe fallback
+    }
+  }, [sumDeliveriesCount, sumRevenue, sumExpense, sumProfit, fillings, expenses, inventory, deliveries, customersList, stationList]);
+
   const handleAddExpense = (e: React.FormEvent) => {
     e.preventDefault();
     const amountVal = typeof newExpAmount === 'number' ? newExpAmount : parseFloat(String(newExpAmount)) || 0;
@@ -964,10 +989,61 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="bg-[#007bdb] text-white px-4 py-2.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="font-bold text-sm tracking-wide flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#70e0a1] animate-pulse" />
-              WSMS Operations Dashboard
-            </span>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateToLanding();
+              }}
+              className="flex items-center gap-2.5 group no-underline text-white"
+              title="Return to Main Overview"
+            >
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 shadow-xs overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                <img
+                  src="./assets/img/logo/logo.png"
+                  alt="WSMS Logo"
+                  className="w-full h-full object-contain"
+                  onError={(e) => { (e.target as HTMLImageElement).src = './assets/img/logo.png'; }}
+                />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-extrabold text-xl tracking-tight text-white">WSMS</span>
+                  <span className="text-[10px] font-bold tracking-wider uppercase text-blue-100 bg-white/20 px-1.5 py-0.5 rounded">
+                    Portal
+                  </span>
+                  <span className="w-2 h-2 rounded-full bg-[#70e0a1] animate-pulse ml-0.5" />
+                </div>
+                <span className="text-[11px] text-blue-100 font-medium hidden sm:inline">
+                  Water Supply Management System
+                </span>
+              </div>
+            </a>
+
+            {/* Dynamic Page Badge matching 900.JPG */}
+            <a
+              href={
+                activeBottomNav === 'home'
+                  ? './pages/dashboard.html'
+                  : activeBottomNav === 'filling'
+                  ? './pages/filling.html'
+                  : activeBottomNav === 'supply'
+                  ? './pages/supply.html'
+                  : './pages/expense.html'
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white/20 hover:bg-white/30 text-white text-xs font-mono font-medium border border-white/25 transition-colors shadow-2xs no-underline"
+              title="Open section page"
+            >
+              <span>
+                {activeBottomNav === 'home' && '/pages/dashboard.html'}
+                {activeBottomNav === 'filling' && '/pages/filling.html'}
+                {activeBottomNav === 'supply' && '/pages/supply.html'}
+                {activeBottomNav === 'expense' && '/pages/expense.html'}
+              </span>
+              <ExternalLink className="w-3.5 h-3.5 text-white/90" />
+            </a>
           </div>
 
           <div className="flex items-center gap-4 text-xs font-semibold">
@@ -1123,87 +1199,169 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
             {/* QUICK LINKS matching dashboard.html */}
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3.5" aria-label="Quick Navigation">
-              <button
-                type="button"
-                onClick={() => setActiveModal('customers')}
-                className="block rounded-[10px] text-center p-3 font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] text-sm hover:bg-blue-50 transition-colors cursor-pointer"
-              >
-                Customers
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveModal('stations')}
-                className="block rounded-[10px] text-center p-3 font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] text-sm hover:bg-blue-50 transition-colors cursor-pointer"
-              >
-                Filling Stations
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveModal('inventory')}
-                className="block rounded-[10px] text-center p-3 font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] text-sm hover:bg-blue-50 transition-colors cursor-pointer"
-              >
-                Inventory
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveModal('reports')}
-                className="block rounded-[10px] text-center p-3 font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] text-sm hover:bg-blue-50 transition-colors cursor-pointer"
-              >
-                Reports
-              </button>
-            </section>
-
-            {/* TRAVEL PLAN (TOMORROW) BLOCK matching dashboard.html */}
-            <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3.5 sm:p-4 mb-3.5">
-              <div className="flex items-center justify-between mb-2.5">
-                <h3 className="m-0 text-[#0077cc] text-[15px] font-bold flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#0077cc]" />
-                  Travel Plan (Tomorrow)
-                </h3>
-                <span className="text-xs text-[#666666] font-medium">
-                  Van #KHI-482 · Driver Aslam
-                </span>
+              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setActiveModal('customers')}
+                  className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
+                >
+                  Customers
+                </button>
+                <a
+                  href="./pages/customers.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
+                  title="Open /pages/customers.html"
+                >
+                  <span>/pages/customers.html</span>
+                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                </a>
               </div>
 
-              <div id="travelPlan" className="space-y-2">
-                {travelStops.map((stop, idx) => (
-                  <div
-                    key={stop.id}
-                    className="p-3 border border-[#eef2f7] rounded-[8px] bg-[#fbfdff] hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-2.5"
-                  >
-                    <div className="flex items-start gap-3 min-w-0">
-                      <span className="w-6 h-6 rounded-full bg-blue-50 text-[#0077cc] font-bold text-xs flex items-center justify-center shrink-0 border border-blue-200">
-                        {idx + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <h4 className="text-sm font-bold text-[#222222] truncate">{stop.customerName}</h4>
-                        <p className="text-xs text-[#666666] flex items-center gap-1.5 truncate">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                          <span>{stop.address}</span>
-                        </p>
-                      </div>
-                    </div>
+              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setActiveModal('stations')}
+                  className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
+                >
+                  Filling Stations
+                </button>
+                <a
+                  href="./pages/stations.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
+                  title="Open /pages/stations.html"
+                >
+                  <span>/pages/stations.html</span>
+                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                </a>
+              </div>
 
-                    <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
-                      <div className="text-right text-xs">
-                        <span className="font-bold text-[#0077cc] block">{stop.cansToDeliver} Cans</span>
-                        <span className="text-[#666666] text-[11px]">{stop.timeSlot}</span>
-                      </div>
+              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setActiveModal('inventory')}
+                  className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
+                >
+                  Inventory
+                </button>
+                <a
+                  href="./pages/inventory.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
+                  title="Open /pages/inventory.html"
+                >
+                  <span>/pages/inventory.html</span>
+                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                </a>
+              </div>
 
-                      <button
-                        type="button"
-                        onClick={() => toggleStopStatus(stop.id)}
-                        className={`px-2.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
-                          stop.status === 'Delivered'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-[#eef6ff] text-[#0a6ec2] border border-[#bcdfff] hover:bg-blue-100'
-                        }`}
-                      >
-                        {stop.status === 'Delivered' ? '✓ Delivered' : 'Scheduled'}
-                      </button>
+              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setActiveModal('reports')}
+                  className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
+                >
+                  Reports
+                </button>
+                <a
+                  href="./pages/report.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
+                  title="Open /pages/report.html"
+                >
+                  <span>/pages/report.html</span>
+                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                </a>
+              </div>
+            </section>
+
+            {/* TRAVEL PLAN (TOMORROW) BLOCK matching image_6737b148.png and dashboard.html */}
+            <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3.5 sm:p-4 mb-3.5">
+              <h3 className="m-0 text-[#0077cc] text-[15px] font-bold mb-3">
+                Travel Plan (Tomorrow)
+              </h3>
+
+              <div id="travelPlan">
+                {/* Total Distance Banner matching screenshot image_6737b148.png */}
+                <div className="mb-3 p-2.5 sm:p-3 bg-[#f0f7ff] rounded-md flex flex-col sm:flex-row sm:items-center justify-between gap-1 border border-blue-100">
+                  <div>
+                    <strong className="text-sm text-[#222]">Total Distance:</strong>
+                    <div className="text-xs text-[#666] mt-0.5">
+                      5 customers scheduled • Starting from: Korangi Central Depot
                     </div>
                   </div>
-                ))}
+                  <span className="text-lg font-bold text-[#0077cc]">28.4 km</span>
+                </div>
+
+                {/* Numbered Stops List matching image_6737b148.png */}
+                <div className="max-h-[340px] overflow-y-auto">
+                  <ol className="m-0 pl-5 space-y-2.5 list-decimal text-sm font-semibold text-[#333]">
+                    {/* Stop 1 */}
+                    <li className="p-2 sm:p-2.5 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
+                      <div className="text-[13px] text-[#333] font-normal flex flex-wrap gap-2 items-center">
+                        <span className="font-semibold text-[#222]">Indus Hospital & Health Network</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#666]">Korangi Sector 31</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#28a745] font-semibold flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-[#28a745]" />
+                          09:30 AM
+                        </span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#0077cc] font-medium">4.8 km</span>
+                      </div>
+                    </li>
+
+                    {/* Stop 2 */}
+                    <li className="p-2 sm:p-2.5 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
+                      <div className="text-[13px] text-[#333] font-normal flex flex-wrap gap-2 items-center">
+                        <span className="font-semibold text-[#222]">Habib University Campus</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#666]">Block 18, Gulistan-e-Johar</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#28a745] font-semibold flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-[#28a745]" />
+                          11:15 AM
+                        </span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#0077cc] font-medium">9.2 km</span>
+                      </div>
+                    </li>
+
+                    {/* Stop 3 */}
+                    <li className="p-2 sm:p-2.5 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
+                      <div className="text-[13px] text-[#333] font-normal flex flex-wrap gap-2 items-center">
+                        <span className="font-semibold text-[#222]">Clifton Medical Complex</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#666]">Block 4, Clifton</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#28a745] font-semibold flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-[#28a745]" />
+                          01:45 PM
+                        </span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-[#0077cc] font-medium">7.1 km</span>
+                      </div>
+                    </li>
+
+                    {/* Stop 4: Return to Central Depot */}
+                    <li className="mt-2.5 p-2.5 bg-[#e8f5e9] border-l-[3px] border-[#28a745] rounded shadow-2xs list-none -ml-5 sm:-ml-5">
+                      <div className="flex items-start gap-2">
+                        <span className="text-base leading-none">🏢</span>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-[#333] text-[13px]">Return to Central Depot</div>
+                          <div className="text-xs text-[#666] mt-0.5">Plot 42, Korangi Industrial Area, Karachi</div>
+                          <div className="text-[11px] text-[#28a745] font-medium mt-1">Distance: 7.3 km</div>
+                        </div>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
               </div>
             </section>
 
@@ -1338,10 +1496,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {/* Header */}
             <div className="bg-white p-4 rounded-xl shadow-xs border border-[#eef2f7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-bold text-[#0077cc] flex items-center gap-2">
-                  <Building2 className="w-5 h-5 text-[#0077cc]" />
-                  Daily Water Canes Filling Management
-                </h2>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <h2 className="text-lg font-bold text-[#0077cc] flex items-center gap-2">
+                    <Building2 className="w-5 h-5 text-[#0077cc]" />
+                    Daily Water Canes Filling Management
+                  </h2>
+                  <a
+                    href="./pages/filling.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#007bdb]/10 hover:bg-[#007bdb]/20 text-[#0077cc] text-xs font-mono font-semibold border border-[#007bdb]/20 transition-colors no-underline"
+                    title="Open /pages/filling.html"
+                  >
+                    <span>/pages/filling.html</span>
+                    <ExternalLink className="w-3 h-3 text-[#0077cc]" />
+                  </a>
+                </div>
                 <p className="text-xs text-[#666666] mt-0.5 max-w-2xl leading-relaxed">
                   Record daily water canes filling quantities, maintain supplier-side production logs, track daily filling expenses & monitor distribution trends. WSMS helps mineral water suppliers not only in Karachi, all over Pakistan to manage daily filling records, monitor operational costs & maintain accurate business activity reports.
                 </p>
@@ -1705,10 +1875,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="space-y-4 animate-in fade-in duration-200">
             <div className="flex items-center justify-between bg-white p-4 rounded-xl shadow-xs border border-[#eef2f7]">
               <div>
-                <h2 className="text-lg font-bold text-[#0077cc] flex items-center gap-2">
-                  <Truck className="w-5 h-5 text-[#0077cc]" />
-                  Supply & Delivery Operations
-                </h2>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <h2 className="text-lg font-bold text-[#0077cc] flex items-center gap-2">
+                    <Truck className="w-5 h-5 text-[#0077cc]" />
+                    Supply & Delivery Operations
+                  </h2>
+                  <a
+                    href="./pages/supply.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#007bdb]/10 hover:bg-[#007bdb]/20 text-[#0077cc] text-xs font-mono font-semibold border border-[#007bdb]/20 transition-colors no-underline"
+                    title="Open /pages/supply.html"
+                  >
+                    <span>/pages/supply.html</span>
+                    <ExternalLink className="w-3 h-3 text-[#0077cc]" />
+                  </a>
+                </div>
                 <p className="text-xs text-[#666666] mt-0.5">
                   19-Liter polycarbonate bottle inventory, active delivery fleet routes & empty return balances.
                 </p>
@@ -1808,10 +1990,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {/* Header */}
             <div className="bg-white p-4 rounded-xl shadow-xs border border-[#eef2f7]">
               <div>
-                <h2 className="text-lg font-bold text-[#0077cc] flex items-center gap-2">
-                  <Receipt className="w-5 h-5 text-[#0077cc]" />
-                  Daily Expenses & Financial Management for Water Suppliers
-                </h2>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <h2 className="text-lg font-bold text-[#0077cc] flex items-center gap-2">
+                    <Receipt className="w-5 h-5 text-[#0077cc]" />
+                    Daily Expenses & Financial Management for Water Suppliers
+                  </h2>
+                  <a
+                    href="./pages/expense.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#007bdb]/10 hover:bg-[#007bdb]/20 text-[#0077cc] text-xs font-mono font-semibold border border-[#007bdb]/20 transition-colors no-underline"
+                    title="Open /pages/expense.html"
+                  >
+                    <span>/pages/expense.html</span>
+                    <ExternalLink className="w-3 h-3 text-[#0077cc]" />
+                  </a>
+                </div>
                 <p className="text-xs text-[#666666] mt-0.5 max-w-4xl leading-relaxed">
                   Track daily business expenses, including Vehicle Fuel, Electricity bills, Employee Wages & Operational Costs. WSMS helps mineral water suppliers maintain Accurate Financial Records, Reconcile daily transactions, Calculate Operating Profit Margins & monitor business profitability with better financial control.
                 </p>
@@ -2238,70 +2432,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
         )}
-
-        {/* =========================================================================
-            INLINE BOTTOM SECTION (Matching image_4bb31170.png under the page)
-            ========================================================================= */}
-        <div className="mt-8 mb-6 pt-4 border-t border-[#dddddd] bg-white rounded-xl p-3 shadow-xs">
-          <div className="max-w-2xl mx-auto flex justify-around items-center">
-            <button
-              type="button"
-              onClick={() => {
-                setActiveBottomNav('home');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1.5 text-center ${
-                activeBottomNav === 'home'
-                  ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                  : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-              }`}
-            >
-              Home
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveBottomNav('filling');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1.5 text-center ${
-                activeBottomNav === 'filling'
-                  ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                  : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-              }`}
-            >
-              Filling
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveBottomNav('supply');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1.5 text-center ${
-                activeBottomNav === 'supply'
-                  ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                  : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-              }`}
-            >
-              Supply
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveBottomNav('expense');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1.5 text-center ${
-                activeBottomNav === 'expense'
-                  ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                  : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-              }`}
-            >
-              Expense
-            </button>
-          </div>
-        </div>
       </main>
 
       {/* =========================================================================

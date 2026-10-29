@@ -64,34 +64,41 @@ SECTION 9. CONTACT: Orion Pixels Support.`,
 
   return (
     <footer
-      className="bg-[#08101e] text-slate-400 border-t border-sky-950 pt-16 pb-12"
+      id="contact"
+      className="bg-[#08101e] text-slate-400 border-t border-sky-950 pt-16 pb-12 scroll-mt-20"
       role="contentinfo"
-      aria-label="Site Footer"
+      aria-label="Site Footer and Contact Information"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Info */}
+          {/* Brand & Contact Info */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center p-1 shadow-md shadow-sky-600/20 shrink-0 overflow-hidden">
                 <img
-                  src="./assets/aistudio/wsms-icon_a21bed6f.png"
+                  src="./assets/img/logo/logo.png"
                   alt="WSMS Mineral Water Supply Logo"
                   className="w-full h-full object-contain"
                   loading="lazy"
                   width="44"
                   height="44"
+                  onError={(e) => { (e.target as HTMLImageElement).src = './assets/img/logo.png'; }}
                 />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">WSMS</span>
             </div>
 
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-              Water Supply Management System — modern CRM and real-time inventory management for commercial drinking water distributors and filling plants.
+              Water Supply Management System — modern CRM and real-time inventory management for commercial drinking water distributors and filling plants across Pakistan.
             </p>
 
-            <div className="flex items-center gap-3 text-xs text-sky-400">
+            <div className="text-xs text-slate-300 space-y-1 pt-1">
+              <div><strong className="text-white">Official Contact & Support:</strong> support@wsms.pk · +92 (21) 3456-7890</div>
+              <div><strong className="text-white">Headquarters:</strong> Shahrah-e-Faisal, Karachi, Sindh, Pakistan</div>
+            </div>
+
+            <div className="flex items-center gap-3 text-xs text-sky-400 pt-1">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 <span>Sindh Regional Node Operational</span>

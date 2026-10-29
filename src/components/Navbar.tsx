@@ -139,12 +139,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white flex items-center justify-center p-1 group-hover:scale-105 transition-transform shadow-xs overflow-hidden shrink-0">
                 <img
-                  src="./assets/aistudio/wsms-icon_a21bed6f.png"
+                  src="./assets/img/logo/logo.png"
                   alt="WSMS Mineral Water Supply Logo"
                   className="w-full h-full object-contain"
                   loading="eager"
                   width="48"
                   height="48"
+                  onError={(e) => { (e.target as HTMLImageElement).src = './assets/img/logo.png'; }}
                 />
               </div>
               <div className="flex flex-col">
@@ -164,10 +165,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Desktop Navigation Links */}
             <nav
-              className="hidden md:flex items-center gap-5 lg:gap-7"
+              className="hidden lg:flex items-center gap-3.5 xl:gap-5"
               aria-label="Main Navigation"
             >
-              {/* Home / Overview */}
+              {/* 1. Overview */}
               <button
                 type="button"
                 onClick={() => {
@@ -181,7 +182,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 Overview
               </button>
 
-              {/* LIVE DASHBOARD LINK (Faithful reproduction of dashboard.html with news feed) */}
+              {/* 2. Live Dashboard */}
               <button
                 type="button"
                 onClick={() => {
@@ -201,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="w-2 h-2 rounded-full bg-[#70e0a1] animate-pulse" />
               </button>
 
-              {/* Dedicated Labour & Supplier Mobile Hub Button */}
+              {/* 3. Field Hub */}
               <button
                 type="button"
                 onClick={() => {
@@ -220,6 +221,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Field Hub</span>
               </button>
 
+              {/* 4. Features */}
               <button
                 type="button"
                 onClick={() => scrollToSection('features')}
@@ -228,6 +230,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 Features
               </button>
 
+              {/* 5. Live Demo */}
+              <button
+                type="button"
+                onClick={() => scrollToSection('demo')}
+                className="text-sm font-semibold text-white/90 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-2 py-1"
+              >
+                Live Demo
+              </button>
+
+              {/* 6. About */}
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
@@ -236,17 +248,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 About
               </button>
 
+              {/* 7. Contact */}
               <button
                 type="button"
-                onClick={() => scrollToSection('demo')}
+                onClick={() => scrollToSection('contact')}
                 className="text-sm font-semibold text-white/90 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-2 py-1"
               >
-                Live Demo
+                Contact
               </button>
             </nav>
 
             {/* Right Action Buttons */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3">
               <button
                 type="button"
                 onClick={onToggleA11y}
@@ -269,7 +282,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             {/* Mobile Menu Toggle Button */}
-            <div className="flex items-center gap-2 md:hidden">
+            <div className="flex items-center gap-2 lg:hidden">
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -292,28 +305,11 @@ export const Navbar: React.FC<NavbarProps> = ({
         {mobileMenuOpen && (
           <div
             id="mobile-navigation"
-            className="md:hidden bg-[#007bdb] border-t border-white/20 px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top-4 duration-200"
+            className="lg:hidden bg-[#007bdb] border-t border-white/20 px-4 pt-3 pb-6 space-y-2 animate-in fade-in slide-in-from-top-4 duration-200"
             role="region"
             aria-label="Mobile Navigation Menu"
           >
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setActiveView('dashboard');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="text-left py-2.5 px-3 rounded-lg bg-white/20 border border-white/40 text-white font-bold text-base flex items-center justify-between w-full"
-            >
-              <span className="flex items-center gap-2">
-                <LayoutDashboard className="w-4 h-4 text-white" />
-                Live Dashboard (with News Feed)
-              </span>
-              <span className="text-xs bg-[#33c47a] text-white font-bold px-2 py-0.5 rounded-full">
-                Live
-              </span>
-            </button>
-
+            {/* 1. Overview */}
             <button
               type="button"
               onClick={() => {
@@ -321,35 +317,31 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setActiveView('landing');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="text-left py-2.5 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
+              className="text-left py-2 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
             >
-              Website Overview
+              Overview
             </button>
 
+            {/* 2. Live Dashboard */}
             <button
               type="button"
-              onClick={() => scrollToSection('features')}
-              className="text-left py-2.5 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setActiveView('dashboard');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="text-left py-2 px-3 rounded-lg bg-white/20 border border-white/40 text-white font-bold text-base flex items-center justify-between w-full"
             >
-              Features & Capabilities
+              <span className="flex items-center gap-2">
+                <LayoutDashboard className="w-4 h-4 text-white" />
+                Live Dashboard
+              </span>
+              <span className="text-xs bg-[#33c47a] text-white font-bold px-2 py-0.5 rounded-full">
+                Live
+              </span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => scrollToSection('about')}
-              className="text-left py-2.5 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
-            >
-              About WSMS
-            </button>
-
-            <button
-              type="button"
-              onClick={() => scrollToSection('demo')}
-              className="text-left py-2.5 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
-            >
-              Live Interactive Operations
-            </button>
-
+            {/* 3. Field Hub */}
             <button
               type="button"
               onClick={() => {
@@ -357,15 +349,51 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setActiveView('field-hub');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="text-left py-2.5 px-3 rounded-lg bg-white/15 border border-white/30 text-white font-bold text-base flex items-center justify-between w-full"
+              className="text-left py-2 px-3 rounded-lg bg-white/15 border border-white/30 text-white font-bold text-base flex items-center justify-between w-full"
             >
               <span className="flex items-center gap-2">
                 <Smartphone className="w-4 h-4 text-white" />
-                Labour & Supplier Field Hub
+                Field Hub
               </span>
               <span className="text-xs bg-[#70e0a1] text-slate-900 font-bold px-2 py-0.5 rounded-full">
                 Mobile
               </span>
+            </button>
+
+            {/* 4. Features */}
+            <button
+              type="button"
+              onClick={() => scrollToSection('features')}
+              className="text-left py-2 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
+            >
+              Features
+            </button>
+
+            {/* 5. Live Demo */}
+            <button
+              type="button"
+              onClick={() => scrollToSection('demo')}
+              className="text-left py-2 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
+            >
+              Live Demo
+            </button>
+
+            {/* 6. About */}
+            <button
+              type="button"
+              onClick={() => scrollToSection('about')}
+              className="text-left py-2 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
+            >
+              About
+            </button>
+
+            {/* 7. Contact */}
+            <button
+              type="button"
+              onClick={() => scrollToSection('contact')}
+              className="text-left py-2 px-3 rounded-lg text-white hover:bg-white/15 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-white w-full"
+            >
+              Contact
             </button>
 
             <div className="pt-3 border-t border-white/20 flex flex-col gap-2.5">

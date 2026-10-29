@@ -288,8 +288,8 @@ export default function App() {
         )}
       </main>
 
-      {/* Accessible Footer */}
-      <Footer />
+      {/* Footer displayed on main page only, not in Operations Dashboard or other views */}
+      {activeView === 'landing' && <Footer />}
 
       {/* WCAG 2.1 Compliance & Accessibility Inspector Modal */}
       {isA11yOpen && (

@@ -152,18 +152,18 @@ export const FeaturesSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0077cc] text-xs font-bold tracking-wide uppercase border border-blue-200">
             <Zap className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>Enterprise Feature Suite</span>
+            <span>Complete Water Supply Business Management Features</span>
           </div>
 
           <h2
             id="features-heading"
             className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#222222] tracking-tight"
           >
-            Everything You Need to Manage Your Water Business
+            Essential Tools to Manage Your Mineral Water Supply Business
           </h2>
 
           <p className="text-base text-[#666666] leading-relaxed">
-            Powerful, card-based tools designed specifically to streamline water purification, bottling, fleet dispatch, and can inventory management.
+            Manage your Mineral Water distribution business with WSMS, a Water Supply Management System designed for Suppliers and Distributors across Pakistan. Organize Customer Accounts, Daily Water Canes Filling Records, Delivery Schedules, Reusable 19-litre Canes Inventory, Invoices, Supplier Payments & Operating Expenses in one convenient platform. Improve Record-Keeping, Monitor Business Costs & simplify your daily water supply operations.
           </p>
         </div>
 

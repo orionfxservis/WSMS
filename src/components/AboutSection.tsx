@@ -13,18 +13,18 @@ export const AboutSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0077cc] text-xs font-bold tracking-wide uppercase border border-blue-200">
             <HeartHandshake className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>Built by Orion Pixels</span>
+            <span>Developed by Orion Fx</span>
           </div>
 
           <h2
             id="about-heading"
             className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#222222] tracking-tight"
           >
-            Transforming Water Supply Through Engineering Excellence
+            About WSMS – Water Supply Management Software in Pakistan
           </h2>
 
           <p className="text-base text-[#666666] leading-relaxed">
-            Water Supply Management System (WSMS) was born from a fundamental observation: water supply businesses needed reliable, modern digital tools that field drivers and suppliers can actually use without hassle.
+            WSMS (Water Supply Management System) is a Business Management Solution Developed by Orion Fx to help Mineral Water Suppliers & Distributors across Pakistan manage their daily operations more efficiently. From Customer Accounts & Water Canes Delivery Records to reusable 19-litre Canes Inventory, Filling Records, Invoicing, Payments & Expense tracking, WSMS brings essential business activities together in one organized system. Its practical approach helps Water Supply Businesses improve record accuracy, monitor costs & simplify routine operations.
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export const AboutSection: React.FC = () => {
             </div>
             <h3 className="text-2xl font-black">Our Mission</h3>
             <p className="text-blue-50 text-sm sm:text-base leading-relaxed">
-              To empower water supply businesses with cutting-edge CRM technology that streamlines operations, enhances customer relationships, and eliminates can deposit shrinkage through efficient management of resources, deliveries, and finances.
+              Our mission is to make Water Supply Business Management simpler and more efficient by providing practical digital tools for Pakistani Suppliers & Distributors. WSMS helps businesses organize customer relationships, track deliveries and reusable Water Canes, Maintain Financial Records & reduce losses caused by inaccurate can deposits or incomplete transaction records.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export const AboutSection: React.FC = () => {
             </div>
             <h3 className="text-2xl font-black text-[#222222]">Our Vision</h3>
             <p className="text-[#666666] text-sm sm:text-base leading-relaxed">
-              To become the leading digital infrastructure for drinking water distribution across Pakistan and beyond, recognized for innovation, field reliability, and the positive health and logistical impact we create for local communities.
+              Our vision is to support the digital growth of Pakistan’s Mineral Water Distribution industry by making effective Business Management Software accessible to Suppliers & Distributors of different sizes. Through continuous improvement, user-friendly features & reliable operational tools, WSMS aims to help Water Supply Businesses improve accountability, manage resources, and deliver better customer service.
             </p>
           </div>
         </div>

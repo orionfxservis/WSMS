@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build && node -e \"const fs=require('fs'); let h=fs.readFileSync('dist/index.html','utf8'); h=h.replace(/type=\\\"module\\\" crossorigin/g,'defer'); fs.writeFileSync('dist/index.html',h); fs.cpSync('dist', 'wsms-offline', {recursive: true}); fs.copyFileSync('dist/assets/app.js', 'assets/app.js'); fs.copyFileSync('dist/assets/app.css', 'assets/app.css'); fs.cpSync('assets/img', 'dist/assets/img', {recursive: true}); fs.cpSync('assets/img', 'wsms-offline/assets/img', {recursive: true}); fs.cpSync('pages', 'dist/pages', {recursive: true}); fs.cpSync('pages', 'wsms-offline/pages', {recursive: true}); console.log('Optimized offline assets in root, dist, and wsms-offline');\"",
+    "build": "vite build && node -e \"const fs=require('fs'); fs.cpSync('dist', 'wsms-offline', {recursive: true}); fs.copyFileSync('dist/assets/app.js', 'assets/app.js'); fs.copyFileSync('dist/assets/app.css', 'assets/app.css'); fs.cpSync('assets/img', 'dist/assets/img', {recursive: true}); fs.cpSync('assets/img', 'wsms-offline/assets/img', {recursive: true}); fs.cpSync('pages', 'dist/pages', {recursive: true}); fs.cpSync('pages', 'wsms-offline/pages', {recursive: true}); fs.writeFileSync('dist/.nojekyll', ''); fs.writeFileSync('wsms-offline/.nojekyll', ''); fs.copyFileSync('dist/index.html', '404.html'); fs.copyFileSync('dist/index.html', 'dist/404.html'); fs.copyFileSync('dist/index.html', 'wsms-offline/404.html'); console.log('Optimized offline assets in root, dist, and wsms-offline');\"",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"

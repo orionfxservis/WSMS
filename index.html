@@ -20,20 +20,29 @@
   <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
     <div id="root"></div>
 
-    <!-- Offline fallback runner: When opened via file:/// or static hosting, loads the bundled app -->
+    <!-- Vite Entry Point (Required for Vite dev and production build) -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Standalone & GitHub Pages Static Runner -->
     <script>
       (function() {
-        var isOfflineOrStatic = window.location.protocol === 'file:' || (window.location.port !== '3000' && !window.location.hostname.includes('run.app'));
-        if (isOfflineOrStatic) {
-          var s = document.createElement('script');
-          s.defer = true;
-          s.src = './assets/app.js';
-          document.body.appendChild(s);
+        var isStaticOrGitHub = window.location.protocol === 'file:' || (window.location.port !== '3000' && !window.location.hostname.includes('run.app'));
+        if (isStaticOrGitHub) {
+          // If running directly on GitHub Pages root or static hosting where raw /src/main.tsx cannot be processed
+          window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+              var root = document.getElementById('root');
+              if (root && (!root.firstElementChild || root.children.length === 0)) {
+                var s = document.createElement('script');
+                s.type = 'module';
+                s.crossOrigin = 'anonymous';
+                s.src = './assets/app.js';
+                document.body.appendChild(s);
+              }
+            }, 100);
+          });
         }
       })();
     </script>
-
-    <!-- Vite Dev Module for AI Studio development server -->
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

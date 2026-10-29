@@ -20,30 +20,25 @@
   <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
     <div id="root"></div>
 
-    <!-- 1. Vite Development & Build Entry Point -->
-    <script type="module" src="./src/main.tsx"></script>
-
-    <!-- 2. Universal Static / GitHub Pages / Local Offline Runner -->
+    <!-- Universal Zero-NPM Application Loader: Works on file:///, GitHub Pages, and all web servers -->
     <script>
       (function() {
-        function checkAndMount() {
-          var root = document.getElementById('root');
-          if (root && (!root.firstElementChild || root.children.length === 0)) {
-            var bundle = document.createElement('script');
-            bundle.src = './assets/app.js';
-            document.body.appendChild(bundle);
-          }
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(checkAndMount, 80);
-          });
+        var appScript = document.createElement('script');
+        if (location.protocol === 'file:') {
+          // On local file:/// double-click, classic script avoids CORS null origin restriction
+          appScript.src = './assets/app.js';
         } else {
-          setTimeout(checkAndMount, 80);
+          // On GitHub Pages / web servers, load with modern module tag with automatic fallback
+          appScript.type = 'module';
+          appScript.crossOrigin = '';
+          appScript.src = './assets/app.js';
+          appScript.onerror = function() {
+            var fallback = document.createElement('script');
+            fallback.src = './assets/app.js';
+            document.body.appendChild(fallback);
+          };
         }
-
-        setTimeout(checkAndMount, 400);
+        document.body.appendChild(appScript);
       })();
     </script>
   </body>

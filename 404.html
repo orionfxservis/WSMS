@@ -9,41 +9,36 @@
     <meta property="og:description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/png" href="./assets/app.png" />
+    <link rel="icon" type="image/png" href="./logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     
     <!-- Static compiled stylesheet: loads immediately on file:/// and GitHub Pages -->
-    <script type="module" crossorigin src="./assets/app.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/app.css">
+    <link rel="stylesheet" href="./assets/app.css" />
   </head>
   <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
     <div id="root"></div>
 
-    <!-- 1. Vite Development & Build Entry Point -->
-
-    <!-- 2. Universal Static / GitHub Pages / Local Offline Runner -->
+    <!-- Universal Zero-NPM Application Loader: Works on file:///, GitHub Pages, and all web servers -->
     <script>
       (function() {
-        function checkAndMount() {
-          var root = document.getElementById('root');
-          if (root && (!root.firstElementChild || root.children.length === 0)) {
-            var bundle = document.createElement('script');
-            bundle.src = './assets/app.js';
-            document.body.appendChild(bundle);
-          }
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(checkAndMount, 80);
-          });
+        var appScript = document.createElement('script');
+        if (location.protocol === 'file:') {
+          // On local file:/// double-click, classic script avoids CORS null origin restriction
+          appScript.src = './assets/app.js';
         } else {
-          setTimeout(checkAndMount, 80);
+          // On GitHub Pages / web servers, load with modern module tag with automatic fallback
+          appScript.type = 'module';
+          appScript.crossOrigin = '';
+          appScript.src = './assets/app.js';
+          appScript.onerror = function() {
+            var fallback = document.createElement('script');
+            fallback.src = './assets/app.js';
+            document.body.appendChild(fallback);
+          };
         }
-
-        setTimeout(checkAndMount, 400);
+        document.body.appendChild(appScript);
       })();
     </script>
   </body>

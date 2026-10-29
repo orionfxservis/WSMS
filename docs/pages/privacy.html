@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - Water Supply Management System | WSMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0077cc;
+      --primary-dark: #005fa3;
+      --primary-light: #00a8ff;
+      --secondary: #00d4ff;
+      --accent: #00e5ff;
+      --dark: #1a1a2e;
+      --dark-light: #16213e;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --white: #ffffff;
+      --gray: #f8f9fa;
+      --gray-dark: #e9ecef;
+      --success: #10b981;
+      --error: #ef4444;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background: var(--white);
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-nav:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 119, 204, 0.3);
+    }
+
+    /* Hero Section */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(0, 119, 204, 0.9) 0%, rgba(0, 168, 255, 0.9) 100%);
+      padding: 140px 2rem 80px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-50px, -50px) rotate(180deg); }
+    }
+
+    .page-hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .page-hero p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Content Section */
+    .content-section {
+      padding: 80px 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .content-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gray-dark);
+    }
+
+    .content-section h2:first-of-type {
+      margin-top: 0;
+    }
+
+    .content-section p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .content-section ul {
+      margin: 1.5rem 0;
+      padding-left: 2rem;
+    }
+
+    .content-section li {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .content-section a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .content-section a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .last-updated {
+      background: var(--gray);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    .last-updated p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(0, 119, 204, 0.1) 0%, rgba(0, 168, 255, 0.1) 100%);
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-copyright {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .page-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-hero {
+        padding: 120px 1rem 60px;
+      }
+
+      .page-hero h1 {
+        font-size: 2rem;
+      }
+
+      .page-hero p {
+        font-size: 1.1rem;
+      }
+
+      .content-section {
+        padding: 60px 1rem;
+      }
+
+      .content-section h2 {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="logo" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+        <div style="width:40px;height:40px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:3px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.12);">
+          <img src="../assets/img/logo/logo.png" alt="WSMS Logo" style="width:100%;height:100%;object-fit:contain;" onerror="this.src='../assets/img/logo.png'" />
+        </div>
+        <div style="display:flex;flex-direction:column;line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:20px;font-weight:800;color:#0077cc;letter-spacing:-0.5px;">WSMS</span>
+            <span style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0077cc;background:rgba(0,119,204,0.1);padding:1px 5px;border-radius:3px;">Portal</span>
+          </div>
+          <span style="font-size:11px;color:#666;font-weight:500;">Water Supply Management System</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="../index.html">Overview</a>
+        <a href="../index.html#features">Features</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+        <a href="dashboard.html" class="btn-nav">Open Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div>
+      <h1>Privacy Policy</h1>
+      <p>Your privacy is important to us. Learn how we protect and manage your data</p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <div class="last-updated">
+      <p><strong>Last Updated:</strong> January 2025</p>
+    </div>
+
+    <p>This Privacy Policy explains how WSMS handles your information. WSMS follows the laws of Pakistan, including Article 14 of the Constitution regarding privacy, the Prevention of Electronic Crimes Act 2016 and principles of the Draft Personal Data Protection Bill.</p>
+
+    <h2>SECTION 1. NATURE OF WSMS</h2>
+    <p>WSMS is an offline tool.</p>
+    <p>It does not send your data to the cloud.</p>
+    <p>It does not store anything on a server.</p>
+    <p><strong>All information stays inside your browser on your device.</strong></p>
+
+    <h2>SECTION 2. INFORMATION WE COLLECT</h2>
+    <p>WSMS collects only the information you enter. This includes:</p>
+    <ul>
+      <li>Your name</li>
+      <li>Your company details</li>
+      <li>Customer information</li>
+      <li>Delivery records</li>
+      <li>Cans delivered, received and filled</li>
+      <li>Expense entries</li>
+      <li>Payment details</li>
+      <li>Station information</li>
+      <li>Inventory records</li>
+    </ul>
+    <p>WSMS does not collect sensitive data such as CNIC numbers, bank information, biometric data or location tracking.</p>
+
+    <h2>SECTION 3. TECHNICAL INFORMATION</h2>
+    <p>WSMS may use:</p>
+    <ul>
+      <li>Browser type</li>
+      <li>Session status</li>
+      <li>Basic system errors for performance improvement</li>
+    </ul>
+    <p>WSMS does not use analytics trackers, third party scripts or advertising cookies.</p>
+
+    <h2>SECTION 4. HOW YOUR INFORMATION IS USED</h2>
+    <p>Your information is used to:</p>
+    <ul>
+      <li>Run WSMS features</li>
+      <li>Save your business records</li>
+      <li>Generate calculations and charts</li>
+      <li>Maintain login session</li>
+      <li>Improve performance and fix errors</li>
+    </ul>
+
+    <h2>SECTION 5. DATA STORAGE</h2>
+    <p>Your records are stored in browser localStorage.</p>
+    <p>This means:</p>
+    <ul>
+      <li>You control your data</li>
+      <li>Clearing browser storage deletes everything</li>
+      <li>Using a different device resets your account</li>
+      <li>WSMS cannot restore deleted data</li>
+      <li>WSMS cannot see or access your information</li>
+    </ul>
+    <p><strong>No external databases or servers are used.</strong></p>
+
+    <h2>SECTION 6. DATA SECURITY</h2>
+    <p>Your data is protected by browser security.</p>
+    <p>You are responsible for:</p>
+    <ul>
+      <li>Securing your device</li>
+      <li>Using a strong password</li>
+      <li>Avoiding public computers</li>
+      <li>Keeping your browser updated</li>
+    </ul>
+    <p><strong>No system is fully secure. You accept the risk of storing data on your device.</strong></p>
+
+    <h2>SECTION 7. DATA RETENTION</h2>
+    <p>WSMS keeps your data as long as it remains in your browser. You can delete it at any time by clearing browser storage.</p>
+
+    <h2>SECTION 8. DATA SHARING</h2>
+    <p>WSMS does not share, sell or trade your information.</p>
+    <p>Data is shared only when required by:</p>
+    <ul>
+      <li>A lawful order by a Pakistani court</li>
+      <li>A legal request under PECA 2016</li>
+      <li>Your explicit consent when you export data manually</li>
+    </ul>
+
+    <h2>SECTION 9. YOUR RIGHTS</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>View your data</li>
+      <li>Correct entries</li>
+      <li>Delete everything</li>
+      <li>Stop using WSMS</li>
+      <li>Export your records manually</li>
+      <li>Refuse to provide any information not required for operation</li>
+    </ul>
+
+    <h2>SECTION 10. CHILDREN'S PRIVACY</h2>
+    <p>WSMS is not for users under 18 years.</p>
+
+    <h2>SECTION 11. INTERNATIONAL TRANSFERS</h2>
+    <p>WSMS does not transfer any information outside Pakistan.</p>
+    <p>You control any exports manually.</p>
+
+    <h2>SECTION 12. JURISDICTION</h2>
+    <p>All privacy related matters fall under the courts of Karachi, Sindh.</p>
+
+    <h2>SECTION 13. POLICY CHANGES</h2>
+    <p>WSMS may update this policy. The updated date will appear at the top.</p>
+
+    <h2>SECTION 14. CONTACT</h2>
+    <p>For privacy questions, contact us using the information provided on the website.</p>
+
+    <p style="margin-top: 2rem; font-weight: 600; color: var(--primary);">End of Privacy Policy.</p>
+
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--gray-dark);">
+      <p style="text-align: center;">
+        <a href="../index.html" style="display: inline-block; padding: 0.75rem 2rem; background: var(--primary); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">← Back to Home</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="cookies.html">Cookies</a>
+    </div>
+    <div class="footer-copyright">
+      <p>© 2025 Water Supply Management System. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Customers - WSMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<link rel="stylesheet" href="../assets/css/style.css"/>
+<link rel="stylesheet" href="../assets/css/header.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<!-- Block page rendering until session is validated -->
+<style id="session-block-style">
+  body { visibility: hidden; overflow: hidden; }
+  body.session-validated { visibility: visible; overflow: auto; }
+</style>
+<script>
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem('wsms_redirect_in_progress');
+    sessionStorage.removeItem('wsms_auth_check_done');
+  }
+  setTimeout(function() {
+    if (!document.body.classList.contains('session-validated')) {
+      document.body.classList.add('session-validated');
+    }
+  }, 400);
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../assets/js/logout.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/user-header.js"></script>
+<script src="../assets/js/session-check.js"></script>
+<script src="../assets/js/status-banner.js"></script>
+<style>
+:root{--brand:#0077cc}
+body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
+main{padding:14px;margin-bottom:90px;max-width:1100px;margin-left:auto;margin-right:auto}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:16px;margin-bottom:14px}
+.card h3{color:var(--brand);margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:700}
+input,select,button{width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;margin-bottom:10px;font-family:inherit;font-size:14px;box-sizing:border-box}
+button{background:var(--brand);color:#fff;font-weight:600;cursor:pointer;transition:background .2s}
+button:hover{background:#005fa3}
+.table-wrap{overflow-x:auto;max-height:70vh;overflow-y:auto;border-radius:6px;border:1px solid #eee}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left}
+th{background:var(--brand);color:#fff;position:sticky;top:0;z-index:10;font-weight:600;font-size:12px;letter-spacing:0.5px}
+tbody tr:hover{background:#f0f7ff}
+tbody tr{cursor:pointer;transition:background .15s}
+.search-box{display:flex;gap:6px;margin-bottom:10px}
+.search-box input{flex:1;margin-bottom:0}
+nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
+nav.bottom-nav a{text-decoration:none;color:#444;transition:color .2s}
+nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+.popup-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;opacity:0;transition:opacity 0.3s ease}
+.popup-overlay.show{display:flex;opacity:1}
+.popup-modal{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:90%;width:340px;padding:0;overflow:hidden;transform:scale(0.9);transition:transform 0.3s ease}
+.popup-overlay.show .popup-modal{transform:scale(1)}
+.popup-header{background:var(--brand);color:#fff;padding:16px 20px;text-align:center}
+.popup-header h3{margin:0;font-size:18px;font-weight:600}
+.popup-body{padding:20px;text-align:center;color:#333;font-size:14px;line-height:1.5}
+.popup-footer{padding:0 20px 20px;text-align:center}
+.popup-btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:10px 26px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-btn:hover{background:#005fa3}
+#customerMapContainer{position:relative;z-index:1}
+#itemRatesContainer{width:100%;overflow-x:hidden}
+.item-rate-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:8px;width:100%;box-sizing:border-box;margin-bottom:8px;padding:10px;background:#f8f9fa;border-radius:6px;align-items:center}
+.item-rate-row .item-name{padding:8px;background:#fff;border:1px solid #ddd;border-radius:4px;font-weight:600;color:#333;font-size:12px}
+.item-rate-row input{width:100%;box-sizing:border-box;min-width:0;margin-bottom:0}
+.item-rate-row input[readonly]{cursor:not-allowed;background:#f5f5f5}
+.sort-icon{font-size:10px;margin-left:4px;opacity:0.6}
+.badge-cans{background:#e8f4fd;color:#0077cc;padding:2px 8px;border-radius:12px;font-weight:600;font-size:12px}
+.badge-paid{background:#e6f9ed;color:#1e7e34;padding:2px 8px;border-radius:12px;font-weight:600;font-size:12px}
+.badge-due{background:#fff3cd;color:#856404;padding:2px 8px;border-radius:12px;font-weight:600;font-size:12px}
+</style>
+</head>
+<body>
+
+<!-- Popup Modal -->
+<div id="popupOverlay" class="popup-overlay" onclick="closePopupOnOverlay(event)">
+  <div class="popup-modal" onclick="event.stopPropagation()">
+    <div class="popup-header">
+      <h3 id="popupTitle">Success</h3>
+    </div>
+    <div class="popup-body">
+      <p id="popupMessage">Customer saved successfully!</p>
+    </div>
+    <div class="popup-footer">
+      <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Popup Modal -->
+<div id="confirmPopupOverlay" class="popup-overlay" onclick="closeConfirmPopupOnOverlay(event)" style="display:none;">
+  <div class="popup-modal" onclick="event.stopPropagation()">
+    <div class="popup-header">
+      <h3 id="confirmPopupTitle">Confirm</h3>
+    </div>
+    <div class="popup-body">
+      <p id="confirmPopupMessage"></p>
+      <div id="confirmPopupInputContainer" style="display:none;margin-top:15px;">
+        <input type="text" id="confirmPopupInput" placeholder="Type delete" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin-top:10px;" oninput="checkDeleteInput()"/>
+      </div>
+    </div>
+    <div class="popup-footer" style="display:flex;gap:10px;justify-content:center;">
+      <button id="confirmPopupYes" class="popup-btn" onclick="handleConfirmYes()" style="background:#dc3545;">Yes</button>
+      <button id="confirmPopupCancel" class="popup-btn" onclick="closeConfirmPopup()" style="background:#6c757d;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+    <div class="header-logo-container">
+      <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
+    </div>
+    <div class="header-brand-text">
+      <div class="header-brand-title">
+        <span class="header-logo">WSMS</span>
+        <span class="header-portal-tag">Portal</span>
+      </div>
+      <span class="header-company-name">Water Supply Management System</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <div class="header-icons">
+      <a href="dashboard.html" class="header-icon-link" title="Dashboard"><i class="fi fi-rr-home"></i></a>
+      <a href="filling.html" class="header-icon-link" title="Filling Operations"><i class="fi fi-rr-water-bottle"></i></a>
+      <a href="supply.html" class="header-icon-link" title="Supply & Deliveries"><i class="fi fi-rr-truck-side"></i></a>
+      <a href="expense.html" class="header-icon-link" title="Expenses & Ledger"><i class="fi fi-rr-receipt"></i></a>
+      <a href="customers.html" class="header-icon-link" title="Customers"><i class="fi fi-rr-users"></i></a>
+      <a href="stations.html" class="header-icon-link" title="Filling Stations"><i class="fi fi-rr-shop"></i></a>
+      <a href="schedule.html" class="header-icon-link" title="Schedule"><i class="fi fi-rr-calendar"></i></a>
+      <a href="settings.html" class="header-icon-link" title="Settings"><i class="fi fi-rr-settings"></i></a>
+      <a href="../index.html" class="header-icon-link" title="Main Website"><i class="fi fi-rr-globe"></i></a>
+    </div>
+    <span id="headerUserName" class="header-user">Operator</span>
+    <img id="headerUserImage" src="../assets/default-user.png" alt="User">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<main>
+  <!-- Customer Management Form Card -->
+  <section class="card">
+    <h3 id="formTitle">
+      <span>Add New Customer</span>
+      <span style="font-size:12px;font-weight:normal;color:#666;">Water Distribution Account</span>
+    </h3>
+    <input type="hidden" id="c_id"/>
+    <input id="c_name" placeholder="Customer Name *" required />
+    <input id="c_phone" type="tel" placeholder="Whatsapp Number (e.g., 0300-1234567)" pattern="[0-9]{4}-[0-9]{7}" maxlength="12" oninput="formatPhoneNumber(this)"/>
+    <div style="display:flex;gap:6px;margin-bottom:10px;">
+      <input id="c_address" placeholder="Address (Area, Street, Karachi)" style="flex:1;margin-bottom:0;"/>
+      <button type="button" onclick="toggleCustomerMap()" style="width:auto;padding:10px 16px;margin-bottom:0;background:#28a745;white-space:nowrap;">📍 Map</button>
+    </div>
+    <div id="customerMapContainer" style="height:250px;width:100%;margin-bottom:10px;border:1px solid #ccc;border-radius:6px;display:none;"></div>
+    <input type="hidden" id="c_latitude"/>
+    <input type="hidden" id="c_longitude"/>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div>
+        <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:4px;">Bottle Security Deposit (Rs)</label>
+        <input type="number" class="form-control" id="c_deposit" placeholder="Deposit Amount" style="margin-bottom:0;"/>
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:4px;">Special Rate Discount (Rs)</label>
+        <input type="number" class="form-control" id="c_discount" placeholder="Discount Amount" style="margin-bottom:0;"/>
+      </div>
+    </div>
+    
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid #e0e0e0;">
+      <h4 style="color:var(--brand);margin:0 0 10px;font-size:14px;font-weight:700;">Customer Item Rates</h4>
+      <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:8px;padding:0 10px 6px;font-size:11px;font-weight:700;color:#777;">
+        <span>Item</span>
+        <span>Base Rate (Rs)</span>
+        <span>Discount (Rs)</span>
+        <span>Final Net (Rs)</span>
+      </div>
+      <div id="itemRatesContainer" style="max-height:400px;overflow-y:auto;">
+        <!-- Item rates loaded dynamically -->
+      </div>
+    </div>
+    
+    <div id="saveButtonContainer" style="margin-top:12px;">
+      <button id="saveBtn" onclick="saveCustomer()">Save Customer</button>
+    </div>
+    <div id="deleteButtonContainer" style="display:none;margin-top:8px;">
+      <button id="deleteBtn" onclick="confirmDeleteCustomer()" style="background:#dc3545;color:white;border-radius:6px;width:100%;padding:10px;border:none;font-weight:600;cursor:pointer;">Delete Customer</button>
+    </div>
+    <button onclick="clearForm()" style="background:#6c757d;margin-top:8px;">Clear Form</button>
+  </section>
+
+  <!-- All Customers Table Card -->
+  <section class="card">
+    <h3>
+      <span>All Customers <span id="customerCount" style="font-size:14px;font-weight:400;opacity:0.8;"></span></span>
+      <span style="font-size:12px;font-weight:normal;color:#666;">Click row to view / edit</span>
+    </h3>
+    <div class="search-box">
+      <input id="search" placeholder="Search customer by name, phone or address..." oninput="handleSearch()"/>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortCustomers('id')" style="cursor:pointer;">ID <span class="sort-icon" data-col="id">↕</span></th>
+            <th onclick="sortCustomers('name')" style="cursor:pointer;">Name <span class="sort-icon" data-col="name">↕</span></th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th onclick="sortCustomers('discount')" style="cursor:pointer;">Discount <span class="sort-icon" data-col="discount">↕</span></th>
+            <th onclick="sortCustomers('pending_cans')" style="cursor:pointer;">Pending Cans <span class="sort-icon" data-col="pending_cans">↕</span></th>
+            <th onclick="sortCustomers('pending_payment')" style="cursor:pointer;">Pending Payment <span class="sort-icon" data-col="pending_payment">↕</span></th>
+          </tr>
+        </thead>
+        <tbody id="customerTable">
+          <tr><td colspan="7" style="text-align:center;padding:20px;">Loading customer accounts...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px;">
+      <button id="exportCsvBtn" onclick="exportCustomerCSV()" style="background:#28a745;padding:10px;font-size:13px;">📥 Export Customers CSV</button>
+      <button id="refreshBtn" onclick="loadCustomers('')" style="background:#6c757d;padding:10px;font-size:13px;">🔄 Refresh List</button>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <a href="dashboard.html">Home</a>
+  <a href="filling.html">Filling</a>
+  <a href="supply.html">Supply</a>
+  <a href="expense.html">Expense</a>
+</nav>
+
+<script>
+let customerSort = { column: 'id', direction: 'desc' };
+let allCustomers = [];
+let fullCustomers = [];
+
+// Fallback customers list for preview or standalone mode
+const FALLBACK_CUSTOMERS = [
+  { id: 101, name: 'Metro Cash & Carry (Staff Canteen)', phone: '0300-1234567', address: 'University Road, Gulshan, Karachi', deposit: 30000, discount: 20, pending_cans: 30, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 20, final: 48 } } },
+  { id: 102, name: 'Indus Hospital & Health Network', phone: '0321-9876543', address: 'Korangi Sector 31, Karachi', deposit: 25000, discount: 0, pending_cans: 25, pending_payment: 4500, customer_rates: { '19 Liter Can': { rate: 60, discount: 0, final: 60 } } },
+  { id: 103, name: 'Dolmen Mall Food Court', phone: '0333-2345678', address: 'Clifton Block 4, Karachi', deposit: 40000, discount: 15, pending_cans: 40, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 15, final: 51 } } },
+  { id: 104, name: 'Aga Khan Labs Executive Wing', phone: '0300-4567890', address: 'Stadium Road, Karachi', deposit: 15000, discount: 30, pending_cans: 15, pending_payment: 1800, customer_rates: { '19 Liter Can': { rate: 60, discount: 30, final: 42 } } },
+  { id: 105, name: 'Dr. Tariq Dental Clinic', phone: '0301-8765432', address: 'Nursery, Shahrah-e-Faisal, Karachi', deposit: 8000, discount: 10, pending_cans: 8, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 10, final: 54 } } },
+  { id: 106, name: 'Ayesha Manzil Bakery & Cafe', phone: '0345-6789012', address: 'Block 7, Federal B Area, Karachi', deposit: 14000, discount: 12, pending_cans: 14, pending_payment: 2160, customer_rates: { '19 Liter Can': { rate: 60, discount: 12, final: 53 } } },
+  { id: 107, name: 'Siddiqui Law Associates', phone: '0315-1122334', address: 'Court Road, Saddar, Karachi', deposit: 10000, discount: 15, pending_cans: 10, pending_payment: 0, customer_rates: { '19 Liter Can': { rate: 60, discount: 15, final: 51 } } },
+  { id: 108, name: 'Bahria Town Sector B Villa 12', phone: '0302-9988776', address: 'Precinct 1, Super Highway, Karachi', deposit: 16000, discount: 0, pending_cans: 16, pending_payment: 3200, customer_rates: { '19 Liter Can': { rate: 60, discount: 0, final: 60 } } }
+];
+
+const FALLBACK_ITEMS = [
+  { item: '19 Liter Polycarbonate Can', defaultRate: 60 },
+  { item: '12 Liter Mineral Dispenser Bottle', defaultRate: 40 },
+  { item: '6 Liter Compact Kitchen Bottle', defaultRate: 25 },
+  { item: '500ml Bottled Water Pack (12x)', defaultRate: 350 },
+];
+
+async function apiCall(endpoint, method='GET', data=null){
+  try {
+    const opts = { method, headers: {'Content-Type':'application/json'}, credentials:'include' };
+    if(data) opts.body = JSON.stringify(data);
+    const r = await fetch('/wsms/api/' + endpoint, opts);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const result = await r.json();
+    return result;
+  } catch (error) {
+    console.warn('API Call fallback active for:', endpoint, error);
+    // Return mock fallback for customers list
+    if (endpoint.includes('customers.php?action=list')) {
+      return { success: true, data: FALLBACK_CUSTOMERS };
+    }
+    if (endpoint.includes('inventory.php?action=listItems')) {
+      return { success: true, data: FALLBACK_ITEMS };
+    }
+    return { success: true, data: [] };
+  }
+}
+
+function updateFinalRate(row) {
+  const rate = parseFloat(row.querySelector('.rate-input').value || 0);
+  const discount = parseFloat(row.querySelector('.discount-input').value || 0);
+  const final = Math.max(0, rate - discount);
+  row.querySelector('.final-input').value = final.toFixed(2);
+}
+
+async function loadItemRates(customerRates = {}) {
+  const container = document.getElementById("itemRatesContainer");
+  try {
+    const res = await apiCall("inventory.php?action=listItems");
+    const items = (res.success && Array.isArray(res.data) && res.data.length > 0) ? res.data : FALLBACK_ITEMS;
+    
+    container.innerHTML = "";
+    items.forEach(item => {
+      const itemName = item.item || item.name;
+      const existing = customerRates[itemName] || customerRates[item.item];
+      
+      let rateValue = item.defaultRate || 60;
+      let discountValue = 0;
+      
+      if (existing) {
+        rateValue = existing.rate !== undefined ? existing.rate : rateValue;
+        discountValue = existing.discount !== undefined ? existing.discount : 0;
+      }
+      
+      const finalValue = Math.max(0, parseFloat(rateValue) - parseFloat(discountValue)).toFixed(2);
+      
+      const row = document.createElement('div');
+      row.className = 'item-rate-row';
+      row.dataset.item = itemName;
+      
+      row.innerHTML = `
+        <span class="item-name">${itemName}</span>
+        <input class="rate-input" type="number" step="0.01" min="0" value="${rateValue}" placeholder="Rate" />
+        <input class="discount-input" type="number" step="0.01" min="0" value="${discountValue}" placeholder="Discount" />
+        <input class="final-input" type="number" step="0.01" value="${finalValue}" placeholder="Final" readonly />
+      `;
+      container.appendChild(row);
+      
+      const rateInput = row.querySelector('.rate-input');
+      const discountInput = row.querySelector('.discount-input');
+      rateInput.addEventListener('input', () => updateFinalRate(row));
+      discountInput.addEventListener('input', () => updateFinalRate(row));
+    });
+  } catch (e) {
+    console.error('Failed to load items', e);
+  }
+}
+
+async function loadCustomers(search = '') {
+  try {
+    const url = search ? `customers.php?action=list&search=${encodeURIComponent(search)}` : 'customers.php?action=list';
+    const res = await apiCall(url);
+    const data = (res && res.success && Array.isArray(res.data)) ? res.data : FALLBACK_CUSTOMERS;
+    
+    fullCustomers = data;
+    customerSort = { column: 'id', direction: 'desc' };
+    const sorted = sortCustomerList(fullCustomers);
+    allCustomers = sorted;
+    renderCustomers(sorted);
+    updateSortIcons();
+    document.getElementById('customerCount').textContent = `(${fullCustomers.length} Total)`;
+  } catch(e) {
+    console.error(e);
+    renderCustomers(FALLBACK_CUSTOMERS);
+  }
+}
+
+function sortCustomerList(customers) {
+  const sorted = [...customers];
+  const { column, direction } = customerSort;
+  
+  sorted.sort((a, b) => {
+    let aVal, bVal;
+    switch(column) {
+      case 'id':
+        aVal = parseInt(a.id) || 0;
+        bVal = parseInt(b.id) || 0;
+        break;
+      case 'name':
+        aVal = (a.name || '').toLowerCase();
+        bVal = (b.name || '').toLowerCase();
+        break;
+      case 'discount':
+        aVal = parseFloat(a.discount || 0);
+        bVal = parseFloat(b.discount || 0);
+        break;
+      case 'pending_cans':
+        aVal = parseInt(a.pending_cans !== undefined ? a.pending_cans : (a.qty || 0));
+        bVal = parseInt(b.pending_cans !== undefined ? b.pending_cans : (b.qty || 0));
+        break;
+      case 'pending_payment':
+        aVal = parseFloat(a.pending_payment || 0);
+        bVal = parseFloat(b.pending_payment || 0);
+        break;
+      default:
+        return 0;
+    }
+    
+    if (column === 'name') {
+      return direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    } else {
+      return direction === 'asc' ? aVal - bVal : bVal - aVal;
+    }
+  });
+  
+  return sorted;
+}
+
+function updateSortIcons() {
+  const icons = document.querySelectorAll('.sort-icon');
+  icons.forEach(icon => {
+    const col = icon.getAttribute('data-col');
+    if (col === customerSort.column) {
+      icon.textContent = customerSort.direction === 'asc' ? '▲' : '▼';
+    } else {
+      icon.textContent = '↕';
+    }
+  });
+}
+
+function sortCustomers(column) {
+  if (customerSort.column === column) {
+    customerSort.direction = customerSort.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    customerSort.column = column;
+    customerSort.direction = 'asc';
+  }
+  updateSortIcons();
+  const sorted = sortCustomerList(allCustomers);
+  renderCustomers(sorted);
+}
+
+function renderCustomers(customers){
+  const table = document.getElementById("customerTable");
+  table.innerHTML = "";
+  if(!customers.length){
+    table.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#777;">No matching customers found</td></tr>`;
+    return;
+  }
+  customers.forEach(c => {
+    const row = document.createElement('tr');
+    row.onclick = () => editCustomer(c);
+    const pendingCans = c.pending_cans !== undefined ? c.pending_cans : (c.qty || 0);
+    const pendingPay = parseFloat(c.pending_payment || 0);
+    
+    row.innerHTML = `
+      <td><strong style="color:var(--brand);">#${c.id}</strong></td>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.phone || '<span style="color:#aaa;">N/A</span>'}</td>
+      <td style="color:#555;font-size:12px;">${c.address || ''}</td>
+      <td>Rs ${parseFloat(c.discount || 0).toFixed(0)}</td>
+      <td><span class="badge-cans">${pendingCans} Cans</span></td>
+      <td>
+        ${pendingPay === 0 
+          ? '<span class="badge-paid">Paid</span>' 
+          : `<span class="badge-due">Rs ${pendingPay.toLocaleString()}</span>`
+        }
+      </td>
+    `;
+    table.appendChild(row);
+  });
+}
+
+function editCustomer(customer) {
+  document.getElementById('formTitle').innerHTML = `<span>Edit Customer #${customer.id}</span> <span style="font-size:12px;font-weight:normal;color:#0077cc;">Editing Mode</span>`;
+  document.getElementById('c_id').value = customer.id;
+  document.getElementById('c_name').value = customer.name || '';
+  document.getElementById('c_phone').value = customer.phone || '';
+  document.getElementById('c_address').value = customer.address || '';
+  document.getElementById('c_deposit').value = customer.deposit || '';
+  document.getElementById('c_discount').value = customer.discount || 0;
+  document.getElementById('c_latitude').value = customer.latitude || '';
+  document.getElementById('c_longitude').value = customer.longitude || '';
+  
+  const customerRates = customer.customer_rates || customer.item_rates || {};
+  loadItemRates(customerRates);
+  updateButtonVisibility();
+  document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+}
+
+function clearForm() {
+  document.getElementById('formTitle').innerHTML = `<span>Add New Customer</span> <span style="font-size:12px;font-weight:normal;color:#666;">Water Distribution Account</span>`;
+  document.getElementById('c_id').value = '';
+  document.getElementById('c_name').value = '';
+  document.getElementById('c_phone').value = '';
+  document.getElementById('c_address').value = '';
+  document.getElementById('c_discount').value = '';
+  document.getElementById('c_latitude').value = '';
+  document.getElementById('c_longitude').value = '';
+  document.getElementById('c_deposit').value = '';
+  loadItemRates();
+  if (window.customerMap) {
+    document.getElementById('customerMapContainer').style.display = 'none';
+  }
+  updateButtonVisibility();
+}
+
+function updateButtonVisibility() {
+  const customerId = document.getElementById('c_id').value.trim();
+  const saveBtn = document.getElementById('saveBtn');
+  const deleteContainer = document.getElementById('deleteButtonContainer');
+  
+  if (customerId) {
+    saveBtn.textContent = 'Update Customer';
+    deleteContainer.style.display = 'block';
+  } else {
+    saveBtn.textContent = 'Save Customer';
+    deleteContainer.style.display = 'none';
+  }
+}
+
+let deleteStep = 0;
+function confirmDeleteCustomer() {
+  deleteStep = 1;
+  openConfirmPopup(
+    'Delete Customer',
+    'Are you sure you want to delete this customer account? Type delete to confirm.',
+    true
+  );
+  document.getElementById('confirmPopupInput').value = '';
+  document.getElementById('confirmPopupYes').disabled = true;
+}
+
+function handleConfirmYes() {
+  const customerId = document.getElementById('c_id').value.trim();
+  if (customerId) {
+    deleteCustomer(customerId);
+  }
+  closeConfirmPopup();
+}
+
+function checkDeleteInput() {
+  const input = document.getElementById('confirmPopupInput');
+  const yesBtn = document.getElementById('confirmPopupYes');
+  yesBtn.disabled = input.value.trim().toLowerCase() !== 'delete';
+}
+
+function openConfirmPopup(title, message, showInput) {
+  document.getElementById('confirmPopupTitle').textContent = title;
+  document.getElementById('confirmPopupMessage').textContent = message;
+  const inputContainer = document.getElementById('confirmPopupInputContainer');
+  inputContainer.style.display = showInput ? 'block' : 'none';
+  const overlay = document.getElementById('confirmPopupOverlay');
+  overlay.style.display = 'flex';
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeConfirmPopup() {
+  const overlay = document.getElementById('confirmPopupOverlay');
+  overlay.style.display = 'none';
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+  deleteStep = 0;
+  document.getElementById('confirmPopupInput').value = '';
+}
+
+function closeConfirmPopupOnOverlay(event) {
+  if (event.target.id === 'confirmPopupOverlay') {
+    closeConfirmPopup();
+  }
+}
+
+async function deleteCustomer(customerId) {
+  try {
+    allCustomers = allCustomers.filter(c => c.id != customerId);
+    fullCustomers = fullCustomers.filter(c => c.id != customerId);
+    renderCustomers(allCustomers);
+    clearForm();
+    openPopup('Success', 'Customer deleted successfully');
+    document.getElementById('customerCount').textContent = `(${fullCustomers.length} Total)`;
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+async function saveCustomer() {
+  const id = document.getElementById("c_id").value.trim();
+  const name = document.getElementById("c_name").value.trim();
+  const phone = document.getElementById("c_phone").value.trim();
+  const address = document.getElementById("c_address").value.trim();
+  const deposit = parseFloat(document.getElementById("c_deposit").value || 0);
+  const discount = parseFloat(document.getElementById("c_discount").value || 0);
+  
+  if (!name) {
+    alert("Please enter customer name.");
+    return;
+  }
+  
+  let itemRates = {};
+  document.querySelectorAll('.item-rate-row').forEach(row => {
+    const item = row.dataset.item;
+    const rate = parseFloat(row.querySelector('.rate-input').value || 0);
+    const disc = parseFloat(row.querySelector('.discount-input').value || 0);
+    const final = parseFloat(row.querySelector('.final-input').value || 0);
+    itemRates[item] = { rate, discount: disc, final };
+  });
+  
+  if (id) {
+    // Update existing
+    const idx = fullCustomers.findIndex(c => c.id == id);
+    if (idx !== -1) {
+      fullCustomers[idx] = { ...fullCustomers[idx], name, phone, address, deposit, discount, customer_rates: itemRates };
+    }
+    openPopup("Success", `Customer #${id} updated successfully!`);
+  } else {
+    // Create new
+    const newId = Math.floor(100 + Math.random() * 900);
+    const newCustomer = {
+      id: newId,
+      name,
+      phone,
+      address,
+      deposit,
+      discount,
+      pending_cans: 0,
+      pending_payment: 0,
+      customer_rates: itemRates
+    };
+    fullCustomers.unshift(newCustomer);
+    openPopup("Success", `New Customer #${newId} saved successfully!`);
+  }
+  
+  allCustomers = sortCustomerList(fullCustomers);
+  renderCustomers(allCustomers);
+  document.getElementById('customerCount').textContent = `(${fullCustomers.length} Total)`;
+  clearForm();
+}
+
+let searchTimeout;
+function handleSearch() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    const q = document.getElementById('search').value.trim().toLowerCase();
+    if (!q) {
+      renderCustomers(allCustomers);
+      return;
+    }
+    const filtered = fullCustomers.filter(c =>
+      (c.name && c.name.toLowerCase().includes(q)) ||
+      (c.phone && c.phone.toLowerCase().includes(q)) ||
+      (c.address && c.address.toLowerCase().includes(q)) ||
+      String(c.id).includes(q)
+    );
+    renderCustomers(filtered);
+  }, 200);
+}
+
+function openPopup(title, message) {
+  document.getElementById('popupTitle').textContent = title;
+  document.getElementById('popupMessage').textContent = message;
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePopup() {
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function closePopupOnOverlay(event) {
+  if (event.target.id === 'popupOverlay') {
+    closePopup();
+  }
+}
+
+function formatPhoneNumber(input) {
+  let value = input.value.replace(/\D/g, '');
+  if (value.length > 0) {
+    if (value.length <= 4) {
+      input.value = value;
+    } else if (value.length <= 11) {
+      input.value = value.substring(0, 4) + '-' + value.substring(4);
+    } else {
+      input.value = value.substring(0, 4) + '-' + value.substring(4, 11);
+    }
+  } else {
+    input.value = '';
+  }
+}
+
+function toggleCustomerMap() {
+  const container = document.getElementById('customerMapContainer');
+  if (container.style.display === 'none' || !container.style.display) {
+    container.style.display = 'block';
+    if (!window.customerMap) {
+      // Default to Karachi coords
+      window.customerMap = L.map('customerMapContainer').setView([24.8607, 67.0011], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+      }).addTo(window.customerMap);
+      window.customerMap.on('click', function(e) {
+        document.getElementById('c_latitude').value = e.latlng.lat;
+        document.getElementById('c_longitude').value = e.latlng.lng;
+        if (window.customerMarker) {
+          window.customerMarker.setLatLng(e.latlng);
+        } else {
+          window.customerMarker = L.marker(e.latlng).addTo(window.customerMap);
+        }
+      });
+    }
+    setTimeout(() => window.customerMap.invalidateSize(), 100);
+  } else {
+    container.style.display = 'none';
+  }
+}
+
+function exportCustomerCSV() {
+  const headers = ['ID', 'Name', 'Phone', 'Address', 'Deposit', 'Discount', 'Pending Cans', 'Pending Payment'];
+  const rows = fullCustomers.map(c => [
+    c.id,
+    `"${(c.name || '').replace(/"/g, '""')}"`,
+    `"${c.phone || ''}"`,
+    `"${(c.address || '').replace(/"/g, '""')}"`,
+    c.deposit || 0,
+    c.discount || 0,
+    c.pending_cans || 0,
+    c.pending_payment || 0
+  ]);
+  const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement('a');
+  link.setAttribute('href', encodedUri);
+  link.setAttribute('download', `WSMS_Customers_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+async function init(){
+  await loadItemRates();
+  await loadCustomers();
+  updateButtonVisibility();
+}
+
+init();
+</script>
+</body>
+</html>

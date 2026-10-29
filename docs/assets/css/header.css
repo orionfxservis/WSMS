@@ -1,0 +1,183 @@
+/**
+ * Unified Header Styles for WSMS
+ * Standardized header with consistent height, padding, and formatting
+ * Completely isolated from other CSS to prevent overrides
+ */
+
+/* Header Container */
+.header {
+  width: 100%;
+  background: #007bdb !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 16px !important;
+  height: 70px;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  position: relative;
+  z-index: 1000;
+}
+
+/* Header Left Section (Logo) */
+.header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px;
+}
+
+.header-left img {
+  height: 40px !important;
+  width: auto !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+}
+
+.header-logo {
+  font-size: 22px !important;
+  color: white !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+/* Header Right Section (User Info) */
+.header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px;
+}
+
+/* Header Icons Container */
+.header-icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px;
+}
+
+.header-icon-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transition: opacity 0.2s ease;
+}
+
+.header-icon-link:hover {
+  opacity: 0.8;
+}
+
+.header-icon-link i {
+  font-size: 22px;
+  color: #ffffff;
+  display: inline-block;
+}
+
+/* User Profile Image */
+.header-right img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  display: block;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* User Name */
+.header-user {
+  color: white !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap;
+}
+
+/* Logout Button - Must override all page-specific button styles */
+.header .logout-btn,
+.header button.logout-btn,
+.logout-btn {
+  background: white !important;
+  color: #007bdb !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  transition: opacity 0.2s ease;
+}
+
+.logout-btn:hover {
+  opacity: 0.9;
+}
+
+.logout-btn:active {
+  opacity: 0.8;
+}
+
+/* Override any global styles that might affect header */
+.header input,
+.header select,
+.header textarea {
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+/* Ensure no button styles from page CSS affect header buttons */
+.header button:not(.logout-btn),
+.header .header-icons button {
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+/* Profile Image - Enforce correct sizing and shape */
+#headerUserImage {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid white !important;
+}
+
+.header h1,
+.header h2,
+.header h3,
+.header h4,
+.header h5,
+.header h6 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure header is not affected by body styles */
+body .header {
+  margin: 0 !important;
+  padding: 10px 16px !important;
+}
+
+/* Global spacing rule - only ONE rule for main content spacing */
+main {
+  margin-top: 0 !important;
+}

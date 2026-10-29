@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Supply - WSMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<link rel="stylesheet" href="../assets/css/style.css"/>
+<link rel="stylesheet" href="../assets/css/header.css"/>
+
+<!-- Block page rendering until session is validated -->
+<style id="session-block-style">
+  body { visibility: hidden; overflow: hidden; }
+  body.session-validated { visibility: visible; overflow: auto; }
+</style>
+
+<script>
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem('wsms_redirect_in_progress');
+    sessionStorage.removeItem('wsms_auth_check_done');
+  }
+  setTimeout(function() {
+    if (!document.body.classList.contains('session-validated')) {
+      document.body.classList.add('session-validated');
+    }
+  }, 400);
+</script>
+
+<script src="../assets/js/logout.js"></script>
+<script src="../assets/js/wsms-store.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/user-header.js"></script>
+<script src="../assets/js/session-check.js"></script>
+<script src="../assets/js/status-banner.js"></script>
+
+<style>
+:root{--brand:#0077cc}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden;font-family:'Inter',system-ui,sans-serif}
+main{padding:14px;margin-bottom:90px}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
+.card h3{color:var(--brand);margin:0 0 10px;font-size:16px;font-weight:600}
+select,input,button{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:10px;font-size:14px}
+input:focus,select:focus{border-color:var(--brand);outline:none}
+button{background:var(--brand);color:#fff;font-weight:600;cursor:pointer;border:none;border-radius:6px;padding:12px 16px;transition:background 0.2s}
+button:hover{background:#005fa3}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+th{background:var(--brand);color:#fff;font-weight:600}
+tbody tr:hover{background:#f9fbfd}
+.hidden{display:none}
+nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
+nav.bottom-nav a{text-decoration:none;color:#444}
+nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+
+/* Popup Modal */
+.popup-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;opacity:0;transition:opacity 0.2s ease}
+.popup-overlay.show{display:flex;opacity:1}
+.popup-modal{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:90%;width:340px;overflow:hidden;transform:scale(0.9);transition:transform 0.2s ease}
+.popup-overlay.show .popup-modal{transform:scale(1)}
+.popup-header{background:var(--brand);color:#fff;padding:14px 18px;text-align:center}
+.popup-header h3{margin:0;font-size:17px;font-weight:600}
+.popup-body{padding:18px;text-align:center;color:#333;font-size:14px;line-height:1.5}
+.popup-footer{padding:0 18px 18px;text-align:center}
+.popup-btn{background:var(--brand);color:#fff;border:none;border-radius:6px;padding:8px 24px;font-size:14px;font-weight:600;cursor:pointer}
+.popup-btn:hover{background:#005fa3}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+    <div class="header-logo-container">
+      <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../logo.png'"/>
+    </div>
+    <div class="header-brand-text">
+      <div class="header-brand-title">
+        <span class="header-logo">WSMS</span>
+        <span class="header-portal-tag">Portal</span>
+      </div>
+      <span class="header-company-name">Water Supply Management System</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <div class="header-icons">
+      <a href="dashboard.html" class="header-icon-link" title="Dashboard"><i class="fi fi-rr-home"></i></a>
+      <a href="filling.html" class="header-icon-link" title="Filling Operations"><i class="fi fi-rr-water-bottle"></i></a>
+      <a href="supply.html" class="header-icon-link active" title="Supply & Deliveries"><i class="fi fi-rr-truck-side"></i></a>
+      <a href="expense.html" class="header-icon-link" title="Expenses & Ledger"><i class="fi fi-rr-receipt"></i></a>
+      <a href="customers.html" class="header-icon-link" title="Customers"><i class="fi fi-rr-users"></i></a>
+      <a href="stations.html" class="header-icon-link" title="Filling Stations"><i class="fi fi-rr-shop"></i></a>
+      <a href="inventory.html" class="header-icon-link" title="Inventory"><i class="fi fi-rr-boxes"></i></a>
+      <a href="report.html" class="header-icon-link" title="Reports"><i class="fi fi-rr-document"></i></a>
+      <a href="schedule.html" class="header-icon-link" title="Schedule"><i class="fi fi-rr-calendar"></i></a>
+      <a href="settings.html" class="header-icon-link" title="Settings"><i class="fi fi-rr-settings"></i></a>
+      <a href="../index.html" class="header-icon-link" title="Main Website"><i class="fi fi-rr-globe"></i></a>
+    </div>
+    <span id="headerUserName" class="header-user">User</span>
+    <img id="headerUserImage" src="../assets/default-user.png" alt="User" onerror="this.src='../logo.png'">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<main>
+  <!-- Standard 4 Summary Overview Cards matching Dashboard -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:10px;margin-bottom:12px;">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">In Circulation</span>
+      <span id="cardCirculation" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">1,250 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Filled in Depot</span>
+      <span id="cardFilled" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">480 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">In Transit</span>
+      <span id="cardTransit" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">320 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Empty for Refill</span>
+      <span id="cardEmpty" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">450 Cans</span>
+    </div>
+  </div>
+
+  <!-- Add Supply Record Card matching https://orionpixels.com/wsms/pages/supply.html -->
+  <section class="card">
+    <h3>Add Supply Record</h3>
+    <select id="customer" onchange="onCustomerChange()">
+      <option value="">Select Customer</option>
+    </select>
+    
+    <input type="date" id="date"/>
+    
+    <select id="item" onchange="onItemChange()">
+      <option value="">Select Item</option>
+    </select>
+    
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+      <input type="number" id="rate" placeholder="Rate" step="0.01" min="0" style="flex:1;min-width:100px;" oninput="calculateFinalRate()"/>
+      <input type="number" id="discount" placeholder="Discount" step="0.01" min="0" style="flex:1;min-width:100px;" oninput="calculateFinalRate()"/>
+      <input type="number" id="finalRate" placeholder="Final Rate" step="0.01" min="0" readonly style="background:#f0f0f0;flex:1;min-width:100px;"/>
+    </div>
+    
+    <input type="hidden" id="canSize"/>
+    <div id="canFields">
+      <input type="number" id="delivered" placeholder="Cans Delivered"/>
+      <input type="number" id="received" placeholder="Cans Returned"/>
+      <input type="number" id="balance" placeholder="Cans Balance" disabled/>
+    </div>
+    
+    <input type="hidden" id="time"/>
+    <select id="paymentType">
+      <option value="">Select Payment Type</option>
+      <option value="Cash">Cash</option>
+      <option value="Credit">Credit</option>
+    </select>
+    
+    <input type="number" id="amount" placeholder="Total Amount (Rs)" readonly style="background:#f0f0f0;"/>
+    <button onclick="addSupply()">Add Supply</button>
+  </section>
+
+  <!-- Recent Deliveries Table Card -->
+  <section class="card">
+    <h3>Recent Deliveries</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer Name</th>
+            <th>Cans</th>
+            <th>Amount</th>
+            <th>Payment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="supplyTable">
+          <tr><td colspan="6" style="text-align:center;">Loading deliveries...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <a href="dashboard.html">Home</a>
+  <a href="filling.html">Filling</a>
+  <a href="supply.html" class="active">Supply</a>
+  <a href="expense.html">Expense</a>
+</nav>
+
+<!-- Popup Modal -->
+<div id="popupOverlay" class="popup-overlay" onclick="closePopupOnOverlay(event)">
+  <div class="popup-modal">
+    <div class="popup-header">
+      <h3 id="popupTitle">Notification</h3>
+    </div>
+    <div class="popup-body" id="popupMessage"></div>
+    <div class="popup-footer">
+      <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// State management matching https://orionpixels.com/wsms/pages/supply.html
+let deliveries = [];
+let customers = [];
+let inventoryItems = [];
+let refreshInterval = null;
+let currentCustomerRates = {};
+let selectedCustomerId = '';
+let selectedCustomerName = '';
+let selectedItemId = '';
+let selectedItemName = '';
+let itemIdToNameMap = {};
+
+function showPopup(message, title = 'Notification') {
+  document.getElementById('popupTitle').textContent = title;
+  document.getElementById('popupMessage').textContent = message;
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePopup() {
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function closePopupOnOverlay(e) {
+  if (e.target.id === 'popupOverlay') {
+    closePopup();
+  }
+}
+
+// Canonical fallback data matching app
+const FALLBACK_CUSTOMERS = [
+  { id: 101, name: 'Metro Cash & Carry (Staff Canteen)', phone: '0300-1234567', discount: 20, rates: { 'item-19L': { rate: 60, discount: 20, final: 48 }, 'item-12L': { rate: 40, discount: 10, final: 30 } } },
+  { id: 102, name: 'Indus Hospital & Health Network', phone: '0321-9876543', discount: 0, rates: { 'item-19L': { rate: 60, discount: 0, final: 60 }, 'item-12L': { rate: 40, discount: 0, final: 40 } } },
+  { id: 103, name: 'Dolmen Mall Food Court', phone: '0333-2345678', discount: 15, rates: { 'item-19L': { rate: 60, discount: 15, final: 51 }, 'item-12L': { rate: 40, discount: 10, final: 30 } } },
+  { id: 104, name: 'Aga Khan Labs Executive Wing', phone: '0300-4567890', discount: 30, rates: { 'item-19L': { rate: 60, discount: 30, final: 42 }, 'item-12L': { rate: 40, discount: 15, final: 25 } } },
+  { id: 105, name: 'Dr. Tariq Dental Clinic', phone: '0301-8765432', discount: 10, rates: { 'item-19L': { rate: 60, discount: 10, final: 54 }, 'item-12L': { rate: 40, discount: 5, final: 35 } } },
+  { id: 106, name: 'Ayesha Manzil Bakery & Cafe', phone: '0345-6789012', discount: 12, rates: { 'item-19L': { rate: 60, discount: 12, final: 53 }, 'item-12L': { rate: 40, discount: 8, final: 32 } } },
+  { id: 107, name: 'Siddiqui Law Associates', phone: '0315-1122334', discount: 15, rates: { 'item-19L': { rate: 60, discount: 15, final: 51 }, 'item-12L': { rate: 40, discount: 10, final: 30 } } },
+  { id: 108, name: 'Bahria Town Sector B Villa 12', phone: '0302-9988776', discount: 0, rates: { 'item-19L': { rate: 60, discount: 0, final: 60 }, 'item-12L': { rate: 40, discount: 0, final: 40 } } }
+];
+
+const FALLBACK_ITEMS = [
+  { item_id: 'item-19L', item_name: '19 Liter Can', default_rate: 60 },
+  { item_id: 'item-12L', item_name: '12 Liter Can', default_rate: 40 },
+  { item_id: 'item-6L', item_name: '6 Liter Bottle', default_rate: 25 },
+  { item_id: 'item-c24', item_name: 'Carton of 24 500ml', default_rate: 600 },
+  { item_id: 'item-c12', item_name: 'Carton of 12 500ml', default_rate: 350 },
+  { item_id: 'item-c6', item_name: 'Carton of 6 1.5L', default_rate: 450 }
+];
+
+const FALLBACK_DELIVERIES = [
+  { id: 1, date: '2026-10-20', customer_name: 'Metro Cash & Carry', delivered: 30, total: 6000, payment_mode: 'Cash', status: 'Delivered' },
+  { id: 2, date: '2026-10-20', customer_name: 'Indus Hospital & Health Network', delivered: 25, total: 5000, payment_mode: 'Credit', status: 'Delivered' },
+  { id: 3, date: '2026-10-20', customer_name: 'Dolmen Mall Food Court', delivered: 40, total: 8000, payment_mode: 'Cash', status: 'Delivered' },
+  { id: 4, date: '2026-10-20', customer_name: 'Aga Khan Labs Executive Wing', delivered: 15, total: 3000, payment_mode: 'Cash', status: 'Delivered' },
+  { id: 5, date: '2026-10-20', customer_name: 'Dr. Tariq Dental Clinic', delivered: 8, total: 1600, payment_mode: 'Cash', status: 'Delivered' },
+  { id: 6, date: '2026-10-20', customer_name: 'Ayesha Manzil Bakery & Cafe', delivered: 14, total: 2800, payment_mode: 'Credit', status: 'Delivered' }
+];
+
+async function init() {
+  updateOverviewCards();
+  const today = new Date();
+  const dateStr = today.toISOString().split("T")[0];
+  const dateInput = document.getElementById("date");
+  if (dateInput) dateInput.value = dateStr;
+
+  // 1. Load Customers
+  try {
+    if (typeof apiGetCustomers === 'function') {
+      const customerResponse = await apiGetCustomers();
+      if (customerResponse && customerResponse.success && customerResponse.data && customerResponse.data.length > 0) {
+        customers = customerResponse.data;
+      } else {
+        loadSharedStoreCustomers();
+      }
+    } else {
+      loadSharedStoreCustomers();
+    }
+  } catch(error) {
+    loadSharedStoreCustomers();
+  }
+
+  populateCustomerDropdown();
+
+  // 2. Load Items
+  try {
+    if (typeof apiCall === 'function') {
+      const inventoryResponse = await apiCall('inventory.php?action=items', 'GET');
+      if (inventoryResponse && inventoryResponse.success && Array.isArray(inventoryResponse.items) && inventoryResponse.items.length > 0) {
+        inventoryItems = inventoryResponse.items;
+      } else {
+        inventoryItems = [...FALLBACK_ITEMS];
+      }
+    } else {
+      inventoryItems = [...FALLBACK_ITEMS];
+    }
+  } catch(e) {
+    inventoryItems = [...FALLBACK_ITEMS];
+  }
+
+  populateItemDropdown();
+
+  // 3. Load Deliveries
+  await loadDeliveries();
+
+  // Wire input listeners
+  const deliveredInput = document.getElementById("delivered");
+  const receivedInput = document.getElementById("received");
+  if (deliveredInput) deliveredInput.addEventListener("input", calcAmount);
+  if (receivedInput) receivedInput.addEventListener("input", calcBalance);
+
+  startAutoRefresh();
+
+  window.addEventListener('customersUpdated', async () => {
+    loadSharedStoreCustomers();
+    populateCustomerDropdown();
+  });
+
+  window.addEventListener('deliveriesUpdated', async () => {
+    await refreshDeliveries();
+  });
+}
+
+function updateOverviewCards() {
+  let circulation = 1250, filled = 480, transit = 320, empty = 450;
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store && store.inventory) {
+      if (store.inventory.totalCirculation) circulation = store.inventory.totalCirculation;
+      if (store.inventory.filledDepot) filled = store.inventory.filledDepot;
+      if (store.inventory.inTransit) transit = store.inventory.inTransit;
+      if (store.inventory.emptyDepot) empty = store.inventory.emptyDepot;
+    }
+  }
+  const elCirc = document.getElementById("cardCirculation");
+  const elFilled = document.getElementById("cardFilled");
+  const elTransit = document.getElementById("cardTransit");
+  const elEmpty = document.getElementById("cardEmpty");
+  if (elCirc) elCirc.textContent = circulation.toLocaleString() + " Cans";
+  if (elFilled) elFilled.textContent = filled.toLocaleString() + " Cans";
+  if (elTransit) elTransit.textContent = transit.toLocaleString() + " Cans";
+  if (elEmpty) elEmpty.textContent = empty.toLocaleString() + " Cans";
+}
+
+function loadSharedStoreCustomers() {
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store && store.customers && store.customers.length > 0) {
+      customers = store.customers.map(c => ({
+        id: c.id,
+        name: c.name,
+        discount: c.discount || 0,
+        rates: {
+          'item-19L': { rate: 60, discount: c.discount || 0, final: Math.max(0, 60 - (c.discount || 0)) },
+          'item-12L': { rate: 40, discount: Math.round((c.discount || 0) * 0.6), final: Math.max(0, 40 - Math.round((c.discount || 0) * 0.6)) }
+        }
+      }));
+      return;
+    }
+  }
+  customers = [...FALLBACK_CUSTOMERS];
+}
+
+function populateCustomerDropdown() {
+  const c = document.getElementById("customer");
+  if (!c) return;
+  c.innerHTML = '<option value="">Select Customer</option>';
+  customers.forEach(x => {
+    const customerId = x.id || '';
+    const customerName = x.name || '';
+    c.innerHTML += `<option value="${customerId}">${customerName}</option>`;
+  });
+}
+
+function populateItemDropdown() {
+  itemIdToNameMap = {};
+  const itemSelect = document.getElementById("item");
+  if (!itemSelect) return;
+  itemSelect.innerHTML = '<option value="">Select Item</option>';
+  
+  inventoryItems.forEach(item => {
+    const id = item.item_id || item.id || item.name;
+    const name = item.item_name || item.name || id;
+    itemIdToNameMap[id] = name;
+    itemSelect.innerHTML += `<option value="${id}">${name}</option>`;
+  });
+}
+
+function startAutoRefresh() {
+  if (refreshInterval) clearInterval(refreshInterval);
+  refreshInterval = setInterval(async () => {
+    await refreshDeliveries();
+  }, 60000);
+}
+
+function stopAutoRefresh() {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+    refreshInterval = null;
+  }
+}
+
+async function loadDeliveries() {
+  const t = document.getElementById("supplyTable");
+  if (!t) return;
+
+  try {
+    if (typeof fetch !== 'undefined') {
+      const response = await fetch('/wsms/api/deliveries.php?action=list&limit=10', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const json = await response.json();
+        if (json.success === true && Array.isArray(json.deliveries) && json.deliveries.length > 0) {
+          deliveries = json.deliveries;
+          renderTable();
+          return;
+        }
+      }
+    }
+  } catch(error) {
+    // API not running, fallback to shared store
+  }
+
+  // Load from WSMS_STORE or fallback
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store && store.deliveries && store.deliveries.length > 0) {
+      deliveries = store.deliveries.map(d => ({
+        id: d.id,
+        date: d.date || '2026-10-20',
+        customer_name: d.customer || d.customer_name || 'Customer',
+        delivered: d.cans || d.delivered || 0,
+        total: d.amount || d.total || 0,
+        payment_mode: d.payment_mode || 'Cash',
+        status: d.status || 'Delivered'
+      }));
+      renderTable();
+      return;
+    }
+  }
+
+  deliveries = [...FALLBACK_DELIVERIES];
+  renderTable();
+}
+
+async function refreshDeliveries() {
+  await loadDeliveries();
+}
+
+function toggleCanFields() {
+  const canFields = document.getElementById("canFields");
+  if (canFields) canFields.classList.remove("hidden");
+}
+
+async function onCustomerChange() {
+  const customerSelect = document.getElementById("customer");
+  const customerId = customerSelect.value;
+  const selectedOption = customerSelect.options[customerSelect.selectedIndex];
+
+  selectedCustomerId = customerId;
+  selectedCustomerName = selectedOption ? selectedOption.text : '';
+  currentCustomerRates = {};
+
+  document.getElementById("rate").value = '';
+  document.getElementById("discount").value = '';
+  document.getElementById("finalRate").value = '';
+
+  if (!customerId) return;
+
+  // Try API first
+  try {
+    if (typeof apiCall === 'function') {
+      const response = await apiCall(`customers.php?action=view&id=${encodeURIComponent(customerId)}`, 'GET');
+      if (response && response.success && response.data) {
+        const customer = response.data;
+        if (customer.name) selectedCustomerName = customer.name;
+        if (customer.customer_rates && typeof customer.customer_rates === 'object') {
+          currentCustomerRates = customer.customer_rates;
+          const currentItemId = document.getElementById("item").value;
+          if (currentItemId && currentCustomerRates[currentItemId]) {
+            loadItemRates(currentItemId);
+          }
+          return;
+        }
+      }
+    }
+  } catch(e) {
+    // Fallback
+  }
+
+  // Fallback to customer object in local memory
+  const foundCust = customers.find(c => String(c.id) === String(customerId));
+  if (foundCust && foundCust.rates) {
+    currentCustomerRates = foundCust.rates;
+    const currentItemId = document.getElementById("item").value;
+    if (currentItemId && currentCustomerRates[currentItemId]) {
+      loadItemRates(currentItemId);
+    }
+  }
+}
+
+function loadItemRates(itemId) {
+  if (!itemId || !currentCustomerRates[itemId]) return;
+  const itemRate = currentCustomerRates[itemId];
+  if (itemRate.rate !== undefined && itemRate.rate !== null) {
+    document.getElementById("rate").value = itemRate.rate;
+  }
+  if (itemRate.discount !== undefined && itemRate.discount !== null) {
+    document.getElementById("discount").value = itemRate.discount;
+  }
+  calculateFinalRate();
+}
+
+function onItemChange() {
+  const itemSelect = document.getElementById("item");
+  const itemId = itemSelect.value;
+  const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+
+  selectedItemId = itemId;
+  selectedItemName = selectedOption ? selectedOption.text : '';
+
+  if (!itemId) {
+    document.getElementById("rate").value = '';
+    document.getElementById("discount").value = '';
+    document.getElementById("finalRate").value = '';
+    document.getElementById("canSize").value = '';
+    return;
+  }
+
+  const itemName = itemIdToNameMap[itemId] || selectedItemName;
+  const itemToCanSize = {
+    '12 Liter Can': '12L',
+    '19 Liter Can': '19L',
+    '6 Liter Bottle': '6L'
+  };
+  document.getElementById("canSize").value = itemToCanSize[itemName] || '';
+
+  toggleCanFields();
+
+  if (currentCustomerRates && currentCustomerRates[itemId]) {
+    loadItemRates(itemId);
+  } else {
+    // Default rate lookup
+    const found = inventoryItems.find(i => (i.item_id || i.id) === itemId);
+    const defRate = found ? (found.default_rate || 60) : 60;
+    document.getElementById("rate").value = defRate;
+    document.getElementById("discount").value = 0;
+    calculateFinalRate();
+  }
+}
+
+function calculateFinalRate() {
+  const rate = parseFloat(document.getElementById("rate").value) || 0;
+  const discount = parseFloat(document.getElementById("discount").value) || 0;
+
+  if (rate <= 0) {
+    document.getElementById("finalRate").value = '';
+    return;
+  }
+
+  const finalRate = Math.max(0, rate - Math.max(0, discount));
+  document.getElementById("finalRate").value = finalRate.toFixed(2);
+  calcAmount();
+}
+
+function calcAmount() {
+  const quantity = Number(document.getElementById("delivered").value) || 0;
+  const finalRate = Number(document.getElementById("finalRate").value) || 0;
+  const total = quantity * finalRate;
+  document.getElementById("amount").value = total.toFixed(2);
+  calcBalance();
+}
+
+function calcBalance() {
+  const d = Number(document.getElementById("delivered").value) || 0;
+  const r = Number(document.getElementById("received").value) || 0;
+  const balance = d - r;
+  document.getElementById("balance").value = balance;
+}
+
+async function addSupply() {
+  const dateValue = document.getElementById("date").value;
+  const deliveredQty = Number(document.getElementById("delivered").value) || 0;
+  const receivedQty = Number(document.getElementById("received").value) || 0;
+  const paymentMode = document.getElementById("paymentType").value;
+  const total = Number(document.getElementById("amount").value) || 0;
+  const rate = Number(document.getElementById("rate").value) || 0;
+  const discount = Number(document.getElementById("discount").value) || 0;
+  const finalRate = Number(document.getElementById("finalRate").value) || 0;
+
+  if (!selectedCustomerId || !selectedItemId) {
+    showPopup('Please select customer and item.', 'Required Fields');
+    return;
+  }
+
+  if (deliveredQty <= 0) {
+    showPopup('Cans delivered must be greater than 0.', 'Validation Error');
+    return;
+  }
+
+  if (receivedQty < 0) {
+    showPopup('Cans returned must be non-negative.', 'Validation Error');
+    return;
+  }
+
+  if (!paymentMode || (paymentMode !== 'Cash' && paymentMode !== 'Credit')) {
+    showPopup('Please select a valid payment type (Cash or Credit).', 'Validation Error');
+    return;
+  }
+
+  const entry = {
+    id: Date.now(),
+    customer_id: selectedCustomerId,
+    customer_name: selectedCustomerName,
+    date: dateValue || new Date().toISOString().split("T")[0],
+    delivered: deliveredQty,
+    received: receivedQty,
+    rate: rate,
+    discount: discount,
+    final_rate: finalRate,
+    total: total,
+    payment_mode: paymentMode,
+    status: 'Delivered'
+  };
+
+  // 1. Try API creation if backend is up
+  try {
+    if (typeof apiCall === 'function') {
+      const response = await apiCall('deliveries.php?action=create', 'POST', entry);
+      if (response && response.success) {
+        showPopup('Delivery created successfully', 'Success');
+        resetForm();
+        await refreshDeliveries();
+        return;
+      }
+    }
+  } catch(e) {
+    console.warn('API delivery create error, using local fallback:', e);
+  }
+
+  // 2. Local fallback & WSMS_STORE sync
+  deliveries.unshift(entry);
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store) {
+      if (!store.deliveries) store.deliveries = [];
+      store.deliveries.unshift({
+        id: entry.id,
+        customer: entry.customer_name,
+        cans: entry.delivered,
+        amount: entry.total,
+        status: 'Delivered',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        address: 'Karachi Area'
+      });
+      if (WSMS_STORE.recalculate) WSMS_STORE.recalculate(store);
+      WSMS_STORE.set(store);
+    }
+  }
+
+  resetForm();
+  renderTable();
+  showPopup(`✓ Delivery recorded for ${selectedCustomerName}: ${deliveredQty} cans (Rs ${total.toLocaleString()})`, 'Success');
+
+  window.dispatchEvent(new CustomEvent('deliveryCreated', { detail: { delivery: entry } }));
+  window.dispatchEvent(new CustomEvent('deliveriesUpdated'));
+}
+
+function resetForm() {
+  document.getElementById("customer").value = "";
+  document.getElementById("item").value = "";
+  document.getElementById("rate").value = "";
+  document.getElementById("discount").value = "";
+  document.getElementById("finalRate").value = "";
+  document.getElementById("delivered").value = "";
+  document.getElementById("received").value = "";
+  document.getElementById("balance").value = "";
+  document.getElementById("paymentType").value = "";
+  document.getElementById("amount").value = "";
+  document.getElementById("canSize").value = "";
+
+  selectedCustomerId = '';
+  selectedCustomerName = '';
+  selectedItemId = '';
+  selectedItemName = '';
+  currentCustomerRates = {};
+
+  const today = new Date();
+  document.getElementById("date").value = today.toISOString().split("T")[0];
+}
+
+function renderTable() {
+  const t = document.getElementById("supplyTable");
+  if (!t) return;
+  t.innerHTML = "";
+
+  if (!deliveries || !Array.isArray(deliveries) || deliveries.length === 0) {
+    t.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:18px;color:#888;">No deliveries found</td></tr>`;
+    return;
+  }
+
+  deliveries.forEach(d => {
+    const date = d.date || "-";
+    const customerName = d.customer_name || d.customer || "-";
+    const cansDelivered = d.delivered || d.cans || 0;
+    const totalAmount = parseFloat(d.total || d.amount || 0).toLocaleString();
+    const paymentMode = d.payment_mode || "Cash";
+    const status = d.status || "Delivered";
+
+    t.innerHTML += `
+    <tr>
+      <td>${date}</td>
+      <td style="font-weight:600;color:#0077cc;">${customerName}</td>
+      <td><strong>${cansDelivered}</strong></td>
+      <td style="color:#28a745;font-weight:600;">Rs ${totalAmount}</td>
+      <td><span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;background:${paymentMode === 'Cash' ? '#e8f5e9;color:#2e7d32' : '#fff3e0;color:#e65100'}">${paymentMode}</span></td>
+      <td><span style="color:#0077cc;font-weight:600;">✓ ${status}</span></td>
+    </tr>`;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  init();
+});
+
+window.addEventListener('beforeunload', () => {
+  stopAutoRefresh();
+});
+</script>
+</body>
+</html>

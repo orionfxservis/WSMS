@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Reports - WSMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<link rel="stylesheet" href="../assets/css/style.css"/>
+<link rel="stylesheet" href="../assets/css/header.css"/>
+<!-- Block page rendering until session is validated -->
+<style id="session-block-style">
+  body { visibility: hidden; overflow: hidden; }
+  body.session-validated { visibility: visible; overflow: auto; }
+</style>
+<script>
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem('wsms_redirect_in_progress');
+    sessionStorage.removeItem('wsms_auth_check_done');
+  }
+  setTimeout(function() {
+    if (!document.body.classList.contains('session-validated')) {
+      document.body.classList.add('session-validated');
+    }
+  }, 400);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="../assets/js/logout.js"></script>
+<script src="../assets/js/wsms-store.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/user-header.js"></script>
+<script src="../assets/js/report.js"></script>
+<script src="../assets/js/session-check.js"></script>
+<script src="../assets/js/status-banner.js"></script>
+<style>
+:root{--brand:#0077cc}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
+/* Header styles moved to header.css */
+main{padding:14px;margin-bottom:90px}
+.report-section{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
+.section-header{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:8px 0;border-bottom:2px solid #f0f0f0;margin-bottom:12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.section-header h3{margin:0;color:var(--brand);font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+.collapse-icon{font-size:12px;color:var(--brand)}
+.section-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.date-filter{display:flex;gap:8px;align-items:center;flex:1}
+.date-filter input{padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px;min-width:120px;touch-action:manipulation}
+.date-filter span{color:#666;font-size:12px}
+.reload-btn,.export-btn{background:var(--brand);color:#fff;border:none;border-radius:6px;padding:8px 16px;font-weight:600;cursor:pointer;font-size:13px;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.reload-btn:hover,.export-btn:hover{background:#005fa3}
+.reload-btn:active,.export-btn:active{background:#004080;transform:scale(0.98)}
+.summary-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.summary-item{background:#f8f9fa;padding:10px;border-radius:6px;text-align:center}
+.summary-item label{display:block;font-size:11px;color:#666;margin-bottom:4px;text-transform:uppercase}
+.summary-item span{display:block;font-size:18px;font-weight:700;color:var(--brand)}
+.table-wrap{overflow-x:auto;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.table-wrap::-webkit-scrollbar{height:6px}
+.table-wrap::-webkit-scrollbar-track{background:#f1f1f1;border-radius:3px}
+.table-wrap::-webkit-scrollbar-thumb{background:#0077cc;border-radius:3px}
+.table-wrap::-webkit-scrollbar-thumb:hover{background:#005fa3}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 8px;border-bottom:1px solid #eee;text-align:left}
+th{background:var(--brand);color:#fff;font-weight:600;font-size:12px}
+tbody tr:hover{background:#f9f9fa}
+.chart-container{position:relative;height:250px;width:100%;margin-bottom:12px}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
+nav.bottom-nav a{text-decoration:none;color:#444}
+nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+@media(max-width:768px){
+  /* Header responsive styles moved to header.css */
+  main{padding:10px;margin-bottom:90px}
+  .report-section{padding:12px;margin-bottom:10px}
+  .section-header{padding:6px 0;margin-bottom:10px}
+  .section-header h3{font-size:14px;gap:6px}
+  .collapse-icon{font-size:10px}
+  .section-controls{flex-direction:column;gap:10px;align-items:stretch}
+  .date-filter{flex-direction:column;gap:8px;width:100%}
+  .date-filter input{width:100%;min-width:auto;padding:10px;font-size:14px}
+  .date-filter span{display:block;text-align:center;font-size:11px;color:#999;margin:-4px 0}
+  .reload-btn,.export-btn{width:100%;padding:12px;font-size:14px}
+  .summary-totals{grid-template-columns:repeat(2,1fr);gap:8px}
+  .summary-item{padding:8px}
+  .summary-item label{font-size:10px;margin-bottom:3px}
+  .summary-item span{font-size:16px}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:10px}
+  table{font-size:12px;min-width:600px}
+  th,td{padding:8px 6px;font-size:11px}
+  th{font-size:10px;padding:8px 4px}
+  .chart-container{height:220px;margin-bottom:10px}
+  .charts-grid{grid-template-columns:1fr;gap:10px}
+  nav.bottom-nav{padding:10px 0;font-size:13px}
+  nav.bottom-nav a{padding:0 4px}
+}
+@media(max-width:480px){
+  /* Header responsive styles moved to header.css */
+  main{padding:8px;margin-bottom:85px}
+  .report-section{padding:10px;margin-bottom:8px;border-radius:8px}
+  .section-header{padding:5px 0;margin-bottom:8px}
+  .section-header h3{font-size:13px}
+  .section-controls{gap:8px}
+  .date-filter input{padding:8px;font-size:13px}
+  .reload-btn,.export-btn{padding:10px;font-size:13px}
+  .summary-totals{grid-template-columns:repeat(2,1fr);gap:6px}
+  .summary-item{padding:6px}
+  .summary-item label{font-size:9px}
+  .summary-item span{font-size:14px}
+  table{font-size:11px;min-width:550px}
+  th,td{padding:6px 4px;font-size:10px}
+  th{font-size:9px}
+  .chart-container{height:200px;margin-bottom:8px}
+  nav.bottom-nav{padding:8px 0;font-size:12px}
+}
+@media(max-width:360px){
+  .summary-totals{grid-template-columns:1fr}
+  .summary-item span{font-size:16px}
+  table{min-width:500px}
+  .chart-container{height:180px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+    <div class="header-logo-container">
+      <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
+    </div>
+    <div class="header-brand-text">
+      <div class="header-brand-title">
+        <span class="header-logo">WSMS</span>
+        <span class="header-portal-tag">Portal</span>
+      </div>
+      <span class="header-company-name">Water Supply Management System</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <div class="header-icons">
+      <a href="dashboard.html" class="header-icon-link" title="Dashboard"><i class="fi fi-rr-home"></i></a>
+      <a href="filling.html" class="header-icon-link" title="Filling Operations"><i class="fi fi-rr-water-bottle"></i></a>
+      <a href="supply.html" class="header-icon-link" title="Supply & Deliveries"><i class="fi fi-rr-truck-side"></i></a>
+      <a href="expense.html" class="header-icon-link" title="Expenses & Ledger"><i class="fi fi-rr-receipt"></i></a>
+      <a href="customers.html" class="header-icon-link" title="Customers"><i class="fi fi-rr-users"></i></a>
+      <a href="stations.html" class="header-icon-link" title="Filling Stations"><i class="fi fi-rr-shop"></i></a>
+      <a href="schedule.html" class="header-icon-link" title="Schedule"><i class="fi fi-rr-calendar"></i></a>
+      <a href="settings.html" class="header-icon-link" title="Settings"><i class="fi fi-rr-settings"></i></a>
+      <a href="../index.html" class="header-icon-link" title="Main Website"><i class="fi fi-rr-globe"></i></a>
+    </div>
+    <span id="headerUserName" class="header-user">User</span>
+    <img id="headerUserImage" src="../assets/default-user.png">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<main>
+  <!-- Deliveries Report -->
+  <section class="report-section" id="deliveries-section">
+    <div class="section-header" onclick="toggleSection('deliveries-section')">
+      <h3><span class="collapse-icon">▼</span> Deliveries Report</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="deliveries-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="deliveries-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadDeliveriesReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('deliveries-section', 'Deliveries Report')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Revenue</label>
+          <span id="deliveries-total-revenue">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Delivered</label>
+          <span id="deliveries-total-delivered">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Received</label>
+          <span id="deliveries-total-received">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Balance</label>
+          <span id="deliveries-total-balance">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Entries</label>
+          <span id="deliveries-total-entries">0</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Customer</th>
+              <th>Can Size</th>
+              <th>Delivered</th>
+              <th>Received</th>
+              <th>Amount</th>
+              <th>Payment</th>
+            </tr>
+          </thead>
+          <tbody id="deliveries-table-body">
+            <tr><td colspan="7" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="deliveries-customer-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="deliveries-daily-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filling Report -->
+  <section class="report-section" id="filling-section">
+    <div class="section-header" onclick="toggleSection('filling-section')">
+      <h3><span class="collapse-icon">▼</span> Filling Report</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="filling-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="filling-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadFillingReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('filling-section', 'Filling Report')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Cost</label>
+          <span id="filling-total-cost">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Entries</label>
+          <span id="filling-total-entries">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Average Cost</label>
+          <span id="filling-avg-cost">Rs 0</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Station</th>
+              <th>Amount</th>
+              <th>Payment</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="filling-table-body">
+            <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="filling-daily-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="filling-station-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expenses Report -->
+  <section class="report-section" id="expenses-section">
+    <div class="section-header" onclick="toggleSection('expenses-section')">
+      <h3><span class="collapse-icon">▼</span> Expense Report</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="expenses-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="expenses-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadExpensesReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('expenses-section', 'Expense Report')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Expenses</label>
+          <span id="expenses-total">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Entries</label>
+          <span id="expenses-total-entries">0</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Payment</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="expenses-table-body">
+            <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="expenses-category-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="expenses-daily-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inventory Movement Report -->
+  <section class="report-section" id="inventory-section">
+    <div class="section-header" onclick="toggleSection('inventory-section')">
+      <h3><span class="collapse-icon">▼</span> Inventory Movement Report</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="inventory-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="inventory-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadInventoryReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('inventory-section', 'Inventory Movement Report')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Purchase Qty</label>
+          <span id="inventory-purchase">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Issue Qty</label>
+          <span id="inventory-issue">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Return Qty</label>
+          <span id="inventory-return">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Damage Qty</label>
+          <span id="inventory-damage">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Entries</label>
+          <span id="inventory-total-entries">0</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Action</th>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="inventory-table-body">
+            <tr><td colspan="7" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chart-container">
+        <canvas id="inventory-stacked-chart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Summary Report -->
+  <section class="report-section" id="customer-section">
+    <div class="section-header" onclick="toggleSection('customer-section')">
+      <h3><span class="collapse-icon">▼</span> Customer Summary Report</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="customer-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="customer-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadCustomerSummaryReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('customer-section', 'Customer Summary Report')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Revenue</label>
+          <span id="customer-total-revenue">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Pending Cans</label>
+          <span id="customer-total-pending">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Customers</label>
+          <span id="customer-total-customers">0</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer Name</th>
+              <th>Revenue</th>
+              <th>Pending Cans</th>
+              <th>Deliveries</th>
+            </tr>
+          </thead>
+          <tbody id="customer-table-body">
+            <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="customer-revenue-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="customer-pending-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supplier Financial Summary -->
+  <section class="report-section" id="financial-section">
+    <div class="section-header" onclick="toggleSection('financial-section')">
+      <h3><span class="collapse-icon">▼</span> Supplier Financial Summary</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="financial-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="financial-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadFinancialSummaryReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('financial-section', 'Supplier Financial Summary')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Revenue</label>
+          <span id="financial-revenue">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Expenses</label>
+          <span id="financial-expenses">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Profit</label>
+          <span id="financial-profit">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Cash Total</label>
+          <span id="financial-cash">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Credit Total</label>
+          <span id="financial-credit">Rs 0</span>
+        </div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="financial-trend-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="financial-cash-credit-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Station Filling Summary -->
+  <section class="report-section" id="station-section">
+    <div class="section-header" onclick="toggleSection('station-section')">
+      <h3><span class="collapse-icon">▼</span> Station Filling Summary</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="station-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="station-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadStationFillingReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('station-section', 'Station Filling Summary')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Cost</label>
+          <span id="station-total-cost">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Fills</label>
+          <span id="station-total-fills">0</span>
+        </div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="station-cost-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="station-fills-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily / Weekly / Monthly Summary -->
+  <section class="report-section" id="period-section">
+    <div class="section-header" onclick="toggleSection('period-section')">
+      <h3><span class="collapse-icon">▼</span> Daily / Weekly / Monthly Summary</h3>
+    </div>
+    <div class="section-content">
+      <div class="section-controls">
+        <div class="date-filter">
+          <input type="date" id="period-from" class="date-from">
+          <span>to</span>
+          <input type="date" id="period-to" class="date-to">
+        </div>
+        <button class="reload-btn" onclick="loadPeriodSummaryReport()">Reload</button>
+        <button class="export-btn" onclick="exportPDF('period-section', 'Period Summary')">Export PDF</button>
+      </div>
+      <div class="summary-totals">
+        <div class="summary-item">
+          <label>Total Deliveries</label>
+          <span id="period-deliveries">0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Revenue</label>
+          <span id="period-revenue">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Expenses</label>
+          <span id="period-expenses">Rs 0</span>
+        </div>
+        <div class="summary-item">
+          <label>Total Profit</label>
+          <span id="period-profit">Rs 0</span>
+        </div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <canvas id="period-deliveries-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="period-revenue-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="period-expenses-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="period-profit-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <a href="dashboard.html">Home</a>
+  <a href="filling.html">Filling</a>
+  <a href="supply.html">Supply</a>
+  <a href="expense.html" class="active">Expense</a>
+</nav>
+
+<script>
+// Logout is handled by assets/js/logout.js - no inline function needed
+
+// User header is now handled by user-header.js
+
+// Initialize all sections as expanded by default
+document.querySelectorAll('.section-content').forEach(content => {
+    content.style.display = 'block';
+});
+</script>
+</body>
+</html>

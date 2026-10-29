@@ -1,59 +1,71 @@
-# WSMS - Water Supply Management System
+# WSMS - Water Supply Management System (Sample 03)
 ### Mineral Water Supply Management Software in Pakistan
 
 > **Smart Business Management for Water Suppliers, Distributors & 19-Litre Canes Delivery Services**
 
-Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Manage Customer Accounts, daily 19-litre Water Canes Filling Records, Delivery Operations, Reusable Canea Inventory, Supplier Payments, Invoices & Business Expenses from one centralized platform.
+Simplify your Mineral Water Supply Business with WSMS (Sample 03), a modern React TypeScript Single Page Application built for water suppliers and distributors across Pakistan.
 
 ---
 
-## ⚡ Quick Start: Run Locally (NO NPM, NO LOCAL SERVER REQUIRED)
+## ✨ Features in this React Application (Sample 03)
 
-You do **not** need Node.js, `npm`, or any local web server to run this application!
-
-1. **Extract the ZIP file**.
-2. **Double-click `index.html`** right in the main folder.
-   - (Or open `index.html` inside `dist` or `wsms-offline`—all three work identically!)
-3. The exact, complete application opens immediately in your browser (`file:///`):
-   - Modern hero header & new custom logo
-   - One-click role login (Admin, Supplier, Station Operator, Driver)
-   - Real-time Operations Dashboard (KPIs, delivery dispatch, can stock ledger, station monitoring)
-   - Modals for Customers, Stations, Inventory, and Reports
+- **Interactive Multi-View Single Page Application**:
+  - **Landing View**: Modern hero section, quick role sign-in card, live workflow demo, about section, and footer.
+  - **Live Operations Dashboard View**: Comprehensive operations telemetry, live deliveries feed, route dispatch, inventory status, and revenue/expense reconciliation.
+  - **Field Hub View**: Real-time operations node designed for filling stations, suppliers, and drivers.
+- **Karachi Live News Ticker**: Real-time water board telemetry and regional updates with auto-rotation.
+- **ROI & Supply Calculator**: Interactive sliders to estimate monthly revenue and prevent annual can shrinkage.
+- **One-Click Role Login**: Instant access as Admin, Supplier, Station Operator, or Driver with session state management.
+- **WCAG Accessibility Inspector**: Built-in accessibility checker.
 
 ---
 
-## 🌐 How to Upload and Host on GitHub (Zero-NPM Setup)
+## ⚡ Zero-NPM Architecture (No Build Step, No Node.js Required)
 
-To host your application for free on **GitHub Pages** with zero build errors and zero npm dependency issues:
+This application has been pre-compiled into a self-contained production bundle (`assets/app.js` and `assets/app.css`):
 
-1. Push your repository to GitHub:
-   ```bash
-   git init
-   git add .
-   git commit -m "Upload WSMS"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-   git push -u origin main
-   ```
-2. In your GitHub repository:
-   - Click **Settings** > **Pages**
-   - Under **Build and deployment**, set **Source** to `Deploy from a branch`
-   - Select branch **`main`** and folder **`/(root)`**
-   - Click **Save**
-3. Your live application is published at `https://YOUR_USERNAME.github.io/YOUR_REPOSITORY/`!
+1. **Run Locally**:
+   - Double-click **`index.html`** in any web browser (Chrome, Edge, Firefox, Safari).
+   - The entire React application opens and runs immediately.
+
+2. **Host on GitHub Pages (Zero Errors, No Blank Screen)**:
+   - Push or upload this folder to your GitHub repository:
+     ```bash
+     git add .
+     git commit -m "Deploy WSMS Sample 03 React app"
+     git push origin main
+     ```
+   - In your GitHub repository:
+     - Go to **Settings** > **Pages**
+     - Under **Build and deployment**:
+       - **Source**: Select `Deploy from a branch`
+       - **Branch**: Select `main`
+       - **Folder**: Select either **`/(root)`** OR **`/docs`**
+       - Click **Save**
+   - Your live React app will be published at:
+     `https://<YOUR_USERNAME>.github.io/<YOUR_REPOSITORY>/`
 
 ---
 
-## 🛠️ (Optional) Development Server Mode
+## 📁 Project Structure
 
-If you want to edit the React TypeScript code with live reload:
-
-```bash
-npm install
-npm run dev
+```text
+├── index.html            <-- Main entry (loads pre-compiled React bundle)
+├── 404.html              <-- GitHub Pages SPA routing fallback
+├── .nojekyll             <-- Ensures raw static asset delivery on GitHub
+├── logo.png              <-- WSMS brand logo
+├── assets/
+│   ├── app.js            <-- Pre-compiled React application bundle (Sample 03)
+│   ├── app.css           <-- Pre-compiled application stylesheet
+│   └── img/              <-- Graphic assets and branding
+├── src/                  <-- React TypeScript source code
+│   ├── App.tsx           <-- Main application component (Views: landing, dashboard, field-hub)
+│   ├── components/       <-- DashboardView, LabourSupplierHub, Navbar, HeroSection, etc.
+│   ├── data/             <-- Initial mock data for inventory, deliveries, stations
+│   └── types/            <-- TypeScript type definitions
+├── docs/                 <-- Mirror for GitHub Pages /docs folder deployment
+└── wsms-offline/         <-- Standalone copy for offline client distribution
 ```
-
-Visit `http://localhost:3000` in your browser.
 
 ---
 

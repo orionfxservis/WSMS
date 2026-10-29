@@ -357,7 +357,7 @@ export const LabourSupplierHub: React.FC<LabourSupplierHubProps> = ({
                     onClick={(e) => {
                       if (!e.ctrlKey && !e.metaKey) {
                         e.preventDefault();
-                        window.location.href = '/pages/inventory.html';
+                        window.location.href = './pages/inventory.html';
                       }
                     }}
                     className="p-3 text-center rounded-[10px] font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-xs text-xs sm:text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer no-underline"
@@ -370,7 +370,7 @@ export const LabourSupplierHub: React.FC<LabourSupplierHubProps> = ({
                     onClick={(e) => {
                       if (!e.ctrlKey && !e.metaKey) {
                         e.preventDefault();
-                        window.location.href = '/pages/report.html';
+                        window.location.href = './pages/report.html';
                       }
                     }}
                     className="p-3 text-center rounded-[10px] font-semibold text-[#0077cc] border-2 border-[#0077cc] bg-white shadow-xs text-xs sm:text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer no-underline"

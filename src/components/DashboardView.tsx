@@ -384,8 +384,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const [deletingInvId, setDeletingInvId] = useState<number | null>(null);
   const [deleteConfirmInput, setDeleteConfirmInput] = useState('');
 
+  // Deliveries List & Supply State (matching /pages/supply.html)
+  const [deliveriesList, setDeliveriesList] = useState<DeliveryRecord[]>(deliveries);
+  const [supplyCustomer, setSupplyCustomer] = useState('101');
+  const [supplyDate, setSupplyDate] = useState('2026-10-20');
+  const [supplyItem, setSupplyItem] = useState('19 Liter Can');
+  const [supplyRate, setSupplyRate] = useState(60);
+  const [supplyDiscount, setSupplyDiscount] = useState(20);
+  const [supplyDelivered, setSupplyDelivered] = useState<number | ''>(30);
+  const [supplyReceived, setSupplyReceived] = useState<number | ''>(25);
+  const [supplyPaymentType, setSupplyPaymentType] = useState<'Cash' | 'Credit'>('Cash');
+  const [supplyNotice, setSupplyNotice] = useState<string | null>(null);
+  const [supplySearch, setSupplySearch] = useState('');
+
   // Computed Summary Values
-  const deliveredList = deliveries.filter((d) => d.status === 'Delivered');
+  const deliveredList = deliveriesList.filter((d) => d.status === 'Delivered');
   const sumDeliveriesCount = deliveredList.length + 18; // Includes fulfilled morning cycle
   const sumRevenue = deliveredList.reduce((acc, d) => acc + d.amount, 0) + 21500;
   const sumExpense = expenses.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
@@ -503,6 +516,95 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const totalFillingEntries = fillings.length;
   const avgFillingCost = totalFillingEntries > 0 ? Math.round(totalFillingCost / totalFillingEntries) : 0;
 
+  // Supply Record calculations & handlers
+  const supplyFinalRate = Math.max(0, supplyRate - (Number(supplyDiscount) || 0));
+  const supplyTotalAmount = (Number(supplyDelivered) || 0) * supplyFinalRate;
+  const supplyBalance = (Number(supplyDelivered) || 0) - (Number(supplyReceived) || 0);
+
+  const handleSupplyCustomerChange = (customerId: string) => {
+    setSupplyCustomer(customerId);
+    const cust = customersList.find((c) => String(c.id) === customerId);
+    if (cust) {
+      setSupplyDiscount(cust.discount || 0);
+    }
+  };
+
+  const handleSupplyItemChange = (item: string) => {
+    setSupplyItem(item);
+    if (item.includes('19')) setSupplyRate(60);
+    else if (item.includes('12')) setSupplyRate(40);
+    else if (item.includes('6')) setSupplyRate(25);
+    else if (item.includes('24 500ml')) setSupplyRate(600);
+    else if (item.includes('12 500ml')) setSupplyRate(350);
+    else setSupplyRate(450);
+  };
+
+  const handleAddSupplyRecord = (e: React.FormEvent) => {
+    e.preventDefault();
+    const deliveredQty = typeof supplyDelivered === 'number' ? supplyDelivered : parseInt(String(supplyDelivered), 10) || 0;
+    const receivedQty = typeof supplyReceived === 'number' ? supplyReceived : parseInt(String(supplyReceived), 10) || 0;
+    if (deliveredQty <= 0) return;
+
+    const matchedCust = customersList.find((c) => String(c.id) === supplyCustomer);
+    const custName = matchedCust ? matchedCust.name : 'Customer';
+
+    const newDelivery: DeliveryRecord = {
+      id: `del-${Date.now()}`,
+      orderNumber: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+      customerName: custName,
+      customerPhone: matchedCust?.phone || '+92 300 1234567',
+      address: matchedCust?.address || 'Karachi',
+      zone: 'Zone Central',
+      cansDelivered: deliveredQty,
+      emptyCollected: receivedQty,
+      netDepositBalance: 0,
+      paymentMethod: supplyPaymentType,
+      amount: supplyTotalAmount,
+      status: 'Delivered',
+      driverName: 'Zahid Iqbal',
+      driverPhone: '+92 313 4455667',
+      timestamp: supplyDate ? `${supplyDate}` : new Date().toISOString().split('T')[0],
+      notes: `${deliveredQty} x ${supplyItem} @ Rs ${supplyFinalRate}`,
+    };
+
+    setDeliveriesList((prev) => [newDelivery, ...prev]);
+    setSupplyNotice(`✓ Added Supply Record: ${deliveredQty} cans delivered to ${custName} (Rs ${supplyTotalAmount.toLocaleString()})`);
+    setTimeout(() => setSupplyNotice(null), 4000);
+
+    setSupplyDelivered('');
+    setSupplyReceived('');
+  };
+
+  const handleDeleteDelivery = (id: string) => {
+    setDeliveriesList((prev) => prev.filter((d) => d.id !== id));
+    setSupplyNotice('✓ Delivery record deleted');
+    setTimeout(() => setSupplyNotice(null), 3000);
+  };
+
+  const exportSupplyCSV = () => {
+    const headers = ['Order #', 'Customer Name', 'Phone', 'Address', 'Cans Delivered', 'Cans Returned', 'Net Balance', 'Total Amount', 'Payment Mode', 'Status'];
+    const rows = deliveriesList.map((d) => [
+      d.orderNumber,
+      `"${d.customerName}"`,
+      d.customerPhone,
+      `"${d.address}"`,
+      d.cansDelivered,
+      d.emptyCollected,
+      d.cansDelivered - d.emptyCollected,
+      d.amount,
+      d.paymentMethod,
+      d.status,
+    ]);
+    const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `wsms_supply_deliveries_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   // Synchronize state with shared store for cross-page consistency
   useEffect(() => {
     try {
@@ -513,20 +615,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           total_expenses: sumExpense,
           profit: sumProfit,
           active_customers: customersList.length,
-          in_circulation: inventory.totalCirculation
+          in_circulation: inventory.totalCirculation,
         },
         inventory,
-        deliveries,
+        deliveries: deliveriesList,
         fillings,
         expenses,
         stations: stationList,
-        customers: customersList
+        customers: customersList,
       };
       localStorage.setItem('wsms_shared_store_v1', JSON.stringify(store));
     } catch (e) {
       // safe fallback
     }
-  }, [sumDeliveriesCount, sumRevenue, sumExpense, sumProfit, fillings, expenses, inventory, deliveries, customersList, stationList]);
+  }, [sumDeliveriesCount, sumRevenue, sumExpense, sumProfit, fillings, expenses, inventory, deliveriesList, customersList, stationList]);
 
   const handleAddExpense = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1926,57 +2028,326 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
             </div>
 
-            {/* Delivery Dispatch Ledger */}
-            <div className="bg-white rounded-xl border border-[#eef2f7] p-4 shadow-xs">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-sm text-[#222222] flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#0077cc]" />
-                  Active Dispatch Log & Bottle Collection
+            {/* Notification Banner */}
+            {supplyNotice && (
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-between shadow-xs">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  {supplyNotice}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSupplyNotice(null)}
+                  className="text-emerald-700 hover:text-emerald-900 text-xs cursor-pointer font-bold ml-2"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
+            {/* FORM CARD: Add Supply Record */}
+            <div className="bg-white rounded-xl border border-[#eef2f7] p-4 sm:p-5 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                <h3 className="text-sm font-bold text-[#222222] flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-[#0077cc]" />
+                  Add Supply Record
                 </h3>
                 <span className="text-xs text-[#666666]">
-                  {deliveries.length} orders scheduled for today
+                  Auto-calculates Final Rate (Rate − Discount) and Total Billing Amount
                 </span>
               </div>
 
-              <div className="space-y-2.5">
-                {deliveries.map((del) => (
-                  <div
-                    key={del.id}
-                    className="p-3 border border-[#eef2f7] rounded-lg bg-[#fbfdff] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#222222]">{del.customerName}</span>
-                        <span className="bg-blue-50 text-[#0077cc] px-1.5 py-0.5 rounded text-[10px] font-semibold border border-blue-200">
-                          {del.zone}
-                        </span>
-                      </div>
-                      <p className="text-[#666666] mt-0.5 flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                        {del.address}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-4 shrink-0 self-end sm:self-center">
-                      <div className="text-right">
-                        <span className="font-bold text-[#0077cc] block">
-                          +{del.cansDelivered} Filled / -{del.emptyCollected} Empty
-                        </span>
-                        <span className="text-emerald-700 font-semibold">Rs {del.amount.toLocaleString()} ({del.paymentMethod})</span>
-                      </div>
-
-                      <span
-                        className={`px-2.5 py-1 rounded-full font-bold text-[11px] border ${
-                          del.status === 'Delivered'
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : 'bg-amber-50 text-amber-700 border-amber-200'
-                        }`}
-                      >
-                        {del.status === 'Delivered' ? '✓ Delivered' : 'In Transit'}
-                      </span>
-                    </div>
+              <form onSubmit={handleAddSupplyRecord} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                  {/* Customer Select */}
+                  <div className="space-y-1 sm:col-span-2">
+                    <label className="font-semibold text-slate-700 block">Customer *</label>
+                    <select
+                      value={supplyCustomer}
+                      onChange={(e) => handleSupplyCustomerChange(e.target.value)}
+                      required
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-medium"
+                    >
+                      <option value="">Select Customer</option>
+                      {customersList.map((c) => (
+                        <option key={c.id} value={String(c.id)}>
+                          {c.name} {c.phone ? `(${c.phone})` : ''} - Disc: Rs {c.discount || 0}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                ))}
+
+                  {/* Date */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Date *</label>
+                    <input
+                      type="date"
+                      value={supplyDate}
+                      onChange={(e) => setSupplyDate(e.target.value)}
+                      required
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white"
+                    />
+                  </div>
+
+                  {/* Item / Size */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Item / Size *</label>
+                    <select
+                      value={supplyItem}
+                      onChange={(e) => handleSupplyItemChange(e.target.value)}
+                      required
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-medium"
+                    >
+                      <option value="19 Liter Can">19 Liter Can (Base: Rs 60)</option>
+                      <option value="12 Liter Can">12 Liter Can (Base: Rs 40)</option>
+                      <option value="6 Liter Bottle">6 Liter Bottle (Base: Rs 25)</option>
+                      <option value="Carton of 24 500ml">Carton 24 x 500ml (Base: Rs 600)</option>
+                      <option value="Carton of 12 500ml">Carton 12 x 500ml (Base: Rs 350)</option>
+                      <option value="Carton of 6 1.5L">Carton 6 x 1.5L (Base: Rs 450)</option>
+                    </select>
+                  </div>
+
+                  {/* Rate */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Rate (Rs) *</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={supplyRate}
+                      onChange={(e) => setSupplyRate(parseFloat(e.target.value) || 0)}
+                      required
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-medium"
+                    />
+                  </div>
+
+                  {/* Discount */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Discount (Rs)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={supplyDiscount}
+                      onChange={(e) => setSupplyDiscount(parseFloat(e.target.value) || 0)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-medium"
+                    />
+                  </div>
+
+                  {/* Final Rate */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Final Rate (Rs)</label>
+                    <input
+                      type="number"
+                      value={supplyFinalRate}
+                      readOnly
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs bg-slate-100 font-semibold text-slate-700 cursor-not-allowed"
+                    />
+                  </div>
+
+                  {/* Payment Mode */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Payment Mode *</label>
+                    <select
+                      value={supplyPaymentType}
+                      onChange={(e) => setSupplyPaymentType(e.target.value as 'Cash' | 'Credit')}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-semibold"
+                    >
+                      <option value="Cash">Cash</option>
+                      <option value="Credit">Credit</option>
+                    </select>
+                  </div>
+
+                  {/* Cans Delivered */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Cans Delivered *</label>
+                    <input
+                      type="number"
+                      min="1"
+                      placeholder="e.g. 25"
+                      value={supplyDelivered}
+                      onChange={(e) => setSupplyDelivered(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
+                      required
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-medium"
+                    />
+                  </div>
+
+                  {/* Cans Returned */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Cans Returned</label>
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="e.g. 20"
+                      value={supplyReceived}
+                      onChange={(e) => setSupplyReceived(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] text-xs bg-white font-medium"
+                    />
+                  </div>
+
+                  {/* Cans Balance */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Cans Balance</label>
+                    <input
+                      type="number"
+                      value={supplyBalance}
+                      readOnly
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs bg-slate-100 font-semibold text-slate-700 cursor-not-allowed"
+                    />
+                  </div>
+
+                  {/* Total Amount & Submit */}
+                  <div className="space-y-1">
+                    <label className="font-semibold text-slate-700 block">Total Amount (Rs)</label>
+                    <input
+                      type="text"
+                      value={`Rs ${supplyTotalAmount.toLocaleString()}`}
+                      readOnly
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs bg-slate-100 font-bold text-[#0077cc] cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="submit"
+                    className="bg-[#0077cc] hover:bg-[#005fa3] text-white font-bold py-2.5 px-6 rounded-lg text-xs shadow-xs transition-colors flex items-center gap-2 cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Supply Record
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* TABLE CARD: Recent Deliveries */}
+            <div className="bg-white rounded-xl border border-[#eef2f7] p-4 sm:p-5 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-2">
+                  <Truck className="w-4 h-4 text-[#0077cc]" />
+                  <h3 className="font-bold text-sm text-[#222222]">Recent Deliveries</h3>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#0077cc] border border-blue-100">
+                    {deliveriesList.length} Records
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Search filter */}
+                  <div className="relative min-w-[200px]">
+                    <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search deliveries..."
+                      value={supplySearch}
+                      onChange={(e) => setSupplySearch(e.target.value)}
+                      className="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#0077cc]/20 focus:border-[#0077cc] bg-white"
+                    />
+                  </div>
+
+                  {/* Export CSV */}
+                  <button
+                    type="button"
+                    onClick={exportSupplyCSV}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5 text-slate-500" />
+                    Export CSV
+                  </button>
+                </div>
+              </div>
+
+              {/* Table */}
+              <div className="overflow-x-auto rounded-lg border border-[#eef2f7]">
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="bg-[#0077cc] text-white">
+                      <th className="py-2.5 px-3 font-semibold text-center w-12">#</th>
+                      <th className="py-2.5 px-3 font-semibold">Date</th>
+                      <th className="py-2.5 px-3 font-semibold">Customer Name & Location</th>
+                      <th className="py-2.5 px-3 font-semibold text-center">Cans (Del / Ret / Bal)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Amount</th>
+                      <th className="py-2.5 px-3 font-semibold text-center">Payment</th>
+                      <th className="py-2.5 px-3 font-semibold text-center">Status</th>
+                      <th className="py-2.5 px-3 font-semibold text-center w-16">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#eef2f7]">
+                    {deliveriesList
+                      .filter((d) => {
+                        const q = supplySearch.toLowerCase().trim();
+                        if (!q) return true;
+                        return (
+                          d.customerName.toLowerCase().includes(q) ||
+                          d.orderNumber.toLowerCase().includes(q) ||
+                          d.address.toLowerCase().includes(q) ||
+                          d.paymentMethod.toLowerCase().includes(q) ||
+                          (d.timestamp && d.timestamp.toLowerCase().includes(q))
+                        );
+                      })
+                      .map((del, idx) => {
+                        const netBal = del.cansDelivered - del.emptyCollected;
+                        return (
+                          <tr key={del.id} className="hover:bg-[#fbfdff] transition-colors">
+                            <td className="py-2.5 px-3 text-slate-400 font-mono text-center">{idx + 1}</td>
+                            <td className="py-2.5 px-3 font-medium text-slate-700 whitespace-nowrap">
+                              {del.timestamp || '2026-10-20'}
+                            </td>
+                            <td className="py-2.5 px-3">
+                              <div className="font-bold text-[#222222]">{del.customerName}</div>
+                              <div className="text-[11px] text-[#666666] flex items-center gap-1 mt-0.5">
+                                <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                                {del.address}
+                              </div>
+                            </td>
+                            <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                              <span className="font-bold text-emerald-700">+{del.cansDelivered}</span>
+                              <span className="text-slate-400 mx-1">/</span>
+                              <span className="font-medium text-slate-600">-{del.emptyCollected}</span>
+                              <span className="text-slate-400 mx-1">=</span>
+                              <span className={`font-bold ${netBal > 0 ? 'text-amber-600' : 'text-slate-700'}`}>
+                                {netBal}
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 font-bold text-[#0077cc] text-right whitespace-nowrap">
+                              Rs {del.amount.toLocaleString()}
+                            </td>
+                            <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                              <span
+                                className={`px-2 py-0.5 rounded-full font-bold text-[10px] border ${
+                                  del.paymentMethod === 'Cash'
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                                }`}
+                              >
+                                {del.paymentMethod}
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                              <span
+                                className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] border ${
+                                  del.status === 'Delivered'
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                    : 'bg-blue-50 text-[#0077cc] border-blue-200'
+                                }`}
+                              >
+                                {del.status === 'Delivered' ? '✓ Delivered' : del.status}
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 text-center">
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteDelivery(del.id)}
+                                title="Delete delivery record"
+                                className="p-1 rounded text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

@@ -3,47 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mineral Water Supply Management Software in Pakistan | WSMS</title>
-    <meta name="description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
-    <meta property="og:title" content="Mineral Water Supply Management Software in Pakistan | WSMS" />
-    <meta property="og:description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/png" href="./logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
-    <!-- Static compiled stylesheet for WSMS Sample 03 React App -->
-    <link rel="stylesheet" href="./assets/app.css" />
-  </head>
-  <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
-    <div id="root"></div>
-
-    <!-- Production Standalone React Bundle (Sample 03 - Zero NPM Required) -->
-    <script type="module" src="./assets/app.js"></script>
-
-    <!-- Fallback runner for local file:/// double-click if browser blocks modules over local filesystem -->
+    <title>Redirecting to WSMS...</title>
     <script>
+      // Single-Page Apps for GitHub Pages: redirect 404 back to root index.html preserving URL
       (function() {
-        function checkAndMount() {
-          var root = document.getElementById('root');
-          if (root && (!root.firstElementChild || root.children.length === 0)) {
-            var s = document.createElement('script');
-            s.src = './assets/app.js';
-            document.body.appendChild(s);
-          }
-        }
-        if (location.protocol === 'file:') {
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-              setTimeout(checkAndMount, 150);
-            });
-          } else {
-            setTimeout(checkAndMount, 150);
-          }
-        }
+        var path = window.location.pathname;
+        var segments = path.split('/').filter(Boolean);
+        var repo = segments.length > 0 ? segments[0] : '';
+        // If hosted on username.github.io/repo/
+        var isGitHubPages = window.location.hostname.endsWith('github.io');
+        var base = window.location.origin + (isGitHubPages && repo ? '/' + repo + '/' : '/');
+        window.location.replace(base + 'index.html' + window.location.search + window.location.hash);
       })();
     </script>
+  </head>
+  <body style="font-family:'Inter',system-ui,sans-serif;text-align:center;padding:50px;background:#f7f9fb;color:#0077cc;">
+    <div style="max-width:420px;margin:40px auto;background:#fff;padding:28px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.06);border:1px solid #eef2f7;">
+      <h3 style="margin-top:0;color:#0077cc;font-size:18px;">Redirecting to WSMS...</h3>
+      <p style="color:#666;font-size:14px;line-height:1.5;">Please wait while we redirect you to the application.</p>
+      <div style="margin-top:16px;">
+        <a href="./index.html" style="display:inline-block;background:#0077cc;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px;">Click here if not redirected</a>
+      </div>
+    </div>
   </body>
 </html>

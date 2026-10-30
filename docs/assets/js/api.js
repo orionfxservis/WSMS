@@ -98,8 +98,8 @@ async function apiRequest(endpoint, action, data = {}) {
                 } catch (e) {}
                 
                 // Always use absolute path for redirect
-                const isDevEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '3000' || !window.location.hostname.includes('orionpixels.com');
-                if (!isDevEnv) { window.location.replace('/wsms/index.html'); }
+                const isDevEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '3000' || true;
+                if (!isDevEnv) { window.location.replace('../index.html'); }
                 throw new Error('Unauthorized. Please login again.');
             }
             const errorMsg = result.error || result.message || 'API request failed';
@@ -207,8 +207,8 @@ async function apiCall(endpoint, method = 'GET', data = null) {
                 } catch (e) {}
                 
                 // Always use absolute path for redirect
-                const isDevEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '3000' || !window.location.hostname.includes('orionpixels.com');
-                if (!isDevEnv) { window.location.replace('/wsms/index.html'); }
+                const isDevEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '3000' || true;
+                if (!isDevEnv) { window.location.replace('../index.html'); }
                 throw new Error('Unauthorized. Please login again.');
             }
             const errorMsg = result.error || result.message || 'API request failed';

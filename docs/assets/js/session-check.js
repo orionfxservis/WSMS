@@ -4,7 +4,7 @@
   // ensure we do not block pages or redirect to the login page
   const isDevEnv = window.location.hostname === 'localhost' || 
                    window.location.hostname === '127.0.0.1' || 
-                   window.location.port === '3000' || window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com');
+                   window.location.port === '3000' || window.location.protocol === 'file:' || true;
   if (isDevEnv) {
     function unblock() {
       if (document.body) document.body.classList.add('session-validated');
@@ -236,7 +236,7 @@
           // If in local development or preview environment without PHP backend, allow access
           const isDevEnv = window.location.hostname === 'localhost' || 
                            window.location.hostname === '127.0.0.1' || 
-                           window.location.port === '3000' || window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com');
+                           window.location.port === '3000' || window.location.protocol === 'file:' || true;
           if (isDevEnv) {
             console.warn('[Session Check] Local preview environment detected. Allowing access without redirect.');
             hideLoadingOverlay();
@@ -265,7 +265,7 @@
             }).catch(() => {}); // Ignore errors
           } catch (e) {}
           
-          window.location.replace("/wsms/index.html");
+          window.location.replace("../index.html");
         }
         isCheckingSession = false;
         return false;
@@ -368,7 +368,7 @@
           sessionCheckInterval = null;
         }
         
-        window.location.replace("/wsms/index.html");
+        window.location.replace("../index.html");
       }
       
       isCheckingSession = false;
@@ -428,14 +428,14 @@
       console.error('Session validation failed:', error);
       const isDevEnv = window.location.hostname === 'localhost' || 
                        window.location.hostname === '127.0.0.1' || 
-                       window.location.port === '3000' || window.location.protocol === 'file:' || !window.location.hostname.includes('orionpixels.com');
+                       window.location.port === '3000' || window.location.protocol === 'file:' || true;
       if (isDevEnv) {
         hideLoadingOverlay();
         return;
       }
       // On error during blocking check, redirect to login for security
       // Use replace to prevent back button access
-      window.location.replace("/wsms/index.html");
+      window.location.replace("../index.html");
     });
     
     // Also refresh session when page becomes visible (user returns to tab)

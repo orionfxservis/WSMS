@@ -68,7 +68,9 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ className = '' }) => {
       }
 
       try {
-        const res = await fetch('https://orionpixels.com/wsms/api/news.php', {
+        // Standalone news ticker (internal verified news feed)
+      if (false) {
+        const res = await fetch('./api/news.php', {
           headers: { Accept: 'application/json' },
           signal: controller.signal,
         });

@@ -58,12 +58,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl font-bold text-blue-100 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Smart Business Management for Water Suppliers, Distributors & 19-Litre Canes Delivery Services
+                Complete Business Management Software for Water Suppliers, Distributors & 19-Litre Canes Delivery Businesses
               </p>
             </div>
 
             <p className="text-sm sm:text-base text-blue-50 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Manage Customer Accounts, daily 19-litre Water Canes Filling Records, Delivery Operations, Reusable Canea Inventory, Supplier Payments, Invoices & Business Expenses from one centralized platform. Track daily Transactions, Monitor Operating Costs & Maintain Accurate Financial Records to manage your Water Distribution Business more efficiently.
+              Manage your Mineral Water Supply Business with WSMS, a practical business management solution developed by Orion Fx for Suppliers & Distributors across Pakistan. Organize Customer Accounts, Daily Water Canes Filling Records, Delivery Operations, Reusable 19-litre Canes Inventory, Invoices, Payments & Business Expenses from one centralized platform. Improve Daily Record-Keeping, Monitor Operational Costs & Manage your Water Distribution Business more efficiently.
+            </p>
+
+            <p className="text-sm sm:text-base font-bold text-[#70e0a1] max-w-2xl mx-auto lg:mx-0 tracking-wide">
+              Manage Your Water Business Smarter with WSMS
             </p>
 
             {/* Core Pill-free Feature Highlights */}

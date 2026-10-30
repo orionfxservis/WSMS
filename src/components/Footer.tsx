@@ -16,12 +16,12 @@ SECTION 3. ALLOWED USE: Must comply with Pakistan law; fraudulent data, code rev
 SECTION 4. DATA OWNERSHIP: All customer, sales, and inventory data entered belongs entirely to you.
 SECTION 5. DATA STORAGE: Stored securely in your browser's local storage.
 SECTION 6. SERVICE LIMITATIONS: Provided on an "as-is" and "as-available" basis without warranties.
-SECTION 7. INTELLECTUAL PROPERTY: Design, brand, and proprietary code belong to Orion Pixels.
+SECTION 7. INTELLECTUAL PROPERTY: Design, brand, and proprietary code belong to Orion Fx.
 SECTION 8. TERMINATION: Access can be suspended upon terms violation; clearing device storage concludes use.
 SECTION 9. LIMITATION OF LIABILITY: Governed under Pakistani law; total liability limited to amounts paid in the preceding 12 months.
 SECTION 10. GOVERNING LAW & DISPUTES: Courts of Karachi, Sindh.
 SECTION 11. CHANGES: Subject to periodic updates.
-SECTION 12. CONTACT: Orion Pixels Support.`,
+SECTION 12. CONTACT: Orion Fx Support.`,
     Privacy: `Privacy Policy (Water Supply Management System - Sindh & Pakistan Jurisdiction)
 Last Updated: January 2025
 
@@ -39,7 +39,7 @@ SECTION 9. YOUR RIGHTS: Full rights to view, correct, export, or delete your dat
 SECTION 10. CHILDREN'S PRIVACY: For users 18 years and older.
 SECTION 11. INTERNATIONAL TRANSFERS: Zero data transfers outside Pakistan.
 SECTION 13. POLICY CHANGES: Periodic updates published with revised timestamp.
-SECTION 14. CONTACT: Orion Pixels Support.`,
+SECTION 14. CONTACT: Orion Fx Support.`,
     Cookies: `Cookie Policy (Water Supply Management System - Sindh & Pakistan Standards)
 Last Updated: January 2025
 
@@ -55,7 +55,7 @@ SECTION 5. DATA STORED: Temporary session token and basic app state. Never store
 SECTION 6. SECURITY: Protected by browser sandboxing and never shared with external parties.
 SECTION 7. DELETION: Can be cleared anytime through browser settings.
 SECTION 8. POLICY UPDATES: Governed by periodic revisions with timestamp updates.
-SECTION 9. CONTACT: Orion Pixels Support.`,
+SECTION 9. CONTACT: Orion Fx Support.`,
   };
 
   const scrollToTop = () => {

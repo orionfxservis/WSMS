@@ -67,7 +67,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
   const handleDemoSelect = (role: UserRole) => {
     setErrorMsg(null);
     if (role === 'supplier') {
-      setLoginEmail('supplier@orionpixels.com');
+      setLoginEmail('supplier@wsms.pk');
       setLoginPassword('WaterSupply2026!');
     } else if (role === 'filling_station') {
       setLoginEmail('station_operator@wsms.local');
@@ -301,7 +301,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
               type="text"
               required
               autoComplete="username"
-              placeholder="e.g. supplier@orionpixels.com"
+              placeholder="e.g. supplier@wsms.pk"
               value={loginEmail}
               onChange={(e) => setLoginEmail(e.target.value)}
               className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder:text-slate-400 focus:bg-white focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/20 transition-all outline-none"

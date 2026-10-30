@@ -1068,7 +1068,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 shadow-xs overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
                 <img
                   src="./assets/img/logo/logo.png"
-                  alt="WSMS Logo"
+                  alt="WSMS Mineral Water Supply Management System Logo"
                   className="w-full h-full object-contain"
                   onError={(e) => { (e.target as HTMLImageElement).src = './assets/img/logo.png'; }}
                 />

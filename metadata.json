@@ -1,6 +1,8 @@
 {
-  "name": "WSMS - Water Supply Management System",
-  "description": "Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services.",
+  "name": "Mineral Water Supply Management Software Pakistan | WSMS",
+  "description": "Manage your mineral water supply business in Pakistan with WSMS. Track customers, 19L canes deliveries, filling records, inventory, invoices and expenses.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

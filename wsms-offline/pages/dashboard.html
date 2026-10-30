@@ -13,7 +13,7 @@
 
 <!-- Block page rendering until session is validated -->
 <style id="session-block-style">
-  body { visibility: hidden; overflow: hidden; }
+  body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
 </style>
 
@@ -36,6 +36,7 @@
 <script src="../assets/js/status-banner.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../assets/js/logout.js"></script>
+<script src="../assets/js/wsms-store.js"></script>
 <script src="../assets/js/api.js"></script>
 <script src="../assets/js/user-header.js"></script>
 
@@ -109,6 +110,58 @@ main{padding:12px 12px 90px 12px}
   height:28px;
   opacity:.92;
   flex-shrink:0;
+}
+
+
+/* quick card component matching Sample 03 */
+.quick-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: #ffffff;
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  transition: all 0.15s ease;
+}
+.quick-card:hover {
+  background: #f0f7ff;
+}
+.quick-card-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0077cc;
+  text-decoration: none;
+  cursor: pointer;
+}
+.quick-card-title:hover {
+  text-decoration: underline;
+}
+.quick-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  font-weight: 500;
+  color: #0077cc;
+  background: #f0f7fd;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  padding: 2px 8px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.quick-card-badge:hover {
+  background: #e0f0fe;
+  border-color: #93c5fd;
+}
+.quick-card-badge i {
+  font-size: 10px;
 }
 
 /* quick links */
@@ -242,25 +295,28 @@ nav.bottom-nav a.active{
   .quick-links{grid-template-columns:repeat(4,1fr)}
 }
 </style>
+  <link rel="icon" type="image/png" href="../logo.png" />
 </head>
 <body>
 
 <div class="header">
-  <div class="header-left">
-    <img src="../assets/img/logo-white.png" alt="WSMS Logo" onerror="this.style.display='none'"/>
-    <span class="header-logo">WSMS</span>
-  </div>
+    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+    <div class="header-logo-container">
+      <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
+    </div>
+    <div class="header-brand-text">
+      <div class="header-brand-title">
+        <span class="header-logo">WSMS</span>
+        <span class="header-portal-tag">Portal</span>
+      </div>
+      <span class="header-company-name">Water Supply Management System</span>
+    </div>
+  </a>
   <div class="header-right">
     <div class="header-icons">
-      <a href="schedule.html" class="header-icon-link" title="Schedule">
-        <i class="fi fi-rr-calendar"></i>
-      </a>
-      <a href="settings.html" class="header-icon-link" title="Settings">
-        <i class="fi fi-rr-settings"></i>
-      </a>
+      <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <span id="headerUserName" class="header-user">User</span>
-    <img id="headerUserImage" src="../assets/default-user.png" alt="User" onerror="this.src='/logo.png'">
+    <img id="headerUserImage" src="../assets/default-user.png" alt="User" onerror="this.src='../logo.png'">
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
@@ -326,12 +382,36 @@ nav.bottom-nav a.active{
     </div>
   </section>
 
-  <!-- Quick links -->
+  <!-- Quick links matching Sample 03 Design -->
   <section class="quick-links">
-    <a href="customers.html">Customers</a>
-    <a href="stations.html">Filling Stations</a>
-    <a href="inventory.html">Inventory</a>
-    <a href="report.html">Reports</a>
+    <div class="quick-card">
+      <a href="customers.html" class="quick-card-title">Customers</a>
+      <a href="customers.html" class="quick-card-badge" title="Open customers.html">
+        <span>/pages/customers.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+    <div class="quick-card">
+      <a href="stations.html" class="quick-card-title">Filling Stations</a>
+      <a href="stations.html" class="quick-card-badge" title="Open stations.html">
+        <span>/pages/stations.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+    <div class="quick-card">
+      <a href="inventory.html" class="quick-card-title">Inventory</a>
+      <a href="inventory.html" class="quick-card-badge" title="Open inventory.html">
+        <span>/pages/inventory.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+    <div class="quick-card">
+      <a href="report.html" class="quick-card-title">Reports</a>
+      <a href="report.html" class="quick-card-badge" title="Open report.html">
+        <span>/pages/report.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
   </section>
 
   <!-- Travel Plan -->
@@ -468,6 +548,16 @@ document.addEventListener("DOMContentLoaded", async function() {
 });
 
 async function init(){
+  // Synchronize data from shared store
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store && store.summary) {
+      if (document.getElementById('sumDeliveries')) document.getElementById('sumDeliveries').textContent = store.summary.total_deliveries;
+      if (document.getElementById('sumRevenue')) document.getElementById('sumRevenue').textContent = 'Rs ' + Number(store.summary.total_revenue).toLocaleString();
+      if (document.getElementById('sumExpense')) document.getElementById('sumExpense').textContent = 'Rs ' + Number(store.summary.total_expenses).toLocaleString();
+      if (document.getElementById('sumProfit')) document.getElementById('sumProfit').textContent = 'Rs ' + Number(store.summary.profit).toLocaleString();
+    }
+  }
   console.log('[Dashboard] Initializing dashboard');
   try {
     if (typeof apiGetDashboardData === 'function') {

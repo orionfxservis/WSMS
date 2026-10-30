@@ -93,14 +93,9 @@
   flex-shrink: 0;
 }
 
-/* User Name */
+/* User Name (hidden per user request) */
 .header-user {
-  color: white !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  white-space: nowrap;
+  display: none !important;
 }
 
 /* Logout Button - Must override all page-specific button styles */

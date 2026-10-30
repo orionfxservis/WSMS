@@ -3,46 +3,102 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mineral Water Supply Management Software in Pakistan | WSMS</title>
-    <meta name="description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
-    <meta property="og:title" content="Mineral Water Supply Management Software in Pakistan | WSMS" />
-    <meta property="og:description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
+    <title>Mineral Water Supply Management Software Pakistan | WSMS</title>
+    <meta name="description" content="Manage your mineral water supply business in Pakistan with WSMS. Track customers, 19L canes deliveries, filling records, inventory, invoices and expenses." />
+    <meta name="keywords" content="Mineral Water Supply Management Software Pakistan, Water Supplier Management System, 19 Litre Water Canes Delivery Software, Water Supply Management System, Water Distribution Business Pakistan" />
+    <meta property="og:title" content="Mineral Water Supply Management Software Pakistan | WSMS" />
+    <meta property="og:description" content="Manage your mineral water supply business in Pakistan with WSMS. Track customers, 19L canes deliveries, filling records, inventory, invoices and expenses." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mineral Water Supply Management Software Pakistan | WSMS" />
+    <meta name="twitter:description" content="Manage your mineral water supply business in Pakistan with WSMS. Track customers, 19L canes deliveries, filling records, inventory, invoices and expenses." />
     <link rel="icon" type="image/png" href="./logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- 1. Normalize GitHub Pages URL: automatically append trailing slash to repository directory so relative ./assets/ never 404 -->
+    <script>
+      (function() {
+        var p = window.location.pathname;
+        if (p && !p.endsWith('/') && !p.split('/').pop().includes('.')) {
+          window.location.replace(p + '/' + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
     
     <!-- Static compiled stylesheet for WSMS Sample 03 React App -->
     <link rel="stylesheet" href="./assets/app.css" />
   </head>
   <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
-    <div id="root"></div>
+    <!-- Visual boot loader inside #root replaced automatically once React mounts -->
+    <div id="root">
+      <div id="wsms-boot-loader" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Inter',system-ui,-apple-system,sans-serif;background:#f7f9fb;color:#0077cc;padding:24px;text-align:center;">
+        <div style="width:48px;height:48px;border:3px solid rgba(0,119,204,0.2);border-top-color:#0077cc;border-radius:50%;animation:wsms-spin 0.8s linear infinite;"></div>
+        <p style="margin-top:18px;margin-bottom:4px;font-size:16px;font-weight:700;color:#0077cc;">Loading WSMS Application...</p>
+        <span style="font-size:12px;color:#666;">Water Supply Management System · Pakistan</span>
+        <style>@keyframes wsms-spin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
 
-    <!-- Production Standalone React Bundle (Sample 03 - Zero NPM Required) -->
-    <script type="module" src="./assets/app.js"></script>
+    <!-- Production Standalone React Bundle (Zero NPM Required, Works seamlessly on https://, http:// and file://) -->
+    <script defer src="./assets/app.js"></script>
 
-    <!-- Fallback runner for local file:/// double-click if browser blocks modules over local filesystem -->
+    <!-- Universal failsafe loader: guarantees mounting across GitHub Pages, subfolders, local files, or slow networks -->
     <script>
       (function() {
+        function getBase() {
+          var href = window.location.href.split('#')[0].split('?')[0];
+          if (!href.endsWith('/')) {
+            var lastSlash = href.lastIndexOf('/');
+            if (lastSlash !== -1 && href.substring(lastSlash).includes('.')) {
+              href = href.substring(0, lastSlash + 1);
+            } else {
+              href = href + '/';
+            }
+          }
+          return href;
+        }
+
         function checkAndMount() {
           var root = document.getElementById('root');
-          if (root && (!root.firstElementChild || root.children.length === 0)) {
-            var s = document.createElement('script');
-            s.src = './assets/app.js';
-            document.body.appendChild(s);
+          var loader = document.getElementById('wsms-boot-loader');
+          // If loader is still in DOM, React hasn't replaced #root yet
+          if (loader || (root && (!root.firstElementChild || root.children.length === 0))) {
+            console.warn('[WSMS] Primary bundle not yet rendered, activating secondary runner...');
+            var base = getBase();
+            var fallbackScript = document.createElement('script');
+            fallbackScript.src = base + 'assets/app.js?v=' + Date.now();
+            fallbackScript.onerror = function() {
+              var alt = document.createElement('script');
+              alt.src = './assets/app.js';
+              document.body.appendChild(alt);
+            };
+            document.body.appendChild(fallbackScript);
           }
         }
-        if (location.protocol === 'file:') {
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-              setTimeout(checkAndMount, 150);
-            });
-          } else {
-            setTimeout(checkAndMount, 150);
-          }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkAndMount, 350);
+          });
+        } else {
+          setTimeout(checkAndMount, 350);
         }
+
+        // Helpful diagnostics in case of network or script error
+        window.addEventListener('error', function(e) {
+          var loader = document.getElementById('wsms-boot-loader');
+          if (loader) {
+            loader.innerHTML = '<div style="background:#fee2e2;border:1px solid #ef4444;border-radius:10px;padding:20px;max-width:540px;color:#991b1b;font-size:13px;text-align:left;box-shadow:0 4px 12px rgba(0,0,0,0.08);">' +
+              '<strong style="font-size:15px;display:block;margin-bottom:8px;color:#b91c1c;">⚠️ Script Loading Notice</strong>' +
+              '<p style="margin:0 0 10px 0;line-height:1.5;">' + (e.message || 'The application script is still loading or was interrupted by browser security policy.') + '</p>' +
+              '<div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;">' +
+              '<a href="./pages/dashboard.html" style="background:#0077cc;color:#ffffff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:600;font-size:12px;">Open WSMS Dashboard Directly</a>' +
+              '<a href="javascript:location.reload()" style="background:#ffffff;color:#333333;border:1px solid #cccccc;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:600;font-size:12px;">Reload Page</a>' +
+              '</div></div>';
+          }
+        });
       })();
     </script>
   </body>

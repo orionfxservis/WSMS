@@ -29,15 +29,174 @@
     
     <!-- Static compiled stylesheet for WSMS Sample 03 React App -->
     <link rel="stylesheet" href="./assets/app.css" />
+      <!-- Canonical URL to primary domain -->
+    <link rel="canonical" href="https://orionfxservis.github.io/WSMS/" />
+
+    <!-- Schema.org SoftwareApplication Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "WSMS",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "description": "Water supply management software for mineral water suppliers and distributors in Pakistan.",
+      "provider": {
+        "@type": "Organization",
+        "name": "Orion Fx",
+        "url": "https://www.orionfx.net/"
+      },
+      "url": "https://orionfxservis.github.io/WSMS/"
+    }
+    </script>
   </head>
   <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
     <!-- Visual boot loader inside #root replaced automatically once React mounts -->
-    <div id="root">
-      <div id="wsms-boot-loader" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Inter',system-ui,-apple-system,sans-serif;background:#f7f9fb;color:#0077cc;padding:24px;text-align:center;">
-        <div style="width:48px;height:48px;border:3px solid rgba(0,119,204,0.2);border-top-color:#0077cc;border-radius:50%;animation:wsms-spin 0.8s linear infinite;"></div>
-        <p style="margin-top:18px;margin-bottom:4px;font-size:16px;font-weight:700;color:#0077cc;">Loading WSMS Application...</p>
-        <span style="font-size:12px;color:#666;">Water Supply Management System · Pakistan</span>
-        <style>@keyframes wsms-spin{to{transform:rotate(360deg)}}</style>
+        <div id="root">
+      <!-- Prerendered Semantic HTML for Instant Search Engine Discovery & Usability -->
+      <div id="wsms-prerender">
+        <header class="bg-[#007bdb] text-white shadow-md sticky top-0 z-40">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="./" class="flex items-center gap-3 no-underline text-white">
+              <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white flex items-center justify-center p-1 shadow-xs overflow-hidden shrink-0">
+                <img src="./assets/img/logo/logo.png" alt="WSMS Mineral Water Supply Logo" width="48" height="48" class="w-full h-full object-contain" onerror="this.src='./logo.png'" />
+              </div>
+              <div class="flex flex-col">
+                <span class="font-extrabold text-2xl tracking-tight text-white leading-none">WSMS</span>
+                <span class="text-xs text-blue-100 font-medium">Water Supply Management System</span>
+              </div>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-blue-50">
+              <a href="#features" class="hover:text-white transition-colors no-underline text-inherit">Features</a>
+              <a href="#about" class="hover:text-white transition-colors no-underline text-inherit">About Us</a>
+              <a href="#contact" class="hover:text-white transition-colors no-underline text-inherit">Contact</a>
+              <a href="./pages/dashboard.html" class="bg-white text-[#007bdb] px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-blue-50 transition-colors no-underline">Sign In / Dashboard</a>
+            </nav>
+          </div>
+        </header>
+
+        <main id="main-content">
+          <!-- Hero Section -->
+          <section class="relative bg-gradient-to-b from-[#007bdb] to-[#005fa3] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center lg:text-left space-y-6">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-blue-100 text-xs font-semibold border border-white/15">
+                <span>Business Management Solution for Pakistani Water Suppliers</span>
+              </div>
+              <h1 id="hero-heading" class="text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl font-extrabold tracking-tight leading-[1.18] text-white">
+                Mineral Water Supply <br class="hidden sm:inline" />
+                <span class="text-white drop-shadow-xs">Management Software in Pakistan</span>
+              </h1>
+              <p class="text-base sm:text-lg md:text-xl font-bold text-blue-100 max-w-2xl mx-auto lg:mx-0 leading-snug">
+                Complete Business Management Software for Water Suppliers, Distributors & 19-Litre Canes Delivery Businesses
+              </p>
+              <p class="text-sm sm:text-base text-blue-50 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Manage your Mineral Water Supply Business with WSMS, a practical business management solution developed by Orion Fx for Suppliers & Distributors across Pakistan. Organize Customer Accounts, Daily Water Canes Filling Records, Delivery Operations, Reusable 19-litre Canes Inventory, Invoices, Payments & Business Expenses from one centralized platform. Improve Daily Record-Keeping, Monitor Operational Costs & Manage your Water Distribution Business more efficiently.
+              </p>
+              <p class="text-sm sm:text-base font-bold text-[#70e0a1] max-w-2xl mx-auto lg:mx-0 tracking-wide">
+                Manage Your Water Business Smarter with WSMS
+              </p>
+              <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                <a href="./pages/dashboard.html" class="px-6 py-3.5 rounded-xl bg-white text-[#007bdb] font-bold text-sm shadow-lg hover:bg-blue-50 transition-all no-underline">
+                  Launch WSMS Portal →
+                </a>
+                <a href="#features" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all no-underline">
+                  View Core Features
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Core Features Section -->
+          <section id="features" class="py-16 sm:py-20 bg-[#f7f9fb] px-4 sm:px-6 lg:px-8 border-b border-slate-200">
+            <div class="max-w-7xl mx-auto">
+              <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                <span class="text-xs font-bold tracking-wider uppercase text-[#0077cc]">Complete Water Supply Features</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#222222]">
+                  Essential Tools to Manage Your Mineral Water Supply Business
+                </h2>
+                <p class="text-base text-[#666666]">
+                  Manage your Mineral Water distribution business with WSMS, a Water Supply Management System designed for Suppliers and Distributors across Pakistan.
+                </p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                  <h3 class="text-lg font-bold text-[#222222] mb-2">Customer Accounts & Billing</h3>
+                  <p class="text-sm text-[#666666]">Manage customer balance ledgers, daily cane delivery history, bottle deposits, and automated invoices.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                  <h3 class="text-lg font-bold text-[#222222] mb-2">19-Litre Can Inventory</h3>
+                  <p class="text-sm text-[#666666]">Track empty, filled, delivered, and damaged canes in real-time to eliminate bottle loss across your supply routes.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                  <h3 class="text-lg font-bold text-[#222222] mb-2">Filling Stations & RO Plants</h3>
+                  <p class="text-sm text-[#666666]">Record production batches, monitor water purification filling costs, pump status, and supplier procurement logs.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                  <h3 class="text-lg font-bold text-[#222222] mb-2">Fleet & Daily Delivery Dispatch</h3>
+                  <p class="text-sm text-[#666666]">Organize driver delivery schedules, track route completion, and manage vehicle fuel consumption.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                  <h3 class="text-lg font-bold text-[#222222] mb-2">Daily Expense Management</h3>
+                  <p class="text-sm text-[#666666]">Track vehicle maintenance, diesel costs, electricity bills, and worker wages to compute net daily operating profits.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+                  <h3 class="text-lg font-bold text-[#222222] mb-2">Field Worker & Mobile Hub</h3>
+                  <p class="text-sm text-[#666666]">Mobile-optimized view for delivery drivers, field workers, and depots to log customer handoffs offline.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- About Section -->
+          <section id="about" class="py-16 sm:py-20 bg-white px-4 sm:px-6 lg:px-8 border-b border-slate-200">
+            <div class="max-w-7xl mx-auto space-y-10">
+              <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold tracking-wider uppercase text-[#0077cc]">Developed by Orion Fx</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#222222]">
+                  About WSMS – Water Supply Management Software in Pakistan
+                </h2>
+                <p class="text-base text-[#666666] leading-relaxed">
+                  WSMS (Water Supply Management System) is a Business Management Solution Developed by Orion Fx to help Mineral Water Suppliers & Distributors across Pakistan manage their daily operations more efficiently. From Customer Accounts & Water Canes Delivery Records to reusable 19-litre Canes Inventory, Filling Records, Invoicing, Payments & Expense tracking, WSMS brings essential business activities together in one organized system.
+                </p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-xl bg-gradient-to-l from-[#5fa8f7] to-[#3583e5] text-white">
+                  <h3 class="text-xl font-bold mb-2">Our Mission</h3>
+                  <p class="text-sm text-blue-50 leading-relaxed">
+                    Our mission is to make Water Supply Business Management simpler and more efficient by providing practical digital tools for Pakistani Suppliers & Distributors. WSMS helps businesses organize customer relationships, track deliveries and reusable Water Canes, Maintain Financial Records & reduce losses caused by inaccurate can deposits or incomplete transaction records.
+                  </p>
+                </div>
+                <div class="p-6 rounded-xl bg-slate-50 border border-slate-200 text-slate-800">
+                  <h3 class="text-xl font-bold mb-2 text-[#0077cc]">Our Vision</h3>
+                  <p class="text-sm text-slate-600 leading-relaxed">
+                    Our vision is to support the digital growth of Pakistan's Mineral Water Distribution industry by making effective Business Management Software accessible to Suppliers & Distributors of different sizes. Through continuous improvement, user-friendly features & reliable operational tools, WSMS aims to help Water Supply Businesses improve accountability, manage resources & deliver better customer service.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="contact" class="bg-[#08101e] text-slate-400 py-12 px-4 sm:px-6 lg:px-8 border-t border-sky-950">
+          <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1">
+                <img src="./assets/img/logo/logo.png" alt="WSMS Mineral Water Supply Logo" width="40" height="40" class="w-full h-full object-contain" onerror="this.src='./logo.png'" />
+              </div>
+              <div>
+                <span class="text-white font-bold text-lg">WSMS</span>
+                <p class="text-xs text-slate-400">Water Supply Management System · Developed by Orion Fx</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-6 text-xs">
+              <a href="./pages/terms.html" class="hover:text-white transition-colors text-inherit no-underline">Terms of Service</a>
+              <a href="./pages/privacy.html" class="hover:text-white transition-colors text-inherit no-underline">Privacy Policy</a>
+              <a href="./pages/cookies.html" class="hover:text-white transition-colors text-inherit no-underline">Cookie Policy</a>
+              <a href="./pages/dashboard.html" class="hover:text-white transition-colors text-inherit no-underline">Portal Login</a>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
 

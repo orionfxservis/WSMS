@@ -209,7 +209,7 @@ export default function App() {
             {/* Interactive ROI Calculator & Workflow Demonstration */}
             <LiveWorkflowDemo />
 
-            {/* About & Trust Section (Orion Pixels Story, Values & Compliance) */}
+            {/* About & Trust Section (Orion Fx Story, Values & Compliance) */}
             <AboutSection />
           </>
         )}

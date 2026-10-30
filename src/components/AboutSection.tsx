@@ -49,7 +49,7 @@ export const AboutSection: React.FC = () => {
             </div>
             <h3 className="text-2xl font-black text-[#222222]">Our Vision</h3>
             <p className="text-[#666666] text-sm sm:text-base leading-relaxed">
-              Our vision is to support the digital growth of Pakistan’s Mineral Water Distribution industry by making effective Business Management Software accessible to Suppliers & Distributors of different sizes. Through continuous improvement, user-friendly features & reliable operational tools, WSMS aims to help Water Supply Businesses improve accountability, manage resources, and deliver better customer service.
+              Our vision is to support the digital growth of Pakistan’s Mineral Water Distribution industry by making effective Business Management Software accessible to Suppliers & Distributors of different sizes. Through continuous improvement, user-friendly features & reliable operational tools, WSMS aims to help Water Supply Businesses improve accountability, manage resources & deliver better customer service.
             </p>
           </div>
         </div>

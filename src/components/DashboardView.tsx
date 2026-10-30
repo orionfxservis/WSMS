@@ -58,56 +58,38 @@ export interface DailyExpenseItem {
 const initialExpenses: DailyExpenseItem[] = [
   {
     id: 1,
-    date: '2026-10-22',
-    description: 'Vehicle Diesel for 3 Fleet Delivery Vans (Shell PECHS & Korangi)',
-    nos: '3 Vans',
-    amount: 5600,
-    paid: 5600,
+    date: '2026-10-20',
+    description: 'Diesel for Suzuki Ravi (Route 1 & 2) - 14.2L refuel at PSO',
+    nos: '1 Van',
+    amount: 3500,
+    paid: 3500,
     balance: 0,
   },
   {
     id: 2,
-    date: '2026-10-22',
-    description: 'K-Electric Industrial Power - RO Pumping Station Unit 4',
-    nos: '1 Meter',
-    amount: 3800,
-    paid: 3800,
+    date: '2026-10-19',
+    description: 'RO Membrane Replacement (3000 GPD) - Clifton plant high pressure',
+    nos: '1 Unit',
+    amount: 4500,
+    paid: 4500,
     balance: 0,
   },
   {
     id: 3,
-    date: '2026-10-22',
-    description: 'Driver & Delivery Labour Daily Allowances & Meals',
-    nos: '4 Staff',
-    amount: 2200,
-    paid: 2200,
+    date: '2026-10-18',
+    description: 'K-Electric Commercial Pumping Bill - Off-peak pumping slot unit',
+    nos: '1 Meter',
+    amount: 2500,
+    paid: 2500,
     balance: 0,
   },
   {
     id: 4,
-    date: '2026-10-21',
-    description: 'Food-Grade Sanitization Chemicals & Sediment Filter Cartridge',
-    nos: '2 Packs',
-    amount: 800,
-    paid: 800,
-    balance: 0,
-  },
-  {
-    id: 5,
-    date: '2026-10-21',
-    description: '19-Liter Polycarbonate Bottle Tamper Caps & Shrink Heat Seals',
-    nos: '500 Pcs',
-    amount: 2500,
-    paid: 1500,
-    balance: 1000,
-  },
-  {
-    id: 6,
     date: '2026-10-20',
-    description: 'Delivery Suzuki Van Tyre Puncture & Brake Fluid Inspection',
-    nos: '1 Van',
-    amount: 1400,
-    paid: 1400,
+    description: 'Driver Daily Wages (3 Vans) - Day settlement Tariq, Imran & Zahid',
+    nos: '3 Staff',
+    amount: 2000,
+    paid: 2000,
     balance: 0,
   },
 ];
@@ -131,62 +113,54 @@ export interface CustomerAccount {
 export const initialCustomerAccounts: CustomerAccount[] = [
   {
     id: 101,
-    name: 'Al-Madina General Hospital',
-    phone: '0300-2194857',
-    address: 'PECHS Block 2, Karachi',
-    discount: 15,
-    pending_cans: 24,
-    pending_payment: 3800,
-    deposit: 24000,
-    latitude: 24.8688,
-    longitude: 67.0543,
-    can19LDiscount: 15,
+    name: 'Metro Cash & Carry (Staff Canteen)',
+    phone: '0300-1234567',
+    address: 'University Road, Gulshan, Karachi',
+    discount: 20,
+    pending_cans: 30,
+    pending_payment: 0,
+    deposit: 30000,
+    can19LDiscount: 20,
     can12LDiscount: 10,
     can6LDiscount: 5,
   },
   {
     id: 102,
-    name: 'Standard Chartered Clifton Branch',
-    phone: '0321-9874512',
-    address: 'DHA Phase 5, Karachi',
-    discount: 20,
-    pending_cans: 18,
-    pending_payment: 0,
-    deposit: 18000,
-    latitude: 24.8012,
-    longitude: 67.0378,
-    can19LDiscount: 20,
-    can12LDiscount: 15,
-    can6LDiscount: 10,
+    name: 'Indus Hospital & Health Network',
+    phone: '0321-9876543',
+    address: 'Korangi Sector 31, Karachi',
+    discount: 0,
+    pending_cans: 25,
+    pending_payment: 4500,
+    deposit: 25000,
+    can19LDiscount: 0,
+    can12LDiscount: 0,
+    can6LDiscount: 0,
   },
   {
     id: 103,
-    name: 'Gulshan Executive Apartments',
-    phone: '0333-4567890',
-    address: 'Block 6, University Road, Karachi',
-    discount: 10,
-    pending_cans: 45,
-    pending_payment: 7200,
-    deposit: 45000,
-    latitude: 24.9180,
-    longitude: 67.0971,
-    can19LDiscount: 10,
+    name: 'Dolmen Mall Food Court',
+    phone: '0333-2345678',
+    address: 'Clifton Block 4, Karachi',
+    discount: 15,
+    pending_cans: 40,
+    pending_payment: 0,
+    deposit: 40000,
+    can19LDiscount: 15,
     can12LDiscount: 10,
     can6LDiscount: 5,
   },
   {
     id: 104,
-    name: 'Crown Textile Mills HQ',
-    phone: '0312-3456781',
-    address: 'Plot 48, Korangi Industrial Area, Karachi',
-    discount: 25,
-    pending_cans: 60,
-    pending_payment: 11400,
-    deposit: 60000,
-    latitude: 24.8329,
-    longitude: 67.1351,
-    can19LDiscount: 25,
-    can12LDiscount: 15,
+    name: 'Aga Khan Labs Executive Wing',
+    phone: '0300-4567890',
+    address: 'Stadium Road, Karachi',
+    discount: 30,
+    pending_cans: 15,
+    pending_payment: 1800,
+    deposit: 15000,
+    can19LDiscount: 30,
+    can12LDiscount: 20,
     can6LDiscount: 10,
   },
   {
@@ -198,8 +172,6 @@ export const initialCustomerAccounts: CustomerAccount[] = [
     pending_cans: 8,
     pending_payment: 0,
     deposit: 8000,
-    latitude: 24.8633,
-    longitude: 67.0673,
     can19LDiscount: 10,
     can12LDiscount: 5,
     can6LDiscount: 5,
@@ -213,8 +185,6 @@ export const initialCustomerAccounts: CustomerAccount[] = [
     pending_cans: 14,
     pending_payment: 2160,
     deposit: 14000,
-    latitude: 24.9312,
-    longitude: 67.0621,
     can19LDiscount: 12,
     can12LDiscount: 10,
     can6LDiscount: 5,
@@ -228,8 +198,6 @@ export const initialCustomerAccounts: CustomerAccount[] = [
     pending_cans: 10,
     pending_payment: 0,
     deposit: 10000,
-    latitude: 24.8569,
-    longitude: 67.0210,
     can19LDiscount: 15,
     can12LDiscount: 10,
     can6LDiscount: 5,
@@ -243,8 +211,6 @@ export const initialCustomerAccounts: CustomerAccount[] = [
     pending_cans: 16,
     pending_payment: 3200,
     deposit: 16000,
-    latitude: 24.9950,
-    longitude: 67.3100,
     can19LDiscount: 0,
     can12LDiscount: 0,
     can6LDiscount: 0,
@@ -1055,30 +1021,29 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     setTimeout(() => setInventoryNotice(null), 4000);
   };
 
-  // Activity Chart Data based on range
+  // Activity Chart Data based on range (matching dashboard.html)
   const chartData = {
     daily: [
-      { label: '8 AM', deliveries: 12, revenue: 2400 },
-      { label: '10 AM', deliveries: 28, revenue: 5600 },
-      { label: '12 PM', deliveries: 35, revenue: 7000 },
-      { label: '2 PM', deliveries: 22, revenue: 4400 },
-      { label: '4 PM', deliveries: 40, revenue: 8000 },
-      { label: '6 PM', deliveries: 15, revenue: 3000 },
+      { label: '08:00 AM', deliveries: 12, revenue: 5200 },
+      { label: '11:00 AM', deliveries: 22, revenue: 9400 },
+      { label: '02:00 PM', deliveries: 28, revenue: 11500 },
+      { label: '05:00 PM', deliveries: 18, revenue: 7400 },
     ],
     weekly: [
-      { label: 'Mon', deliveries: 140, revenue: 28000 },
-      { label: 'Tue', deliveries: 185, revenue: 37000 },
-      { label: 'Wed', deliveries: 210, revenue: 42000 },
-      { label: 'Thu', deliveries: 195, revenue: 39000 },
-      { label: 'Fri', deliveries: 240, revenue: 48000 },
-      { label: 'Sat', deliveries: 225, revenue: 45000 },
-      { label: 'Sun', deliveries: 90, revenue: 18000 },
+      { label: 'Mon', deliveries: 28, revenue: 28400 },
+      { label: 'Tue', deliveries: 31, revenue: 31200 },
+      { label: 'Wed', deliveries: 30, revenue: 29800 },
+      { label: 'Thu', deliveries: 35, revenue: 34500 },
+      { label: 'Fri', deliveries: 36, revenue: 36000 },
+      { label: 'Sat', deliveries: 32, revenue: 32100 },
+      { label: 'Sun', deliveries: 34, revenue: 33500 },
     ],
     monthly: [
-      { label: 'Week 1', deliveries: 980, revenue: 196000 },
-      { label: 'Week 2', deliveries: 1120, revenue: 224000 },
-      { label: 'Week 3', deliveries: 1250, revenue: 250000 },
-      { label: 'Week 4', deliveries: 1340, revenue: 268000 },
+      { label: 'Jun', deliveries: 720, revenue: 720000 },
+      { label: 'Jul', deliveries: 840, revenue: 840000 },
+      { label: 'Aug', deliveries: 910, revenue: 910000 },
+      { label: 'Sep', deliveries: 980, revenue: 980000 },
+      { label: 'Oct', deliveries: 1045, revenue: 1045000 },
     ],
   };
 
@@ -1229,7 +1194,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <div>
                   <h4 className="m-0 mb-0.5 text-[13px] font-semibold opacity-90 leading-tight">Revenue</h4>
                   <p className="m-0 text-xl sm:text-[22px] font-bold leading-tight">Rs {sumRevenue.toLocaleString()}</p>
-                  <span className="text-[10px] opacity-80 leading-tight block mt-0.5">Settled & Pending</span>
+                  <span className="text-[10px] opacity-80 leading-tight block mt-0.5">Settled & Collected</span>
                 </div>
                 <svg
                   viewBox="0 0 24 24"
@@ -1256,7 +1221,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <div>
                   <h4 className="m-0 mb-0.5 text-[13px] font-semibold opacity-90 leading-tight">Expenses</h4>
                   <p className="m-0 text-xl sm:text-[22px] font-bold leading-tight">Rs {sumExpense.toLocaleString()}</p>
-                  <span className="text-[10px] opacity-80 leading-tight block mt-0.5">Fuel, Power & Labor</span>
+                  <span className="text-[10px] opacity-80 leading-tight block mt-0.5">Fleet, Diesel & Bills</span>
                 </div>
                 <svg
                   viewBox="0 0 24 24"
@@ -1282,7 +1247,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <div>
                   <h4 className="m-0 mb-0.5 text-[13px] font-semibold opacity-90 leading-tight">Profit</h4>
                   <p className="m-0 text-xl sm:text-[22px] font-bold leading-tight">Rs {sumProfit.toLocaleString()}</p>
-                  <span className="text-[10px] opacity-80 leading-tight block mt-0.5">+63.8% Net Margin</span>
+                  <span className="text-[10px] opacity-80 leading-tight block mt-0.5">Net Realized Today</span>
                 </div>
                 <svg
                   viewBox="0 0 24 24"
@@ -1475,7 +1440,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   Notifications
                 </h3>
                 <span className="text-xs font-semibold text-[#0a6ec2] bg-[#eef6ff] px-2 py-0.5 rounded-full border border-[#bcdfff]">
-                  4 New
+                  3 New
                 </span>
               </div>
 

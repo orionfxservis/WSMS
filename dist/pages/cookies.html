@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Policy - Water Supply Management System | WSMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0077cc;
+      --primary-dark: #005fa3;
+      --primary-light: #00a8ff;
+      --secondary: #00d4ff;
+      --accent: #00e5ff;
+      --dark: #1a1a2e;
+      --dark-light: #16213e;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --white: #ffffff;
+      --gray: #f8f9fa;
+      --gray-dark: #e9ecef;
+      --success: #10b981;
+      --error: #ef4444;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background: var(--white);
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-nav:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 119, 204, 0.3);
+    }
+
+    /* Hero Section */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(0, 119, 204, 0.9) 0%, rgba(0, 168, 255, 0.9) 100%);
+      padding: 140px 2rem 80px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-50px, -50px) rotate(180deg); }
+    }
+
+    .page-hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .page-hero p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Content Section */
+    .content-section {
+      padding: 80px 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .content-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gray-dark);
+    }
+
+    .content-section h2:first-of-type {
+      margin-top: 0;
+    }
+
+    .content-section p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .content-section ul {
+      margin: 1.5rem 0;
+      padding-left: 2rem;
+    }
+
+    .content-section li {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .content-section a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .content-section a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .last-updated {
+      background: var(--gray);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    .last-updated p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(0, 119, 204, 0.1) 0%, rgba(0, 168, 255, 0.1) 100%);
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid var(--primary);
+    }
+
+    .cookie-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .cookie-table th {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .cookie-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--gray-dark);
+    }
+
+    .cookie-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .cookie-table tr:hover {
+      background: var(--gray);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-copyright {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .page-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-hero {
+        padding: 120px 1rem 60px;
+      }
+
+      .page-hero h1 {
+        font-size: 2rem;
+      }
+
+      .page-hero p {
+        font-size: 1.1rem;
+      }
+
+      .content-section {
+        padding: 60px 1rem;
+      }
+
+      .content-section h2 {
+        font-size: 1.75rem;
+      }
+
+      .cookie-table {
+        font-size: 0.9rem;
+      }
+
+      .cookie-table th,
+      .cookie-table td {
+        padding: 0.75rem;
+      }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="../logo.png" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="logo" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+        <div style="width:40px;height:40px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:3px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.12);">
+          <img src="../assets/img/logo/logo.png" alt="WSMS Logo" style="width:100%;height:100%;object-fit:contain;" onerror="this.src='../assets/img/logo.png'" />
+        </div>
+        <div style="display:flex;flex-direction:column;line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:20px;font-weight:800;color:#0077cc;letter-spacing:-0.5px;">WSMS</span>
+            <span style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0077cc;background:rgba(0,119,204,0.1);padding:1px 5px;border-radius:3px;">Portal</span>
+          </div>
+          <span style="font-size:11px;color:#666;font-weight:500;">Water Supply Management System</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="../index.html">Overview</a>
+        <a href="../index.html#features">Features</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+        <a href="dashboard.html" class="btn-nav">Open Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div>
+      <h1>Cookie Policy</h1>
+      <p>Understanding how we use cookies and local storage in WSMS</p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <div class="last-updated">
+      <p><strong>Last Updated:</strong> January 2025</p>
+    </div>
+
+    <p>This Cookie Policy explains how WSMS uses cookies in compliance with Pakistan's electronic transaction and privacy standards.</p>
+
+    <h2>SECTION 1. ABOUT COOKIES</h2>
+    <p>Cookies are small text files stored by your browser.</p>
+    <p><strong>WSMS uses cookies only for essential functionality.</strong></p>
+
+    <h2>SECTION 2. TYPES OF COOKIES WE USE</h2>
+    <p>WSMS uses only two categories of cookies.</p>
+
+    <h3 style="font-size: 1.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--primary);">2.1 Essential Cookies</h3>
+    <p>Used to:</p>
+    <ul>
+      <li>Keep you logged in</li>
+      <li>Maintain session state</li>
+      <li>Load your local data correctly</li>
+      <li>Make navigation smoother</li>
+    </ul>
+    <p><strong>Without these cookies, WSMS will not function properly.</strong></p>
+
+    <h3 style="font-size: 1.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--primary);">2.2 No Tracking Cookies</h3>
+    <p>WSMS does not use:</p>
+    <ul>
+      <li>Advertising cookies</li>
+      <li>Analytics cookies</li>
+      <li>Third party cookies</li>
+      <li>Behaviour tracking</li>
+      <li>Marketing trackers</li>
+    </ul>
+    <p><strong>The platform is offline and does not communicate with external networks.</strong></p>
+
+    <h2>SECTION 3. WHY WE USE COOKIES</h2>
+    <p>Cookies are used to:</p>
+    <ul>
+      <li>Identify active login</li>
+      <li>Maintain session authentication</li>
+      <li>Reduce repeated actions</li>
+      <li>Keep the app stable</li>
+      <li>Support offline operation</li>
+    </ul>
+
+    <h2>SECTION 4. HOW YOU CONTROL COOKIES</h2>
+    <p>You can disable cookies in your browser settings.</p>
+    <p>If you do this, WSMS may stop working because essential cookies are required for:</p>
+    <ul>
+      <li>Login functionality</li>
+      <li>Saving preferences</li>
+      <li>Loading local records</li>
+    </ul>
+
+    <h2>SECTION 5. DATA STORED BY COOKIES</h2>
+    <p>Cookies may store:</p>
+    <ul>
+      <li>A temporary session token</li>
+      <li>Basic app state</li>
+      <li>Device preference settings</li>
+    </ul>
+    <p>Cookies do not store:</p>
+    <ul>
+      <li>Customer data</li>
+      <li>Delivery records</li>
+      <li>Financial information</li>
+      <li>Personal details</li>
+      <li>Tracking identifiers</li>
+    </ul>
+
+    <h2>SECTION 6. COOKIE SECURITY</h2>
+    <p>Cookies used by WSMS are protected by your browser.</p>
+    <p><strong>They are not shared with any third party because the app runs offline.</strong></p>
+
+    <h2>SECTION 7. DELETING COOKIES</h2>
+    <p>You can delete cookies at any time through your browser.</p>
+    <p>Deleting cookies may remove your session and may reset your experience.</p>
+
+    <h2>SECTION 8. CHANGES TO THIS POLICY</h2>
+    <p>WSMS may update the Cookie Policy. The latest update date will appear at the top.</p>
+
+    <h2>SECTION 9. CONTACT</h2>
+    <p>If you have questions about cookies, contact us through the information provided on the website.</p>
+
+    <p style="margin-top: 2rem; font-weight: 600; color: var(--primary);">End of Cookie Policy.</p>
+
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--gray-dark);">
+      <p style="text-align: center;">
+        <a href="../index.html" style="display: inline-block; padding: 0.75rem 2rem; background: var(--primary); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">← Back to Home</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="cookies.html">Cookies</a>
+    </div>
+    <div class="footer-copyright">
+      <p>© 2025 Water Supply Management System. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

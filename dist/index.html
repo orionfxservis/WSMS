@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mineral Water Supply Management Software in Pakistan | WSMS</title>
+    <meta name="description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
+    <meta property="og:title" content="Mineral Water Supply Management Software in Pakistan | WSMS" />
+    <meta property="og:description" content="Simplify your Mineral Water Supply Business with WSMS, an all-in-one Water Supply Management System built for businesses across Pakistan. Smart business management for water suppliers, distributors & 19-litre canes delivery services." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="./logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Static compiled stylesheet for WSMS Sample 03 React App -->
+    <link rel="stylesheet" href="./assets/app.css" />
+  </head>
+  <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
+    <div id="root"></div>
+
+    <!-- Production Standalone React Bundle (Sample 03 - Zero NPM Required) -->
+    <script type="module" src="./assets/app.js"></script>
+
+    <!-- Fallback runner for local file:/// double-click if browser blocks modules over local filesystem -->
+    <script>
+      (function() {
+        function checkAndMount() {
+          var root = document.getElementById('root');
+          if (root && (!root.firstElementChild || root.children.length === 0)) {
+            var s = document.createElement('script');
+            s.src = './assets/app.js';
+            document.body.appendChild(s);
+          }
+        }
+        if (location.protocol === 'file:') {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+              setTimeout(checkAndMount, 150);
+            });
+          } else {
+            setTimeout(checkAndMount, 150);
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

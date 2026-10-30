@@ -13,7 +13,7 @@
 
 <!-- Block page rendering until session is validated -->
 <style id="session-block-style">
-  body { visibility: hidden; overflow: hidden; }
+  body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
 </style>
 
@@ -110,6 +110,58 @@ main{padding:12px 12px 90px 12px}
   height:28px;
   opacity:.92;
   flex-shrink:0;
+}
+
+
+/* quick card component matching Sample 03 */
+.quick-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: #ffffff;
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  transition: all 0.15s ease;
+}
+.quick-card:hover {
+  background: #f0f7ff;
+}
+.quick-card-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0077cc;
+  text-decoration: none;
+  cursor: pointer;
+}
+.quick-card-title:hover {
+  text-decoration: underline;
+}
+.quick-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  font-weight: 500;
+  color: #0077cc;
+  background: #f0f7fd;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  padding: 2px 8px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.quick-card-badge:hover {
+  background: #e0f0fe;
+  border-color: #93c5fd;
+}
+.quick-card-badge i {
+  font-size: 10px;
 }
 
 /* quick links */
@@ -243,6 +295,7 @@ nav.bottom-nav a.active{
   .quick-links{grid-template-columns:repeat(4,1fr)}
 }
 </style>
+  <link rel="icon" type="image/png" href="../logo.png" />
 </head>
 <body>
 
@@ -261,18 +314,9 @@ nav.bottom-nav a.active{
   </a>
   <div class="header-right">
     <div class="header-icons">
-      <a href="dashboard.html" class="header-icon-link" title="Dashboard"><i class="fi fi-rr-home"></i></a>
-      <a href="filling.html" class="header-icon-link" title="Filling Operations"><i class="fi fi-rr-water-bottle"></i></a>
-      <a href="supply.html" class="header-icon-link" title="Supply & Deliveries"><i class="fi fi-rr-truck-side"></i></a>
-      <a href="expense.html" class="header-icon-link" title="Expenses & Ledger"><i class="fi fi-rr-receipt"></i></a>
-      <a href="customers.html" class="header-icon-link" title="Customers"><i class="fi fi-rr-users"></i></a>
-      <a href="stations.html" class="header-icon-link" title="Filling Stations"><i class="fi fi-rr-shop"></i></a>
-      <a href="schedule.html" class="header-icon-link" title="Schedule"><i class="fi fi-rr-calendar"></i></a>
-      <a href="settings.html" class="header-icon-link" title="Settings"><i class="fi fi-rr-settings"></i></a>
-      <a href="../index.html" class="header-icon-link" title="Main Website"><i class="fi fi-rr-globe"></i></a>
+      <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <span id="headerUserName" class="header-user">User</span>
-    <img id="headerUserImage" src="../assets/default-user.png" alt="User" onerror="this.src='/logo.png'">
+    <img id="headerUserImage" src="../assets/default-user.png" alt="User" onerror="this.src='../logo.png'">
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
@@ -338,12 +382,36 @@ nav.bottom-nav a.active{
     </div>
   </section>
 
-  <!-- Quick links -->
+  <!-- Quick links matching Sample 03 Design -->
   <section class="quick-links">
-    <a href="customers.html">Customers</a>
-    <a href="stations.html">Filling Stations</a>
-    <a href="inventory.html">Inventory</a>
-    <a href="report.html">Reports</a>
+    <div class="quick-card">
+      <a href="customers.html" class="quick-card-title">Customers</a>
+      <a href="customers.html" class="quick-card-badge" title="Open customers.html">
+        <span>/pages/customers.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+    <div class="quick-card">
+      <a href="stations.html" class="quick-card-title">Filling Stations</a>
+      <a href="stations.html" class="quick-card-badge" title="Open stations.html">
+        <span>/pages/stations.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+    <div class="quick-card">
+      <a href="inventory.html" class="quick-card-title">Inventory</a>
+      <a href="inventory.html" class="quick-card-badge" title="Open inventory.html">
+        <span>/pages/inventory.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+    <div class="quick-card">
+      <a href="report.html" class="quick-card-title">Reports</a>
+      <a href="report.html" class="quick-card-badge" title="Open report.html">
+        <span>/pages/report.html</span>
+        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+      </a>
+    </div>
   </section>
 
   <!-- Travel Plan -->

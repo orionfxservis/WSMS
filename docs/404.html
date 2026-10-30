@@ -14,31 +14,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     
-    <!-- Static compiled stylesheet: loads immediately on file:/// and GitHub Pages -->
+    <!-- Static compiled stylesheet for WSMS Sample 03 React App -->
     <link rel="stylesheet" href="./assets/app.css" />
   </head>
   <body class="bg-[#f7f9fb] text-[#222222] antialiased selection:bg-[#007bdb] selection:text-white">
     <div id="root"></div>
 
-    <!-- Universal Zero-NPM Application Loader: Works on file:///, GitHub Pages, and all web servers -->
+    <!-- Production Standalone React Bundle (Sample 03 - Zero NPM Required) -->
+    <script type="module" src="./assets/app.js"></script>
+
+    <!-- Fallback runner for local file:/// double-click if browser blocks modules over local filesystem -->
     <script>
       (function() {
-        var appScript = document.createElement('script');
-        if (location.protocol === 'file:') {
-          // On local file:/// double-click, classic script avoids CORS null origin restriction
-          appScript.src = './assets/app.js';
-        } else {
-          // On GitHub Pages / web servers, load with modern module tag with automatic fallback
-          appScript.type = 'module';
-          appScript.crossOrigin = '';
-          appScript.src = './assets/app.js';
-          appScript.onerror = function() {
-            var fallback = document.createElement('script');
-            fallback.src = './assets/app.js';
-            document.body.appendChild(fallback);
-          };
+        function checkAndMount() {
+          var root = document.getElementById('root');
+          if (root && (!root.firstElementChild || root.children.length === 0)) {
+            var s = document.createElement('script');
+            s.src = './assets/app.js';
+            document.body.appendChild(s);
+          }
         }
-        document.body.appendChild(appScript);
+        if (location.protocol === 'file:') {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+              setTimeout(checkAndMount, 150);
+            });
+          } else {
+            setTimeout(checkAndMount, 150);
+          }
+        }
       })();
     </script>
   </body>

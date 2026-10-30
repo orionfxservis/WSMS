@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <!-- Block page rendering until session is validated -->
 <style id="session-block-style">
-  body { visibility: hidden; overflow: hidden; }
+  body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
 </style>
 <script>
@@ -72,6 +72,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 .badge-paid{background:#e6f9ed;color:#1e7e34;padding:2px 8px;border-radius:12px;font-weight:600;font-size:12px}
 .badge-due{background:#fff3cd;color:#856404;padding:2px 8px;border-radius:12px;font-weight:600;font-size:12px}
 </style>
+  <link rel="icon" type="image/png" href="../logo.png" />
 </head>
 <body>
 
@@ -124,17 +125,8 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   </a>
   <div class="header-right">
     <div class="header-icons">
-      <a href="dashboard.html" class="header-icon-link" title="Dashboard"><i class="fi fi-rr-home"></i></a>
-      <a href="filling.html" class="header-icon-link" title="Filling Operations"><i class="fi fi-rr-water-bottle"></i></a>
-      <a href="supply.html" class="header-icon-link" title="Supply & Deliveries"><i class="fi fi-rr-truck-side"></i></a>
-      <a href="expense.html" class="header-icon-link" title="Expenses & Ledger"><i class="fi fi-rr-receipt"></i></a>
-      <a href="customers.html" class="header-icon-link" title="Customers"><i class="fi fi-rr-users"></i></a>
-      <a href="stations.html" class="header-icon-link" title="Filling Stations"><i class="fi fi-rr-shop"></i></a>
-      <a href="schedule.html" class="header-icon-link" title="Schedule"><i class="fi fi-rr-calendar"></i></a>
-      <a href="settings.html" class="header-icon-link" title="Settings"><i class="fi fi-rr-settings"></i></a>
-      <a href="../index.html" class="header-icon-link" title="Main Website"><i class="fi fi-rr-globe"></i></a>
+      <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <span id="headerUserName" class="header-user">Operator</span>
     <img id="headerUserImage" src="../assets/default-user.png" alt="User">
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>

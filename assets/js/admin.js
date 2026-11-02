@@ -362,53 +362,26 @@ async function loadAdminProfile() {
 
 function updateProfileDropdown() {
   if (!adminProfile) return;
-  
-  const userMenu = document.querySelector('.user-menu');
-  if (!userMenu) return;
-  
-  const name = adminProfile.name || adminProfile.email || 'Admin';
-  const dpUrl = adminProfile.dp_url || '../assets/img/dp.jpg';
-  const firstLetter = name.charAt(0).toUpperCase();
-  const currentTheme = getCurrentTheme();
-  
-  userMenu.innerHTML = `
-    <div class="profile-menu-trigger" onclick="toggleProfileDropdown()">
-      <img src="${dpUrl}" alt="${name}" onerror="this.src='../assets/img/dp.jpg'; this.onerror=null;" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
-      <span>${name}</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left: 8px;">
-        <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="profile-dropdown" id="profileDropdown">
-      <div class="profile-dropdown-header">
-        <img src="${dpUrl}" alt="${name}" onerror="this.src='../assets/img/dp.jpg'; this.onerror=null;" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
-        <div>
-          <div class="profile-name">${name}</div>
-          <div class="profile-email">${adminProfile.email || ''}</div>
-        </div>
-      </div>
-      <div class="profile-dropdown-menu">
-        <div class="profile-menu-section">
-          <div class="profile-menu-section-title">Edit Profile</div>
-          <a href="#" onclick="showChangePictureModal(); return false;">Change Display Picture</a>
-          <a href="#" onclick="showChangeNameModal(); return false;">Edit Name</a>
-        </div>
-        <div class="profile-menu-section">
-          <div class="profile-menu-section-title">Settings</div>
-          <div class="theme-toggle-item">
-            <span>Theme Mode</span>
-            <label class="theme-toggle-switch">
-              <input type="checkbox" id="themeToggle" ${currentTheme === 'light' ? 'checked' : ''} onchange="toggleTheme()">
-              <span class="theme-toggle-slider"></span>
-            </label>
-            <span class="theme-toggle-label">${currentTheme === 'light' ? 'Light' : 'Dark'}</span>
-          </div>
-          <a href="#" onclick="showChangePasswordModal(); return false;">Change Password</a>
-        </div>
-        <a href="#" onclick="logout(); return false;" class="profile-menu-logout">Logout</a>
-      </div>
-    </div>
-  `;
+  const name = adminProfile.name || 'Super Admin';
+  const dpUrl = adminProfile.dp_url || adminProfile.picture || '../assets/default-user.png';
+  const email = adminProfile.email || 'admin@wsms.pk';
+
+  // Update text in DOM
+  const nameEls = document.querySelectorAll('#profileName, .profile-menu-trigger span, #profNameDisplay');
+  nameEls.forEach(el => { el.textContent = name; });
+
+  const emailEls = document.querySelectorAll('#profileEmail, #profEmailDisplay');
+  emailEls.forEach(el => { el.textContent = email; });
+
+  // Update avatars in DOM
+  const avatarImgs = document.querySelectorAll('.profile-menu-trigger img, .profile-dropdown-header img, #profAvatarDisplay, #adminProfileAvatar');
+  avatarImgs.forEach(img => {
+    img.src = dpUrl;
+    img.onerror = function() {
+      this.src = '../assets/default-user.png';
+      this.onerror = function() { this.src = '../logo.png'; };
+    };
+  });
 }
 
 function toggleProfileDropdown() {
@@ -454,19 +427,24 @@ function showChangePasswordModal() {
 
 async function updateProfilePicture(url) {
   try {
-    const res = await fetch('/wsms/api/admin/profile.php?action=update-picture', {
+    const user = JSON.parse(localStorage.getItem('wsms_admin_user') || '{}');
+    user.dp_url = url;
+    user.picture = url;
+    localStorage.setItem('wsms_admin_user', JSON.stringify(user));
+
+    await fetch('../api/admin/profile.php?action=update-picture', {
       method: 'POST',
       credentials: 'include',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({picture_url: url})
-    });
-    const data = await res.json();
-    if (data.success) {
-      await loadAdminProfile();
-      alert('Profile picture updated');
-    } else {
-      alert(data.error || 'Failed to update picture');
+    }).catch(() => null);
+
+    adminProfile = user;
+    updateProfileDropdown();
+    if (typeof syncAllProfileAvatars === 'function') {
+      syncAllProfileAvatars(url);
     }
+    alert('Profile picture updated successfully');
   } catch (e) {
     console.error('Failed to update picture:', e);
     alert('Failed to update picture');

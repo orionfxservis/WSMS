@@ -1,6 +1,6 @@
 /**
  * Admin Header Functions
- * Shared functions for header interactions (profile menu, notifications, theme, live date)
+ * Shared functions for header interactions (profile menu, notifications, theme, live date, profile avatar sync)
  * Included on every admin page for consistent behavior
  */
 
@@ -18,21 +18,6 @@ function toggleProfileMenu() {
           }
         });
       }, 0);
-    }
-  }
-}
-
-// Update theme toggle label
-function initThemeToggle() {
-  if (typeof getCurrentTheme === 'function') {
-    const currentTheme = getCurrentTheme();
-    const themeLabel = document.getElementById('themeLabel');
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeLabel) {
-      themeLabel.textContent = currentTheme === 'light' ? 'On' : 'Off';
-    }
-    if (themeToggle) {
-      themeToggle.checked = currentTheme === 'light';
     }
   }
 }
@@ -58,6 +43,21 @@ function toggleNotifications() {
   }
 }
 
+// Update theme toggle label
+function initThemeToggle() {
+  if (typeof getCurrentTheme === 'function') {
+    const currentTheme = getCurrentTheme();
+    const themeLabel = document.getElementById('themeLabel');
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeLabel) {
+      themeLabel.textContent = currentTheme === 'light' ? 'On' : 'Off';
+    }
+    if (themeToggle) {
+      themeToggle.checked = currentTheme === 'light';
+    }
+  }
+}
+
 // Initialize current date in header
 function initHeaderDate() {
   const dateEls = document.querySelectorAll('.header-current-date');
@@ -72,13 +72,61 @@ function initHeaderDate() {
   }
 }
 
+// Synchronize all Super Admin avatar images and profile names across header and page
+function syncAllProfileAvatars(explicitPic) {
+  try {
+    const isSub = window.location.pathname.includes('/subscriptions/');
+    const defaultPic = isSub ? '../../assets/default-user.png' : '../assets/default-user.png';
+    const fallbackLogo = isSub ? '../../logo.png' : '../logo.png';
+    
+    const user = JSON.parse(localStorage.getItem('wsms_admin_user') || '{}');
+    const pic = explicitPic || user.dp_url || user.picture || defaultPic;
+    const name = user.name || 'Super Admin';
+    const email = user.email || 'admin@wsms.pk';
+
+    // 1. Update all avatar images
+    const imgs = document.querySelectorAll('.profile-menu-trigger img, .profile-dropdown-header img, #profAvatarDisplay, #adminProfileAvatar');
+    imgs.forEach(img => {
+      img.src = pic;
+      img.onerror = function() {
+        this.src = defaultPic;
+        this.onerror = function() { this.src = fallbackLogo; };
+      };
+    });
+
+    // 2. Update name displays
+    const names = document.querySelectorAll('.profile-menu-trigger span, #profileName, #profNameDisplay');
+    names.forEach(el => { el.textContent = name; });
+
+    // 3. Update email displays
+    const emails = document.querySelectorAll('#profileEmail, #profEmailDisplay');
+    emails.forEach(el => { el.textContent = email; });
+  } catch (e) {
+    console.error('Error syncing profile avatars:', e);
+  }
+}
+
+// Expose globally
+window.syncAllProfileAvatars = syncAllProfileAvatars;
+window.toggleProfileMenu = toggleProfileMenu;
+window.toggleNotifications = toggleNotifications;
+
 // Initialize header functions when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     initHeaderDate();
+    syncAllProfileAvatars();
   });
 } else {
   initThemeToggle();
   initHeaderDate();
+  syncAllProfileAvatars();
 }
+
+// Listen to storage event (updates avatar if changed in another tab)
+window.addEventListener('storage', (e) => {
+  if (e.key === 'wsms_admin_user') {
+    syncAllProfileAvatars();
+  }
+});

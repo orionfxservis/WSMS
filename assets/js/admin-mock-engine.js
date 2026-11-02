@@ -361,11 +361,29 @@
 
     // 13. Profile
     if (url.includes('profile.php')) {
-      const user = JSON.parse(localStorage.getItem('wsms_admin_user') || 'null') || {
+      let user = JSON.parse(localStorage.getItem('wsms_admin_user') || 'null') || {
         name: 'Super Admin',
         email: 'admin@wsms.pk',
-        role: 'superadmin'
+        role: 'superadmin',
+        dp_url: '../assets/default-user.png'
       };
+
+      if (method === 'POST') {
+        const pic = (body && (body.picture_url || body.dp_url || body.picture)) || '';
+        if (pic) {
+          user.dp_url = pic;
+          user.picture = pic;
+        }
+        if (body && body.name) {
+          user.name = body.name;
+        }
+        if (body && body.email) {
+          user.email = body.email;
+        }
+        localStorage.setItem('wsms_admin_user', JSON.stringify(user));
+        return createJsonResponse({ success: true, message: 'Profile updated successfully', data: user });
+      }
+
       return createJsonResponse({ success: true, data: user });
     }
 

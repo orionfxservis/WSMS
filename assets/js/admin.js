@@ -384,10 +384,16 @@ function updateProfileDropdown() {
   });
 }
 
-function toggleProfileDropdown() {
-  const dropdown = document.getElementById('profileDropdown');
-  if (dropdown) {
-    dropdown.classList.toggle('show');
+function toggleProfileDropdown(e) {
+  if (typeof toggleProfileMenu === 'function') {
+    toggleProfileMenu(e);
+  } else {
+    const dropdown = document.getElementById('profileDropdown');
+    if (dropdown) {
+      const isShow = dropdown.classList.contains('show') || dropdown.style.display === 'block';
+      dropdown.classList.toggle('show', !isShow);
+      dropdown.style.display = isShow ? 'none' : 'block';
+    }
   }
 }
 
@@ -559,8 +565,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', (e) => {
     const dropdown = document.getElementById('notificationDropdown');
     const bell = document.querySelector('.notification-bell');
-    if (dropdown && bell && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+    const notifTrigger = bell || document.querySelector('.header-notifications-btn');
+    if (dropdown && notifTrigger && !notifTrigger.contains(e.target) && !dropdown.contains(e.target)) {
       dropdown.classList.remove('show');
+      dropdown.style.display = 'none';
     }
     
     // Close profile dropdown on outside click
@@ -568,6 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileTrigger = document.querySelector('.profile-menu-trigger');
     if (profileDropdown && profileTrigger && !profileTrigger.contains(e.target) && !profileDropdown.contains(e.target)) {
       profileDropdown.classList.remove('show');
+      profileDropdown.style.display = 'none';
     }
   });
 });

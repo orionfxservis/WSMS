@@ -13,19 +13,32 @@
 </head>
 <body>
   <div class="admin-layout">
-    <div class="header">
+        <div class="header">
       <div class="header-left">
-        <a href="dashboard.html" class="header-brand">
-          <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../logo.png'" />
-          <span style="font-size:18px;font-weight:700;color:var(--text-color,#ffffff);letter-spacing:0.3px;white-space:nowrap;">Super Admin</span>
+        <a href="dashboard.html" class="header-brand" title="WSMS Super Admin Portal">
+          <div class="header-logo-container">
+            <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../logo.png'" />
+          </div>
+          <div class="header-brand-text">
+            <div class="header-brand-title">
+              <span class="header-logo-text">WSMS</span>
+              <span class="header-portal-tag">Super Admin</span>
+              <span class="header-live-pulse" title="System Online"></span>
+            </div>
+            <span class="header-company-name">Water Supply Management System</span>
+          </div>
         </a>
       </div>
       <div class="header-right">
-        <div class="notification-bell" onclick="toggleNotifications()">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
-          </svg>
-          <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+        <span class="header-current-date"></span>
+        <div class="notification-dropdown-wrapper">
+          <button type="button" class="header-notifications-btn" onclick="toggleNotifications()" title="Notifications">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
+            </svg>
+            <span>Notifications</span>
+            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          </button>
           <div class="notification-dropdown" id="notificationDropdown"></div>
         </div>
         <div class="user-menu">
@@ -37,7 +50,7 @@
               <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
               <div>
                 <div class="profile-name" id="profileName">Super Admin</div>
-                <div class="profile-email" id="profileEmail">admin@wsms.com</div>
+                <div class="profile-email" id="profileEmail">admin@wsms.pk</div>
               </div>
             </div>
             <div class="profile-dropdown-menu">
@@ -58,6 +71,7 @@
                 </div>
               </div>
               <div class="profile-menu-section">
+                <a href="../index.html" style="color: #3b82f6;">← Public Portal</a>
                 <a href="#" class="profile-menu-logout" onclick="logout(); return false;">Logout</a>
               </div>
             </div>

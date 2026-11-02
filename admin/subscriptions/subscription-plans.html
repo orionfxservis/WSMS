@@ -15,7 +15,7 @@
 </head>
 <body>
   <div class="admin-layout">
-                <div class="header" style="height: 56px; background: #007bdb !important; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.15); box-sizing: border-box; color: #ffffff;">
+                    <div class="header" style="height: 56px; background: #007bdb !important; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.15); box-sizing: border-box; color: #ffffff;">
       <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
         <a href="../dashboard.html" class="header-brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #ffffff;" title="WSMS Super Admin Portal">
           <div class="header-logo-container" style="width: 38px; height: 38px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 3px; overflow: hidden; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
@@ -34,7 +34,7 @@
       <div class="header-right" style="display: flex; align-items: center; gap: 14px; position: relative;">
         <span class="header-current-date" style="color: #dbeafe; font-size: 12px; font-weight: 600; white-space: nowrap; letter-spacing: 0.2px;">Mon, 2 Nov 2026</span>
         <div class="notification-dropdown-wrapper" style="position: relative;">
-          <button type="button" class="header-notifications-btn" onclick="toggleNotifications()" title="Notifications" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s ease; outline: none; line-height: 1.2;">
+          <button type="button" class="header-notifications-btn" onclick="toggleNotifications(event)" title="Notifications" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s ease; outline: none; line-height: 1.2;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; display: block; flex-shrink: 0;">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -45,7 +45,7 @@
           <div class="notification-dropdown" id="notificationDropdown" style="position: absolute; top: calc(100% + 8px); right: 0; width: 300px; max-height: 400px; overflow-y: auto; display: none; border-radius: 12px; background: #1b1d22; border: 1px solid #2a2e36; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 1050;"></div>
         </div>
         <div class="user-menu" style="position: relative;">
-          <div class="profile-menu-trigger" onclick="toggleProfileMenu()" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;">
+          <div class="profile-menu-trigger" onclick="toggleProfileMenu(event)" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;">
             <div style="width: 24px; height: 24px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
               <img src="../../assets/default-user.png" alt="Super Admin" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='../../logo.png'" />
             </div>

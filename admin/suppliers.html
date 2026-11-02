@@ -12,70 +12,82 @@
 </head>
 <body>
   <div class="admin-layout">
-        <div class="header">
-      <div class="header-left">
-        <a href="dashboard.html" class="header-brand" title="WSMS Super Admin Portal">
-          <div class="header-logo-container">
-            <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../logo.png'" />
+            <div class="header" style="height: 56px; background: #007bdb !important; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.15); box-sizing: border-box; color: #ffffff;">
+      <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
+        <a href="dashboard.html" class="header-brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #ffffff;" title="WSMS Super Admin Portal">
+          <div class="header-logo-container" style="width: 38px; height: 38px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 3px; overflow: hidden; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
+            <img src="../assets/img/logo/logo.png" alt="WSMS Logo" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='../logo.png'" />
           </div>
-          <div class="header-brand-text">
-            <div class="header-brand-title">
-              <span class="header-logo-text">WSMS</span>
-              <span class="header-portal-tag">Super Admin</span>
-              <span class="header-live-pulse" title="System Online"></span>
+          <div class="header-brand-text" style="display: flex; flex-direction: column; line-height: 1.15;">
+            <div class="header-brand-title" style="display: flex; align-items: center; gap: 6px;">
+              <span class="header-logo-text" style="font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1;">WSMS</span>
+              <span class="header-portal-tag" style="font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #dbeafe; background: rgba(255, 255, 255, 0.2); padding: 2px 5px; border-radius: 3px; line-height: 1;">Super Admin</span>
+              <span class="header-live-pulse" style="width: 7px; height: 7px; border-radius: 50%; background: #70e0a1; display: inline-block; box-shadow: 0 0 6px #70e0a1;" title="Live System Online"></span>
             </div>
-            <span class="header-company-name">Water Supply Management System</span>
+            <span class="header-company-name" style="font-size: 11px; color: #dbeafe; font-weight: 500; margin-top: 2px; white-space: nowrap;">Water Supply Management System</span>
           </div>
         </a>
       </div>
-      <div class="header-right">
-        <span class="header-current-date"></span>
-        <div class="notification-dropdown-wrapper">
-          <button type="button" class="header-notifications-btn" onclick="toggleNotifications()" title="Notifications">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
+      <div class="header-right" style="display: flex; align-items: center; gap: 14px; position: relative;">
+        <span class="header-current-date" style="color: #dbeafe; font-size: 12px; font-weight: 600; white-space: nowrap; letter-spacing: 0.2px;">Mon, 2 Nov 2026</span>
+        <div class="notification-dropdown-wrapper" style="position: relative;">
+          <button type="button" class="header-notifications-btn" onclick="toggleNotifications()" title="Notifications" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s ease; outline: none; line-height: 1.2;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; display: block; flex-shrink: 0;">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
             <span>Notifications</span>
-            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+            <span class="notification-badge" id="notificationBadge" style="display: none; background: #ef4444; color: #ffffff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 2px;">0</span>
           </button>
-          <div class="notification-dropdown" id="notificationDropdown"></div>
+          <div class="notification-dropdown" id="notificationDropdown" style="position: absolute; top: calc(100% + 8px); right: 0; width: 300px; max-height: 400px; overflow-y: auto; display: none; border-radius: 12px; background: #1b1d22; border: 1px solid #2a2e36; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 1050;"></div>
         </div>
-        <div class="user-menu">
-          <div class="profile-menu-trigger" onclick="toggleProfileMenu()">
-            <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+        <div class="user-menu" style="position: relative;">
+          <div class="profile-menu-trigger" onclick="toggleProfileMenu()" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+              <img src="../assets/default-user.png" alt="Super Admin" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='../logo.png'" />
+            </div>
+            <span style="color: #ffffff; font-size: 12px; font-weight: 600; white-space: nowrap;">Super Admin</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 12px; height: 12px; display: block; opacity: 0.85;">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
           </div>
-          <div class="profile-dropdown" id="profileDropdown">
-            <div class="profile-dropdown-header">
-              <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
-              <div>
-                <div class="profile-name" id="profileName">Super Admin</div>
-                <div class="profile-email" id="profileEmail">admin@wsms.pk</div>
+          <div class="profile-dropdown" id="profileDropdown" style="position: absolute; top: calc(100% + 8px); right: 0; width: 230px; display: none; background: #1b1d22; border: 1px solid #2a2e36; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 1050; overflow: hidden;">
+            <div class="profile-dropdown-header" style="padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2a2e36; background: rgba(0,0,0,0.2);">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                <img src="../assets/default-user.png" alt="Super Admin" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='../logo.png'" />
+              </div>
+              <div style="overflow: hidden;">
+                <div class="profile-name" id="profileName" style="font-size: 13px; font-weight: 700; color: #ffffff;">Super Admin</div>
+                <div class="profile-email" id="profileEmail" style="font-size: 11px; color: #9aa3ad; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">admin@wsms.pk</div>
               </div>
             </div>
-            <div class="profile-dropdown-menu">
-              <div class="profile-menu-section">
-                <div class="profile-menu-section-title">Account</div>
-                <a href="settings.html">Settings</a>
-                <a href="profile.html">Profile</a>
+            <div class="profile-dropdown-menu" style="padding: 6px 0;">
+              <div class="profile-menu-section" style="padding: 4px 0; border-bottom: 1px solid #2a2e36;">
+                <div class="profile-menu-section-title" style="padding: 4px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9aa3ad;">Account</div>
+                <a href="settings.html" style="display: block; padding: 7px 16px; color: #e6e8ea; text-decoration: none; font-size: 13px;">Settings</a>
+                <a href="profile.html" style="display: block; padding: 7px 16px; color: #e6e8ea; text-decoration: none; font-size: 13px;">Profile</a>
               </div>
-              <div class="profile-menu-section">
-                <div class="profile-menu-section-title">Theme</div>
-                <div class="theme-toggle-item">
+              <div class="profile-menu-section" style="padding: 4px 0; border-bottom: 1px solid #2a2e36;">
+                <div class="profile-menu-section-title" style="padding: 4px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9aa3ad;">Theme</div>
+                <div class="theme-toggle-item" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 16px; font-size: 13px; color: #e6e8ea;">
                   <span>Dark Mode</span>
                   <label class="theme-toggle-switch">
                     <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
                     <span class="theme-toggle-slider"></span>
                   </label>
-                  <span class="theme-toggle-label" id="themeLabel">Off</span>
+                  <span class="theme-toggle-label" id="themeLabel" style="font-size: 11px; color: #9aa3ad; margin-left: 6px;">Off</span>
                 </div>
               </div>
-              <div class="profile-menu-section">
-                <a href="../index.html" style="color: #3b82f6;">← Public Portal</a>
-                <a href="#" class="profile-menu-logout" onclick="logout(); return false;">Logout</a>
+              <div class="profile-menu-section" style="padding: 4px 0;">
+                <a href="../index.html" style="display: block; padding: 7px 16px; color: #60a5fa; text-decoration: none; font-size: 13px; font-weight: 600;">← Public Portal</a>
+                <a href="#" class="profile-menu-logout" onclick="logout(); return false;" style="display: block; padding: 7px 16px; color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 600;">Logout</a>
               </div>
             </div>
           </div>
         </div>
+        <a href="../index.html" class="header-back-link" style="display: inline-flex; align-items: center; gap: 4px; color: #ffffff; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.28); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; transition: background 0.15s ease;" title="Return to Main Overview">
+          <span>← Overview</span>
+        </a>
       </div>
     </div>
     <div class="layout">

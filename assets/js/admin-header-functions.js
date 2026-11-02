@@ -1,6 +1,6 @@
 /**
  * Admin Header Functions
- * Shared functions for header interactions (profile menu, notifications, theme)
+ * Shared functions for header interactions (profile menu, notifications, theme, live date)
  * Included on every admin page for consistent behavior
  */
 
@@ -9,7 +9,6 @@ function toggleProfileMenu() {
   const dropdown = document.getElementById('profileDropdown');
   if (dropdown) {
     dropdown.classList.toggle('show');
-    // Close on outside click
     if (dropdown.classList.contains('show')) {
       setTimeout(() => {
         document.addEventListener('click', function closeMenu(e) {
@@ -42,21 +41,44 @@ function initThemeToggle() {
 function toggleNotifications() {
   const dropdown = document.getElementById('notificationDropdown');
   if (dropdown) {
-    if (dropdown.style.display === 'block') {
-      dropdown.style.display = 'none';
-    } else {
+    dropdown.classList.toggle('show');
+    if (dropdown.classList.contains('show')) {
       const isSub = window.location.pathname.includes('/subscriptions/');
       const pendingUrl = isSub ? '../pending.html' : 'pending.html';
-      dropdown.innerHTML = '<div style="padding: 10px;">Pending user approvals: <a href="' + pendingUrl + '" style="color: #3b82f6;">View</a></div>';
-      dropdown.style.display = 'block';
+      dropdown.innerHTML = '<div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 700; font-size: 13px; color: #ffffff; background: #007bdb; border-radius: 10px 10px 0 0;">System Notifications</div><div style="padding: 14px 16px; font-size: 13px; color: #e6e8ea; background: #1b1d22;"><div style="margin-bottom: 6px; font-weight: 600;">Pending Approvals</div><div style="color: #9aa3ad; margin-bottom: 10px;">New suppliers and station requests require review.</div><a href="' + pendingUrl + '" style="display: inline-block; background: #007bdb; color: #ffffff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none;">View Requests →</a></div>';
+      setTimeout(() => {
+        document.addEventListener('click', function closeNotif(e) {
+          if (!dropdown.contains(e.target) && !e.target.closest('.header-notifications-btn')) {
+            dropdown.classList.remove('show');
+            document.removeEventListener('click', closeNotif);
+          }
+        });
+      }, 0);
     }
+  }
+}
+
+// Initialize current date in header
+function initHeaderDate() {
+  const dateEls = document.querySelectorAll('.header-current-date');
+  if (dateEls.length > 0) {
+    const formatted = new Date().toLocaleDateString('en-GB', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+    dateEls.forEach(el => el.textContent = formatted);
   }
 }
 
 // Initialize header functions when DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initThemeToggle);
+  document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
+    initHeaderDate();
+  });
 } else {
   initThemeToggle();
+  initHeaderDate();
 }
-

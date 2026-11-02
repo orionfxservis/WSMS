@@ -207,7 +207,7 @@
 }
 
 .notification-dropdown.show {
-  display: block;
+  display: block !important;
 }
 
 /* Notification Bell backwards compatibility */
@@ -307,7 +307,7 @@
 }
 
 .profile-dropdown.show {
-  display: block;
+  display: block !important;
 }
 
 .profile-dropdown-header {

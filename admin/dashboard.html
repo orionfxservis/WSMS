@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Superadmin Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../assets/js/session-check.js"></script>
+  <script src="../assets/js/admin-theme.js"></script>
+  <script src="../assets/js/admin-active-link.js"></script>
+  <script src="../assets/js/admin-header-functions.js"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="header">
+      <div class="header-left">
+        <img src="../assets/img/logo-white.png" alt="WSMS Logo" onerror="this.src='../logo.png'" />
+      </div>
+      <div class="header-right">
+        <div class="notification-bell" onclick="toggleNotifications()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
+          </svg>
+          <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          <div class="notification-dropdown" id="notificationDropdown"></div>
+        </div>
+        <div class="user-menu">
+          <div class="profile-menu-trigger" onclick="toggleProfileMenu()">
+            <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+              <div>
+                <div class="profile-name" id="profileName">Super Admin</div>
+                <div class="profile-email" id="profileEmail">admin@wsms.com</div>
+              </div>
+            </div>
+            <div class="profile-dropdown-menu">
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Account</div>
+                <a href="settings.html">Settings</a>
+                <a href="profile.html">Profile</a>
+              </div>
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Theme</div>
+                <div class="theme-toggle-item">
+                  <span>Dark Mode</span>
+                  <label class="theme-toggle-switch">
+                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                    <span class="theme-toggle-slider"></span>
+                  </label>
+                  <span class="theme-toggle-label" id="themeLabel">Off</span>
+                </div>
+              </div>
+              <div class="profile-menu-section">
+                <a href="#" class="profile-menu-logout" onclick="logout(); return false;">Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Superadmin</h2>
+        <div class="nav">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="pending.html">Pending Requests</a>
+          <a href="suppliers.html">Suppliers</a>
+          <a href="stations.html">Stations</a>
+          <a href="expenses.html">Expenses</a>
+          <a href="reports.html">Reports</a>
+          <a href="users.html">User Management</a>
+          <a href="subscriptions/subscription-plans.html">Subscriptions</a>
+          <a href="audit-logs.html">Audit Logs</a>
+        </div>
+              <div style="margin-top:auto;padding:15px;border-top:1px solid rgba(255,255,255,0.08);">
+          <a href="../index.html" style="color:#70e0a1;font-size:13px;display:flex;align-items:center;gap:6px;text-decoration:none;">
+            <span>← Public Portal</span>
+          </a>
+        </div>
+      </aside>
+      <main class="admin-main">
+      <div class="date-range">
+        <label>From:</label>
+        <input type="date" id="dateFrom" onchange="updateDateRange()">
+        <label>To:</label>
+        <input type="date" id="dateTo" onchange="updateDateRange()">
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">MRR</div>
+          <div class="kpi-value" id="kpi-mrr">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Revenue YTD</div>
+          <div class="kpi-value" id="kpi-revenue">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Pending Payouts</div>
+          <div class="kpi-value" id="kpi-payouts">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Suppliers</div>
+          <div class="kpi-value" id="kpi-suppliers">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Customers</div>
+          <div class="kpi-value" id="kpi-customers">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Stations</div>
+          <div class="kpi-value" id="kpi-stations">0</div>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-container">
+          <div class="chart-title">Revenue Trend</div>
+          <div class="chart-wrapper">
+            <canvas id="revTrend"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">New Suppliers Per Week</div>
+          <div class="chart-wrapper">
+            <canvas id="newSuppliers"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Churn Rate</div>
+          <div class="chart-wrapper">
+            <canvas id="churnRate"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Expense Breakdown</div>
+          <div class="chart-wrapper">
+            <canvas id="expenseSplit"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">AR Aging Buckets</div>
+          <div class="chart-wrapper">
+            <canvas id="arAging"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Top 5 Suppliers by Revenue</div>
+          <div class="chart-wrapper">
+            <canvas id="topSuppliers"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">Pending Approvals</div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Account Name</th>
+              <th>Email</th>
+              <th>Account Role</th>
+              <th>Request Type</th>
+              <th>Requested On</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="pendingTableBody">
+            <tr><td colspan="7" class="loading">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">Latest 10 Payments</div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Amount</th>
+              <th>Supplier</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="paymentsTableBody">
+            <tr><td colspan="5" class="loading">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">Latest 10 Expenses</div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody id="expensesTableBody">
+            <tr><td colspan="5" class="loading">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/js/session-check.js"></script>
+  <script src="../assets/js/admin-mock-engine.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    // Set default date range (last 30 days)
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    document.getElementById('dateFrom').value = thirtyDaysAgo.toISOString().split('T')[0];
+    document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+
+    function updateDateRange() {
+      const from = document.getElementById('dateFrom').value;
+      const to = document.getElementById('dateTo').value;
+      if (from && to) {
+        loadCharts(from, to);
+      }
+    }
+
+    // Load pending approvals
+    async function loadPendingTable() {
+      try {
+        const res = await fetch('/wsms/api/admin/pending.php?action=list', {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false, requests: []}));
+        const tbody = document.getElementById('pendingTableBody');
+        if (data.success && Array.isArray(data.requests)) {
+          if (data.requests.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="loading">No pending requests</td></tr>';
+          } else {
+            // Format role for display
+            function formatRole(role) {
+              if (role === 'filling_station') return 'Station';
+              if (role === 'supplier') return 'Supplier';
+              return role || 'Unknown';
+            }
+            
+            // Determine request type based on role
+            function getRequestType(role) {
+              if (role === 'filling_station') return 'Station';
+              if (role === 'supplier') return 'Supplier';
+              return 'Unknown';
+            }
+            
+            tbody.innerHTML = data.requests.slice(0, 10).map(r => `
+              <tr>
+                <td>${r.id}</td>
+                <td>${r.name || 'N/A'}</td>
+                <td>${r.email || 'N/A'}</td>
+                <td>${formatRole(r.role)}</td>
+                <td>${getRequestType(r.role)}</td>
+                <td>${r.requested_on || 'N/A'}</td>
+                <td>
+                  <button class="btn btn-approve" onclick="approveRequest(${r.id})">Approve</button>
+                  <button class="btn btn-reject" onclick="rejectRequest(${r.id})">Reject</button>
+                </td>
+              </tr>
+            `).join('');
+          }
+        } else {
+          tbody.innerHTML = '<tr><td colspan="7" class="loading">Failed to load</td></tr>';
+        }
+      } catch (e) {
+        console.error('Failed to load pending:', e);
+      }
+    }
+
+    async function approveRequest(id) {
+      try {
+        const res = await fetch(`/wsms/api/admin/pending.php?action=approve`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id})
+        });
+        if (res.ok) {
+          loadPendingTable();
+          loadMetrics();
+        }
+      } catch (e) {
+        console.error('Approve failed:', e);
+      }
+    }
+
+    async function rejectRequest(id) {
+      if (!confirm('Reject this request?')) return;
+      try {
+        const res = await fetch(`/wsms/api/admin/pending.php?action=reject`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id})
+        });
+        if (res.ok) {
+          loadPendingTable();
+          loadMetrics();
+        }
+      } catch (e) {
+        console.error('Reject failed:', e);
+      }
+    }
+
+    // Load payments
+    async function loadPayments() {
+      try {
+        const res = await fetch('/wsms/api/admin/payments.php?action=latest', {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false, rows: []}));
+        const tbody = document.getElementById('paymentsTableBody');
+        if (data.success && Array.isArray(data.rows)) {
+          if (data.rows.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="loading">No payments</td></tr>';
+          } else {
+            tbody.innerHTML = data.rows.map(p => `
+              <tr>
+                <td>${p.id || 'N/A'}</td>
+                <td>${formatCurrency(p.amount || 0)}</td>
+                <td>${p.supplier || 'N/A'}</td>
+                <td>${p.date || 'N/A'}</td>
+                <td><span class="status-badge ${p.status === 'completed' ? 'active' : 'pending'}">${p.status || 'pending'}</span></td>
+              </tr>
+            `).join('');
+          }
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5" class="loading">No data available</td></tr>';
+        }
+      } catch (e) {
+        console.error('Failed to load payments:', e);
+      }
+    }
+
+    // Load expenses
+    async function loadExpenses() {
+      try {
+        const res = await fetch('/wsms/api/admin/expenses.php?action=latest', {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false, rows: []}));
+        const tbody = document.getElementById('expensesTableBody');
+        if (data.success && Array.isArray(data.rows)) {
+          if (data.rows.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="loading">No expenses</td></tr>';
+          } else {
+            tbody.innerHTML = data.rows.map(e => `
+              <tr>
+                <td>${e.id || 'N/A'}</td>
+                <td>${formatCurrency(e.amount || 0)}</td>
+                <td>${e.category || 'N/A'}</td>
+                <td>${e.date || 'N/A'}</td>
+                <td>${e.description || 'N/A'}</td>
+              </tr>
+            `).join('');
+          }
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5" class="loading">No data available</td></tr>';
+        }
+      } catch (e) {
+        console.error('Failed to load expenses:', e);
+      }
+    }
+
+
+    // Load notifications
+    async function loadNotifications() {
+      try {
+        const res = await fetch('/wsms/api/admin/notifications.php', {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false, pending_count: 0}));
+        const badge = document.getElementById('notificationBadge');
+        if (data.success && data.pending_count > 0) {
+          badge.textContent = data.pending_count;
+          badge.style.display = 'block';
+        } else {
+          badge.style.display = 'none';
+        }
+      } catch (e) {
+        console.error('Failed to load notifications:', e);
+      }
+    }
+
+    function toggleNotifications() {
+      const dropdown = document.getElementById('notificationDropdown');
+      if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+      } else {
+        loadNotifications().then(() => {
+          dropdown.innerHTML = '<div style="padding: 10px;">Pending user approvals: <a href="pending.html" style="color: #3b82f6;">View</a></div>';
+          dropdown.style.display = 'block';
+        });
+      }
+    }
+
+    // Poll for notifications every 30 seconds
+    setInterval(loadNotifications, 30000);
+
+    // Initialize dashboard
+    loadMetrics();
+    updateDateRange();
+    loadPendingTable();
+    loadPayments();
+    loadExpenses();
+    loadNotifications();
+  </script>
+</body>
+</html>

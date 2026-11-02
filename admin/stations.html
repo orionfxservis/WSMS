@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stations</title>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <script src="../assets/js/session-check.js"></script>
+  <script src="../assets/js/admin-theme.js"></script>
+  <script src="../assets/js/admin-active-link.js"></script>
+  <script src="../assets/js/admin-header-functions.js"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="header">
+      <div class="header-left">
+        <img src="../assets/img/logo-white.png" alt="WSMS Logo" onerror="this.src='../logo.png'" />
+      </div>
+      <div class="header-right">
+        <div class="notification-bell" onclick="toggleNotifications()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
+          </svg>
+          <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          <div class="notification-dropdown" id="notificationDropdown"></div>
+        </div>
+        <div class="user-menu">
+          <div class="profile-menu-trigger" onclick="toggleProfileMenu()">
+            <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+              <div>
+                <div class="profile-name" id="profileName">Super Admin</div>
+                <div class="profile-email" id="profileEmail">admin@wsms.com</div>
+              </div>
+            </div>
+            <div class="profile-dropdown-menu">
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Account</div>
+                <a href="settings.html">Settings</a>
+                <a href="profile.html">Profile</a>
+              </div>
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Theme</div>
+                <div class="theme-toggle-item">
+                  <span>Dark Mode</span>
+                  <label class="theme-toggle-switch">
+                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                    <span class="theme-toggle-slider"></span>
+                  </label>
+                  <span class="theme-toggle-label" id="themeLabel">Off</span>
+                </div>
+              </div>
+              <div class="profile-menu-section">
+                <a href="#" class="profile-menu-logout" onclick="logout(); return false;">Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Superadmin</h2>
+        <div class="nav">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="pending.html">Pending Requests</a>
+          <a href="suppliers.html">Suppliers</a>
+          <a href="stations.html">Stations</a>
+          <a href="expenses.html">Expenses</a>
+          <a href="reports.html">Reports</a>
+          <a href="users.html">User Management</a>
+          <a href="subscriptions/subscription-plans.html">Subscriptions</a>
+          <a href="audit-logs.html">Audit Logs</a>
+        </div>
+              <div style="margin-top:auto;padding:15px;border-top:1px solid rgba(255,255,255,0.08);">
+          <a href="../index.html" style="color:#70e0a1;font-size:13px;display:flex;align-items:center;gap:6px;text-decoration:none;">
+            <span>← Public Portal</span>
+          </a>
+        </div>
+      </aside>
+      <main class="admin-main">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 24px;">Station Accounts</h1>
+        <button class="btn btn-primary" onclick="showAddStationModal()" style="padding: 10px 20px;">+ Add Station</button>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">All Stations</div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th class="admin-table-header">ID</th>
+              <th class="admin-table-header">Name</th>
+              <th class="admin-table-header">Email</th>
+              <th class="admin-table-header">Status</th>
+              <th class="admin-table-header">Created On</th>
+              <th class="admin-table-header">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="stationsBody">
+            <tr class="admin-table-row"><td colspan="6" class="admin-empty-state">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Add/Edit Station Modal -->
+  <div id="stationModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: var(--panel); padding: 30px; border-radius: 12px; width: 90%; max-width: 500px;">
+      <h2 style="margin: 0 0 20px 0;" id="modalTitle">Add Station</h2>
+      <form id="stationForm">
+        <input type="hidden" id="stationId">
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">User ID (must have filling_station role)</label>
+          <input type="number" id="userId" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Station Name</label>
+          <input type="text" id="stationName" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Address</label>
+          <textarea id="stationAddress" rows="3" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);"></textarea>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Contact</label>
+          <input type="text" id="stationContact" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+        </div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px;">Owner Info</label>
+          <textarea id="stationOwnerInfo" rows="2" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);"></textarea>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
+          <button type="button" class="btn" onclick="closeStationModal()" style="flex: 1;">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../assets/js/admin-mock-engine.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script src="../assets/js/unified-modal.js"></script>
+  <script src="../assets/js/admin-actions.js"></script>
+  <script>
+    // Global reload function for admin-actions.js
+    function reloadData() {
+      loadStations();
+    }
+    
+    // Edit modal handler - uses shared function from admin-actions.js
+    // The openEditExternalAccountModal function handles the warning and calls editStation
+    
+    async function loadStations() {
+      try {
+        const res = await fetch('/wsms/api/admin/stations.php?action=list', {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false, stations: []}));
+        const tbody = document.getElementById('stationsBody');
+        tbody.innerHTML = '';
+        
+        if (data.success && Array.isArray(data.stations)) {
+          if (data.stations.length === 0) {
+            tbody.innerHTML = '<tr class="admin-table-row"><td colspan="6" class="admin-empty-state">No stations found</td></tr>';
+          } else {
+            tbody.innerHTML = data.stations.map(s => {
+              const createdBy = s.created_by || 'user';
+              const createdDate = formatDate(s.created_at);
+              const statusBadge = formatStatusBadge(s.status);
+              const actionButtons = generateActionButtons('station', s.id, createdBy, s.status);
+              
+              return `
+                <tr class="admin-table-row">
+                  <td>${s.id || 'N/A'}</td>
+                  <td>${s.name || 'N/A'}</td>
+                  <td>${s.email || 'N/A'}</td>
+                  <td>${statusBadge}</td>
+                  <td>${createdDate}</td>
+                  <td>${actionButtons}</td>
+                </tr>
+              `;
+            }).join('');
+          }
+        } else {
+          tbody.innerHTML = '<tr class="admin-table-row"><td colspan="6" class="admin-empty-state">Failed to load stations</td></tr>';
+        }
+      } catch (e) {
+        console.error('Failed to load stations:', e);
+        document.getElementById('stationsBody').innerHTML = '<tr class="admin-table-row"><td colspan="6" class="admin-empty-state">Failed to load</td></tr>';
+      }
+    }
+
+    function showAddStationModal() {
+      openModal('stationModal', {
+        title: 'Add Station',
+        message: '',
+        icon: null,
+        customContent: `
+          <form id="stationForm">
+            <input type="hidden" id="stationId">
+            <div class="form-group">
+              <label style="display: block; margin-bottom: 5px;">User ID (must have filling_station role)</label>
+              <input type="number" id="userId" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+              <label style="display: block; margin-bottom: 5px;">Station Name</label>
+              <input type="text" id="stationName" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+              <label style="display: block; margin-bottom: 5px;">Address</label>
+              <textarea id="stationAddress" rows="3" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);"></textarea>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+              <label style="display: block; margin-bottom: 5px;">Contact</label>
+              <input type="text" id="stationContact" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+              <label style="display: block; margin-bottom: 5px;">Owner Info</label>
+              <textarea id="stationOwnerInfo" rows="2" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);"></textarea>
+            </div>
+          </form>
+        `,
+        buttons: [
+          {
+            id: 'save',
+            text: 'Save',
+            class: 'btn btn-primary',
+            onClick: () => {
+              const form = document.getElementById('stationForm');
+              if (form) {
+                form.dispatchEvent(new Event('submit'));
+              }
+            }
+          },
+          {
+            id: 'cancel',
+            text: 'Cancel',
+            class: 'btn',
+            onClick: () => closeStationModal()
+          }
+        ]
+      });
+      
+      // Reset form
+      setTimeout(() => {
+        const form = document.getElementById('stationForm');
+        const stationId = document.getElementById('stationId');
+        if (form) form.reset();
+        if (stationId) stationId.value = '';
+      }, 100);
+    }
+
+    function closeStationModal() {
+      closeModal('stationModal');
+    }
+
+    let currentEditCreatedBy = 'superadmin';
+    let editOverrideConfirmed = false;
+    
+    async function editStation(id) {
+      try {
+        // First get station info to check created_by
+        const viewRes = await fetch(`/wsms/api/admin/stations.php?action=view&id=${id}`, {
+          credentials: 'include'
+        });
+        const viewData = await viewRes.json();
+        
+        if (!viewData.success || !viewData.station) {
+          alert('Failed to load station data');
+          return;
+        }
+        
+        // Get created_by from list endpoint
+        const listRes = await fetch('/wsms/api/admin/stations.php?action=list', {
+          credentials: 'include'
+        });
+        const listData = await listRes.json();
+        const station = listData.stations?.find(s => s.id == id);
+        currentEditCreatedBy = station?.created_by || 'superadmin';
+        editOverrideConfirmed = false;
+        
+        // Use editEntity from admin-actions.js which handles warning
+        await editEntity('station', id, currentEditCreatedBy, () => {
+          // User confirmed - proceed with edit
+          editOverrideConfirmed = true;
+          const s = viewData.station;
+          openModal('stationModal', {
+            title: 'Edit Station',
+            message: '',
+            icon: null,
+            customContent: `
+              <form id="stationForm">
+                <input type="hidden" id="stationId" value="${s.id}">
+                <div class="form-group">
+                  <label style="display: block; margin-bottom: 5px;">User ID (must have filling_station role)</label>
+                  <input type="number" id="userId" value="${s.user_id || ''}" disabled style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); opacity: 0.6;">
+                </div>
+                <div class="form-group" style="margin-top: 16px;">
+                  <label style="display: block; margin-bottom: 5px;">Station Name</label>
+                  <input type="text" id="stationName" value="${(s.name || '').replace(/"/g, '&quot;')}" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+                </div>
+                <div class="form-group" style="margin-top: 16px;">
+                  <label style="display: block; margin-bottom: 5px;">Address</label>
+                  <textarea id="stationAddress" rows="3" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">${(s.address || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+                </div>
+                <div class="form-group" style="margin-top: 16px;">
+                  <label style="display: block; margin-bottom: 5px;">Contact</label>
+                  <input type="text" id="stationContact" value="${(s.contact || '').replace(/"/g, '&quot;')}" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">
+                </div>
+                <div class="form-group" style="margin-top: 16px;">
+                  <label style="display: block; margin-bottom: 5px;">Owner Info</label>
+                  <textarea id="stationOwnerInfo" rows="2" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text);">${(s.owner_info || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+                </div>
+              </form>
+            `,
+            buttons: [
+              {
+                id: 'save',
+                text: 'Save',
+                class: 'btn btn-primary',
+                onClick: () => {
+                  const form = document.getElementById('stationForm');
+                  if (form) {
+                    form.dispatchEvent(new Event('submit'));
+                  }
+                }
+              },
+              {
+                id: 'cancel',
+                text: 'Cancel',
+                class: 'btn',
+                onClick: () => closeStationModal()
+              }
+            ]
+          });
+        });
+      } catch (e) {
+        console.error('Failed to load station:', e);
+        alert('Failed to load station data');
+      }
+    }
+
+    // viewStation is now handled by admin-actions.js viewEntity function
+
+    // Handle form submission (delegated event listener)
+    document.addEventListener('submit', async (e) => {
+      if (e.target.id === 'stationForm') {
+        e.preventDefault();
+        const id = document.getElementById('stationId')?.value;
+        const action = id ? 'update' : 'create';
+        
+        // If editing user-created account, ensure override was confirmed
+        if (id && currentEditCreatedBy === 'user' && !editOverrideConfirmed) {
+          alert('Please confirm the edit warning first');
+          return;
+        }
+        
+        const payload = {
+          id: id || undefined,
+          user_id: parseInt(document.getElementById('userId')?.value || '0'),
+          name: document.getElementById('stationName')?.value.trim() || '',
+          address: document.getElementById('stationAddress')?.value.trim() || '',
+          contact: document.getElementById('stationContact')?.value.trim() || '',
+          owner_info: document.getElementById('stationOwnerInfo')?.value.trim() || '',
+          override_confirmed: editOverrideConfirmed || false
+        };
+        
+        if (id) {
+          delete payload.user_id; // Don't update user_id on edit
+        }
+        
+        try {
+          const res = await fetch(`/wsms/api/admin/stations.php?action=${action}`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (data.success) {
+            // Log edit action
+            await logAdminAction('edit', 'station', id || data.id, null, JSON.stringify(payload));
+            
+            closeStationModal();
+            editOverrideConfirmed = false;
+            loadStations();
+            openModal('stationSavedSuccess', {
+              title: 'Success',
+              message: 'Station saved successfully.',
+              icon: 'success',
+              buttons: [{
+                id: 'ok',
+                text: 'OK',
+                class: 'btn btn-primary',
+                onClick: () => closeModal('stationSavedSuccess')
+              }]
+            });
+          } else {
+            alert(data.error || 'Failed to save station');
+          }
+        } catch (e) {
+          console.error('Save failed:', e);
+          alert('Failed to save station');
+        }
+      }
+    });
+
+    // Initialize page
+    loadStations();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subscription Plans - WSMS Admin</title>
+  <link rel="stylesheet" href="../../assets/css/admin.css">
+  <script src="../../assets/js/session-check.js"></script>
+  <script src="../../assets/js/admin-theme.js"></script>
+  <script src="../../assets/js/admin-active-link.js"></script>
+  <script src="../../assets/js/admin-header-functions.js"></script>
+  <script src="../../assets/js/admin-mock-engine.js"></script>
+  <script src="../../assets/js/admin.js"></script>
+  <script src="../../assets/js/unified-modal.js"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="header">
+      <div class="header-left">
+        <img src="../../assets/img/logo-white.png" alt="WSMS Logo" />
+      </div>
+      <div class="header-right">
+        <div class="notification-bell" onclick="toggleNotifications()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
+          </svg>
+          <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          <div class="notification-dropdown" id="notificationDropdown"></div>
+        </div>
+        <div class="user-menu">
+          <div class="profile-menu-trigger" onclick="toggleProfileMenu()">
+            <img src="../../assets/img/dp.jpg" alt="User Avatar" />
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <img src="../../assets/img/dp.jpg" alt="User Avatar" />
+              <div>
+                <div class="profile-name" id="profileName">Super Admin</div>
+                <div class="profile-email" id="profileEmail">admin@wsms.com</div>
+              </div>
+            </div>
+            <div class="profile-dropdown-menu">
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Account</div>
+                <a href="../settings.html">Settings</a>
+                <a href="../profile.html">Profile</a>
+              </div>
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Theme</div>
+                <div class="theme-toggle-item">
+                  <span>Dark Mode</span>
+                  <label class="theme-toggle-switch">
+                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                    <span class="theme-toggle-slider"></span>
+                  </label>
+                  <span class="theme-toggle-label" id="themeLabel">Off</span>
+                </div>
+              </div>
+              <div class="profile-menu-section">
+                <a href="#" class="profile-menu-logout" onclick="logout(); return false;">Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Superadmin</h2>
+        <div class="nav">
+          <a href="../dashboard.html">Dashboard</a>
+          <a href="../pending.html">Pending Requests</a>
+          <a href="../suppliers.html">Suppliers</a>
+          <a href="../stations.html">Stations</a>
+          <a href="../expenses.html">Expenses</a>
+          <a href="../reports.html">Reports</a>
+          <a href="../users.html">User Management</a>
+          <a href="../subscriptions/subscription-plans.html">Subscriptions</a>
+          <a href="../audit-logs.html">Audit Logs</a>
+        </div>
+              <div style="margin-top:auto;padding:15px;border-top:1px solid rgba(255,255,255,0.08);">
+          <a href="../../index.html" style="color:#70e0a1;font-size:13px;display:flex;align-items:center;gap:6px;text-decoration:none;">
+            <span>← Public Portal</span>
+          </a>
+        </div>
+      </aside>
+      <main class="admin-main">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 24px;">Subscription Plans</h1>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn" onclick="loadTemplates()" style="padding: 10px 20px;">Load Templates</button>
+          <button class="btn btn-primary" onclick="window.location.href='subscription-create.html'" style="padding: 10px 20px;">Create New Package</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <button class="btn" onclick="filterByRole('all')" id="filterAll" style="padding: 8px 16px;">All</button>
+        <button class="btn" onclick="filterByRole('supplier')" id="filterSupplier" style="padding: 8px 16px;">Suppliers</button>
+        <button class="btn" onclick="filterByRole('station')" id="filterStation" style="padding: 8px 16px;">Stations</button>
+      </div>
+      
+      <div class="table-container">
+        <div class="table-header">All Packages</div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th class="admin-table-header">ID</th>
+              <th class="admin-table-header">Name</th>
+              <th class="admin-table-header">Role Type</th>
+              <th class="admin-table-header">Monthly Fee</th>
+              <th class="admin-table-header">Trial Days</th>
+              <th class="admin-table-header">Max Discount</th>
+              <th class="admin-table-header">Status</th>
+              <th class="admin-table-header">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="packagesBody">
+            <tr class="admin-table-row"><td colspan="8" class="admin-empty-state">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    let currentFilter = 'all';
+    let allPackages = [];
+
+    async function loadPackages(roleType = null) {
+      try {
+        let url = '/wsms/api/admin/subscriptions/list_packages.php';
+        if (roleType && roleType !== 'all') {
+          url += `?role_type=${roleType}`;
+        }
+        
+        const res = await fetch(url, {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false}));
+        
+        const tbody = document.getElementById('packagesBody');
+        tbody.innerHTML = '';
+
+        if (!data.success || !Array.isArray(data.data)) {
+          tbody.innerHTML = '<tr class="admin-table-row"><td colspan="8" class="admin-empty-state">Failed to load</td></tr>';
+          return;
+        }
+
+        allPackages = data.data;
+
+        if (allPackages.length === 0) {
+          tbody.innerHTML = '<tr class="admin-table-row"><td colspan="8" class="admin-empty-state">No packages found</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = allPackages.map(pkg => {
+          const statusBadge = pkg.status === 'active' 
+            ? '<span class="admin-badge admin-badge-status-active">Active</span>'
+            : '<span class="admin-badge admin-badge-status-inactive">Inactive</span>';
+          
+          const roleBadge = pkg.role_type === 'supplier'
+            ? '<span class="admin-badge admin-badge-role-supplier">Supplier</span>'
+            : '<span class="admin-badge admin-badge-role-station">Station</span>';
+          
+          return `
+            <tr class="admin-table-row">
+              <td>${pkg.id}</td>
+              <td>${pkg.name}</td>
+              <td>${roleBadge}</td>
+              <td>Rs. ${parseFloat(pkg.monthly_fee).toLocaleString()}</td>
+              <td>${pkg.trial_days} days</td>
+              <td>${pkg.allow_discount ? pkg.max_discount_percent + '%' : 'No discount'}</td>
+              <td>${statusBadge}</td>
+              <td>
+                <button class="btn btn-small btn-edit" onclick="editPackage(${pkg.id})">Edit</button>
+                ${pkg.status === 'active' 
+                  ? `<button class="btn btn-small btn-suspend" onclick="deactivatePackage(${pkg.id})">Deactivate</button>`
+                  : `<button class="btn btn-small btn-activate" onclick="activatePackage(${pkg.id})">Activate</button>`
+                }
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (e) {
+        console.error('Failed to load packages:', e);
+        document.getElementById('packagesBody').innerHTML = '<tr class="admin-table-row"><td colspan="8" class="admin-empty-state">Failed to load</td></tr>';
+      }
+    }
+
+    function filterByRole(role) {
+      currentFilter = role;
+      
+      // Update button states
+      document.getElementById('filterAll').classList.remove('btn-primary');
+      document.getElementById('filterSupplier').classList.remove('btn-primary');
+      document.getElementById('filterStation').classList.remove('btn-primary');
+      
+      if (role === 'all') {
+        document.getElementById('filterAll').classList.add('btn-primary');
+        loadPackages();
+      } else {
+        document.getElementById(`filter${role.charAt(0).toUpperCase() + role.slice(1)}`).classList.add('btn-primary');
+        loadPackages(role);
+      }
+    }
+
+    function editPackage(id) {
+      window.location.href = `subscription-edit.html?id=${id}`;
+    }
+
+    async function deactivatePackage(id) {
+      if (!confirm('Are you sure you want to deactivate this package?')) return;
+      
+      try {
+        const res = await fetch('/wsms/api/admin/subscriptions/delete_or_deactivate_package.php', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id, action: 'deactivate'})
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          alert('Package deactivated successfully');
+          loadPackages(currentFilter === 'all' ? null : currentFilter);
+        } else {
+          alert(data.error || 'Failed to deactivate package');
+        }
+      } catch (e) {
+        console.error('Failed to deactivate:', e);
+        alert('Failed to deactivate package');
+      }
+    }
+
+    async function activatePackage(id) {
+      try {
+        const res = await fetch('/wsms/api/admin/subscriptions/update_package.php', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id, status: 'active'})
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          alert('Package activated successfully');
+          loadPackages(currentFilter === 'all' ? null : currentFilter);
+        } else {
+          alert(data.error || 'Failed to activate package');
+        }
+      } catch (e) {
+        console.error('Failed to activate:', e);
+        alert('Failed to activate package');
+      }
+    }
+
+    async function loadTemplates() {
+      if (!confirm('This will load default template packages. Existing packages will not be affected. Continue?')) return;
+      
+      // Templates are already in the database migration
+      // This function can be used to verify or reload if needed
+      alert('Default templates are loaded automatically when the database migration runs. If you need to reload them, please run the migration again.');
+    }
+
+    // Initialize page
+    loadPackages();
+  </script>
+</body>
+</html>

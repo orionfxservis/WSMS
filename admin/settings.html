@@ -1,0 +1,38 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <title>Admin Settings</title> <style> :root { --bg: #141518; --panel: #1b1d22; --muted: #9aa3ad; --text: #e6e8ea; --primary: #3b82f6; --sidebar: #1a1b1f; } body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif; display: flex; min-height: 100vh; } .sidebar { width: 220px; background: var(--sidebar); padding: 20px 14px; border-right: 1px solid #23262d; } .sidebar h2 { font-size: 18px; margin: 0 0 20px; color: var(--muted); } .nav a { display: block; padding: 12px; color: var(--text); text-decoration: none; border-radius: 6px; margin-bottom: 6px; transition: background .2s; font-size: 14px; } .nav a:hover { background: #2a2d33; } .logout { margin-top: 30px; padding: 10px; background: #dc2626; color: #fff; border: none; width: 100%; border-radius: 6px; cursor: pointer; font-weight: 600; } .main { flex: 1; padding: 30px; } h1 { margin-top: 0; margin-bottom: 30px; font-size: 22px; } .panel-box { background: var(--panel); border: 1px solid #23262d; border-radius: 12px; padding: 20px; max-width: 500px; } .panel-box h3 { margin: 0 0 14px; font-size: 16px; color: var(--muted); } .row { margin-bottom: 14px; } label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--muted); } input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2a2e36; background: #121418; color: var(--text); } button.saveBtn { background: var(--primary); border: none; padding: 12px; width: 100%; color: #fff; border-radius: 10px; cursor: pointer; font-weight: 600; } </style> </head> <body> <script src="../assets/js/session-check.js"></script>
+<script src="../assets/js/admin-mock-engine.js"></script>
+  <script src="../assets/js/admin.js"></script> <div class="sidebar"> <h2>Superadmin</h2> <div class="nav"> <a href="dashboard.html">Dashboard</a> <a href="users.html">Users</a> <a href="pending.html">Pending Requests</a> <a href="suppliers.html">Suppliers</a> <a href="settings.html">Settings</a> </div> <button class="logout" onclick="logout()">Logout</button> </div> <div class="main"> <h1>Settings</h1>
+
+<div class="panel-box">
+
+  <h3>Superadmin Profile</h3>
+
+
+
+  <div class="row">
+
+    <label>Email</label>
+
+    <input id="email" type="text" placeholder="admin@example.com">
+
+  </div>
+
+
+
+  <div class="row">
+
+    <label>Change Password</label>
+
+    <input id="pass" type="password" placeholder="New password">
+
+  </div>
+
+
+
+  <button class="saveBtn">Save Changes</button>
+
+</div>
+
+
+
+</div> <script> async function logout() { await fetch('../api/admin/logout.php', { method: 'POST', credentials: 'include' }); location.href = './'; } async function saveSettings() { const email = document.getElementById('email').value.trim(); const password = document.getElementById('pass').value.trim(); const payload = {}; if (email !== '') payload.email = email; if (password !== '') payload.password = password; if (Object.keys(payload).length === 0) { alert('Nothing to update'); return; } const res = await fetch('../api/admin/settings.php', { method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }); const data = await res.json().catch(() => ({success:false})); if (data.success) { alert('Settings updated'); } else { alert(data.error || 'Failed to update'); } } document.querySelector('.saveBtn').addEventListener('click', saveSettings); </script> </body> </html>
+

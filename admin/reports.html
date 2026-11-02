@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reports - SAAS Business</title>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../assets/js/session-check.js"></script>
+  <script src="../assets/js/admin-theme.js"></script>
+  <script src="../assets/js/admin-active-link.js"></script>
+  <script src="../assets/js/admin-header-functions.js"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="header">
+      <div class="header-left">
+        <img src="../assets/img/logo-white.png" alt="WSMS Logo" onerror="this.src='../logo.png'" />
+      </div>
+      <div class="header-right">
+        <div class="notification-bell" onclick="toggleNotifications()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25-2.5 9.5-2.5 9.5h15S19 14.25 19 9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5 0 4.67 2 8.5 2 8.5H5s2-3.83 2-8.5c0-2.76 2.24-5 5-5zm-1 15h2v2h-2v-2z"/>
+          </svg>
+          <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          <div class="notification-dropdown" id="notificationDropdown"></div>
+        </div>
+        <div class="user-menu">
+          <div class="profile-menu-trigger" onclick="toggleProfileMenu()">
+            <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <img src="../assets/img/dp.jpg" alt="Super Admin Avatar" onerror="this.src='../assets/default-user.png'" />
+              <div>
+                <div class="profile-name" id="profileName">Super Admin</div>
+                <div class="profile-email" id="profileEmail">admin@wsms.com</div>
+              </div>
+            </div>
+            <div class="profile-dropdown-menu">
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Account</div>
+                <a href="settings.html">Settings</a>
+                <a href="profile.html">Profile</a>
+              </div>
+              <div class="profile-menu-section">
+                <div class="profile-menu-section-title">Theme</div>
+                <div class="theme-toggle-item">
+                  <span>Dark Mode</span>
+                  <label class="theme-toggle-switch">
+                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                    <span class="theme-toggle-slider"></span>
+                  </label>
+                  <span class="theme-toggle-label" id="themeLabel">Off</span>
+                </div>
+              </div>
+              <div class="profile-menu-section">
+                <a href="#" class="profile-menu-logout" onclick="logout(); return false;">Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Superadmin</h2>
+        <div class="nav">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="pending.html">Pending Requests</a>
+          <a href="suppliers.html">Suppliers</a>
+          <a href="stations.html">Stations</a>
+          <a href="expenses.html">Expenses</a>
+          <a href="reports.html">Reports</a>
+          <a href="users.html">User Management</a>
+          <a href="subscriptions/subscription-plans.html">Subscriptions</a>
+          <a href="audit-logs.html">Audit Logs</a>
+        </div>
+              <div style="margin-top:auto;padding:15px;border-top:1px solid rgba(255,255,255,0.08);">
+          <a href="../index.html" style="color:#70e0a1;font-size:13px;display:flex;align-items:center;gap:6px;text-decoration:none;">
+            <span>← Public Portal</span>
+          </a>
+        </div>
+      </aside>
+      <main class="admin-main">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 24px;">SAAS Business Reports</h1>
+        <button class="btn btn-primary" onclick="exportReport()" style="padding: 10px 20px;">Export CSV</button>
+      </div>
+
+      <div class="date-range" style="margin-bottom: 20px;">
+        <label>From:</label>
+        <input type="date" id="dateFrom" onchange="loadReports()">
+        <label>To:</label>
+        <input type="date" id="dateTo" onchange="loadReports()">
+        <button class="btn btn-primary" onclick="loadReports()" style="margin-left: 10px; padding: 8px 16px;">Filter</button>
+      </div>
+
+      <div class="kpi-grid" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Revenue</div>
+          <div class="kpi-value" id="totalRevenue">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Expenses</div>
+          <div class="kpi-value" id="totalExpenses">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Profit/Loss</div>
+          <div class="kpi-value" id="profitLoss">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">MRR</div>
+          <div class="kpi-value" id="mrr">Rs. 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Subscriptions</div>
+          <div class="kpi-value" id="activeSubscriptions">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Churn Rate</div>
+          <div class="kpi-value" id="churnRate">0%</div>
+        </div>
+      </div>
+
+      <div class="charts-grid" style="margin-bottom: 20px;">
+        <div class="chart-container">
+          <div class="chart-title">Revenue vs Expenses</div>
+          <div class="chart-wrapper">
+            <canvas id="revenueExpensesChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Monthly Trends</div>
+          <div class="chart-wrapper">
+            <canvas id="monthlyTrendsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">Financial Summary</div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th class="admin-table-header">Period</th>
+              <th class="admin-table-header">Revenue</th>
+              <th class="admin-table-header">Expenses</th>
+              <th class="admin-table-header">Profit/Loss</th>
+              <th class="admin-table-header">Margin %</th>
+            </tr>
+          </thead>
+          <tbody id="summaryTableBody">
+            <tr class="admin-table-row"><td colspan="5" class="admin-empty-state">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/js/admin-mock-engine.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    let revenueExpensesChart = null;
+    let monthlyTrendsChart = null;
+
+    // Set default date range (last 30 days)
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    document.getElementById('dateFrom').value = thirtyDaysAgo.toISOString().split('T')[0];
+    document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+
+    async function loadReports() {
+      const from = document.getElementById('dateFrom').value;
+      const to = document.getElementById('dateTo').value;
+      
+      if (!from || !to) {
+        alert('Please select both date ranges');
+        return;
+      }
+      
+      // Show loading state
+      document.getElementById('summaryTableBody').innerHTML = '<tr class="admin-table-row"><td colspan="5" class="admin-empty-state">Loading…</td></tr>';
+      
+      try {
+        const res = await fetch(`/wsms/api/admin/reports.php?action=financial&from=${from}&to=${to}`, {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false}));
+        
+        if (data.success) {
+          // Update KPIs
+          document.getElementById('totalRevenue').textContent = formatCurrency(data.revenue || 0);
+          document.getElementById('totalExpenses').textContent = formatCurrency(data.expenses || 0);
+          const profit = (data.revenue || 0) - (data.expenses || 0);
+          document.getElementById('profitLoss').textContent = formatCurrency(profit);
+          document.getElementById('mrr').textContent = formatCurrency(data.mrr || 0);
+          document.getElementById('activeSubscriptions').textContent = data.activeSubscriptions || 0;
+          document.getElementById('churnRate').textContent = (data.churnRate || 0).toFixed(2) + '%';
+          
+          // Load charts
+          await loadCharts(from, to);
+          await loadSummaryTable(from, to);
+        } else {
+          document.getElementById('summaryTableBody').innerHTML = '<tr class="admin-table-row"><td colspan="5" class="admin-empty-state">Failed to load data</td></tr>';
+        }
+      } catch (e) {
+        console.error('Failed to load reports:', e);
+        document.getElementById('summaryTableBody').innerHTML = '<tr class="admin-table-row"><td colspan="5" class="admin-empty-state">Failed to load</td></tr>';
+      }
+    }
+
+    async function loadCharts(from, to) {
+      try {
+        const res = await fetch(`/wsms/api/admin/reports.php?action=charts&from=${from}&to=${to}`, {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false}));
+        
+        if (data.success) {
+          // Revenue vs Expenses Chart
+          const revExpCtx = document.getElementById('revenueExpensesChart');
+          if (revenueExpensesChart) {
+            revenueExpensesChart.destroy();
+          }
+          revenueExpensesChart = new Chart(revExpCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Revenue', 'Expenses'],
+              datasets: [{
+                label: 'Amount (Rs.)',
+                data: [data.revenue || 0, data.expenses || 0],
+                backgroundColor: ['#16a34a', '#dc2626']
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } }
+            }
+          });
+          
+          // Monthly Trends Chart
+          const monthlyCtx = document.getElementById('monthlyTrendsChart');
+          if (monthlyTrendsChart) {
+            monthlyTrendsChart.destroy();
+          }
+          if (data.monthlyData && data.monthlyData.labels) {
+            monthlyTrendsChart = new Chart(monthlyCtx, {
+              type: 'line',
+              data: {
+                labels: data.monthlyData.labels,
+                datasets: [
+                  {
+                    label: 'Revenue',
+                    data: data.monthlyData.revenue || [],
+                    borderColor: '#16a34a',
+                    backgroundColor: 'rgba(22, 163, 74, 0.1)'
+                  },
+                  {
+                    label: 'Expenses',
+                    data: data.monthlyData.expenses || [],
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)'
+                  }
+                ]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            });
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load charts:', e);
+      }
+    }
+
+    async function loadSummaryTable(from, to) {
+      try {
+        const res = await fetch(`/wsms/api/admin/reports.php?action=summary&from=${from}&to=${to}`, {
+          credentials: 'include'
+        });
+        const data = await res.json().catch(() => ({success: false, periods: []}));
+        
+        const tbody = document.getElementById('summaryTableBody');
+        if (data.success && Array.isArray(data.periods)) {
+          if (data.periods.length === 0) {
+            tbody.innerHTML = '<tr class="admin-table-row"><td colspan="5" class="admin-empty-state">No data available</td></tr>';
+          } else {
+            tbody.innerHTML = data.periods.map(p => {
+              const margin = p.revenue > 0 ? ((p.profit / p.revenue) * 100).toFixed(2) : '0.00';
+              return `
+                <tr class="admin-table-row">
+                  <td>${p.period || 'N/A'}</td>
+                  <td>${formatCurrency(p.revenue || 0)}</td>
+                  <td>${formatCurrency(p.expenses || 0)}</td>
+                  <td>${formatCurrency(p.profit || 0)}</td>
+                  <td>${margin}%</td>
+                </tr>
+              `;
+            }).join('');
+          }
+        } else {
+          tbody.innerHTML = '<tr class="admin-table-row"><td colspan="5" class="admin-empty-state">Failed to load summary</td></tr>';
+        }
+      } catch (e) {
+        console.error('Failed to load summary:', e);
+      }
+    }
+
+    function exportReport() {
+      const from = document.getElementById('dateFrom').value;
+      const to = document.getElementById('dateTo').value;
+      window.location.href = `/wsms/api/admin/reports.php?action=export&from=${from}&to=${to}`;
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      loadReports();
+    });
+  </script>
+</body>
+</html>
+

@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="admin-layout">
-            <div class="header" style="height: 56px; background: #007bdb !important; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.15); box-sizing: border-box; color: #ffffff;">
+                <div class="header" style="height: 56px; background: #007bdb !important; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.15); box-sizing: border-box; color: #ffffff;">
       <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
         <a href="dashboard.html" class="header-brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #ffffff;" title="WSMS Super Admin Portal">
           <div class="header-logo-container" style="width: 38px; height: 38px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 3px; overflow: hidden; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
@@ -64,8 +64,8 @@
             <div class="profile-dropdown-menu" style="padding: 6px 0;">
               <div class="profile-menu-section" style="padding: 4px 0; border-bottom: 1px solid #2a2e36;">
                 <div class="profile-menu-section-title" style="padding: 4px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9aa3ad;">Account</div>
+                <a href="profile.html" style="display: block; padding: 7px 16px; color: #e6e8ea; text-decoration: none; font-size: 13px;">Super Admin Profile</a>
                 <a href="settings.html" style="display: block; padding: 7px 16px; color: #e6e8ea; text-decoration: none; font-size: 13px;">Settings</a>
-                <a href="profile.html" style="display: block; padding: 7px 16px; color: #e6e8ea; text-decoration: none; font-size: 13px;">Profile</a>
               </div>
               <div class="profile-menu-section" style="padding: 4px 0; border-bottom: 1px solid #2a2e36;">
                 <div class="profile-menu-section-title" style="padding: 4px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9aa3ad;">Theme</div>
@@ -85,9 +85,6 @@
             </div>
           </div>
         </div>
-        <a href="../index.html" class="header-back-link" style="display: inline-flex; align-items: center; gap: 4px; color: #ffffff; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.28); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; transition: background 0.15s ease;" title="Return to Main Overview">
-          <span>← Overview</span>
-        </a>
       </div>
     </div>
     <div class="layout">
@@ -113,10 +110,16 @@
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;">
-          <!-- Profile Card -->
+                    <!-- Profile Card -->
           <div class="table-container" style="padding:24px;">
             <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid #23262d;">
-              <img src="../assets/default-user.png" alt="Admin" onerror="this.src='../logo.png'" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid #3b82f6;">
+              <div style="position:relative;width:76px;height:76px;flex-shrink:0;">
+                <img id="profAvatarDisplay" src="../assets/default-user.png" alt="Admin" onerror="this.src='../logo.png'" style="width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid #007bdb;display:block;background:#ffffff;box-shadow:0 2px 8px rgba(0,0,0,0.25);">
+                <label for="avatarFileInput" style="position:absolute;bottom:0;right:0;background:#007bdb;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.3);border:2px solid #1b1d22;" title="Upload new photo">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                </label>
+                <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarFileSelect(this)">
+              </div>
               <div>
                 <h3 style="margin:0 0 4px;font-size:20px;color:var(--text);" id="profNameDisplay">Super Admin</h3>
                 <span style="display:inline-block;padding:2px 10px;background:rgba(59,130,246,0.15);color:#3b82f6;border-radius:999px;font-size:12px;font-weight:600;">Full System Superadministrator</span>
@@ -146,9 +149,14 @@
               </div>
             </div>
 
-            <div style="margin-top:24px;display:flex;gap:10px;">
-              <button class="btn btn-primary" onclick="editProfileDetails()" style="padding:8px 16px;font-size:13px;">Edit Profile</button>
-              <a href="settings.html" class="btn" style="padding:8px 16px;font-size:13px;text-decoration:none;display:inline-block;text-align:center;background:#2a2e36;color:#fff;">Settings</a>
+            <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;">
+              <button class="btn btn-primary" onclick="document.getElementById('avatarFileInput').click()" style="padding:8px 16px;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                <span>Upload Photo</span>
+              </button>
+              <button class="btn" onclick="promptPhotoUrl()" style="padding:8px 16px;font-size:13px;background:#2a2e36;color:#fff;">Image URL</button>
+              <button class="btn" onclick="editProfileDetails()" style="padding:8px 16px;font-size:13px;background:#2a2e36;color:#fff;">Edit Name</button>
+              <button class="btn" onclick="resetDefaultPhoto()" style="padding:8px 14px;font-size:13px;background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);" title="Reset to default picture">Reset</button>
             </div>
           </div>
 
@@ -189,23 +197,75 @@
     </div>
   </div>
 
-  <script src="../assets/js/admin-mock-engine.js"></script>
+    <script src="../assets/js/admin-mock-engine.js"></script>
   <script src="../assets/js/admin.js"></script>
   <script>
     function loadProfileInfo() {
       const user = JSON.parse(localStorage.getItem('wsms_admin_user') || '{}');
       const name = user.name || 'Super Admin';
       const email = user.email || 'admin@wsms.pk';
+      const pic = user.dp_url || user.picture || '../assets/default-user.png';
       
       const pName = document.getElementById('profileName');
       const pEmail = document.getElementById('profileEmail');
       const dName = document.getElementById('profNameDisplay');
       const dEmail = document.getElementById('profEmailDisplay');
+      const dAvatar = document.getElementById('profAvatarDisplay');
       
       if (pName) pName.textContent = name;
       if (pEmail) pEmail.textContent = email;
       if (dName) dName.textContent = name;
       if (dEmail) dEmail.textContent = email;
+      if (dAvatar) {
+        dAvatar.src = pic;
+        dAvatar.onerror = function() { this.src = '../assets/default-user.png'; };
+      }
+      if (typeof syncAllProfileAvatars === 'function') {
+        syncAllProfileAvatars(pic);
+      }
+    }
+
+    function handleAvatarFileSelect(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (file.size > 3 * 1024 * 1024) {
+          alert('Selected image is larger than 3MB. Please select a smaller photo.');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          saveAndApplyProfilePicture(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function promptPhotoUrl() {
+      const user = JSON.parse(localStorage.getItem('wsms_admin_user') || '{}');
+      const current = user.dp_url || user.picture || '';
+      const url = prompt('Enter picture URL or local image path:', current);
+      if (url && url.trim()) {
+        saveAndApplyProfilePicture(url.trim());
+      }
+    }
+
+    function resetDefaultPhoto() {
+      if (confirm('Reset profile picture back to default?')) {
+        saveAndApplyProfilePicture('../assets/default-user.png');
+      }
+    }
+
+    function saveAndApplyProfilePicture(picUrl) {
+      const user = JSON.parse(localStorage.getItem('wsms_admin_user') || '{}');
+      user.dp_url = picUrl;
+      user.picture = picUrl;
+      localStorage.setItem('wsms_admin_user', JSON.stringify(user));
+
+      if (typeof updateProfilePicture === 'function') {
+        updateProfilePicture(picUrl);
+      }
+      loadProfileInfo();
+      alert('Profile picture updated successfully!');
     }
 
     function editProfileDetails() {
@@ -216,7 +276,7 @@
         user.name = newName.trim();
         localStorage.setItem('wsms_admin_user', JSON.stringify(user));
         loadProfileInfo();
-        alert('Profile updated successfully.');
+        alert('Profile name updated successfully.');
       }
     }
 

@@ -1,0 +1,84 @@
+/* ========================================
+   SIDEBAR COMPONENT
+   ======================================== */
+
+.sidebar {
+  width: 220px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  transition: all var(--transition-base);
+  z-index: var(--z-sidebar);
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.sidebar h2 {
+  font-size: 18px;
+  margin: 0 0 20px;
+  font-weight: 600;
+  transition: color var(--transition-base);
+}
+
+.nav {
+  flex: 1;
+}
+
+.nav a {
+  display: block;
+  padding: 12px;
+  color: var(--text-color);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  margin-bottom: 6px;
+  transition: all var(--transition-base);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  background: var(--hover-color);
+}
+
+.nav a.active {
+  background: var(--primary);
+  color: white;
+}
+
+.logout {
+  position: sticky;
+  bottom: 12px;
+  padding: 12px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  width: 100%;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: opacity var(--transition-base);
+}
+
+.logout:hover {
+  opacity: 0.9;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .main {
+    margin-left: 200px;
+  }
+}
+

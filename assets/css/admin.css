@@ -1,0 +1,142 @@
+/* ========================================
+   WSMS ADMIN - MASTER STYLESHEET
+   Imports all modular CSS files
+   ======================================== */
+
+/* Base styles and variables */
+@import url('admin-base.css');
+
+/* Theme system */
+@import url('admin-theme-dark.css');
+@import url('admin-theme-light.css');
+
+/* Component styles */
+@import url('admin-header.css');
+@import url('admin-sidebar.css');
+@import url('admin-tables.css');
+@import url('admin-buttons.css');
+
+/* ========================================
+   BACKWARD COMPATIBILITY
+   ======================================== */
+
+/* Ensure default theme is dark */
+body {
+  background: var(--bg-color, #0f0f0f);
+  color: var(--text-color, #e6e8ea);
+}
+
+/* Admin Layout Wrapper - Persistent Fixed Layout */
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+.admin-layout > .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: var(--z-header);
+  flex-shrink: 0;
+}
+
+.admin-layout > .layout {
+  display: flex;
+  flex: 1;
+  margin-top: 60px;
+  overflow: hidden;
+  position: relative;
+}
+
+.admin-layout > .layout > .sidebar {
+  position: fixed;
+  left: 0;
+  top: 60px;
+  bottom: 0;
+  width: 220px;
+  z-index: var(--z-sidebar);
+  overflow-y: auto;
+}
+
+.admin-layout > .layout > .admin-main {
+  margin-left: 220px;
+  margin-top: 0;
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Legacy class mappings */
+.admin-header {
+  height: 60px;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  overflow: visible;
+}
+
+.admin-sidebar {
+  width: 220px;
+  background: var(--sidebar-bg);
+  padding: 20px 14px;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  margin-left: 220px;
+  margin-top: 0;
+}
+
+/* Remove any blue bars or unexpected horizontal bars */
+.admin-layout::before,
+.admin-layout::after,
+.layout::before,
+.layout::after {
+  display: none;
+  content: none;
+}
+
+/* Ensure no duplicate headers/sidebars appear */
+.admin-layout > #header:not(.header),
+.admin-layout > #sidebar:not(.sidebar) {
+  display: none;
+}
+
+/* Remove preload class system - no longer needed */
+body.preload,
+body[class*="preload"] {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix spacing - remove extra padding/margins */
+.admin-main {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+/* Ensure header and sidebar never reload or flicker */
+.header,
+.sidebar {
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

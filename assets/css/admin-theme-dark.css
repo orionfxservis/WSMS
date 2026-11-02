@@ -1,0 +1,148 @@
+/* ========================================
+   DARK THEME
+   ======================================== */
+:root,
+.theme-dark,
+body.theme-dark {
+  /* Background Colors */
+  --bg-color: #0f0f0f;
+  --card-bg: #1b1d22;
+  --table-bg: #121212;
+  --header-bg: #1b1d22;
+  --sidebar-bg: #1a1b1f;
+  
+  /* Text Colors */
+  --text-color: #e6e8ea;
+  --muted-color: #9aa3ad;
+  
+  /* Border Colors */
+  --table-border: #2a2a2a;
+  --border-color: #23262d;
+  
+  /* Interactive Colors */
+  --hover-color: #2a2d33;
+  
+  /* Button Colors */
+  --button-primary: #3b82f6;
+  --button-secondary: #6b7280;
+  
+  /* Legacy variable mapping for backward compatibility */
+  --bg: var(--bg-color);
+  --panel: var(--card-bg);
+  --text: var(--text-color);
+  --muted: var(--muted-color);
+  --sidebar: var(--sidebar-bg);
+  --border: var(--border-color);
+  --hover: var(--hover-color);
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Header */
+.header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Tables */
+.table-container {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+select,
+textarea {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background: var(--card-bg);
+}
+
+/* Date Range */
+.date-range {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* KPI Cards */
+.kpi-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.kpi-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Chart Container */
+.chart-container {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Modal */
+.modal {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.notification-item.unread {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Close Button */
+.close-btn {
+  color: var(--muted-color);
+}
+
+.close-btn:hover {
+  background: var(--hover-color);
+  color: var(--text-color);
+}
+

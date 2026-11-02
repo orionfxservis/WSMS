@@ -1,0 +1,153 @@
+/* ========================================
+   LIGHT THEME
+   ======================================== */
+.theme-light,
+body.theme-light {
+  /* Background Colors */
+  --bg-color: #f8f9fa;
+  --card-bg: #ffffff;
+  --table-bg: #ffffff;
+  --header-bg: #ffffff;
+  --sidebar-bg: #f1f3f5;
+  
+  /* Text Colors */
+  --text-color: #212529;
+  --muted-color: #6c757d;
+  
+  /* Border Colors */
+  --table-border: #dee2e6;
+  --border-color: #dee2e6;
+  
+  /* Interactive Colors */
+  --hover-color: #e9ecef;
+  
+  /* Button Colors */
+  --button-primary: #3b82f6;
+  --button-secondary: #6b7280;
+  
+  /* Legacy variable mapping for backward compatibility */
+  --bg: var(--bg-color);
+  --panel: var(--card-bg);
+  --text: var(--text-color);
+  --muted: var(--muted-color);
+  --sidebar: var(--sidebar-bg);
+  --border: var(--border-color);
+  --hover: var(--hover-color);
+}
+
+body.theme-light {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Header */
+.theme-light .header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar */
+.theme-light .sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Cards */
+.theme-light .card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Tables */
+.theme-light .table-container {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Form Elements */
+.theme-light input[type="text"],
+.theme-light input[type="email"],
+.theme-light input[type="number"],
+.theme-light input[type="date"],
+.theme-light input[type="password"],
+.theme-light select,
+.theme-light textarea {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.theme-light input:focus,
+.theme-light select:focus,
+.theme-light textarea:focus {
+  background: var(--card-bg);
+}
+
+/* Date Range */
+.theme-light .date-range {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* KPI Cards */
+.theme-light .kpi-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.theme-light .kpi-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Chart Container */
+.theme-light .chart-container {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Modal */
+.theme-light .modal {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.theme-light .modal-content {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Notification Dropdown */
+.theme-light .notification-dropdown {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .notification-item.unread {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* Profile Dropdown */
+.theme-light .profile-dropdown {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Close Button */
+.theme-light .close-btn {
+  color: var(--muted-color);
+}
+
+.theme-light .close-btn:hover {
+  background: var(--hover-color);
+  color: var(--text-color);
+}
+
+/* Table Headers in Light Theme */
+.theme-light th {
+  background: #f8f9fa;
+  color: var(--muted-color);
+}
+

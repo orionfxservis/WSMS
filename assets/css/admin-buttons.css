@@ -1,0 +1,287 @@
+/* ========================================
+   BUTTON SYSTEM
+   ======================================== */
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: var(--button-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: var(--button-secondary);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #52525b;
+}
+
+/* Small Buttons */
+.btn-small {
+  padding: 5px 12px;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  height: 32px;
+}
+
+/* Unified Admin Buttons */
+.admin-btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-btn-view {
+  background: var(--primary);
+  color: white;
+}
+
+.admin-btn-view:hover {
+  background: #2563eb;
+  opacity: 0.9;
+}
+
+.admin-btn-edit {
+  background: var(--success);
+  color: white;
+}
+
+.admin-btn-edit:hover {
+  background: #15803d;
+  opacity: 0.9;
+}
+
+.admin-btn-suspend {
+  background: var(--warning);
+  color: white;
+}
+
+.admin-btn-suspend:hover {
+  background: #d97706;
+  opacity: 0.9;
+}
+
+.admin-btn-activate {
+  background: var(--success);
+  color: white;
+}
+
+.admin-btn-activate:hover {
+  background: #15803d;
+  opacity: 0.9;
+}
+
+.admin-btn-primary {
+  background: var(--button-primary);
+  color: white;
+}
+
+.admin-btn-primary:hover {
+  background: #2563eb;
+  opacity: 0.9;
+}
+
+/* Action Buttons */
+.btn-approve {
+  background: var(--success);
+  color: #fff;
+  margin-right: 8px;
+}
+
+.btn-approve:hover {
+  background: #15803d;
+}
+
+.btn-reject {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-reject:hover {
+  background: #b91c1c;
+}
+
+.btn-view {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-view:hover {
+  background: #2563eb;
+}
+
+.btn-edit {
+  background: var(--success);
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #15803d;
+}
+
+.btn-suspend {
+  background: var(--warning);
+  color: white;
+}
+
+.btn-suspend:hover {
+  background: #d97706;
+}
+
+.btn-activate {
+  background: var(--success);
+  color: white;
+}
+
+.btn-activate:hover {
+  background: #15803d;
+}
+
+/* Logout Button */
+.logout {
+  position: sticky;
+  bottom: 12px;
+  padding: 12px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  width: 100%;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: opacity var(--transition-base);
+}
+
+.logout:hover {
+  opacity: 0.9;
+}
+
+/* Badge System */
+.admin-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+/* Role Badges */
+.admin-badge-role-supplier {
+  background: var(--badge-supplier);
+  color: white;
+}
+
+.admin-badge-role-station {
+  background: var(--badge-station);
+  color: white;
+}
+
+.admin-badge-role-superadmin {
+  background: #eab308;
+  color: white;
+}
+
+.admin-badge-role-default {
+  background: var(--muted-color);
+  color: white;
+}
+
+/* Status Badges */
+.admin-badge-status-active {
+  background: rgba(22, 163, 74, 0.9);
+  color: white;
+}
+
+.admin-badge-status-pending {
+  background: rgba(107, 114, 128, 0.9);
+  color: white;
+}
+
+.admin-badge-status-suspended {
+  background: rgba(220, 38, 38, 0.9);
+  color: white;
+}
+
+.admin-badge-status-denied {
+  background: rgba(220, 38, 38, 0.9);
+  color: white;
+}
+
+/* Legacy Status Badge Support */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+  background: rgba(22, 163, 74, 0.2);
+  color: var(--success);
+}
+
+.status-badge.pending {
+  background: rgba(107, 114, 128, 0.2);
+  color: var(--pending);
+}
+
+.status-badge.suspended {
+  background: rgba(220, 38, 38, 0.2);
+  color: var(--danger);
+}
+
+.status-badge.denied {
+  background: rgba(220, 38, 38, 0.2);
+  color: var(--danger);
+}
+

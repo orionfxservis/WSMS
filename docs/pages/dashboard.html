@@ -113,80 +113,89 @@ main{padding:12px 12px 90px 12px}
 }
 
 
-/* quick card component matching Sample 03 */
+/* Quick Links 4 Boxes matching media_1793840124521_39ce193c.jpg */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 640px) {
+  .quick-links {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .quick-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
   background: #ffffff;
   border: 2px solid #0077cc;
   border-radius: 10px;
-  padding: 10px 8px;
+  padding: 12px 10px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  min-height: 72px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
+
 .quick-card:hover {
-  background: #f0f7ff;
+  background: #f8fafc;
+  box-shadow: 0 4px 10px rgba(0, 119, 204, 0.1);
 }
+
 .quick-card-title {
   font-weight: 700;
   font-size: 14px;
   color: #0077cc;
   text-decoration: none;
   cursor: pointer;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  background: transparent;
+  border: none;
 }
+
 .quick-card-title:hover {
   text-decoration: underline;
 }
+
 .quick-card-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   font-size: 11px;
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-weight: 500;
   color: #0077cc;
-  background: #f0f7fd;
+  background: #f0f7fe;
   border: 1px solid #bfdbfe;
   border-radius: 4px;
-  padding: 2px 8px;
+  padding: 3px 8px;
   text-decoration: none;
+  line-height: 1;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
+
 .quick-card-badge:hover {
   background: #e0f0fe;
   border-color: #93c5fd;
 }
-.quick-card-badge i {
-  font-size: 10px;
-}
 
-/* quick links */
-.quick-links{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:12px;
-}
-.quick-links a{
-  display:block;
-  border-radius:10px;
-  text-align:center;
-  padding:12px 10px;
-  text-decoration:none;
-  font-weight:600;
-  color:var(--brand);
-  border:2px solid var(--brand);
-  background:#fff;
-  box-shadow:0 2px 6px rgba(0,0,0,.04);
-  font-size:14px;
-  transition:all 0.15s ease;
-}
-.quick-links a:hover{
-  background:#f0f7ff;
+.quick-card-badge svg {
+  width: 11px;
+  height: 11px;
+  color: #0077cc;
+  flex-shrink: 0;
 }
 
 /* blocks */
@@ -234,28 +243,180 @@ main{padding:12px 12px 90px 12px}
   font-size:13px;
 }
 
-/* chart */
-.range{
-  display:inline-flex;
-  border:1px solid var(--brand);
-  border-radius:8px;
-  overflow:hidden;
+/* 50% Reduced Split Grid: Travel Plan & Notifications */
+.dash-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
 }
-.range button{
-  background:#fff;
-  color:var(--brand);
-  border:0;
-  padding:6px 10px;
-  font-weight:600;
-  cursor:pointer;
-  font-size:12px;
+@media (min-width: 768px) {
+  .dash-split-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
-.range button.active{
-  background:var(--brand);
-  color:#fff;
+
+.compact-block {
+  padding: 12px 14px;
+  margin-top: 0 !important;
+  display: flex;
+  flex-direction: column;
 }
-.chart-wrap{margin-top:8px}
-canvas{width:100%!important;height:260px!important}
+.compact-scroll {
+  max-height: 185px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Comprehensive Reports Hub */
+.reports-hub {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  margin-top: 14px;
+}
+
+.reports-hub-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 14px;
+}
+@media (min-width: 640px) {
+  .reports-hub-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.reports-timeframe-toggle {
+  display: inline-flex;
+  border: 1.5px solid #0077cc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+.reports-timeframe-toggle button {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  background: #ffffff;
+  color: #0077cc;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.reports-timeframe-toggle button:hover {
+  background: #f0f7fe;
+}
+.reports-timeframe-toggle button.active {
+  background: #0077cc;
+  color: #ffffff;
+}
+
+.report-card-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.report-card-section:last-child {
+  margin-bottom: 0;
+}
+
+.report-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0077cc;
+  margin: 0 0 10px 0;
+}
+.report-section-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0284c7;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #bae6fd;
+}
+
+.report-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+@media (min-width: 640px) {
+  .report-kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.report-kpi-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+.report-kpi-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.report-kpi-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.report-charts-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .report-charts-row {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.chart-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.chart-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chart-canvas-wrap {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+.reports-hub canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
 
 /* bottom nav matching image_4bb31170.png */
 nav.bottom-nav{
@@ -316,7 +477,7 @@ nav.bottom-nav a.active{
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'">
+    <a href="settings.html" title="Manage Profile & Sub-Accounts" style="display:inline-block;text-decoration:none;"><img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'"></a>
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
@@ -333,7 +494,7 @@ nav.bottom-nav a.active{
   <!-- Summary cards (height reduced by 15% as per 897_406ce25c.JPG) -->
   <section class="grid-summary" aria-label="Operational Summary Cards">
     <!-- Deliveries Card (--g-blue) -->
-    <div class="summary-card" style="background:var(--g-blue)">
+    <div class="summary-card" style="background:var(--g-blue);cursor:pointer;" onclick="location.href='supply.html'" title="Click to view delivery dispatch log">
       <div>
         <h4>Deliveries</h4>
         <p id="sumDeliveries">20</p>
@@ -345,7 +506,7 @@ nav.bottom-nav a.active{
     </div>
 
     <!-- Revenue Card (--g-green) -->
-    <div class="summary-card" style="background:var(--g-green)">
+    <div class="summary-card" style="background:var(--g-green);cursor:pointer;" onclick="location.href='expense.html'" title="Click to view revenue report">
       <div>
         <h4>Revenue</h4>
         <p id="sumRevenue">Rs 33,500</p>
@@ -358,7 +519,7 @@ nav.bottom-nav a.active{
     </div>
 
     <!-- Expenses Card (--g-orange) -->
-    <div class="summary-card" style="background:var(--g-orange)">
+    <div class="summary-card" style="background:var(--g-orange);cursor:pointer;" onclick="location.href='expense.html'" title="Click to view expenses breakdown">
       <div>
         <h4>Expenses</h4>
         <p id="sumExpense">Rs 12,500</p>
@@ -370,7 +531,7 @@ nav.bottom-nav a.active{
     </div>
 
     <!-- Profit Card (--g-violet) -->
-    <div class="summary-card" style="background:var(--g-violet)">
+    <div class="summary-card" style="background:var(--g-violet);cursor:pointer;" onclick="location.href='expense.html'" title="Click to view profit ledger">
       <div>
         <h4>Profit</h4>
         <p id="sumProfit">Rs 21,000</p>
@@ -382,127 +543,269 @@ nav.bottom-nav a.active{
     </div>
   </section>
 
-  <!-- Quick links matching Sample 03 Design -->
-  <section class="quick-links">
-    <div class="quick-card">
+  <!-- Quick links matching media_1793840124521_39ce193c.jpg -->
+  <section class="quick-links" aria-label="Quick Navigation">
+    <div class="quick-card" onclick="location.href='customers.html'" style="cursor: pointer;" title="Open Customers Management">
       <a href="customers.html" class="quick-card-title">Customers</a>
-      <a href="customers.html" class="quick-card-badge" title="Open customers.html">
+      <a href="customers.html" class="quick-card-badge" title="Open /pages/customers.html">
         <span>/pages/customers.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
     </div>
-    <div class="quick-card">
+
+    <div class="quick-card" onclick="location.href='stations.html'" style="cursor: pointer;" title="Open Filling Stations">
       <a href="stations.html" class="quick-card-title">Filling Stations</a>
-      <a href="stations.html" class="quick-card-badge" title="Open stations.html">
+      <a href="stations.html" class="quick-card-badge" title="Open /pages/stations.html">
         <span>/pages/stations.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
     </div>
-    <div class="quick-card">
+
+    <div class="quick-card" onclick="location.href='inventory.html'" style="cursor: pointer;" title="Open Inventory Management">
       <a href="inventory.html" class="quick-card-title">Inventory</a>
-      <a href="inventory.html" class="quick-card-badge" title="Open inventory.html">
+      <a href="inventory.html" class="quick-card-badge" title="Open /pages/inventory.html">
         <span>/pages/inventory.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
     </div>
-    <div class="quick-card">
+
+    <div class="quick-card" onclick="location.href='report.html'" style="cursor: pointer;" title="Open Daily Reports">
       <a href="report.html" class="quick-card-title">Reports</a>
-      <a href="report.html" class="quick-card-badge" title="Open report.html">
+      <a href="report.html" class="quick-card-badge" title="Open /pages/report.html">
         <span>/pages/report.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
     </div>
   </section>
 
-  <!-- Travel Plan -->
-  <section class="block">
-    <h3>Travel Plan (Tomorrow)</h3>
-    <div id="travelPlan">
-      <div style="margin-bottom:12px;padding:10px;background:#f0f7ff;border-radius:6px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <strong>Total Distance:</strong>
-          <span style="font-size:18px;color:#0077cc;font-weight:700;">28.4 km</span>
+  <!-- 50% Reduced Split Grid: Travel Plan & Notifications -->
+  <div class="dash-split-grid">
+    <!-- 50% Travel Plan -->
+    <section class="block compact-block" aria-label="Travel Plan">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px;">
+        <h3 style="margin:0;font-size:14px;color:#0077cc;font-weight:700;">Travel Plan (Tomorrow)</h3>
+        <span style="font-size:11px;color:#64748b;font-weight:600;">Van #KHI-482 · Aslam</span>
+      </div>
+      <div id="travelPlan">
+        <div style="margin-bottom:8px;padding:8px 10px;background:#f0f7ff;border-radius:6px;border:1px solid #dbeafe;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <strong style="font-size:12px;color:#1e293b;">Total Route:</strong>
+            <div style="font-size:11px;color:#64748b;">5 stops • Korangi Central Depot</div>
+          </div>
+          <span style="font-size:15px;color:#0077cc;font-weight:800;">28.4 km</span>
         </div>
-        <div style="font-size:12px;color:#666;">
-          5 customers scheduled • Starting from: Korangi Central Depot
+        <div class="compact-scroll">
+          <ol style="margin:0;padding-left:18px;font-size:12px;">
+            <li style="margin-bottom:6px;padding:6px 8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+              <div style="font-weight:600;color:#1e293b;">Indus Hospital & Health Network</div>
+              <div style="font-size:11px;color:#64748b;display:flex;gap:6px;margin-top:2px;">
+                <span>Korangi Sec 31</span> • <span style="color:#16a34a;font-weight:600;">09:30 AM</span> • <span style="color:#0077cc;">4.8 km</span>
+              </div>
+            </li>
+            <li style="margin-bottom:6px;padding:6px 8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+              <div style="font-weight:600;color:#1e293b;">Habib University Campus</div>
+              <div style="font-size:11px;color:#64748b;display:flex;gap:6px;margin-top:2px;">
+                <span>Gulistan-e-Johar</span> • <span style="color:#16a34a;font-weight:600;">11:15 AM</span> • <span style="color:#0077cc;">9.2 km</span>
+              </div>
+            </li>
+            <li style="margin-bottom:6px;padding:6px 8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+              <div style="font-weight:600;color:#1e293b;">Clifton Medical Complex</div>
+              <div style="font-size:11px;color:#64748b;display:flex;gap:6px;margin-top:2px;">
+                <span>Block 4, Clifton</span> • <span style="color:#16a34a;font-weight:600;">01:45 PM</span> • <span style="color:#0077cc;">7.1 km</span>
+              </div>
+            </li>
+            <li style="margin-top:6px;padding:6px 8px;background:#f0fdf4;border-left:3px solid #22c55e;border-radius:4px;">
+              <div style="font-weight:600;color:#15803d;font-size:11px;">🏢 Return to Central Depot (7.3 km)</div>
+            </li>
+          </ol>
         </div>
       </div>
-      <div style="max-height:280px;overflow-y:auto;">
-        <ol style="margin:0;padding-left:20px;">
-          <li style="margin-bottom:10px;padding:8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;">
-            <div style="font-size:13px;color:#333;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
-              <span style="font-weight:600;">Indus Hospital & Health Network</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#666;">Korangi Sector 31</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#28a745;font-weight:600;">🕐 09:30 AM</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#0077cc;font-weight:500;">4.8 km</span>
-            </div>
-          </li>
-          <li style="margin-bottom:10px;padding:8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;">
-            <div style="font-size:13px;color:#333;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
-              <span style="font-weight:600;">Habib University Campus</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#666;">Block 18, Gulistan-e-Johar</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#28a745;font-weight:600;">🕐 11:15 AM</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#0077cc;font-weight:500;">9.2 km</span>
-            </div>
-          </li>
-          <li style="margin-bottom:10px;padding:8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;">
-            <div style="font-size:13px;color:#333;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
-              <span style="font-weight:600;">Clifton Medical Complex</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#666;">Block 4, Clifton</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#28a745;font-weight:600;">🕐 01:45 PM</span>
-              <span style="color:#999;">|</span>
-              <span style="color:#0077cc;font-weight:500;">7.1 km</span>
-            </div>
-          </li>
-          <li style="margin-top:10px;padding:8px;background:#e8f5e9;border-left:3px solid #28a745;border-radius:4px;">
-            <div style="font-weight:600;color:#333;">🏢 Return to Central Depot</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Plot 42, Korangi Industrial Area, Karachi</div>
-            <div style="font-size:11px;color:#28a745;margin-top:4px;">Distance: 7.3 km</div>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Notifications -->
-  <section class="block notifications">
-    <h3>Notifications</h3>
-    <div id="notifList">
-      <div class="notif">
-        <div>Low RO water level alert at Clifton Plant 02 (18% remaining)</div>
-        <div class="tag">Alert</div>
+    <!-- 50% Notifications -->
+    <section class="block compact-block notifications" aria-label="Notifications">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:14px;color:#0077cc;font-weight:700;">Notifications</h3>
+        <span style="font-size:11px;font-weight:700;background:#eef6ff;color:#0a6ec2;border:1px solid #bcdfff;padding:2px 8px;border-radius:999px;">3 New</span>
       </div>
-      <div class="notif">
-        <div>Customer Habib University added refill order of 50 cans</div>
-        <div class="tag">Order</div>
+      <div class="compact-scroll" id="notifList" style="flex:1;">
+        <div class="notif" style="padding:6px 8px;margin-bottom:6px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#33c47a;display:inline-block;flex-shrink:0;"></span>
+            <span>Low RO water alert at Clifton Plant 02 (18% remaining)</span>
+          </div>
+          <div class="tag" style="font-size:10px;padding:2px 6px;">Alert</div>
+        </div>
+        <div class="notif" style="padding:6px 8px;margin-bottom:6px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#33c47a;display:inline-block;flex-shrink:0;"></span>
+            <span>Customer Habib University added refill order of 50 cans</span>
+          </div>
+          <div class="tag" style="font-size:10px;padding:2px 6px;">Order</div>
+        </div>
+        <div class="notif" style="padding:6px 8px;margin-bottom:6px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#33c47a;display:inline-block;flex-shrink:0;"></span>
+            <span>Water Quality Lab Certificate renewed for Gulshan RO</span>
+          </div>
+          <div class="tag" style="font-size:10px;padding:2px 6px;">Quality</div>
+        </div>
       </div>
-      <div class="notif">
-        <div>Water Quality Lab Certificate renewed for Gulshan RO Line</div>
-        <div class="tag">Quality</div>
-      </div>
-    </div>
-    <div class="view-all"><a href="notifications.html">View All →</a></div>
-  </section>
+      <div class="view-all" style="margin-top:6px;font-size:12px;"><a href="report.html">View All →</a></div>
+    </section>
+  </div>
 
-  <!-- Activity chart -->
-  <section class="block">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-      <h3 style="margin:0">Activity</h3>
-      <div class="range" id="dashRange">
-        <button data-r="daily">Daily</button>
-        <button data-r="weekly" class="active">Weekly</button>
-        <button data-r="monthly">Monthly</button>
+  <!-- Comprehensive Reports & Analytics Section (Customers, Filling, Expenses with Graphs & Pie Charts) -->
+  <section class="reports-hub" aria-label="Comprehensive Operations & Financial Reports">
+    <div class="reports-hub-header">
+      <div>
+        <h3 style="margin:0 0 4px;font-size:17px;font-weight:800;color:#0077cc;letter-spacing:-0.01em;">Comprehensive Reports & Analytics</h3>
+        <p style="margin:0;font-size:12px;color:#64748b;" id="reportPeriodSubtitle">Showing: Today's Real-time Operations & Financial Breakdown</p>
+      </div>
+      <div class="reports-timeframe-toggle" id="reportsRange">
+        <button type="button" data-r="daily" class="active">Daily</button>
+        <button type="button" data-r="weekly">Weekly</button>
+        <button type="button" data-r="monthly">Monthly</button>
       </div>
     </div>
-    <div class="chart-wrap"><canvas id="dashChart"></canvas></div>
+
+    <!-- 1. CUSTOMER'S DETAILS REPORT -->
+    <div class="report-card-section">
+      <div class="report-section-title">
+        <span>👥 Customer Details & Demand Report</span>
+        <span class="report-section-badge" id="badgeCustomer">Daily Deliveries</span>
+      </div>
+      <div class="report-kpi-grid">
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Active Customers</div>
+          <div class="report-kpi-val" id="kpiCustActive">22 Accounts</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Total Cans Ordered</div>
+          <div class="report-kpi-val" id="kpiCustCans">380 Cans</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Average Order Size</div>
+          <div class="report-kpi-val" id="kpiCustAvg">17.2 Cans</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Settlement Rate</div>
+          <div class="report-kpi-val" style="color:#16a34a;" id="kpiCustRate">98.4%</div>
+        </div>
+      </div>
+      <div class="report-charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Top Customers Volume (19L Cans)</span>
+            <span style="font-size:11px;color:#64748b;">Bar Graph</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartCustBar"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Customer Segments Share</span>
+            <span style="font-size:11px;color:#64748b;">Pie Chart</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartCustPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. FILLING DETAILS REPORT -->
+    <div class="report-card-section">
+      <div class="report-section-title">
+        <span>🚰 Water Filling & Plant Production Details</span>
+        <span class="report-section-badge" id="badgeFilling">Daily Production</span>
+      </div>
+      <div class="report-kpi-grid">
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Water Liters Filled</div>
+          <div class="report-kpi-val" id="kpiFillLiters">12,400 L</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">19L Cans Produced</div>
+          <div class="report-kpi-val" id="kpiFillCans">652 Cans</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Plant Utilization</div>
+          <div class="report-kpi-val" style="color:#0284c7;" id="kpiFillUtil">84.5%</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Active RO Lines</div>
+          <div class="report-kpi-val" style="color:#16a34a;" id="kpiFillLines">4 of 4 Active</div>
+        </div>
+      </div>
+      <div class="report-charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Station Filling Volume (Liters)</span>
+            <span style="font-size:11px;color:#64748b;">Bar Graph</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartFillBar"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Station Output Distribution</span>
+            <span style="font-size:11px;color:#64748b;">Pie Chart</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartFillPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. EXPENSES DETAILS REPORT -->
+    <div class="report-card-section">
+      <div class="report-section-title">
+        <span>💰 Expense & Revenue Financial Breakdown</span>
+        <span class="report-section-badge" id="badgeExpense">Daily Financials</span>
+      </div>
+      <div class="report-kpi-grid">
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Total Revenue</div>
+          <div class="report-kpi-val" style="color:#16a34a;" id="kpiExpRev">Rs 33,500</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Total Expenses</div>
+          <div class="report-kpi-val" style="color:#ea580c;" id="kpiExpTotal">Rs 12,500</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Net Profit Margin</div>
+          <div class="report-kpi-val" style="color:#7c3aed;" id="kpiExpProfit">Rs 21,000 (62.7%)</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Fleet & Fuel Cost</div>
+          <div class="report-kpi-val" id="kpiExpFleet">Rs 5,200</div>
+        </div>
+      </div>
+      <div class="report-charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Revenue vs Expenses Comparison</span>
+            <span style="font-size:11px;color:#64748b;">Financial Trend Graph</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartExpBar"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Expense Categories Breakdown</span>
+            <span style="font-size:11px;color:#64748b;">Pie Chart</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartExpPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -523,7 +826,395 @@ function parseDate(d){
 }
 function dd(d){return d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"})}
 
-let deliveries=[], expenses=[], dashChart;
+let deliveries=[], expenses=[];
+let chartCustBarInst = null;
+let chartCustPieInst = null;
+let chartFillBarInst = null;
+let chartFillPieInst = null;
+let chartExpBarInst = null;
+let chartExpPieInst = null;
+
+const COMPREHENSIVE_DATA = {
+  daily: {
+    subtitle: "Showing: Today's Real-time Operations & Financial Breakdown",
+    badgeCust: "Daily Deliveries",
+    badgeFill: "Daily Production",
+    badgeExp: "Daily Financials",
+    customer: {
+      active: "22 Accounts",
+      cans: "380 Cans",
+      avg: "17.2 Cans",
+      rate: "98.4%",
+      barLabels: ["Indus Hospital", "Habib Univ", "Clifton Med", "South City", "DHA Club"],
+      barData: [65, 50, 45, 35, 25],
+      pieLabels: ["Commercial", "Healthcare", "Education", "Residential"],
+      pieData: [45, 25, 18, 12]
+    },
+    filling: {
+      liters: "12,400 L",
+      cans: "652 Cans",
+      util: "84.5%",
+      lines: "4 of 4 Active",
+      barLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      barData: [4800, 3200, 2600, 1800],
+      pieLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      pieData: [38, 26, 22, 14]
+    },
+    expense: {
+      rev: "Rs 33,500",
+      exp: "Rs 12,500",
+      profit: "Rs 21,000 (62.7%)",
+      fleet: "Rs 5,200",
+      barLabels: ["Morning (08-12)", "Noon (12-15)", "Evening (15-18)", "Night Shift"],
+      revenueData: [12000, 11500, 7500, 2500],
+      expenseData: [4500, 4200, 2600, 1200],
+      pieLabels: ["Fleet & Diesel", "Electricity & RO", "Labour & Drivers", "Maintenance"],
+      pieData: [5200, 3500, 2000, 1800]
+    }
+  },
+  weekly: {
+    subtitle: "Showing: Last 7 Days Operations Aggregate & Weekly Trends",
+    badgeCust: "Weekly Deliveries",
+    badgeFill: "Weekly Production",
+    badgeExp: "Weekly Financials",
+    customer: {
+      active: "114 Accounts",
+      cans: "2,660 Cans",
+      avg: "23.3 Cans",
+      rate: "97.8%",
+      barLabels: ["Indus Hospital", "Habib Univ", "Clifton Med", "South City", "DHA Club"],
+      barData: [450, 350, 310, 240, 180],
+      pieLabels: ["Commercial", "Healthcare", "Education", "Residential"],
+      pieData: [42, 28, 17, 13]
+    },
+    filling: {
+      liters: "86,800 L",
+      cans: "4,560 Cans",
+      util: "88.2%",
+      lines: "4 of 4 Active",
+      barLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      barData: [33000, 23000, 19000, 11800],
+      pieLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      pieData: [38, 26, 22, 14]
+    },
+    expense: {
+      rev: "Rs 234,500",
+      exp: "Rs 87,500",
+      profit: "Rs 147,000 (62.7%)",
+      fleet: "Rs 36,400",
+      barLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      revenueData: [31200, 33500, 29800, 34500, 36000, 38000, 31500],
+      expenseData: [11800, 12500, 11200, 13100, 13400, 14000, 11500],
+      pieLabels: ["Fleet & Diesel", "Electricity & RO", "Labour & Drivers", "Maintenance"],
+      pieData: [36400, 24500, 14000, 12600]
+    }
+  },
+  monthly: {
+    subtitle: "Showing: Last 30 Days Full Monthly Ledger & Performance",
+    badgeCust: "Monthly Deliveries",
+    badgeFill: "Monthly Production",
+    badgeExp: "Monthly Financials",
+    customer: {
+      active: "148 Accounts",
+      cans: "11,400 Cans",
+      avg: "77.0 Cans",
+      rate: "99.1%",
+      barLabels: ["Indus Hospital", "Habib Univ", "Clifton Med", "South City", "DHA Club"],
+      barData: [1950, 1500, 1320, 1050, 780],
+      pieLabels: ["Commercial", "Healthcare", "Education", "Residential"],
+      pieData: [46, 26, 16, 12]
+    },
+    filling: {
+      liters: "372,000 L",
+      cans: "19,570 Cans",
+      util: "91.5%",
+      lines: "4 of 4 Active",
+      barLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      barData: [142000, 98000, 81000, 51000],
+      pieLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      pieData: [38, 26, 22, 14]
+    },
+    expense: {
+      rev: "Rs 1,005,000",
+      exp: "Rs 375,000",
+      profit: "Rs 630,000 (62.7%)",
+      fleet: "Rs 156,000",
+      barLabels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+      revenueData: [240000, 255000, 245000, 265000],
+      expenseData: [90000, 95000, 92000, 98000],
+      pieLabels: ["Fleet & Diesel", "Electricity & RO", "Labour & Drivers", "Maintenance"],
+      pieData: [156000, 105000, 60000, 54000]
+    }
+  }
+};
+
+function updateComprehensiveReports(range) {
+  const d = COMPREHENSIVE_DATA[range] || COMPREHENSIVE_DATA.daily;
+  
+  // Update Subtitle & Badges
+  const subEl = document.getElementById("reportPeriodSubtitle");
+  if (subEl) subEl.textContent = d.subtitle;
+  const bCust = document.getElementById("badgeCustomer");
+  if (bCust) bCust.textContent = d.badgeCust;
+  const bFill = document.getElementById("badgeFilling");
+  if (bFill) bFill.textContent = d.badgeFill;
+  const bExp = document.getElementById("badgeExpense");
+  if (bExp) bExp.textContent = d.badgeExp;
+
+  // Update Customer KPIs
+  const elCustActive = document.getElementById("kpiCustActive");
+  if (elCustActive) elCustActive.textContent = d.customer.active;
+  const elCustCans = document.getElementById("kpiCustCans");
+  if (elCustCans) elCustCans.textContent = d.customer.cans;
+  const elCustAvg = document.getElementById("kpiCustAvg");
+  if (elCustAvg) elCustAvg.textContent = d.customer.avg;
+  const elCustRate = document.getElementById("kpiCustRate");
+  if (elCustRate) elCustRate.textContent = d.customer.rate;
+
+  // Update Filling KPIs
+  const elFillLiters = document.getElementById("kpiFillLiters");
+  if (elFillLiters) elFillLiters.textContent = d.filling.liters;
+  const elFillCans = document.getElementById("kpiFillCans");
+  if (elFillCans) elFillCans.textContent = d.filling.cans;
+  const elFillUtil = document.getElementById("kpiFillUtil");
+  if (elFillUtil) elFillUtil.textContent = d.filling.util;
+  const elFillLines = document.getElementById("kpiFillLines");
+  if (elFillLines) elFillLines.textContent = d.filling.lines;
+
+  // Update Expense KPIs
+  const elExpRev = document.getElementById("kpiExpRev");
+  if (elExpRev) elExpRev.textContent = d.expense.rev;
+  const elExpTotal = document.getElementById("kpiExpTotal");
+  if (elExpTotal) elExpTotal.textContent = d.expense.exp;
+  const elExpProfit = document.getElementById("kpiExpProfit");
+  if (elExpProfit) elExpProfit.textContent = d.expense.profit;
+  const elExpFleet = document.getElementById("kpiExpFleet");
+  if (elExpFleet) elExpFleet.textContent = d.expense.fleet;
+
+  // Chart 1: Customer Top Accounts Bar
+  const ctxCustBar = document.getElementById("chartCustBar");
+  if (ctxCustBar) {
+    if (chartCustBarInst) chartCustBarInst.destroy();
+    chartCustBarInst = new Chart(ctxCustBar, {
+      type: "bar",
+      data: {
+        labels: d.customer.barLabels,
+        datasets: [{
+          label: "Cans Delivered",
+          data: d.customer.barData,
+          backgroundColor: "#3583e5",
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.raw + ' Cans'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (v) => v + ' cans'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Customer Segments Pie
+  const ctxCustPie = document.getElementById("chartCustPie");
+  if (ctxCustPie) {
+    if (chartCustPieInst) chartCustPieInst.destroy();
+    chartCustPieInst = new Chart(ctxCustPie, {
+      type: "doughnut",
+      data: {
+        labels: d.customer.pieLabels,
+        datasets: [{
+          data: d.customer.pieData,
+          backgroundColor: ["#0077cc", "#33c47a", "#f59e0b", "#7c3aed"],
+          borderWidth: 2,
+          borderColor: "#ffffff"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "right",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.label + ': ' + ctx.raw + '%'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 3: Filling Station Production Bar
+  const ctxFillBar = document.getElementById("chartFillBar");
+  if (ctxFillBar) {
+    if (chartFillBarInst) chartFillBarInst.destroy();
+    chartFillBarInst = new Chart(ctxFillBar, {
+      type: "bar",
+      data: {
+        labels: d.filling.barLabels,
+        datasets: [{
+          label: "Water Volume (L)",
+          data: d.filling.barData,
+          backgroundColor: "#70e0a1",
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + Number(ctx.raw).toLocaleString() + ' Liters'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (v) => (v >= 1000 ? (v/1000) + 'k L' : v + ' L')
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 4: Filling Station Share Pie
+  const ctxFillPie = document.getElementById("chartFillPie");
+  if (ctxFillPie) {
+    if (chartFillPieInst) chartFillPieInst.destroy();
+    chartFillPieInst = new Chart(ctxFillPie, {
+      type: "doughnut",
+      data: {
+        labels: d.filling.pieLabels,
+        datasets: [{
+          data: d.filling.pieData,
+          backgroundColor: ["#33c47a", "#0077cc", "#06b6d4", "#f97316"],
+          borderWidth: 2,
+          borderColor: "#ffffff"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "right",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.label + ': ' + ctx.raw + '%'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 5: Revenue vs Expenses Bar
+  const ctxExpBar = document.getElementById("chartExpBar");
+  if (ctxExpBar) {
+    if (chartExpBarInst) chartExpBarInst.destroy();
+    chartExpBarInst = new Chart(ctxExpBar, {
+      type: "bar",
+      data: {
+        labels: d.expense.barLabels,
+        datasets: [
+          {
+            label: "Revenue",
+            data: d.expense.revenueData,
+            backgroundColor: "#33c47a",
+            borderRadius: 4
+          },
+          {
+            label: "Expenses",
+            data: d.expense.expenseData,
+            backgroundColor: "#f57c3c",
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.dataset.label + ': Rs ' + Number(ctx.raw).toLocaleString()
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (v) => 'Rs ' + (v >= 1000 ? (v/1000) + 'k' : v)
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 6: Expense Categories Pie
+  const ctxExpPie = document.getElementById("chartExpPie");
+  if (ctxExpPie) {
+    if (chartExpPieInst) chartExpPieInst.destroy();
+    chartExpPieInst = new Chart(ctxExpPie, {
+      type: "doughnut",
+      data: {
+        labels: d.expense.pieLabels,
+        datasets: [{
+          data: d.expense.pieData,
+          backgroundColor: ["#f57c3c", "#3b82f6", "#10b981", "#8b5cf6"],
+          borderWidth: 2,
+          borderColor: "#ffffff"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "right",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.label + ': Rs ' + Number(ctx.raw).toLocaleString()
+            }
+          }
+        }
+      }
+    });
+  }
+}
 
 // Wait for session validation before initializing dashboard
 function waitForSessionValidation() {
@@ -585,80 +1276,25 @@ async function init(){
         
         await loadNotificationsFromAPI();
         loadTravelPlan();
-        const chartData = data.chart_data || data.weekly_data || [];
-        makeDashChartFromAPI(chartData, "weekly");
-        return;
       }
     }
   } catch(error) {
     console.warn('Dashboard API call fallback:', error);
   }
 
-  // Standalone / fallback data initialization
-  makeDashChartFromAPI([
-    { date: "2026-10-14", revenue: 28400 },
-    { date: "2026-10-15", revenue: 31200 },
-    { date: "2026-10-16", revenue: 29800 },
-    { date: "2026-10-17", revenue: 34500 },
-    { date: "2026-10-18", revenue: 36000 },
-    { date: "2026-10-19", revenue: 32100 },
-    { date: "2026-10-20", revenue: 33500 }
-  ], "weekly");
+  // Initialize Comprehensive Reports with daily view by default
+  updateComprehensiveReports("daily");
 
-  // Wire range buttons
-  const buttons = document.querySelectorAll("#dashRange button");
-  for(let i=0; i<buttons.length; i++){
-    buttons[i].addEventListener("click", async function(){
-      for(let k=0; k<buttons.length; k++) buttons[k].classList.remove("active");
+  // Wire range buttons for Comprehensive Reports
+  const rangeButtons = document.querySelectorAll("#reportsRange button");
+  rangeButtons.forEach(btn => {
+    btn.addEventListener("click", function(){
+      rangeButtons.forEach(b => b.classList.remove("active"));
       this.classList.add("active");
       const range = this.getAttribute("data-r");
-      await loadChartData(range);
+      updateComprehensiveReports(range);
     });
-  }
-}
-
-// Load chart data based on range
-async function loadChartData(range) {
-  try {
-    if (typeof apiGetDashboardData === 'function') {
-      const dashboardData = await apiGetDashboardData(range);
-      if (dashboardData && dashboardData.success && dashboardData.data) {
-        const data = dashboardData.data;
-        const chartData = data.chart_data || data.weekly_data || [];
-        makeDashChartFromAPI(chartData, range);
-        return;
-      }
-    }
-  } catch(error) {
-    console.error('Chart data API error:', error);
-  }
-  
-  if (range === 'daily') {
-    makeDashChartFromAPI([
-      { date: "2026-10-20T08:00", revenue: 5200 },
-      { date: "2026-10-20T11:00", revenue: 9400 },
-      { date: "2026-10-20T14:00", revenue: 11500 },
-      { date: "2026-10-20T17:00", revenue: 7400 }
-    ], range);
-  } else if (range === 'monthly') {
-    makeDashChartFromAPI([
-      { date: "2026-06-01", revenue: 720000 },
-      { date: "2026-07-01", revenue: 840000 },
-      { date: "2026-08-01", revenue: 910000 },
-      { date: "2026-09-01", revenue: 980000 },
-      { date: "2026-10-01", revenue: 1045000 }
-    ], range);
-  } else {
-    makeDashChartFromAPI([
-      { date: "2026-10-14", revenue: 28400 },
-      { date: "2026-10-15", revenue: 31200 },
-      { date: "2026-10-16", revenue: 29800 },
-      { date: "2026-10-17", revenue: 34500 },
-      { date: "2026-10-18", revenue: 36000 },
-      { date: "2026-10-19", revenue: 32100 },
-      { date: "2026-10-20", revenue: 33500 }
-    ], range);
-  }
+  });
 }
 
 // Load notifications from API
@@ -696,66 +1332,6 @@ async function loadTravelPlan() {
   } catch(error) {
     // Keep high-fidelity default route
   }
-}
-
-function makeDashChartFromAPI(chartData, range) {
-  var ctx = document.getElementById("dashChart");
-  if (!ctx) return;
-  if(dashChart && typeof dashChart.destroy === "function") dashChart.destroy();
-  
-  let labels = [];
-  let data = [];
-  
-  if (chartData && chartData.length > 0) {
-    labels = chartData.map(d => {
-      if (range === 'daily') {
-        const parts = d.date.split('T');
-        return parts[1] || d.date;
-      }
-      const date = new Date(d.date);
-      return date.toLocaleDateString("en-GB", {day:"2-digit", month:"short"});
-    });
-    data = chartData.map(d => parseFloat(d.revenue || 0));
-  } else {
-    labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    data = [28400, 31200, 29800, 34500, 36000, 32100, 33500];
-  }
-  
-  dashChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labels, 
-      datasets: [{
-        data: data, 
-        backgroundColor: "#82b7f5",
-        borderRadius: 4
-      }]
-    },
-    options: {
-      maintainAspectRatio: false,
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              return 'Revenue: Rs ' + Number(context.raw).toLocaleString();
-            }
-          }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: function(value) {
-              return 'Rs ' + (value >= 1000 ? (value/1000) + 'k' : value);
-            }
-          }
-        }
-      }
-    }
-  });
 }
 
 // Live Karachi News ticker rotation (895_580dd5a0.JPG)

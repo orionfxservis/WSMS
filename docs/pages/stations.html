@@ -34,6 +34,20 @@
 :root{--brand:#0077cc}
 body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden;font-family:'Inter',sans-serif}
 main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* Standard 4 Summary Cards Grid matching Supply Section */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 640px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:16px;margin-bottom:14px}
 .card h3{color:var(--brand);margin:0 0 12px;font-size:17px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
 input,select,button{width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;margin-bottom:10px;font-family:inherit;font-size:14px;box-sizing:border-box}
@@ -125,6 +139,26 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </div>
 
 <main>
+  <!-- Standard 4 Summary Overview Cards matching Supply Section: Total Stations, Active Operating, Daily Capacity, Average Fill Rate -->
+  <div class="summary-cards-grid">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Stations</span>
+      <span id="cardTotalStations" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">7 Stations</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Active Operating</span>
+      <span id="cardActiveStations" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">5 Active</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Daily Filling Capacity</span>
+      <span id="cardStationCapacity" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">28,500 L/day</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Average Fill Rate</span>
+      <span id="cardAvgFillRate" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">Rs 55 / Can</span>
+    </div>
+  </div>
+
   <section class="card">
     <h3>
       <span>Select Station Profile</span>
@@ -223,7 +257,18 @@ const FALLBACK_STATIONS = [
 
 let stationProfiles = [...FALLBACK_STATIONS];
 
+function updateStationOverviewCards(stations) {
+  const list = (Array.isArray(stations) && stations.length > 0) ? stations : stationProfiles;
+  const total = list.length;
+  const active = list.filter(s => s.claimed_status === 'active').length;
+  const elTot = document.getElementById('cardTotalStations');
+  if (elTot) elTot.textContent = total + ' Stations';
+  const elAct = document.getElementById('cardActiveStations');
+  if (elAct) elAct.textContent = active + ' Active';
+}
+
 function render(list = stationProfiles){
+  updateStationOverviewCards(stationProfiles);
   const t = document.getElementById("stTable");
   const countEl = document.getElementById("stationCount");
   if (countEl) countEl.textContent = `(${list.length})`;

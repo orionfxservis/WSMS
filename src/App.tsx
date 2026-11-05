@@ -8,7 +8,7 @@ import { Footer } from './components/Footer';
 import { NewsTicker } from './components/NewsTicker';
 import { initialInventory, initialDeliveries, initialStations } from './data/mockData';
 import { CanInventory, DeliveryRecord, StationData, UserRole, AppViewMode } from './types';
-import { Smartphone, CheckCircle2, ArrowRight, LayoutDashboard } from 'lucide-react';
+import { Smartphone, CheckCircle2, ArrowRight } from 'lucide-react';
 
 // Direct imports for instant zero-latency view switching and unified offline bundling
 import { DashboardView } from './components/DashboardView';
@@ -144,37 +144,6 @@ export default function App() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             />
-
-            {/* Quick Switch to Live Dashboard Banner */}
-            <section className="bg-white border-y border-[#eef2f7] py-8">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-gradient-to-r from-blue-50 via-sky-50 to-emerald-50 border border-[#0077cc]/20 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs">
-                  <div className="space-y-1 text-center md:text-left">
-                    <span className="text-xs font-bold text-[#0077cc] uppercase tracking-wider flex items-center justify-center md:justify-start gap-1.5">
-                      <LayoutDashboard className="w-4 h-4" />
-                      Live Web Operations Node
-                    </span>
-                    <h3 className="text-xl font-bold text-[#222222]">
-                      Experience the Authentic WSMS Operations Dashboard
-                    </h3>
-                    <p className="text-sm text-[#666666]">
-                      View real-time delivery graphs, tomorrow's travel route plans, Karachi news ticker, and multi-station telemetry.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.location.href = './pages/dashboard.html';
-                    }}
-                    className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-lg font-bold text-white bg-[#0077cc] hover:bg-[#005fa3] transition-all shadow-sm cursor-pointer"
-                  >
-                    <LayoutDashboard className="w-4 h-4" />
-                    <span>Open Live Dashboard</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </section>
 
             {/* Core Features Section (6 Cards with Micro-Interactions) */}
             <FeaturesSection />

@@ -186,8 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  setActiveView('dashboard');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.location.href = './pages/dashboard.html';
                 }}
                 className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                   activeView === 'dashboard'
@@ -327,8 +326,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                setActiveView('dashboard');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.location.href = './pages/dashboard.html';
               }}
               className="text-left py-2 px-3 rounded-lg bg-white/20 border border-white/40 text-white font-bold text-base flex items-center justify-between w-full"
             >

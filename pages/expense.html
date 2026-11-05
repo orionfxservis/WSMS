@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Reports - WSMS</title>
+<title>Expense - WSMS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
 <link rel="stylesheet" href="../assets/css/style.css"/>
@@ -25,104 +25,182 @@
   }, 400);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="../assets/js/logout.js"></script>
 <script src="../assets/js/api.js"></script>
 <script src="../assets/js/user-header.js"></script>
-<script src="../assets/js/report.js"></script>
 <script src="../assets/js/session-check.js"></script>
 <script src="../assets/js/status-banner.js"></script>
 <style>
 :root{--brand:#0077cc}
 *{box-sizing:border-box}
-body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
-/* Header styles moved to header.css */
-main{padding:14px;margin-bottom:90px}
-.report-section{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
-.section-header{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:8px 0;border-bottom:2px solid #f0f0f0;margin-bottom:12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
-.section-header h3{margin:0;color:var(--brand);font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
-.collapse-icon{font-size:12px;color:var(--brand)}
-.section-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
-.date-filter{display:flex;gap:8px;align-items:center;flex:1}
-.date-filter input{padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px;min-width:120px;touch-action:manipulation}
-.date-filter span{color:#666;font-size:12px}
-.reload-btn,.export-btn{background:var(--brand);color:#fff;border:none;border-radius:6px;padding:8px 16px;font-weight:600;cursor:pointer;font-size:13px;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.reload-btn:hover,.export-btn:hover{background:#005fa3}
-.reload-btn:active,.export-btn:active{background:#004080;transform:scale(0.98)}
-.summary-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
-.summary-item{background:#f8f9fa;padding:10px;border-radius:6px;text-align:center}
-.summary-item label{display:block;font-size:11px;color:#666;margin-bottom:4px;text-transform:uppercase}
-.summary-item span{display:block;font-size:18px;font-weight:700;color:var(--brand)}
-.table-wrap{overflow-x:auto;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
-.table-wrap::-webkit-scrollbar{height:6px}
-.table-wrap::-webkit-scrollbar-track{background:#f1f1f1;border-radius:3px}
-.table-wrap::-webkit-scrollbar-thumb{background:#0077cc;border-radius:3px}
-.table-wrap::-webkit-scrollbar-thumb:hover{background:#005fa3}
+body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden;font-family:'Inter',sans-serif}
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* Standard 4 Summary Cards Grid matching Supply/Filling/Customers Section */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 640px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card{
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  padding:16px;
+  margin-bottom:14px;
+}
+.card h3{
+  color:var(--brand);
+  margin:0 0 12px;
+  font-size:16px;
+  font-weight:700;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+select,input,button{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  margin-bottom:10px;
+  font-family:inherit;
+  font-size:14px;
+  box-sizing:border-box;
+}
+button{
+  background:var(--brand);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  transition:background 0.2s, transform 0.1s;
+}
+button:hover{background:#005fa3}
+button:active{transform:scale(0.99)}
+.table-wrap{overflow-x:auto;border-radius:6px;border:1px solid #eee}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:10px 8px;border-bottom:1px solid #eee;text-align:left}
-th{background:var(--brand);color:#fff;font-weight:600;font-size:12px}
-tbody tr:hover{background:#f9f9fa}
-.chart-container{position:relative;height:250px;width:100%;margin-bottom:12px}
-.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
-nav.bottom-nav a{text-decoration:none;color:#444}
+th,td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left}
+th{background:var(--brand);color:#fff;font-weight:600;font-size:12px;letter-spacing:0.3px}
+tbody tr:hover{background:#f8f9fa}
+nav.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#fff;
+  border-top:1px solid #ddd;
+  padding:14px 0;
+  font-size:15px;
+  font-weight:600;
+  box-shadow:0 -2px 6px rgba(0,0,0,.08);
+  z-index:9;
+}
+nav.bottom-nav a{text-decoration:none;color:#444;transition:color 0.2s}
 nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
-@media(max-width:768px){
-  /* Header responsive styles moved to header.css */
-  main{padding:10px;margin-bottom:90px}
-  .report-section{padding:12px;margin-bottom:10px}
-  .section-header{padding:6px 0;margin-bottom:10px}
-  .section-header h3{font-size:14px;gap:6px}
-  .collapse-icon{font-size:10px}
-  .section-controls{flex-direction:column;gap:10px;align-items:stretch}
-  .date-filter{flex-direction:column;gap:8px;width:100%}
-  .date-filter input{width:100%;min-width:auto;padding:10px;font-size:14px}
-  .date-filter span{display:block;text-align:center;font-size:11px;color:#999;margin:-4px 0}
-  .reload-btn,.export-btn{width:100%;padding:12px;font-size:14px}
-  .summary-totals{grid-template-columns:repeat(2,1fr);gap:8px}
-  .summary-item{padding:8px}
-  .summary-item label{font-size:10px;margin-bottom:3px}
-  .summary-item span{font-size:16px}
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:10px}
-  table{font-size:12px;min-width:600px}
-  th,td{padding:8px 6px;font-size:11px}
-  th{font-size:10px;padding:8px 4px}
-  .chart-container{height:220px;margin-bottom:10px}
-  .charts-grid{grid-template-columns:1fr;gap:10px}
-  nav.bottom-nav{padding:10px 0;font-size:13px}
-  nav.bottom-nav a{padding:0 4px}
+.hidden{display:none!important}
+
+/* Super Admin Badge & Button Styling */
+.admin-badge {
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1e40af;
+  font-size:11px;
+  font-weight:600;
+  padding:3px 8px;
+  border-radius:6px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
 }
-@media(max-width:480px){
-  /* Header responsive styles moved to header.css */
-  main{padding:8px;margin-bottom:85px}
-  .report-section{padding:10px;margin-bottom:8px;border-radius:8px}
-  .section-header{padding:5px 0;margin-bottom:8px}
-  .section-header h3{font-size:13px}
-  .section-controls{gap:8px}
-  .date-filter input{padding:8px;font-size:13px}
-  .reload-btn,.export-btn{padding:10px;font-size:13px}
-  .summary-totals{grid-template-columns:repeat(2,1fr);gap:6px}
-  .summary-item{padding:6px}
-  .summary-item label{font-size:9px}
-  .summary-item span{font-size:14px}
-  table{font-size:11px;min-width:550px}
-  th,td{padding:6px 4px;font-size:10px}
-  th{font-size:9px}
-  .chart-container{height:200px;margin-bottom:8px}
-  nav.bottom-nav{padding:8px 0;font-size:12px}
+.btn-manage-types {
+  background:#f8f9fa;
+  color:#0077cc;
+  border:1px dashed #0077cc;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:600;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:all 0.2s;
 }
-@media(max-width:360px){
-  .summary-totals{grid-template-columns:1fr}
-  .summary-item span{font-size:16px}
-  table{min-width:500px}
-  .chart-container{height:180px}
+.btn-manage-types:hover {
+  background:#e8f4fd;
 }
+
+/* Modal Popup Styles */
+.popup-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+  opacity:0;
+  transition:opacity 0.2s ease;
+}
+.popup-overlay.show{display:flex;opacity:1}
+.popup-modal{
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  max-width:92%;
+  width:420px;
+  overflow:hidden;
+  transform:scale(0.95);
+  transition:transform 0.2s ease;
+}
+.popup-overlay.show .popup-modal{transform:scale(1)}
+.popup-header{background:var(--brand);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.popup-header h3{margin:0;font-size:16px;color:#fff}
+.popup-body{padding:16px 18px;max-height:70vh;overflow-y:auto}
+.popup-footer{padding:12px 18px;background:#f8f9fa;display:flex;justify-content:flex-end;gap:8px}
+
+.type-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#f1f5f9;
+  border:1px solid #e2e8f0;
+  padding:4px 10px;
+  border-radius:16px;
+  font-size:12px;
+  margin:3px;
+}
+.type-pill-delete{
+  color:#ef4444;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
+.type-pill-delete:hover{color:#b91c1c}
 </style>
-  <link rel="icon" type="image/png" href="../logo.png" />
+<link rel="icon" type="image/png" href="../logo.png" />
 </head>
 <body>
+
+<!-- Header matching standard WSMS style -->
 <div class="header">
-    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+  <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
     <div class="header-logo-container">
       <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
     </div>
@@ -138,437 +216,159 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <a href="settings.html" title="Manage Profile & Sub-Accounts" style="display:inline-block;text-decoration:none;"><img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture"></a>
+    <a href="settings.html" title="Manage Profile & Sub-Accounts" style="display:inline-block;text-decoration:none;">
+      <img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'">
+    </a>
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
 
 <main>
-  <!-- Deliveries Report -->
-  <section class="report-section" id="deliveries-section">
-    <div class="section-header" onclick="toggleSection('deliveries-section')">
-      <h3><span class="collapse-icon">▼</span> Deliveries Report</h3>
+  <!-- Standard 4 Summary Overview Cards matching Supply/Filling Section -->
+  <div class="summary-cards-grid">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Today's Expense</span>
+      <span id="cardExpToday" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">Rs 0</span>
     </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="deliveries-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="deliveries-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadDeliveriesReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('deliveries-section', 'Deliveries Report')">Export PDF</button>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Yesterday's Expense</span>
+      <span id="cardExpYesterday" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">Rs 0</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">This Month</span>
+      <span id="cardExpMonth" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">Rs 0</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Recorded</span>
+      <span id="cardExpTotal" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">Rs 0</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Add New Expense matching https://orionpixels.com/wsms/pages/expense.html -->
+  <section class="card">
+    <h3>
+      <span>Add New Expense</span>
+      <span class="admin-badge" id="superAdminStatusBadge" title="Super Admin Controls">
+        <i class="fi fi-rr-shield-check"></i> Super Admin Configured
+      </span>
+    </h3>
+
+    <!-- Super Admin Expense Type Trigger -->
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
+      <select id="e_type" style="margin-bottom:0;flex:1;">
+        <option value="">Select Expense Type</option>
+      </select>
+      <button type="button" class="btn-manage-types" onclick="openExpenseTypeModal()" style="margin-bottom:0;width:auto;white-space:nowrap;" title="Super Admin: Add or manage custom expense types">
+        <i class="fi fi-rr-plus"></i> Add Type
+      </button>
+    </div>
+    <span id="superAdminNote" style="font-size:11px;color:#666;display:block;margin-bottom:10px;">
+      Expense types are configured by Super Admin and synchronized across operator entries.
+    </span>
+
+    <!-- Conditional Station field for 'Station Purchase' -->
+    <select id="e_station" class="hidden">
+      <option value="">Select Station</option>
+    </select>
+
+    <!-- Conditional Can fields for 'Cans' -->
+    <div id="canFields" class="hidden" style="background:#f8fbfd;padding:10px;border-radius:6px;border:1px dashed #bce;margin-bottom:10px;">
+      <span style="font-size:11px;color:#0077cc;font-weight:600;display:block;margin-bottom:6px;">Can Item Details:</span>
+      <select id="e_can_item">
+        <option value="">Select Can Item</option>
+        <option value="12L">12 Liter Can</option>
+        <option value="19L">19 Liter Can</option>
+      </select>
+      <input id="e_can_qty" type="number" placeholder="Quantity" min="1"/>
+      <select id="e_can_action">
+        <option value="Purchase">Purchase</option>
+        <option value="Damage">Damage</option>
+      </select>
+    </div>
+
+    <!-- Conditional Filling fields for 'Filling' -->
+    <div id="fillingFields" class="hidden" style="background:#f8fbfd;padding:10px;border-radius:6px;border:1px dashed #bce;margin-bottom:10px;">
+      <span style="font-size:11px;color:#0077cc;font-weight:600;display:block;margin-bottom:6px;">Station Refill Details:</span>
+      <select id="e_filling_station">
+        <option value="">Select Filling Station</option>
+      </select>
+      <input id="e_filling_volume" type="number" placeholder="Volume (Liters)" min="0" step="0.01"/>
+      <select id="e_filling_payment_type">
+        <option value="Cash">Cash</option>
+        <option value="Credit">Credit</option>
+      </select>
+    </div>
+
+    <input id="e_amount" type="number" placeholder="Amount (Rs)" min="0" step="0.01"/>
+    <input id="e_note" placeholder="Note (e.g., PSO Fuel receipt, membrane maintenance, staff shift)"/>
+    <button onclick="addExpense()" style="font-size:14px;padding:12px;border-radius:8px;">Add Expense</button>
+  </section>
+
+  <!-- SECTION 2: Expense Summary matching orionpixels.com -->
+  <section class="card">
+    <h3>Expense Summary</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px">
+      <div style="background:#e3f2fd;padding:12px;border-radius:8px;text-align:center">
+        <div style="font-size:12px;color:#666">Daily</div>
+        <div style="font-size:18px;font-weight:700;color:#0077cc" id="dailyTotal">Rs 0</div>
       </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Revenue</label>
-          <span id="deliveries-total-revenue">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Delivered</label>
-          <span id="deliveries-total-delivered">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Received</label>
-          <span id="deliveries-total-received">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Balance</label>
-          <span id="deliveries-total-balance">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Entries</label>
-          <span id="deliveries-total-entries">0</span>
-        </div>
+      <div style="background:#e8f5e9;padding:12px;border-radius:8px;text-align:center">
+        <div style="font-size:12px;color:#666">Weekly</div>
+        <div style="font-size:18px;font-weight:700;color:#00b894" id="weeklyTotal">Rs 0</div>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Can Size</th>
-              <th>Delivered</th>
-              <th>Received</th>
-              <th>Amount</th>
-              <th>Payment</th>
-            </tr>
-          </thead>
-          <tbody id="deliveries-table-body">
-            <tr><td colspan="7" style="text-align:center;">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="deliveries-customer-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="deliveries-daily-chart"></canvas>
-        </div>
+      <div style="background:#fff3e0;padding:12px;border-radius:8px;text-align:center">
+        <div style="font-size:12px;color:#666">Monthly</div>
+        <div style="font-size:18px;font-weight:700;color:#f57c00" id="monthlyTotal">Rs 0</div>
       </div>
     </div>
   </section>
 
-  <!-- Filling Report -->
-  <section class="report-section" id="filling-section">
-    <div class="section-header" onclick="toggleSection('filling-section')">
-      <h3><span class="collapse-icon">▼</span> Filling Report</h3>
-    </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="filling-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="filling-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadFillingReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('filling-section', 'Filling Report')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Cost</label>
-          <span id="filling-total-cost">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Entries</label>
-          <span id="filling-total-entries">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Average Cost</label>
-          <span id="filling-avg-cost">Rs 0</span>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Station</th>
-              <th>Amount</th>
-              <th>Payment</th>
-              <th>Note</th>
-            </tr>
-          </thead>
-          <tbody id="filling-table-body">
-            <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="filling-daily-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="filling-station-chart"></canvas>
-        </div>
-      </div>
+  <!-- SECTION 3: Expense by Category matching orionpixels.com -->
+  <section class="card">
+    <h3>Expense by Category</h3>
+    <div id="categoryTotals" style="margin-bottom:14px"></div>
+    <div style="position:relative;height:220px;width:100%;">
+      <canvas id="expenseChart"></canvas>
     </div>
   </section>
 
-  <!-- Expenses Report -->
-  <section class="report-section" id="expenses-section">
-    <div class="section-header" onclick="toggleSection('expenses-section')">
-      <h3><span class="collapse-icon">▼</span> Expense Report</h3>
-    </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="expenses-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="expenses-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadExpensesReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('expenses-section', 'Expense Report')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Expenses</label>
-          <span id="expenses-total">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Entries</label>
-          <span id="expenses-total-entries">0</span>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Payment</th>
-              <th>Note</th>
-            </tr>
-          </thead>
-          <tbody id="expenses-table-body">
-            <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="expenses-category-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="expenses-daily-chart"></canvas>
-        </div>
+  <!-- SECTION 4: All Expenses Table matching orionpixels.com -->
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+      <h3 style="margin:0;">All Expenses <span id="recordCount" style="font-size:12px;font-weight:normal;color:#666;"></span></h3>
+      <div style="display:flex;gap:6px;">
+        <button onclick="applyFilters()" style="width:auto;padding:6px 14px;font-size:12px;background:#28a745;margin-bottom:0;">Apply Filters</button>
+        <button onclick="clearFilters()" style="width:auto;padding:6px 14px;font-size:12px;background:#6c757d;margin-bottom:0;">Clear</button>
       </div>
     </div>
-  </section>
-
-  <!-- Inventory Movement Report -->
-  <section class="report-section" id="inventory-section">
-    <div class="section-header" onclick="toggleSection('inventory-section')">
-      <h3><span class="collapse-icon">▼</span> Inventory Movement Report</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
+      <input type="date" id="filterDateFrom" placeholder="From Date" style="margin-bottom:0;"/>
+      <input type="date" id="filterDateTo" placeholder="To Date" style="margin-bottom:0;"/>
+      <select id="filterType" style="margin-bottom:0;">
+        <option value="">All Categories</option>
+      </select>
     </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="inventory-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="inventory-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadInventoryReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('inventory-section', 'Inventory Movement Report')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Purchase Qty</label>
-          <span id="inventory-purchase">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Issue Qty</label>
-          <span id="inventory-issue">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Return Qty</label>
-          <span id="inventory-return">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Damage Qty</label>
-          <span id="inventory-damage">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Entries</label>
-          <span id="inventory-total-entries">0</span>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Action</th>
-              <th>Item</th>
-              <th>Qty</th>
-              <th>Price</th>
-              <th>Note</th>
-            </tr>
-          </thead>
-          <tbody id="inventory-table-body">
-            <tr><td colspan="7" style="text-align:center;">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="chart-container">
-        <canvas id="inventory-stacked-chart"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- Customer Summary Report -->
-  <section class="report-section" id="customer-section">
-    <div class="section-header" onclick="toggleSection('customer-section')">
-      <h3><span class="collapse-icon">▼</span> Customer Summary Report</h3>
-    </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="customer-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="customer-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadCustomerSummaryReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('customer-section', 'Customer Summary Report')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Revenue</label>
-          <span id="customer-total-revenue">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Pending Cans</label>
-          <span id="customer-total-pending">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Customers</label>
-          <span id="customer-total-customers">0</span>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Customer Name</th>
-              <th>Revenue</th>
-              <th>Pending Cans</th>
-              <th>Deliveries</th>
-            </tr>
-          </thead>
-          <tbody id="customer-table-body">
-            <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="customer-revenue-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="customer-pending-chart"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Supplier Financial Summary -->
-  <section class="report-section" id="financial-section">
-    <div class="section-header" onclick="toggleSection('financial-section')">
-      <h3><span class="collapse-icon">▼</span> Supplier Financial Summary</h3>
-    </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="financial-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="financial-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadFinancialSummaryReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('financial-section', 'Supplier Financial Summary')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Revenue</label>
-          <span id="financial-revenue">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Expenses</label>
-          <span id="financial-expenses">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Profit</label>
-          <span id="financial-profit">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Cash Total</label>
-          <span id="financial-cash">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Credit Total</label>
-          <span id="financial-credit">Rs 0</span>
-        </div>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="financial-trend-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="financial-cash-credit-chart"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Station Filling Summary -->
-  <section class="report-section" id="station-section">
-    <div class="section-header" onclick="toggleSection('station-section')">
-      <h3><span class="collapse-icon">▼</span> Station Filling Summary</h3>
-    </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="station-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="station-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadStationFillingReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('station-section', 'Station Filling Summary')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Cost</label>
-          <span id="station-total-cost">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Fills</label>
-          <span id="station-total-fills">0</span>
-        </div>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="station-cost-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="station-fills-chart"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Daily / Weekly / Monthly Summary -->
-  <section class="report-section" id="period-section">
-    <div class="section-header" onclick="toggleSection('period-section')">
-      <h3><span class="collapse-icon">▼</span> Daily / Weekly / Monthly Summary</h3>
-    </div>
-    <div class="section-content">
-      <div class="section-controls">
-        <div class="date-filter">
-          <input type="date" id="period-from" class="date-from">
-          <span>to</span>
-          <input type="date" id="period-to" class="date-to">
-        </div>
-        <button class="reload-btn" onclick="loadPeriodSummaryReport()">Reload</button>
-        <button class="export-btn" onclick="exportPDF('period-section', 'Period Summary')">Export PDF</button>
-      </div>
-      <div class="summary-totals">
-        <div class="summary-item">
-          <label>Total Deliveries</label>
-          <span id="period-deliveries">0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Revenue</label>
-          <span id="period-revenue">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Expenses</label>
-          <span id="period-expenses">Rs 0</span>
-        </div>
-        <div class="summary-item">
-          <label>Total Profit</label>
-          <span id="period-profit">Rs 0</span>
-        </div>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-container">
-          <canvas id="period-deliveries-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="period-revenue-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="period-expenses-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="period-profit-chart"></canvas>
-        </div>
-      </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Station</th>
+            <th>Amount</th>
+            <th>Note</th>
+            <th style="width:70px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="expTable">
+          <tr><td colspan="6" style="text-align:center;padding:16px;">Loading expenses...</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 </main>
 
+<!-- Bottom Navigation matching WSMS style -->
 <nav class="bottom-nav">
   <a href="dashboard.html">Home</a>
   <a href="filling.html">Filling</a>
@@ -576,15 +376,652 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   <a href="expense.html" class="active">Expense</a>
 </nav>
 
+<!-- Super Admin: Add Expense Type Modal -->
+<div id="expenseTypeModal" class="popup-overlay" onclick="closeExpenseTypeModalOnOverlay(event)">
+  <div class="popup-modal">
+    <div class="popup-header">
+      <h3 style="display:flex;align-items:center;gap:6px;">
+        <i class="fi fi-rr-shield-check"></i> Super Admin - Expense Types
+      </h3>
+      <button type="button" onclick="closeExpenseTypeModal()" style="background:none;border:none;color:#fff;font-size:18px;width:auto;padding:0;cursor:pointer;">&times;</button>
+    </div>
+    <div class="popup-body">
+      <p style="font-size:13px;color:#555;margin-top:0;">
+        Super Admin can define expense types (categories) here. All added types become instantly available for operators when recording expenses.
+      </p>
+
+      <label style="font-size:12px;font-weight:600;color:#333;display:block;margin-bottom:4px;">Add New Expense Type:</label>
+      <div style="display:flex;gap:6px;margin-bottom:14px;">
+        <input type="text" id="newExpenseTypeName" placeholder="e.g. Chemicals, Filtration Membrane, Generator Fuel" style="margin-bottom:0;flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();submitNewExpenseType();}"/>
+        <button type="button" onclick="submitNewExpenseType()" style="width:auto;padding:8px 16px;margin-bottom:0;background:#28a745;white-space:nowrap;">+ Add</button>
+      </div>
+
+      <div style="border-top:1px solid #eee;padding-top:12px;">
+        <label style="font-size:12px;font-weight:600;color:#333;display:block;margin-bottom:6px;">Available Expense Types:</label>
+        <div id="expenseTypesListContainer" style="display:flex;flex-wrap:wrap;gap:4px;max-height:160px;overflow-y:auto;padding:4px 0;"></div>
+      </div>
+    </div>
+    <div class="popup-footer">
+      <button type="button" onclick="closeExpenseTypeModal()" style="width:auto;padding:8px 16px;background:#6c757d;margin-bottom:0;">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification Popup Modal -->
+<div id="popupOverlay" class="popup-overlay" onclick="closePopupOnOverlay(event)">
+  <div class="popup-modal" style="width:340px;">
+    <div class="popup-header">
+      <h3 id="popupTitle">Notification</h3>
+    </div>
+    <div class="popup-body" id="popupMessage" style="text-align:center;font-size:14px;padding:20px;"></div>
+    <div class="popup-footer" style="justify-content:center;">
+      <button onclick="closePopup()" style="width:auto;padding:8px 24px;margin-bottom:0;">OK</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// Logout is handled by assets/js/logout.js - no inline function needed
+// Default Expense Types configured for WSMS
+const SYSTEM_EXPENSE_TYPES = [
+  'Fuel', 'Wages', 'Maintenance', 'Utilities', 'Supplies',
+  'Rent', 'Marketing', 'Food', 'Station Purchase', 'Cans', 'Filling', 'Other'
+];
 
-// User header is now handled by user-header.js
+// Fallback seed expenses for offline & GitHub Pages support
+const FALLBACK_EXPENSES = [
+  { id: 1, date: '2026-11-06', type: 'Fuel', station_id: null, amount: 3500, note: 'Suzuki Ravi Van #KHI-482 PSO refuel 14L' },
+  { id: 2, date: '2026-11-05', type: 'Maintenance', station_id: 1, amount: 4500, note: 'RO Membrane Replacement 3000 GPD high pressure' },
+  { id: 3, date: '2026-11-04', type: 'Utilities', station_id: null, amount: 2500, note: 'K-Electric Commercial Pumping off-peak units' },
+  { id: 4, date: '2026-11-03', type: 'Wages', station_id: null, amount: 2000, note: 'Driver daily wages 2 vans dispatch shift' }
+];
 
-// Initialize all sections as expanded by default
-document.querySelectorAll('.section-content').forEach(content => {
-    content.style.display = 'block';
+const FALLBACK_STATIONS = [
+  { id: 1, name: "Clifton RO Plant Depot", area: "Clifton Block 2" },
+  { id: 2, name: "Gulshan Mineral Hub", area: "Gulshan-e-Iqbal Block 6" },
+  { id: 3, name: "Korangi Industrial RO Station", area: "Korangi Sector 23" },
+  { id: 4, name: "Shahrah-e-Faisal Depot", area: "PECHS Nursery" },
+  { id: 5, name: "North Nazimabad RO Facility", area: "North Nazimabad Block H" },
+  { id: 6, name: "Saddar Central Filling Depot", area: "Saddar Downtown" },
+  { id: 7, name: "Bahria Town Distribution Hub", area: "Bahria Precinct 1" }
+];
+
+let expenses = [];
+let stations = [...FALLBACK_STATIONS];
+let expenseTypes = [...SYSTEM_EXPENSE_TYPES];
+let expenseChart = null;
+let currentFilters = { dateFrom: '', dateTo: '', type: '' };
+
+// Popup notification helper
+function showPopup(message, title = 'Notification') {
+  document.getElementById('popupTitle').textContent = title;
+  document.getElementById('popupMessage').textContent = message;
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closePopup() {
+  const overlay = document.getElementById('popupOverlay');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+}
+function closePopupOnOverlay(event) {
+  if (event.target.id === 'popupOverlay') {
+    closePopup();
+  }
+}
+
+// Check if current user is Super Admin
+function isSuperAdmin() {
+  try {
+    const role = (localStorage.getItem('userRole') || sessionStorage.getItem('user_role') || localStorage.getItem('role') || '').toLowerCase();
+    const email = (localStorage.getItem('userEmail') || sessionStorage.getItem('user_email') || '').toLowerCase();
+    return role.includes('admin') || role.includes('super') || email.includes('admin');
+  } catch (e) {
+    return false;
+  }
+}
+
+// ==================== SUPER ADMIN EXPENSE TYPE MANAGEMENT ====================
+function openExpenseTypeModal() {
+  renderExpenseTypesList();
+  document.getElementById('expenseTypeModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    const inp = document.getElementById('newExpenseTypeName');
+    if (inp) inp.focus();
+  }, 100);
+}
+
+function closeExpenseTypeModal() {
+  document.getElementById('expenseTypeModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function closeExpenseTypeModalOnOverlay(event) {
+  if (event.target.id === 'expenseTypeModal') {
+    closeExpenseTypeModal();
+  }
+}
+
+function renderExpenseTypesList() {
+  const container = document.getElementById('expenseTypesListContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  
+  expenseTypes.forEach(typeName => {
+    const isSystem = SYSTEM_EXPENSE_TYPES.includes(typeName);
+    const pill = document.createElement('div');
+    pill.className = 'type-pill';
+    pill.innerHTML = `
+      <span>${typeName}</span>
+      ${!isSystem ? `<span class="type-pill-delete" onclick="deleteExpenseType('${typeName}')" title="Delete custom type">&times;</span>` : '<span style="font-size:9px;color:#999;font-weight:600;">(Default)</span>'}
+    `;
+    container.appendChild(pill);
+  });
+}
+
+async function submitNewExpenseType() {
+  const input = document.getElementById('newExpenseTypeName');
+  const typeName = (input.value || '').trim();
+  if (!typeName) {
+    showPopup('Please enter an expense type name', 'Validation Error');
+    return;
+  }
+  
+  if (expenseTypes.some(t => t.toLowerCase() === typeName.toLowerCase())) {
+    showPopup(`Expense type "${typeName}" already exists.`, 'Already Exists');
+    return;
+  }
+
+  // Add type
+  expenseTypes.push(typeName);
+  try {
+    localStorage.setItem('wsms_expense_types', JSON.stringify(expenseTypes));
+  } catch (e) {}
+
+  // If backend API available, attempt to post
+  try {
+    if (typeof apiCall === 'function') {
+      apiCall('admin/expense-types.php?action=create', 'POST', { type_name: typeName }).catch(() => {});
+    }
+  } catch (e) {}
+
+  input.value = '';
+  renderExpenseTypesList();
+  populateExpenseTypeDropdowns();
+  showPopup(`Expense type "${typeName}" added successfully by Super Admin!`, 'Type Added');
+}
+
+function deleteExpenseType(typeName) {
+  if (SYSTEM_EXPENSE_TYPES.includes(typeName)) {
+    showPopup('Default system expense types cannot be deleted.', 'Action Not Allowed');
+    return;
+  }
+  expenseTypes = expenseTypes.filter(t => t !== typeName);
+  try {
+    localStorage.setItem('wsms_expense_types', JSON.stringify(expenseTypes));
+  } catch (e) {}
+  renderExpenseTypesList();
+  populateExpenseTypeDropdowns();
+}
+
+function populateExpenseTypeDropdowns() {
+  const typeSelect = document.getElementById('e_type');
+  const filterSelect = document.getElementById('filterType');
+  const currentVal = typeSelect ? typeSelect.value : '';
+  const currentFilterVal = filterSelect ? filterSelect.value : '';
+
+  if (typeSelect) {
+    typeSelect.innerHTML = '<option value="">Select Expense Type</option>';
+    expenseTypes.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      typeSelect.appendChild(opt);
+    });
+    if (currentVal && expenseTypes.includes(currentVal)) {
+      typeSelect.value = currentVal;
+    }
+  }
+
+  if (filterSelect) {
+    filterSelect.innerHTML = '<option value="">All Categories</option>';
+    expenseTypes.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      filterSelect.appendChild(opt);
+    });
+    if (currentFilterVal && expenseTypes.includes(currentFilterVal)) {
+      filterSelect.value = currentFilterVal;
+    }
+  }
+}
+
+// Load expense types from storage / database
+async function loadExpenseTypes() {
+  try {
+    const saved = localStorage.getItem('wsms_expense_types');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Merge with system defaults without duplicates
+        expenseTypes = Array.from(new Set([...SYSTEM_EXPENSE_TYPES, ...parsed]));
+      }
+    }
+  } catch (e) {}
+
+  try {
+    // Attempt backend fetch
+    const res = await fetch('/wsms/api/admin/expense-types.php?action=active', {
+      credentials: 'include'
+    }).catch(() => null);
+    if (res && res.ok) {
+      const data = await res.json().catch(() => null);
+      if (data && data.success && Array.isArray(data.data)) {
+        const remoteTypes = data.data.map(d => d.type_name || d.name).filter(Boolean);
+        expenseTypes = Array.from(new Set([...expenseTypes, ...remoteTypes]));
+      }
+    }
+  } catch (e) {}
+
+  populateExpenseTypeDropdowns();
+}
+
+// ==================== INITIALIZATION & DATA LOADING ====================
+async function init() {
+  await loadExpenseTypes();
+
+  // Load Station profiles
+  try {
+    if (typeof apiGetStationProfiles === 'function') {
+      const stationResponse = await apiGetStationProfiles();
+      if (stationResponse && stationResponse.success && Array.isArray(stationResponse.data)) {
+        stations = stationResponse.data;
+      }
+    }
+  } catch (e) {
+    stations = [...FALLBACK_STATIONS];
+  }
+
+  // Populate stations dropdowns
+  const s = document.getElementById("e_station");
+  if (s) {
+    s.innerHTML = '<option value="">Select Station</option>';
+    stations.forEach(x => s.innerHTML += `<option value="${x.id}">${x.name}</option>`);
+  }
+
+  const fillingStationSelect = document.getElementById("e_filling_station");
+  if (fillingStationSelect) {
+    fillingStationSelect.innerHTML = '<option value="">Select Filling Station</option>';
+    stations.forEach(x => {
+      fillingStationSelect.innerHTML += `<option value="${x.id}">${x.name}${x.area ? ' - ' + x.area : ''}</option>`;
+    });
+  }
+
+  // Type change listener
+  const eTypeEl = document.getElementById("e_type");
+  if (eTypeEl) {
+    eTypeEl.addEventListener("change", function() {
+      toggleStation();
+      toggleCanFields();
+      toggleFillingFields();
+    });
+  }
+
+  // Load expenses and calculate summary
+  await loadExpenses();
+}
+
+// Load expenses from local storage or backend
+async function loadExpenses() {
+  let loadedFromBackend = false;
+  try {
+    let endpoint = 'expenses.php?action=list';
+    const params = [];
+    if (currentFilters.dateFrom) params.push(`date_from=${encodeURIComponent(currentFilters.dateFrom)}`);
+    if (currentFilters.dateTo) params.push(`date_to=${encodeURIComponent(currentFilters.dateTo)}`);
+    if (currentFilters.type) params.push(`type=${encodeURIComponent(currentFilters.type)}`);
+    if (params.length > 0) endpoint += '&' + params.join('&');
+
+    if (typeof apiCall === 'function') {
+      const response = await apiCall(endpoint, 'GET');
+      if (response && response.success && Array.isArray(response.data)) {
+        expenses = response.data;
+        loadedFromBackend = true;
+      }
+    }
+  } catch (error) {
+    console.warn('API not accessible, loading from client storage/fallback:', error);
+  }
+
+  if (!loadedFromBackend) {
+    try {
+      const localData = localStorage.getItem('wsms_expenses_data');
+      if (localData) {
+        expenses = JSON.parse(localData);
+      } else {
+        expenses = [...FALLBACK_EXPENSES];
+        localStorage.setItem('wsms_expenses_data', JSON.stringify(expenses));
+      }
+    } catch (e) {
+      expenses = [...FALLBACK_EXPENSES];
+    }
+  }
+
+  render();
+  updateSummaries();
+}
+
+// Toggle conditional forms
+function toggleStation() {
+  const v = document.getElementById("e_type").value;
+  const need = (v === "Station Purchase");
+  document.getElementById("e_station").classList.toggle("hidden", !need);
+}
+
+function toggleCanFields() {
+  const v = document.getElementById("e_type").value;
+  const need = (v === "Cans");
+  document.getElementById("canFields").classList.toggle("hidden", !need);
+  if (!need) {
+    document.getElementById("e_can_item").value = "";
+    document.getElementById("e_can_qty").value = "";
+    document.getElementById("e_can_action").value = "Purchase";
+  }
+}
+
+function toggleFillingFields() {
+  const v = document.getElementById("e_type").value;
+  const need = (v === "Filling");
+  document.getElementById("fillingFields").classList.toggle("hidden", !need);
+  if (!need) {
+    document.getElementById("e_filling_station").value = "";
+    document.getElementById("e_filling_volume").value = "";
+    document.getElementById("e_filling_payment_type").value = "Cash";
+  }
+}
+
+// Add Expense Entry
+async function addExpense() {
+  const d = new Date();
+  const type = document.getElementById("e_type").value;
+  const st = document.getElementById("e_station").value;
+  const amt = Number(document.getElementById("e_amount").value) || 0;
+  let note = document.getElementById("e_note").value.trim();
+
+  if (!type || amt <= 0) {
+    showPopup("Please select an Expense Type and enter a valid Amount (Rs).", "Missing Information");
+    return;
+  }
+
+  if (type === "Cans") {
+    const canItem = document.getElementById("e_can_item").value;
+    const canQty = Number(document.getElementById("e_can_qty").value) || 0;
+    if (!canItem || canQty <= 0) {
+      showPopup("For Cans expense, please select a can item and quantity.", "Incomplete Entry");
+      return;
+    }
+    const action = document.getElementById("e_can_action").value;
+    note = (note ? note + ' | ' : '') + `${canItem} (${action} x ${canQty})`;
+  }
+
+  if (type === "Filling") {
+    const fillingStation = document.getElementById("e_filling_station").value;
+    if (!fillingStation) {
+      showPopup("For Filling expense, please select a filling station.", "Incomplete Entry");
+      return;
+    }
+    const vol = Number(document.getElementById("e_filling_volume").value) || 0;
+    const payMode = document.getElementById("e_filling_payment_type").value;
+    const stObj = stations.find(s => String(s.id) === String(fillingStation));
+    const stName = stObj ? stObj.name : 'Depot #' + fillingStation;
+    note = (note ? note + ' | ' : '') + `Station: ${stName}${vol > 0 ? `, Vol: ${vol}L` : ''}, Payment: ${payMode}`;
+  }
+
+  const newEntry = {
+    id: Date.now(),
+    date: d.toISOString().split("T")[0],
+    type: type,
+    station_id: st ? parseInt(st) : null,
+    amount: amt,
+    note: note
+  };
+
+  // Attempt backend API create
+  try {
+    if (typeof apiCall === 'function') {
+      apiCall('expenses.php?action=create', 'POST', newEntry).catch(() => {});
+    }
+  } catch (e) {}
+
+  // Save to local collection
+  expenses.unshift(newEntry);
+  try {
+    localStorage.setItem('wsms_expenses_data', JSON.stringify(expenses));
+  } catch (e) {}
+
+  // Reset form
+  document.getElementById("e_type").value = "";
+  document.getElementById("e_amount").value = "";
+  document.getElementById("e_note").value = "";
+  toggleStation();
+  toggleCanFields();
+  toggleFillingFields();
+
+  render();
+  updateSummaries();
+
+  showPopup(`Expense of Rs ${amt.toLocaleString()} (${type}) recorded successfully!`, "Expense Added");
+}
+
+// Delete Expense
+function deleteExpenseRow(id) {
+  if (!confirm("Are you sure you want to delete this expense entry?")) return;
+  expenses = expenses.filter(e => String(e.id) !== String(id));
+  try {
+    localStorage.setItem('wsms_expenses_data', JSON.stringify(expenses));
+    if (typeof apiCall === 'function') {
+      apiCall(`expenses.php?action=delete&id=${id}`, 'POST').catch(() => {});
+    }
+  } catch (e) {}
+  render();
+  updateSummaries();
+}
+
+// Apply Filters
+function applyFilters() {
+  currentFilters.dateFrom = document.getElementById("filterDateFrom").value || '';
+  currentFilters.dateTo = document.getElementById("filterDateTo").value || '';
+  currentFilters.type = document.getElementById("filterType").value || '';
+  render();
+}
+
+// Clear Filters
+function clearFilters() {
+  document.getElementById("filterDateFrom").value = '';
+  document.getElementById("filterDateTo").value = '';
+  document.getElementById("filterType").value = '';
+  currentFilters = { dateFrom: '', dateTo: '', type: '' };
+  render();
+}
+
+// Render Table
+function render() {
+  const tbody = document.getElementById("expTable");
+  const countEl = document.getElementById("recordCount");
+  tbody.innerHTML = "";
+
+  const filtered = expenses.filter(e => {
+    if (currentFilters.dateFrom && e.date < currentFilters.dateFrom) return false;
+    if (currentFilters.dateTo && e.date > currentFilters.dateTo) return false;
+    if (currentFilters.type && e.type !== currentFilters.type) return false;
+    return true;
+  });
+
+  if (countEl) countEl.textContent = `(${filtered.length} Entries)`;
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:20px;color:#777;">No matching expenses found</td></tr>`;
+    return;
+  }
+
+  filtered.forEach(e => {
+    let stationName = "-";
+    if (e.station_id) {
+      const st = stations.find(s => String(s.id) === String(e.station_id));
+      if (st) stationName = st.name;
+    } else if (e.note && e.note.includes("Station:")) {
+      const match = e.note.match(/Station:\s*([^|,]+)/);
+      if (match) stationName = match[1].trim();
+    }
+
+    const amt = parseFloat(e.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    tbody.innerHTML += `<tr>
+      <td style="white-space:nowrap;font-weight:600;color:#555;">${e.date || "-"}</td>
+      <td><span style="font-weight:600;color:#0077cc;background:#eef6fc;padding:2px 8px;border-radius:4px;font-size:12px;">${e.type || "-"}</span></td>
+      <td>${stationName}</td>
+      <td style="font-weight:700;color:#222;">Rs ${amt}</td>
+      <td style="color:#555;font-size:12px;">${e.note || "-"}</td>
+      <td style="text-align:center;">
+        <button onclick="deleteExpenseRow('${e.id}')" style="width:auto;padding:3px 8px;font-size:11px;background:#ef4444;border-radius:4px;margin-bottom:0;" title="Delete this entry">
+          <i class="fi fi-rr-trash"></i>
+        </button>
+      </td>
+    </tr>`;
+  });
+}
+
+// Calculate and render all summaries, KPIs, category totals & charts
+function updateSummaries() {
+  const today = new Date().toISOString().split("T")[0];
+  const yesterdayDate = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  const now = new Date();
+  const currentMonthPrefix = now.toISOString().slice(0, 7); // 'YYYY-MM'
+
+  // Seven days ago
+  const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString().split("T")[0];
+
+  let sumToday = 0;
+  let sumYesterday = 0;
+  let sumWeek = 0;
+  let sumMonth = 0;
+  let sumTotal = 0;
+  const categoryTotals = {};
+
+  expenses.forEach(e => {
+    const amt = parseFloat(e.amount) || 0;
+    sumTotal += amt;
+
+    if (e.date === today) sumToday += amt;
+    if (e.date === yesterdayDate) sumYesterday += amt;
+    if (e.date >= sevenDaysAgo) sumWeek += amt;
+    if (e.date && e.date.startsWith(currentMonthPrefix)) sumMonth += amt;
+
+    const t = e.type || 'Other';
+    categoryTotals[t] = (categoryTotals[t] || 0) + amt;
+  });
+
+  // 1. Update 4 Top Overview Cards
+  const elToday = document.getElementById("cardExpToday");
+  if (elToday) elToday.textContent = `Rs ${sumToday.toLocaleString()}`;
+
+  const elYest = document.getElementById("cardExpYesterday");
+  if (elYest) elYest.textContent = `Rs ${sumYesterday.toLocaleString()}`;
+
+  const elMonth = document.getElementById("cardExpMonth");
+  if (elMonth) elMonth.textContent = `Rs ${sumMonth.toLocaleString()}`;
+
+  const elTotal = document.getElementById("cardExpTotal");
+  if (elTotal) elTotal.textContent = `Rs ${sumTotal.toLocaleString()}`;
+
+  // 2. Update Section 2 Summary Cards (Daily, Weekly, Monthly)
+  const dTot = document.getElementById("dailyTotal");
+  if (dTot) dTot.textContent = `Rs ${sumToday.toLocaleString()}`;
+  const wTot = document.getElementById("weeklyTotal");
+  if (wTot) wTot.textContent = `Rs ${sumWeek.toLocaleString()}`;
+  const mTot = document.getElementById("monthlyTotal");
+  if (mTot) mTot.textContent = `Rs ${sumMonth.toLocaleString()}`;
+
+  // 3. Render Category Breakdown
+  renderCategoryTotals(categoryTotals);
+
+  // 4. Render Chart
+  drawChart(categoryTotals);
+}
+
+function renderCategoryTotals(totals) {
+  const div = document.getElementById("categoryTotals");
+  if (!div) return;
+  div.innerHTML = "";
+  const keys = Object.keys(totals);
+  if (!keys.length) {
+    div.innerHTML = `<div style="text-align:center;color:#888;padding:12px;">No expenses recorded yet</div>`;
+    return;
+  }
+  keys.sort((a, b) => totals[b] - totals[a]).forEach(t => {
+    div.innerHTML += `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f8f9fa;border-radius:6px;margin-bottom:6px;">
+        <span style="font-weight:600;font-size:13px;color:#444;">${t}</span>
+        <strong style="color:var(--brand);font-size:13px;">Rs ${totals[t].toLocaleString()}</strong>
+      </div>
+    `;
+  });
+}
+
+function drawChart(totals) {
+  const canvas = document.getElementById("expenseChart");
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (expenseChart) expenseChart.destroy();
+
+  const labels = Object.keys(totals);
+  if (!labels.length) return;
+
+  const data = Object.values(totals);
+  const colors = [
+    '#0077cc', '#00b894', '#f57c00', '#e74c3c', '#9b59b6',
+    '#3498db', '#1abc9c', '#f39c12', '#e67e22', '#64748b'
+  ];
+
+  expenseChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors.slice(0, labels.length),
+        borderWidth: 2,
+        borderColor: '#ffffff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            boxWidth: 12,
+            font: { size: 11, family: 'Inter' },
+            padding: 10
+          }
+        }
+      }
+    }
+  });
+}
+
+// Escape key closes modals
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePopup();
+    closeExpenseTypeModal();
+  }
 });
+
+init();
 </script>
 </body>
 </html>

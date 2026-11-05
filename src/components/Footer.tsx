@@ -64,7 +64,7 @@ SECTION 9. CONTACT: Orion Fx Support.`,
 
   return (
     <footer
-      id="contact"
+      id="footer"
       className="bg-[#08101e] text-slate-400 border-t border-sky-950 pt-16 pb-12 scroll-mt-20"
       role="contentinfo"
       aria-label="Site Footer and Contact Information"
@@ -130,6 +130,16 @@ SECTION 9. CONTACT: Orion Fx Support.`,
               <li>
                 <a href="#demo" className="hover:text-sky-300 transition-colors">
                   ROI & Balance Calculator
+                </a>
+              </li>
+              <li>
+                <a
+                  href="./admin/index.html"
+                  className="text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1.5 transition-colors"
+                  title="WSMS Super Admin Portal"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                  Super Admin Portal
                 </a>
               </li>
             </ul>

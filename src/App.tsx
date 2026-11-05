@@ -36,10 +36,18 @@ export default function App() {
 
 
   const handleSuccessLogin = (role: UserRole, email: string) => {
-    setAuthenticatedUser({ role, email });
-    // After login, navigate to the full Operations Dashboard
-    setActiveView('dashboard');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      localStorage.setItem('loggedIn', 'true');
+      localStorage.setItem('userRole', role);
+      localStorage.setItem('userEmail', email);
+      if (!localStorage.getItem('userName')) {
+        const namePart = email.includes('@') ? email.split('@')[0] : email;
+        localStorage.setItem('userName', role === 'super_admin' ? 'Super Admin' : (namePart.charAt(0).toUpperCase() + namePart.slice(1)));
+      }
+    } catch (e) {}
+
+    // After login to this application, load standalone dashboard.html
+    window.location.href = './pages/dashboard.html';
   };
 
   const handleOpenAuth = () => {
@@ -68,16 +76,18 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f7f9fb] text-[#222222] flex flex-col font-sans selection:bg-[#007bdb] selection:text-white">
-      {/* Top Navbar with prominent green scrollbar and view toggles */}
-      <Navbar
-        activeView={activeView}
-        setActiveView={setActiveView}
-        onOpenAuth={handleOpenAuth}
-        onToggleA11y={() => setIsA11yOpen(true)}
-      />
+      {/* Main page nav bar should only be on the main login page, not on other pages */}
+      {activeView === 'landing' && (
+        <Navbar
+          activeView={activeView}
+          setActiveView={setActiveView}
+          onOpenAuth={handleOpenAuth}
+          onToggleA11y={() => setIsA11yOpen(true)}
+        />
+      )}
 
       {/* Logged In Status Bar under Navbar with dashboard green theme */}
-      {authenticatedUser && (
+      {activeView === 'landing' && authenticatedUser && (
         <aside
           role="status"
           aria-label="User session state"
@@ -154,8 +164,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => {
-                      setActiveView('dashboard');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      window.location.href = './pages/dashboard.html';
                     }}
                     className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-lg font-bold text-white bg-[#0077cc] hover:bg-[#005fa3] transition-all shadow-sm cursor-pointer"
                   >
@@ -216,7 +225,7 @@ export default function App() {
 
         {/* VIEW 2: LIVE WSMS DASHBOARD (Matches dashboard.html faithfully with Karachi News Feed) */}
         {activeView === 'dashboard' && (
-          <div className="pt-16 sm:pt-20">
+          <div>
             <Suspense fallback={<ViewSkeleton title="Operations Dashboard" />}>
               <DashboardView
                 inventory={inventory}
@@ -227,6 +236,7 @@ export default function App() {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onNavigateToLanding={() => {
+                  setAuthenticatedUser(null);
                   setActiveView('landing');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
@@ -237,7 +247,7 @@ export default function App() {
 
         {/* VIEW 3: FIELD HUB FOR LABOURS & SUPPLIERS */}
         {activeView === 'field-hub' && (
-          <div className="pt-16 sm:pt-20">
+          <div>
             <div className="bg-[#007bdb] text-white py-2.5 px-4 shadow-sm">
               <div className="max-w-7xl mx-auto flex items-center justify-between text-xs">
                 <span className="text-white font-bold flex items-center gap-2">

@@ -4,6 +4,7 @@ import { HeroSection } from './components/HeroSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { LiveWorkflowDemo } from './components/LiveWorkflowDemo';
 import { AboutSection } from './components/AboutSection';
+import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { NewsTicker } from './components/NewsTicker';
 import { initialInventory, initialDeliveries, initialStations } from './data/mockData';
@@ -189,6 +190,9 @@ export default function App() {
 
             {/* About & Trust Section (Orion Fx Story, Values & Compliance) */}
             <AboutSection />
+
+            {/* Contact WSMS Section (Two-column responsive form before footer) */}
+            <ContactSection />
           </>
         )}
 

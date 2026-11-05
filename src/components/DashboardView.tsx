@@ -286,6 +286,29 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const [activeModal, setActiveModal] = useState<'customers' | 'stations' | 'inventory' | 'reports' | null>(null);
   const [stationList, setStationList] = useState<StationData[]>(stations);
 
+  // User Profile Picture in header (synced with settings.html)
+  const [currentUserImage, setCurrentUserImage] = useState<string>(() => {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem('userImage') || localStorage.getItem('userDP') || './assets/default-user.png';
+    }
+    return './assets/default-user.png';
+  });
+
+  useEffect(() => {
+    const syncProfilePic = () => {
+      if (typeof localStorage !== 'undefined') {
+        const pic = localStorage.getItem('userImage') || localStorage.getItem('userDP') || './assets/default-user.png';
+        setCurrentUserImage(pic);
+      }
+    };
+    window.addEventListener('storage', syncProfilePic);
+    window.addEventListener('focus', syncProfilePic);
+    return () => {
+      window.removeEventListener('storage', syncProfilePic);
+      window.removeEventListener('focus', syncProfilePic);
+    };
+  }, []);
+
   // Daily Expenses Ledger state
   const [expenses, setExpenses] = useState<DailyExpenseItem[]>(initialExpenses);
   const [expenseNotice, setExpenseNotice] = useState<string | null>(null);
@@ -1050,6 +1073,195 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const currentPoints = chartData[range];
   const maxDeliveryVal = Math.max(...currentPoints.map((p) => p.deliveries));
 
+  // Comprehensive Reports & Analytics Data for Daily, Weekly, Monthly
+  const compReportData = {
+    daily: {
+      subtitle: "Showing: Today's Real-time Operations & Financial Breakdown",
+      badgeCust: "Daily Deliveries",
+      badgeFill: "Daily Production",
+      badgeExp: "Daily Financials",
+      customer: {
+        active: "22 Accounts",
+        cans: "380 Cans",
+        avg: "17.2 Cans",
+        rate: "98.4%",
+        topBars: [
+          { label: "Indus Hosp", val: 65, max: 70 },
+          { label: "Habib Univ", val: 50, max: 70 },
+          { label: "Clifton Med", val: 45, max: 70 },
+          { label: "South City", val: 35, max: 70 },
+          { label: "DHA Club", val: 25, max: 70 },
+        ],
+        segments: [
+          { label: "Commercial", pct: 45, color: "#0077cc" },
+          { label: "Healthcare", pct: 25, color: "#33c47a" },
+          { label: "Education", pct: 18, color: "#f59e0b" },
+          { label: "Residential", pct: 12, color: "#7c3aed" },
+        ],
+      },
+      filling: {
+        liters: "12,400 L",
+        cans: "652 Cans",
+        util: "84.5%",
+        lines: "4 of 4 Active",
+        stations: [
+          { name: "Korangi Depot", val: 4800, max: 5500 },
+          { name: "Clifton Plant", val: 3200, max: 5500 },
+          { name: "Gulshan RO", val: 2600, max: 5500 },
+          { name: "SITE Station", val: 1800, max: 5500 },
+        ],
+        shares: [
+          { label: "Korangi", pct: 38, color: "#33c47a" },
+          { label: "Clifton", pct: 26, color: "#0077cc" },
+          { label: "Gulshan", pct: 22, color: "#06b6d4" },
+          { label: "SITE", pct: 14, color: "#f97316" },
+        ],
+      },
+      expense: {
+        rev: "Rs 33,500",
+        exp: "Rs 12,500",
+        profit: "Rs 21,000 (62.7%)",
+        fleet: "Rs 5,200",
+        bars: [
+          { label: "Morning", rev: 12000, exp: 4500 },
+          { label: "Noon", rev: 11500, exp: 4200 },
+          { label: "Evening", rev: 7500, exp: 2600 },
+          { label: "Night", rev: 2500, exp: 1200 },
+        ],
+        categories: [
+          { label: "Fleet & Fuel", pct: 42, color: "#f57c3c" },
+          { label: "Electricity & RO", pct: 28, color: "#3b82f6" },
+          { label: "Field Labour", pct: 16, color: "#10b981" },
+          { label: "Maintenance", pct: 14, color: "#8b5cf6" },
+        ],
+      },
+    },
+    weekly: {
+      subtitle: "Showing: Last 7 Days Operations Aggregate & Weekly Trends",
+      badgeCust: "Weekly Deliveries",
+      badgeFill: "Weekly Production",
+      badgeExp: "Weekly Financials",
+      customer: {
+        active: "114 Accounts",
+        cans: "2,660 Cans",
+        avg: "23.3 Cans",
+        rate: "97.8%",
+        topBars: [
+          { label: "Indus Hosp", val: 450, max: 500 },
+          { label: "Habib Univ", val: 350, max: 500 },
+          { label: "Clifton Med", val: 310, max: 500 },
+          { label: "South City", val: 240, max: 500 },
+          { label: "DHA Club", val: 180, max: 500 },
+        ],
+        segments: [
+          { label: "Commercial", pct: 42, color: "#0077cc" },
+          { label: "Healthcare", pct: 28, color: "#33c47a" },
+          { label: "Education", pct: 17, color: "#f59e0b" },
+          { label: "Residential", pct: 13, color: "#7c3aed" },
+        ],
+      },
+      filling: {
+        liters: "86,800 L",
+        cans: "4,560 Cans",
+        util: "88.2%",
+        lines: "4 of 4 Active",
+        stations: [
+          { name: "Korangi Depot", val: 33000, max: 36000 },
+          { name: "Clifton Plant", val: 23000, max: 36000 },
+          { name: "Gulshan RO", val: 19000, max: 36000 },
+          { name: "SITE Station", val: 11800, max: 36000 },
+        ],
+        shares: [
+          { label: "Korangi", pct: 38, color: "#33c47a" },
+          { label: "Clifton", pct: 26, color: "#0077cc" },
+          { label: "Gulshan", pct: 22, color: "#06b6d4" },
+          { label: "SITE", pct: 14, color: "#f97316" },
+        ],
+      },
+      expense: {
+        rev: "Rs 234,500",
+        exp: "Rs 87,500",
+        profit: "Rs 147,000 (62.7%)",
+        fleet: "Rs 36,400",
+        bars: [
+          { label: "Mon-Tue", rev: 64700, exp: 24300 },
+          { label: "Wed-Thu", rev: 64300, exp: 24300 },
+          { label: "Fri-Sat", rev: 74000, exp: 27400 },
+          { label: "Sun", rev: 31500, exp: 11500 },
+        ],
+        categories: [
+          { label: "Fleet & Fuel", pct: 42, color: "#f57c3c" },
+          { label: "Electricity & RO", pct: 28, color: "#3b82f6" },
+          { label: "Field Labour", pct: 16, color: "#10b981" },
+          { label: "Maintenance", pct: 14, color: "#8b5cf6" },
+        ],
+      },
+    },
+    monthly: {
+      subtitle: "Showing: Last 30 Days Full Monthly Ledger & Performance",
+      badgeCust: "Monthly Deliveries",
+      badgeFill: "Monthly Production",
+      badgeExp: "Monthly Financials",
+      customer: {
+        active: "148 Accounts",
+        cans: "11,400 Cans",
+        avg: "77.0 Cans",
+        rate: "99.1%",
+        topBars: [
+          { label: "Indus Hosp", val: 1950, max: 2100 },
+          { label: "Habib Univ", val: 1500, max: 2100 },
+          { label: "Clifton Med", val: 1320, max: 2100 },
+          { label: "South City", val: 1050, max: 2100 },
+          { label: "DHA Club", val: 780, max: 2100 },
+        ],
+        segments: [
+          { label: "Commercial", pct: 46, color: "#0077cc" },
+          { label: "Healthcare", pct: 26, color: "#33c47a" },
+          { label: "Education", pct: 16, color: "#f59e0b" },
+          { label: "Residential", pct: 12, color: "#7c3aed" },
+        ],
+      },
+      filling: {
+        liters: "372,000 L",
+        cans: "19,570 Cans",
+        util: "91.5%",
+        lines: "4 of 4 Active",
+        stations: [
+          { name: "Korangi Depot", val: 142000, max: 150000 },
+          { name: "Clifton Plant", val: 98000, max: 150000 },
+          { name: "Gulshan RO", val: 81000, max: 150000 },
+          { name: "SITE Station", val: 51000, max: 150000 },
+        ],
+        shares: [
+          { label: "Korangi", pct: 38, color: "#33c47a" },
+          { label: "Clifton", pct: 26, color: "#0077cc" },
+          { label: "Gulshan", pct: 22, color: "#06b6d4" },
+          { label: "SITE", pct: 14, color: "#f97316" },
+        ],
+      },
+      expense: {
+        rev: "Rs 1,005,000",
+        exp: "Rs 375,000",
+        profit: "Rs 630,000 (62.7%)",
+        fleet: "Rs 156,000",
+        bars: [
+          { label: "Week 1", rev: 240000, exp: 90000 },
+          { label: "Week 2", rev: 255000, exp: 95000 },
+          { label: "Week 3", rev: 245000, exp: 92000 },
+          { label: "Week 4", rev: 265000, exp: 98000 },
+        ],
+        categories: [
+          { label: "Fleet & Fuel", pct: 42, color: "#f57c3c" },
+          { label: "Electricity & RO", pct: 28, color: "#3b82f6" },
+          { label: "Field Labour", pct: 16, color: "#10b981" },
+          { label: "Maintenance", pct: 14, color: "#8b5cf6" },
+        ],
+      },
+    },
+  };
+
+  const activeCompData = compReportData[range];
+
   return (
     <div className="min-h-screen bg-[#f7f9fb] text-[#222222] pb-28 font-sans">
       {/* Sub-header User Bar matching WSMS header.css */}
@@ -1086,62 +1298,52 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </span>
               </div>
             </a>
-
-            {/* Dynamic Page Badge matching 900.JPG */}
-            <a
-              href={
-                activeBottomNav === 'home'
-                  ? './pages/dashboard.html'
-                  : activeBottomNav === 'filling'
-                  ? './pages/filling.html'
-                  : activeBottomNav === 'supply'
-                  ? './pages/supply.html'
-                  : './pages/expense.html'
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white/20 hover:bg-white/30 text-white text-xs font-mono font-medium border border-white/25 transition-colors shadow-2xs no-underline"
-              title="Open section page"
-            >
-              <span>
-                {activeBottomNav === 'home' && '/pages/dashboard.html'}
-                {activeBottomNav === 'filling' && '/pages/filling.html'}
-                {activeBottomNav === 'supply' && '/pages/supply.html'}
-                {activeBottomNav === 'expense' && '/pages/expense.html'}
-              </span>
-              <ExternalLink className="w-3.5 h-3.5 text-white/90" />
-            </a>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-semibold">
-            <span className="hidden md:inline-block text-blue-100">
-              {new Date().toLocaleDateString('en-GB', {
-                weekday: 'short',
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })}
-            </span>
-            {activeBottomNav !== 'home' ? (
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveBottomNav('home');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-white hover:text-blue-100 underline cursor-pointer"
-              >
-                ← Back to Home
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={onNavigateToLanding}
-                className="text-white hover:text-blue-100 underline cursor-pointer"
-              >
-                ← Back to Overview
-              </button>
-            )}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <a
+              href="./pages/settings.html"
+              className="p-1.5 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors inline-flex items-center justify-center cursor-pointer"
+              title="Manage User Settings"
+            >
+              <Settings className="w-5 h-5 text-white" />
+            </a>
+            <a
+              href="./pages/settings.html"
+              title="Manage Profile & Sub-Accounts"
+              className="inline-flex shrink-0 cursor-pointer hover:opacity-90 transition-opacity"
+            >
+              <img
+                id="headerUserImage"
+                src={currentUserImage}
+                alt="Operator Profile Picture"
+                className="w-9 h-9 rounded-full border-2 border-white object-cover shrink-0 shadow-xs"
+                onError={(e) => { (e.target as HTMLImageElement).src = './assets/img/logo.png'; }}
+              />
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                try {
+                  localStorage.removeItem('wsms_admin_logged_in');
+                  localStorage.removeItem('wsms_admin_user');
+                  localStorage.removeItem('userRole');
+                  localStorage.removeItem('userEmail');
+                  localStorage.removeItem('loggedIn');
+                  localStorage.removeItem('userName');
+                  localStorage.removeItem('userImage');
+                  localStorage.removeItem('userDP');
+                  localStorage.removeItem('username');
+                  localStorage.removeItem('crm_session');
+                  sessionStorage.removeItem('wsms_auth_check_done');
+                } catch (e) {}
+                onNavigateToLanding();
+              }}
+              className="bg-white text-[#007bdb] hover:bg-blue-50 px-4 py-1.5 rounded-full font-semibold text-sm transition-colors cursor-pointer border-0 shadow-xs"
+              title="Logout from WSMS"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -1347,208 +1549,490 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
             </section>
 
-            {/* TRAVEL PLAN (TOMORROW) BLOCK matching image_6737b148.png and dashboard.html */}
-            <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3.5 sm:p-4 mb-3.5">
-              <h3 className="m-0 text-[#0077cc] text-[15px] font-bold mb-3">
-                Travel Plan (Tomorrow)
-              </h3>
-
-              <div id="travelPlan">
-                {/* Total Distance Banner matching screenshot image_6737b148.png */}
-                <div className="mb-3 p-2.5 sm:p-3 bg-[#f0f7ff] rounded-md flex flex-col sm:flex-row sm:items-center justify-between gap-1 border border-blue-100">
-                  <div>
-                    <strong className="text-sm text-[#222]">Total Distance:</strong>
-                    <div className="text-xs text-[#666] mt-0.5">
-                      5 customers scheduled • Starting from: Korangi Central Depot
-                    </div>
-                  </div>
-                  <span className="text-lg font-bold text-[#0077cc]">28.4 km</span>
+            {/* 50% REDUCED SPLIT GRID: TRAVEL PLAN & NOTIFICATIONS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3.5">
+              {/* 50% Travel Plan */}
+              <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3 sm:p-3.5 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="m-0 text-[#0077cc] text-sm font-bold flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4 text-[#0077cc]" />
+                    Travel Plan (Tomorrow)
+                  </h3>
+                  <span className="text-[11px] font-semibold text-slate-500">Van #KHI-482 · Aslam</span>
                 </div>
 
-                {/* Numbered Stops List matching image_6737b148.png */}
-                <div className="max-h-[340px] overflow-y-auto">
-                  <ol className="m-0 pl-5 space-y-2.5 list-decimal text-sm font-semibold text-[#333]">
-                    {/* Stop 1 */}
-                    <li className="p-2 sm:p-2.5 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
-                      <div className="text-[13px] text-[#333] font-normal flex flex-wrap gap-2 items-center">
-                        <span className="font-semibold text-[#222]">Indus Hospital & Health Network</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#666]">Korangi Sector 31</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#28a745] font-semibold flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-[#28a745]" />
-                          09:30 AM
-                        </span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#0077cc] font-medium">4.8 km</span>
-                      </div>
-                    </li>
+                <div className="mb-2 p-2 bg-[#f0f7ff] rounded-md border border-blue-100 flex items-center justify-between">
+                  <div>
+                    <strong className="text-xs text-[#222]">Total Route:</strong>
+                    <div className="text-[11px] text-[#666]">5 stops • Korangi Central Depot</div>
+                  </div>
+                  <span className="text-base font-bold text-[#0077cc]">28.4 km</span>
+                </div>
 
-                    {/* Stop 2 */}
-                    <li className="p-2 sm:p-2.5 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
-                      <div className="text-[13px] text-[#333] font-normal flex flex-wrap gap-2 items-center">
-                        <span className="font-semibold text-[#222]">Habib University Campus</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#666]">Block 18, Gulistan-e-Johar</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#28a745] font-semibold flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-[#28a745]" />
-                          11:15 AM
-                        </span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#0077cc] font-medium">9.2 km</span>
-                      </div>
-                    </li>
-
-                    {/* Stop 3 */}
-                    <li className="p-2 sm:p-2.5 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
-                      <div className="text-[13px] text-[#333] font-normal flex flex-wrap gap-2 items-center">
-                        <span className="font-semibold text-[#222]">Clifton Medical Complex</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#666]">Block 4, Clifton</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#28a745] font-semibold flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-[#28a745]" />
-                          01:45 PM
-                        </span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-[#0077cc] font-medium">7.1 km</span>
-                      </div>
-                    </li>
-
-                    {/* Stop 4: Return to Central Depot */}
-                    <li className="mt-2.5 p-2.5 bg-[#e8f5e9] border-l-[3px] border-[#28a745] rounded shadow-2xs list-none -ml-5 sm:-ml-5">
-                      <div className="flex items-start gap-2">
-                        <span className="text-base leading-none">🏢</span>
-                        <div className="min-w-0">
-                          <div className="font-semibold text-[#333] text-[13px]">Return to Central Depot</div>
-                          <div className="text-xs text-[#666] mt-0.5">Plot 42, Korangi Industrial Area, Karachi</div>
-                          <div className="text-[11px] text-[#28a745] font-medium mt-1">Distance: 7.3 km</div>
+                <div className="max-h-[185px] overflow-y-auto pr-1 flex-1">
+                  <ol className="m-0 pl-4 space-y-1.5 list-decimal text-xs font-semibold text-[#333]">
+                    <li className="p-1.5 sm:p-2 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
+                      <div className="text-xs font-normal">
+                        <span className="font-semibold text-[#222] block">Indus Hospital & Health Network</span>
+                        <div className="flex items-center gap-1.5 text-[11px] text-[#666] mt-0.5">
+                          <span>Korangi Sec 31</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[#28a745] font-semibold">09:30 AM</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[#0077cc]">4.8 km</span>
                         </div>
                       </div>
+                    </li>
+                    <li className="p-1.5 sm:p-2 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
+                      <div className="text-xs font-normal">
+                        <span className="font-semibold text-[#222] block">Habib University Campus</span>
+                        <div className="flex items-center gap-1.5 text-[11px] text-[#666] mt-0.5">
+                          <span>Gulistan-e-Johar</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[#28a745] font-semibold">11:15 AM</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[#0077cc]">9.2 km</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="p-1.5 sm:p-2 bg-white border-l-[3px] border-[#0077cc] rounded shadow-2xs">
+                      <div className="text-xs font-normal">
+                        <span className="font-semibold text-[#222] block">Clifton Medical Complex</span>
+                        <div className="flex items-center gap-1.5 text-[11px] text-[#666] mt-0.5">
+                          <span>Block 4, Clifton</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[#28a745] font-semibold">01:45 PM</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[#0077cc]">7.1 km</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="p-1.5 sm:p-2 bg-[#f0fdf4] border-l-[3px] border-[#22c55e] rounded shadow-2xs list-none -ml-4">
+                      <div className="text-[11px] font-semibold text-[#15803d]">🏢 Return to Central Depot (7.3 km)</div>
                     </li>
                   </ol>
                 </div>
-              </div>
-            </section>
+              </section>
 
-            {/* NOTIFICATIONS BLOCK matching dashboard.html */}
-            <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3.5 sm:p-4 mb-3.5">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="m-0 text-[#0077cc] text-[15px] font-bold flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-[#0077cc]" />
-                  Notifications
-                </h3>
-                <span className="text-xs font-semibold text-[#0a6ec2] bg-[#eef6ff] px-2 py-0.5 rounded-full border border-[#bcdfff]">
-                  3 New
-                </span>
-              </div>
+              {/* 50% Notifications */}
+              <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3 sm:p-3.5 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="m-0 text-[#0077cc] text-sm font-bold flex items-center gap-1.5">
+                    <Bell className="w-4 h-4 text-[#0077cc]" />
+                    Notifications
+                  </h3>
+                  <span className="text-[11px] font-semibold text-[#0a6ec2] bg-[#eef6ff] px-2 py-0.5 rounded-full border border-[#bcdfff]">
+                    3 New
+                  </span>
+                </div>
 
-              <div id="notifList" className="space-y-2">
-                {initialNotifications.map((notif) => (
-                  <div
-                    key={notif.id}
-                    className="flex items-center justify-between p-2.5 border border-[#eef2f7] rounded-[8px] bg-[#fbfdff] text-[13px] gap-2"
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-2 h-2 rounded-full bg-[#33c47a] shrink-0" />
-                      <div className="min-w-0">
-                        <span className="font-semibold text-[#222222] mr-2">{notif.title}</span>
-                        <span className="text-xs text-[#666666] hidden sm:inline">{notif.subtitle}</span>
+                <div className="space-y-1.5 max-h-[185px] overflow-y-auto pr-1 flex-1">
+                  {initialNotifications.map((notif) => (
+                    <div
+                      key={notif.id}
+                      className="flex items-center justify-between p-2 border border-[#eef2f7] rounded-[6px] bg-[#fbfdff] text-xs gap-2"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#33c47a] shrink-0" />
+                        <div className="min-w-0">
+                          <span className="font-semibold text-[#222222] mr-1 truncate block">{notif.title}</span>
+                          <span className="text-[11px] text-[#666666] truncate block">{notif.subtitle}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[11px] text-[#888888]">{notif.time}</span>
-                      <span className="bg-[#eef6ff] text-[#0a6ec2] border border-[#bcdfff] rounded-full px-2 py-0.5 text-[12px] font-medium">
+                      <span className="bg-[#eef6ff] text-[#0a6ec2] border border-[#bcdfff] rounded-full px-1.5 py-0.5 text-[10px] font-medium shrink-0">
                         {notif.tag}
                       </span>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <div className="text-right mt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveModal('reports')}
-                  className="text-[#0077cc] font-semibold text-[13px] hover:underline cursor-pointer inline-flex items-center gap-1"
-                >
-                  <span>View All</span>
-                  <span>→</span>
-                </button>
-              </div>
-            </section>
-
-            {/* ACTIVITY CHART BLOCK matching dashboard.html */}
-            <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3.5 sm:p-4 mb-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                <h3 className="m-0 text-[#0077cc] text-[15px] font-bold flex items-center gap-2">
-                  <BarChart2 className="w-4 h-4 text-[#0077cc]" />
-                  Activity
-                </h3>
-
-                {/* Range Toggle Buttons matching .range button.active in dashboard.html */}
-                <div className="inline-flex border border-[#0077cc] rounded-[8px] overflow-hidden self-start sm:self-auto">
+                <div className="text-right mt-1.5 pt-1.5 border-t border-slate-100">
                   <button
                     type="button"
-                    onClick={() => setRange('daily')}
-                    className={`border-0 px-2.5 py-1.5 font-semibold text-xs cursor-pointer transition-colors ${
-                      range === 'daily' ? 'bg-[#0077cc] text-white' : 'bg-white text-[#0077cc] hover:bg-blue-50'
-                    }`}
+                    onClick={() => setActiveModal('reports')}
+                    className="text-[#0077cc] font-semibold text-xs hover:underline cursor-pointer inline-flex items-center gap-1"
                   >
-                    Daily
+                    <span>View All</span>
+                    <span>→</span>
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setRange('weekly')}
-                    className={`border-0 px-2.5 py-1.5 font-semibold text-xs cursor-pointer transition-colors ${
-                      range === 'weekly' ? 'bg-[#0077cc] text-white' : 'bg-white text-[#0077cc] hover:bg-blue-50'
-                    }`}
-                  >
-                    Weekly
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRange('monthly')}
-                    className={`border-0 px-2.5 py-1.5 font-semibold text-xs cursor-pointer transition-colors ${
-                      range === 'monthly' ? 'bg-[#0077cc] text-white' : 'bg-white text-[#0077cc] hover:bg-blue-50'
-                    }`}
-                  >
-                    Monthly
-                  </button>
+                </div>
+              </section>
+            </div>
+
+            {/* COMPREHENSIVE REPORTS & ANALYTICS SECTION (CUSTOMERS, FILLING, EXPENSES) */}
+            <section className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-3.5 sm:p-5 mb-4 border border-slate-100">
+              {/* Header with Timeframe Range Toggle */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 mb-4">
+                <div>
+                  <h3 className="m-0 text-[#0077cc] text-base sm:text-lg font-extrabold flex items-center gap-2">
+                    <BarChart2 className="w-5 h-5 text-[#0077cc]" />
+                    Comprehensive Reports & Analytics
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5 m-0">
+                    {activeCompData.subtitle}
+                  </p>
+                </div>
+
+                {/* Range Toggle Buttons */}
+                <div className="inline-flex border-1.5 border-[#0077cc] rounded-lg overflow-hidden self-start sm:self-auto bg-white">
+                  {(['daily', 'weekly', 'monthly'] as const).map((r) => (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setRange(r)}
+                      className={`border-0 px-3.5 py-1.5 font-bold text-xs cursor-pointer capitalize transition-colors ${
+                        range === r ? 'bg-[#0077cc] text-white' : 'bg-white text-[#0077cc] hover:bg-blue-50'
+                      }`}
+                    >
+                      {r}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Chart Display */}
-              <div className="mt-2 bg-[#fbfdff] border border-[#eef2f7] rounded-lg p-4">
-                <div className="h-56 flex items-end justify-between gap-2 sm:gap-4 pt-6 px-2">
-                  {currentPoints.map((pt, i) => {
-                    const heightPercent = Math.max(12, Math.round((pt.deliveries / maxDeliveryVal) * 100));
-                    return (
-                      <div key={i} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-                        {/* Tooltip on Hover */}
-                        <div className="text-[10px] font-bold text-[#0077cc] opacity-0 group-hover:opacity-100 transition-opacity bg-white px-1.5 py-0.5 rounded shadow-xs border border-blue-100">
-                          Rs {pt.revenue.toLocaleString()}
+              <div className="space-y-4">
+                {/* 1. CUSTOMER'S DETAILS REPORT */}
+                <div className="bg-slate-50/70 border border-slate-200 rounded-xl p-3.5 sm:p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="m-0 text-sm font-bold text-[#0077cc] flex items-center gap-1.5">
+                      <Users className="w-4 h-4 text-[#0077cc]" />
+                      Customer Details & Demand Report
+                    </h4>
+                    <span className="text-[11px] font-semibold bg-sky-100 text-sky-800 px-2 py-0.5 rounded-full border border-sky-200">
+                      {activeCompData.badgeCust}
+                    </span>
+                  </div>
+
+                  {/* 4 KPIs */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3.5">
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Active Customers</div>
+                      <div className="text-base font-extrabold text-slate-900 mt-0.5">{activeCompData.customer.active}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Total Cans Ordered</div>
+                      <div className="text-base font-extrabold text-slate-900 mt-0.5">{activeCompData.customer.cans}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Average Order Size</div>
+                      <div className="text-base font-extrabold text-slate-900 mt-0.5">{activeCompData.customer.avg}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Settlement Rate</div>
+                      <div className="text-base font-extrabold text-emerald-600 mt-0.5">{activeCompData.customer.rate}</div>
+                    </div>
+                  </div>
+
+                  {/* Graphs: Bar + Pie */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+                    {/* Top Customers Bar Graph */}
+                    <div className="lg:col-span-7 bg-white p-3 rounded-lg border border-slate-200">
+                      <div className="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                        <span>Top Customers Volume (19L Cans)</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Bar Graph</span>
+                      </div>
+                      <div className="space-y-2 pt-1">
+                        {activeCompData.customer.topBars.map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-xs">
+                            <span className="w-24 truncate font-medium text-slate-700">{item.label}</span>
+                            <div className="flex-1 bg-slate-100 rounded-full h-3 overflow-hidden">
+                              <div
+                                className="bg-[#3583e5] h-full rounded-full transition-all duration-300"
+                                style={{ width: `${Math.min(100, (item.val / item.max) * 100)}%` }}
+                              />
+                            </div>
+                            <span className="w-14 text-right font-bold text-slate-900">{item.val} Cans</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Customer Segments Doughnut / Pie Chart */}
+                    <div className="lg:col-span-5 bg-white p-3 rounded-lg border border-slate-200 flex flex-col justify-between">
+                      <div className="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                        <span>Customer Segments Share</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Pie Chart</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-3 py-1">
+                        {/* Circular SVG Pie Chart */}
+                        <div className="relative w-24 h-24 shrink-0">
+                          <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                            {(() => {
+                              let accumulated = 0;
+                              return activeCompData.customer.segments.map((seg, i) => {
+                                const strokeDash = `${seg.pct} ${100 - seg.pct}`;
+                                const strokeDashOffset = -accumulated;
+                                accumulated += seg.pct;
+                                return (
+                                  <circle
+                                    key={i}
+                                    cx="18"
+                                    cy="18"
+                                    r="15.91549430918954"
+                                    fill="transparent"
+                                    stroke={seg.color}
+                                    strokeWidth="3.8"
+                                    strokeDasharray={strokeDash}
+                                    strokeDashoffset={strokeDashOffset}
+                                  />
+                                );
+                              });
+                            })()}
+                          </svg>
+                          <div className="absolute inset-0 flex items-center justify-center flex-col">
+                            <span className="text-[10px] font-bold text-slate-700">100%</span>
+                            <span className="text-[8px] text-slate-400">Total</span>
+                          </div>
                         </div>
 
-                        {/* Bar */}
-                        <div
-                          className="w-full max-w-[48px] rounded-t-md transition-all duration-300 hover:brightness-110 relative"
-                          style={{
-                            height: `${heightPercent}%`,
-                            background: 'var(--g-blue)',
-                          }}
-                        >
-                          <span className="sr-only">
-                            {pt.label}: {pt.deliveries} deliveries, Rs {pt.revenue}
+                        {/* Legend */}
+                        <div className="space-y-1 text-xs">
+                          {activeCompData.customer.segments.map((seg, i) => (
+                            <div key={i} className="flex items-center gap-1.5">
+                              <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: seg.color }} />
+                              <span className="text-slate-600 truncate">{seg.label}:</span>
+                              <span className="font-bold text-slate-900">{seg.pct}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. FILLING DETAILS REPORT */}
+                <div className="bg-slate-50/70 border border-slate-200 rounded-xl p-3.5 sm:p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="m-0 text-sm font-bold text-[#0077cc] flex items-center gap-1.5">
+                      <Droplet className="w-4 h-4 text-[#0077cc]" />
+                      Water Filling & Plant Production Details
+                    </h4>
+                    <span className="text-[11px] font-semibold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200">
+                      {activeCompData.badgeFill}
+                    </span>
+                  </div>
+
+                  {/* 4 KPIs */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3.5">
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Water Liters Filled</div>
+                      <div className="text-base font-extrabold text-slate-900 mt-0.5">{activeCompData.filling.liters}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">19L Cans Produced</div>
+                      <div className="text-base font-extrabold text-slate-900 mt-0.5">{activeCompData.filling.cans}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Plant Utilization</div>
+                      <div className="text-base font-extrabold text-blue-600 mt-0.5">{activeCompData.filling.util}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Active RO Lines</div>
+                      <div className="text-base font-extrabold text-emerald-600 mt-0.5">{activeCompData.filling.lines}</div>
+                    </div>
+                  </div>
+
+                  {/* Graphs: Station Production + Share Pie */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+                    {/* Station Output Bar Graph */}
+                    <div className="lg:col-span-7 bg-white p-3 rounded-lg border border-slate-200">
+                      <div className="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                        <span>Station Filling Output (Liters)</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Bar Graph</span>
+                      </div>
+                      <div className="space-y-2.5 pt-1">
+                        {activeCompData.filling.stations.map((st, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-xs">
+                            <span className="w-24 truncate font-medium text-slate-700">{st.name}</span>
+                            <div className="flex-1 bg-slate-100 rounded-full h-3 overflow-hidden">
+                              <div
+                                className="bg-[#70e0a1] h-full rounded-full transition-all duration-300"
+                                style={{ width: `${Math.min(100, (st.val / st.max) * 100)}%` }}
+                              />
+                            </div>
+                            <span className="w-16 text-right font-bold text-slate-900">{st.val.toLocaleString()} L</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Station Output Share Pie */}
+                    <div className="lg:col-span-5 bg-white p-3 rounded-lg border border-slate-200 flex flex-col justify-between">
+                      <div className="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                        <span>Station Output Share</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Pie Chart</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-3 py-1">
+                        {/* Circular SVG Pie Chart */}
+                        <div className="relative w-24 h-24 shrink-0">
+                          <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                            {(() => {
+                              let accumulated = 0;
+                              return activeCompData.filling.shares.map((sh, i) => {
+                                const strokeDash = `${sh.pct} ${100 - sh.pct}`;
+                                const strokeDashOffset = -accumulated;
+                                accumulated += sh.pct;
+                                return (
+                                  <circle
+                                    key={i}
+                                    cx="18"
+                                    cy="18"
+                                    r="15.91549430918954"
+                                    fill="transparent"
+                                    stroke={sh.color}
+                                    strokeWidth="3.8"
+                                    strokeDasharray={strokeDash}
+                                    strokeDashoffset={strokeDashOffset}
+                                  />
+                                );
+                              });
+                            })()}
+                          </svg>
+                          <div className="absolute inset-0 flex items-center justify-center flex-col">
+                            <span className="text-[10px] font-bold text-slate-700">100%</span>
+                            <span className="text-[8px] text-slate-400">Stations</span>
+                          </div>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="space-y-1 text-xs">
+                          {activeCompData.filling.shares.map((sh, i) => (
+                            <div key={i} className="flex items-center gap-1.5">
+                              <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: sh.color }} />
+                              <span className="text-slate-600 truncate">{sh.label}:</span>
+                              <span className="font-bold text-slate-900">{sh.pct}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. EXPENSES DETAILS REPORT */}
+                <div className="bg-slate-50/70 border border-slate-200 rounded-xl p-3.5 sm:p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="m-0 text-sm font-bold text-[#0077cc] flex items-center gap-1.5">
+                      <Receipt className="w-4 h-4 text-[#0077cc]" />
+                      Expense & Revenue Financial Breakdown
+                    </h4>
+                    <span className="text-[11px] font-semibold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full border border-amber-200">
+                      {activeCompData.badgeExp}
+                    </span>
+                  </div>
+
+                  {/* 4 KPIs */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3.5">
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Total Revenue</div>
+                      <div className="text-base font-extrabold text-emerald-600 mt-0.5">{activeCompData.expense.rev}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Total Expenses</div>
+                      <div className="text-base font-extrabold text-orange-600 mt-0.5">{activeCompData.expense.exp}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Net Realized Profit</div>
+                      <div className="text-base font-extrabold text-purple-600 mt-0.5">{activeCompData.expense.profit}</div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-2xs">
+                      <div className="text-[11px] text-slate-500 font-medium">Fleet & Fuel Share</div>
+                      <div className="text-base font-extrabold text-slate-900 mt-0.5">{activeCompData.expense.fleet}</div>
+                    </div>
+                  </div>
+
+                  {/* Graphs: Revenue vs Expense Bar + Expense Categories Pie */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+                    {/* Revenue vs Expense Comparison Graph */}
+                    <div className="lg:col-span-7 bg-white p-3 rounded-lg border border-slate-200">
+                      <div className="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                        <span>Revenue vs Expenses Comparison</span>
+                        <div className="flex items-center gap-3 text-[10px]">
+                          <span className="flex items-center gap-1 font-semibold text-emerald-700">
+                            <span className="w-2 h-2 rounded-full bg-[#33c47a]" /> Revenue
+                          </span>
+                          <span className="flex items-center gap-1 font-semibold text-orange-700">
+                            <span className="w-2 h-2 rounded-full bg-[#f57c3c]" /> Expenses
                           </span>
                         </div>
-
-                        {/* Label */}
-                        <span className="text-[11px] font-medium text-[#666666] truncate">{pt.label}</span>
                       </div>
-                    );
-                  })}
+                      <div className="space-y-2 pt-1">
+                        {activeCompData.expense.bars.map((shift, idx) => (
+                          <div key={idx} className="space-y-1 text-xs">
+                            <div className="flex justify-between text-[11px] font-semibold text-slate-600">
+                              <span>{shift.label}</span>
+                              <span>Margin: Rs {(shift.rev - shift.exp).toLocaleString()}</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-1.5">
+                              <div className="bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                                <div
+                                  className="bg-[#33c47a] h-full rounded-full"
+                                  style={{ width: `${Math.min(100, (shift.rev / (shift.rev + shift.exp)) * 140)}%` }}
+                                />
+                              </div>
+                              <div className="bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                                <div
+                                  className="bg-[#f57c3c] h-full rounded-full"
+                                  style={{ width: `${Math.min(100, (shift.exp / (shift.rev + shift.exp)) * 140)}%` }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Expense Categories Share Pie */}
+                    <div className="lg:col-span-5 bg-white p-3 rounded-lg border border-slate-200 flex flex-col justify-between">
+                      <div className="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                        <span>Expense Categories Breakdown</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Pie Chart</span>
+                      </div>
+                      <div className="flex items-center justify-center gap-3 py-1">
+                        {/* Circular SVG Pie Chart */}
+                        <div className="relative w-24 h-24 shrink-0">
+                          <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                            {(() => {
+                              let accumulated = 0;
+                              return activeCompData.expense.categories.map((cat, i) => {
+                                const strokeDash = `${cat.pct} ${100 - cat.pct}`;
+                                const strokeDashOffset = -accumulated;
+                                accumulated += cat.pct;
+                                return (
+                                  <circle
+                                    key={i}
+                                    cx="18"
+                                    cy="18"
+                                    r="15.91549430918954"
+                                    fill="transparent"
+                                    stroke={cat.color}
+                                    strokeWidth="3.8"
+                                    strokeDasharray={strokeDash}
+                                    strokeDashoffset={strokeDashOffset}
+                                  />
+                                );
+                              });
+                            })()}
+                          </svg>
+                          <div className="absolute inset-0 flex items-center justify-center flex-col">
+                            <span className="text-[10px] font-bold text-slate-700">100%</span>
+                            <span className="text-[8px] text-slate-400">Expense</span>
+                          </div>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="space-y-1 text-xs">
+                          {activeCompData.expense.categories.map((cat, i) => (
+                            <div key={i} className="flex items-center gap-1.5">
+                              <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: cat.color }} />
+                              <span className="text-slate-600 truncate">{cat.label}:</span>
+                              <span className="font-bold text-slate-900">{cat.pct}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>

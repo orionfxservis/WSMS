@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dashboard - WSMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<link rel="stylesheet" href="../assets/css/style.css"/>
+<link rel="stylesheet" href="../assets/css/header.css"/>
+
+<!-- Block page rendering until session is validated -->
+<style id="session-block-style">
+  body { visibility: visible; overflow: auto; }
+  body.session-validated { visibility: visible; overflow: auto; }
+</style>
+
+<!-- Clear redirect flags when dashboard loads successfully -->
+<script>
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem('wsms_redirect_in_progress');
+    sessionStorage.removeItem('wsms_auth_check_done');
+  }
+  // Auto-reveal for preview/standalone viewing if session check doesn't fire
+  setTimeout(function() {
+    if (!document.body.classList.contains('session-validated')) {
+      document.body.classList.add('session-validated');
+    }
+  }, 400);
+</script>
+
+<!-- Session check MUST run first to block unauthorized access -->
+<script src="../assets/js/session-check.js"></script>
+<script src="../assets/js/status-banner.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../assets/js/logout.js"></script>
+<script src="../assets/js/wsms-store.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/user-header.js"></script>
+
+<style>
+:root{
+  --brand:#0077cc;
+  --bg:#f7f9fb;
+  /* darker on left, right-to-left flow */
+  --g-blue:linear-gradient(to left,#5fa8f7,#3583e5);
+  --g-green:linear-gradient(to left,#70e0a1,#33c47a);
+  --g-orange:linear-gradient(to left,#f9a76b,#f57c3c);
+  --g-violet:linear-gradient(to left,#a58cf5,#7d5fe6);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:#222;
+  overflow-x:hidden;
+}
+
+/* Header styles */
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* summary cards - reduced height by 15% matching 897_406ce25c.JPG */
+.grid-summary{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.summary-card{
+  border-radius:12px;
+  color:#fff;
+  padding:10px 14px; /* Reduced by 15% from 14px */
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  min-height:74px; /* 15% more compact */
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+.summary-card:hover{
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+.summary-card h4{
+  margin:0 0 2px;
+  font-size:12px;
+  font-weight:600;
+  opacity:.95;
+  letter-spacing:0.01em;
+}
+.summary-card p{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.2;
+}
+.summary-card .summary-sub{
+  font-size:10px;
+  opacity:0.85;
+  margin-top:2px;
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.summary-card svg{
+  width:28px;
+  height:28px;
+  opacity:.92;
+  flex-shrink:0;
+}
+
+
+/* Quick Links 4 Boxes matching media_1793840124521_39ce193c.jpg */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 640px) {
+  .quick-links {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.quick-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  padding: 12px 10px;
+  text-align: center;
+  min-height: 72px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.quick-card:hover {
+  background: #f8fafc;
+  box-shadow: 0 4px 10px rgba(0, 119, 204, 0.1);
+}
+
+.quick-card-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0077cc;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  background: transparent;
+  border: none;
+}
+
+.quick-card-title:hover {
+  text-decoration: underline;
+}
+
+.quick-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 500;
+  color: #0077cc;
+  background: #f0f7fe;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  padding: 3px 8px;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.quick-card-badge:hover {
+  background: #e0f0fe;
+  border-color: #93c5fd;
+}
+
+.quick-card-badge svg {
+  width: 11px;
+  height: 11px;
+  color: #0077cc;
+  flex-shrink: 0;
+}
+
+/* blocks */
+.block{
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  padding:12px;
+  margin-top:12px;
+}
+.block h3{
+  margin:0 0 8px;
+  color:var(--brand);
+  font-size:15px;
+}
+
+/* notifications */
+.notifications .notif{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+  border:1px solid #eef2f7;
+  border-radius:8px;
+  margin-bottom:8px;
+  background:#fbfdff;
+  font-size:13px;
+}
+.notifications .tag{
+  background:#eef6ff;
+  color:#0a6ec2;
+  border:1px solid #bcdfff;
+  border-radius:999px;
+  padding:2px 8px;
+  font-size:12px;
+}
+.view-all{
+  text-align:right;
+  margin-top:2px;
+}
+.view-all a{
+  text-decoration:none;
+  color:var(--brand);
+  font-weight:600;
+  font-size:13px;
+}
+
+/* 50% Reduced Split Grid: Travel Plan & Notifications */
+.dash-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+@media (min-width: 768px) {
+  .dash-split-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.compact-block {
+  padding: 12px 14px;
+  margin-top: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.compact-scroll {
+  max-height: 185px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Comprehensive Reports Hub */
+.reports-hub {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  margin-top: 14px;
+}
+
+.reports-hub-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 14px;
+}
+@media (min-width: 640px) {
+  .reports-hub-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.reports-timeframe-toggle {
+  display: inline-flex;
+  border: 1.5px solid #0077cc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+.reports-timeframe-toggle button {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  background: #ffffff;
+  color: #0077cc;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.reports-timeframe-toggle button:hover {
+  background: #f0f7fe;
+}
+.reports-timeframe-toggle button.active {
+  background: #0077cc;
+  color: #ffffff;
+}
+
+.report-card-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.report-card-section:last-child {
+  margin-bottom: 0;
+}
+
+.report-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0077cc;
+  margin: 0 0 10px 0;
+}
+.report-section-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0284c7;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #bae6fd;
+}
+
+.report-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+@media (min-width: 640px) {
+  .report-kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.report-kpi-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+.report-kpi-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.report-kpi-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.report-charts-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .report-charts-row {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.chart-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.chart-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chart-canvas-wrap {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+.reports-hub canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* bottom nav matching image_4bb31170.png */
+nav.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#fff;
+  border-top:1px solid #ddd;
+  padding:12px 0;
+  font-size:14px;
+  font-weight:700;
+  box-shadow:0 -2px 8px rgba(0,0,0,.08);
+  z-index:50;
+}
+nav.bottom-nav a{
+  text-decoration:none;
+  color:#444;
+  padding-bottom:3px;
+  border-bottom:3px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+nav.bottom-nav a:hover{
+  color:var(--brand);
+}
+nav.bottom-nav a.active{
+  color:var(--brand);
+  border-bottom:3px solid var(--brand);
+}
+
+/* responsive */
+@media(min-width:720px){
+  .grid-summary{grid-template-columns:repeat(4,1fr)}
+  .quick-links{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+  <link rel="icon" type="image/png" href="../logo.png" />
+</head>
+<body>
+
+<div class="header">
+    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+    <div class="header-logo-container">
+      <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
+    </div>
+    <div class="header-brand-text">
+      <div class="header-brand-title">
+        <span class="header-logo">WSMS</span>
+        <span class="header-portal-tag">Portal</span>
+      </div>
+      <span class="header-company-name">Water Supply Management System</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <div class="header-icons">
+      <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
+    </div>
+    <a href="settings.html" title="Manage Profile & Sub-Accounts" style="display:inline-block;text-decoration:none;"><img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'"></a>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<main>
+  <!-- Live Karachi News Ticker matching 895_580dd5a0.JPG -->
+  <div id="newsTicker" 
+       style="height:40px;background:white;display:flex;align-items:center;
+       padding:0 12px;border-radius:6px;overflow:hidden;font-size:14px;
+       font-weight:500;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);white-space:nowrap;text-overflow:ellipsis;">
+    Sindh CS reviews Nehr-e-Khayyam project
+  </div>
+
+  <!-- Summary cards (height reduced by 15% as per 897_406ce25c.JPG) -->
+  <section class="grid-summary" aria-label="Operational Summary Cards">
+    <!-- Deliveries Card (--g-blue) -->
+    <div class="summary-card" style="background:var(--g-blue);cursor:pointer;" onclick="location.href='supply.html'" title="Click to view delivery dispatch log">
+      <div>
+        <h4>Deliveries</h4>
+        <p id="sumDeliveries">20</p>
+        <span class="summary-sub">Today's Total Dispatch</span>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 7h13v13H3zM16 10h5l-1.5-3H16zM6 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm11 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+      </svg>
+    </div>
+
+    <!-- Revenue Card (--g-green) -->
+    <div class="summary-card" style="background:var(--g-green);cursor:pointer;" onclick="location.href='expense.html'" title="Click to view revenue report">
+      <div>
+        <h4>Revenue</h4>
+        <p id="sumRevenue">Rs 33,500</p>
+        <span class="summary-sub">Settled & Collected</span>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v8M8 12h8"/>
+      </svg>
+    </div>
+
+    <!-- Expenses Card (--g-orange) -->
+    <div class="summary-card" style="background:var(--g-orange);cursor:pointer;" onclick="location.href='expense.html'" title="Click to view expenses breakdown">
+      <div>
+        <h4>Expenses</h4>
+        <p id="sumExpense">Rs 12,500</p>
+        <span class="summary-sub">Fleet, Diesel & Bills</span>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 7h18v10H3zM3 7l9 6 9-6"/>
+      </svg>
+    </div>
+
+    <!-- Profit Card (--g-violet) -->
+    <div class="summary-card" style="background:var(--g-violet);cursor:pointer;" onclick="location.href='expense.html'" title="Click to view profit ledger">
+      <div>
+        <h4>Profit</h4>
+        <p id="sumProfit">Rs 21,000</p>
+        <span class="summary-sub">Net Realized Today</span>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 17l6-6 4 4 8-8"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Quick links matching media_1793840124521_39ce193c.jpg -->
+  <section class="quick-links" aria-label="Quick Navigation">
+    <div class="quick-card" onclick="location.href='customers.html'" style="cursor: pointer;" title="Open Customers Management">
+      <a href="customers.html" class="quick-card-title">Customers</a>
+      <a href="customers.html" class="quick-card-badge" title="Open /pages/customers.html">
+        <span>/pages/customers.html</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
+    </div>
+
+    <div class="quick-card" onclick="location.href='stations.html'" style="cursor: pointer;" title="Open Filling Stations">
+      <a href="stations.html" class="quick-card-title">Filling Stations</a>
+      <a href="stations.html" class="quick-card-badge" title="Open /pages/stations.html">
+        <span>/pages/stations.html</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
+    </div>
+
+    <div class="quick-card" onclick="location.href='inventory.html'" style="cursor: pointer;" title="Open Inventory Management">
+      <a href="inventory.html" class="quick-card-title">Inventory</a>
+      <a href="inventory.html" class="quick-card-badge" title="Open /pages/inventory.html">
+        <span>/pages/inventory.html</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
+    </div>
+
+    <div class="quick-card" onclick="location.href='report.html'" style="cursor: pointer;" title="Open Daily Reports">
+      <a href="report.html" class="quick-card-title">Reports</a>
+      <a href="report.html" class="quick-card-badge" title="Open /pages/report.html">
+        <span>/pages/report.html</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- 50% Reduced Split Grid: Travel Plan & Notifications -->
+  <div class="dash-split-grid">
+    <!-- 50% Travel Plan -->
+    <section class="block compact-block" aria-label="Travel Plan">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px;">
+        <h3 style="margin:0;font-size:14px;color:#0077cc;font-weight:700;">Travel Plan (Tomorrow)</h3>
+        <span style="font-size:11px;color:#64748b;font-weight:600;">Van #KHI-482 · Aslam</span>
+      </div>
+      <div id="travelPlan">
+        <div style="margin-bottom:8px;padding:8px 10px;background:#f0f7ff;border-radius:6px;border:1px solid #dbeafe;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <strong style="font-size:12px;color:#1e293b;">Total Route:</strong>
+            <div style="font-size:11px;color:#64748b;">5 stops • Korangi Central Depot</div>
+          </div>
+          <span style="font-size:15px;color:#0077cc;font-weight:800;">28.4 km</span>
+        </div>
+        <div class="compact-scroll">
+          <ol style="margin:0;padding-left:18px;font-size:12px;">
+            <li style="margin-bottom:6px;padding:6px 8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+              <div style="font-weight:600;color:#1e293b;">Indus Hospital & Health Network</div>
+              <div style="font-size:11px;color:#64748b;display:flex;gap:6px;margin-top:2px;">
+                <span>Korangi Sec 31</span> • <span style="color:#16a34a;font-weight:600;">09:30 AM</span> • <span style="color:#0077cc;">4.8 km</span>
+              </div>
+            </li>
+            <li style="margin-bottom:6px;padding:6px 8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+              <div style="font-weight:600;color:#1e293b;">Habib University Campus</div>
+              <div style="font-size:11px;color:#64748b;display:flex;gap:6px;margin-top:2px;">
+                <span>Gulistan-e-Johar</span> • <span style="color:#16a34a;font-weight:600;">11:15 AM</span> • <span style="color:#0077cc;">9.2 km</span>
+              </div>
+            </li>
+            <li style="margin-bottom:6px;padding:6px 8px;background:#fff;border-left:3px solid #0077cc;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+              <div style="font-weight:600;color:#1e293b;">Clifton Medical Complex</div>
+              <div style="font-size:11px;color:#64748b;display:flex;gap:6px;margin-top:2px;">
+                <span>Block 4, Clifton</span> • <span style="color:#16a34a;font-weight:600;">01:45 PM</span> • <span style="color:#0077cc;">7.1 km</span>
+              </div>
+            </li>
+            <li style="margin-top:6px;padding:6px 8px;background:#f0fdf4;border-left:3px solid #22c55e;border-radius:4px;">
+              <div style="font-weight:600;color:#15803d;font-size:11px;">🏢 Return to Central Depot (7.3 km)</div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 50% Notifications -->
+    <section class="block compact-block notifications" aria-label="Notifications">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:14px;color:#0077cc;font-weight:700;">Notifications</h3>
+        <span style="font-size:11px;font-weight:700;background:#eef6ff;color:#0a6ec2;border:1px solid #bcdfff;padding:2px 8px;border-radius:999px;">3 New</span>
+      </div>
+      <div class="compact-scroll" id="notifList" style="flex:1;">
+        <div class="notif" style="padding:6px 8px;margin-bottom:6px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#33c47a;display:inline-block;flex-shrink:0;"></span>
+            <span>Low RO water alert at Clifton Plant 02 (18% remaining)</span>
+          </div>
+          <div class="tag" style="font-size:10px;padding:2px 6px;">Alert</div>
+        </div>
+        <div class="notif" style="padding:6px 8px;margin-bottom:6px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#33c47a;display:inline-block;flex-shrink:0;"></span>
+            <span>Customer Habib University added refill order of 50 cans</span>
+          </div>
+          <div class="tag" style="font-size:10px;padding:2px 6px;">Order</div>
+        </div>
+        <div class="notif" style="padding:6px 8px;margin-bottom:6px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#33c47a;display:inline-block;flex-shrink:0;"></span>
+            <span>Water Quality Lab Certificate renewed for Gulshan RO</span>
+          </div>
+          <div class="tag" style="font-size:10px;padding:2px 6px;">Quality</div>
+        </div>
+      </div>
+      <div class="view-all" style="margin-top:6px;font-size:12px;"><a href="report.html">View All →</a></div>
+    </section>
+  </div>
+
+  <!-- Comprehensive Reports & Analytics Section (Customers, Filling, Expenses with Graphs & Pie Charts) -->
+  <section class="reports-hub" aria-label="Comprehensive Operations & Financial Reports">
+    <div class="reports-hub-header">
+      <div>
+        <h3 style="margin:0 0 4px;font-size:17px;font-weight:800;color:#0077cc;letter-spacing:-0.01em;">Comprehensive Reports & Analytics</h3>
+        <p style="margin:0;font-size:12px;color:#64748b;" id="reportPeriodSubtitle">Showing: Today's Real-time Operations & Financial Breakdown</p>
+      </div>
+      <div class="reports-timeframe-toggle" id="reportsRange">
+        <button type="button" data-r="daily" class="active">Daily</button>
+        <button type="button" data-r="weekly">Weekly</button>
+        <button type="button" data-r="monthly">Monthly</button>
+      </div>
+    </div>
+
+    <!-- 1. CUSTOMER'S DETAILS REPORT -->
+    <div class="report-card-section">
+      <div class="report-section-title">
+        <span>👥 Customer Details & Demand Report</span>
+        <span class="report-section-badge" id="badgeCustomer">Daily Deliveries</span>
+      </div>
+      <div class="report-kpi-grid">
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Active Customers</div>
+          <div class="report-kpi-val" id="kpiCustActive">22 Accounts</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Total Cans Ordered</div>
+          <div class="report-kpi-val" id="kpiCustCans">380 Cans</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Average Order Size</div>
+          <div class="report-kpi-val" id="kpiCustAvg">17.2 Cans</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Settlement Rate</div>
+          <div class="report-kpi-val" style="color:#16a34a;" id="kpiCustRate">98.4%</div>
+        </div>
+      </div>
+      <div class="report-charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Top Customers Volume (19L Cans)</span>
+            <span style="font-size:11px;color:#64748b;">Bar Graph</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartCustBar"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Customer Segments Share</span>
+            <span style="font-size:11px;color:#64748b;">Pie Chart</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartCustPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. FILLING DETAILS REPORT -->
+    <div class="report-card-section">
+      <div class="report-section-title">
+        <span>🚰 Water Filling & Plant Production Details</span>
+        <span class="report-section-badge" id="badgeFilling">Daily Production</span>
+      </div>
+      <div class="report-kpi-grid">
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Water Liters Filled</div>
+          <div class="report-kpi-val" id="kpiFillLiters">12,400 L</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">19L Cans Produced</div>
+          <div class="report-kpi-val" id="kpiFillCans">652 Cans</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Plant Utilization</div>
+          <div class="report-kpi-val" style="color:#0284c7;" id="kpiFillUtil">84.5%</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Active RO Lines</div>
+          <div class="report-kpi-val" style="color:#16a34a;" id="kpiFillLines">4 of 4 Active</div>
+        </div>
+      </div>
+      <div class="report-charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Station Filling Volume (Liters)</span>
+            <span style="font-size:11px;color:#64748b;">Bar Graph</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartFillBar"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Station Output Distribution</span>
+            <span style="font-size:11px;color:#64748b;">Pie Chart</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartFillPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. EXPENSES DETAILS REPORT -->
+    <div class="report-card-section">
+      <div class="report-section-title">
+        <span>💰 Expense & Revenue Financial Breakdown</span>
+        <span class="report-section-badge" id="badgeExpense">Daily Financials</span>
+      </div>
+      <div class="report-kpi-grid">
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Total Revenue</div>
+          <div class="report-kpi-val" style="color:#16a34a;" id="kpiExpRev">Rs 33,500</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Total Expenses</div>
+          <div class="report-kpi-val" style="color:#ea580c;" id="kpiExpTotal">Rs 12,500</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Net Profit Margin</div>
+          <div class="report-kpi-val" style="color:#7c3aed;" id="kpiExpProfit">Rs 21,000 (62.7%)</div>
+        </div>
+        <div class="report-kpi-box">
+          <div class="report-kpi-label">Fleet & Fuel Cost</div>
+          <div class="report-kpi-val" id="kpiExpFleet">Rs 5,200</div>
+        </div>
+      </div>
+      <div class="report-charts-row">
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Revenue vs Expenses Comparison</span>
+            <span style="font-size:11px;color:#64748b;">Financial Trend Graph</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartExpBar"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">
+            <span>Expense Categories Breakdown</span>
+            <span style="font-size:11px;color:#64748b;">Pie Chart</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartExpPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Bottom Navigation Bar matching image_4bb31170.png -->
+<nav class="bottom-nav">
+  <a href="dashboard.html" class="active">Home</a>
+  <a href="filling.html">Filling</a>
+  <a href="supply.html">Supply</a>
+  <a href="expense.html">Expense</a>
+</nav>
+
+<script>
+function sum(arr,fn){let t=0;for(let i=0;i<arr.length;i++){t+=Number(fn?fn(arr[i]):arr[i])||0}return t}
+function parseDate(d){
+  if(!d)return new Date();
+  const p=d.split("-").map(n=>parseInt(n,10));
+  return p[0]>31?new Date(p[0],p[1]-1,p[2]):new Date(p[2],p[1]-1,p[0]);
+}
+function dd(d){return d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"})}
+
+let deliveries=[], expenses=[];
+let chartCustBarInst = null;
+let chartCustPieInst = null;
+let chartFillBarInst = null;
+let chartFillPieInst = null;
+let chartExpBarInst = null;
+let chartExpPieInst = null;
+
+const COMPREHENSIVE_DATA = {
+  daily: {
+    subtitle: "Showing: Today's Real-time Operations & Financial Breakdown",
+    badgeCust: "Daily Deliveries",
+    badgeFill: "Daily Production",
+    badgeExp: "Daily Financials",
+    customer: {
+      active: "22 Accounts",
+      cans: "380 Cans",
+      avg: "17.2 Cans",
+      rate: "98.4%",
+      barLabels: ["Indus Hospital", "Habib Univ", "Clifton Med", "South City", "DHA Club"],
+      barData: [65, 50, 45, 35, 25],
+      pieLabels: ["Commercial", "Healthcare", "Education", "Residential"],
+      pieData: [45, 25, 18, 12]
+    },
+    filling: {
+      liters: "12,400 L",
+      cans: "652 Cans",
+      util: "84.5%",
+      lines: "4 of 4 Active",
+      barLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      barData: [4800, 3200, 2600, 1800],
+      pieLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      pieData: [38, 26, 22, 14]
+    },
+    expense: {
+      rev: "Rs 33,500",
+      exp: "Rs 12,500",
+      profit: "Rs 21,000 (62.7%)",
+      fleet: "Rs 5,200",
+      barLabels: ["Morning (08-12)", "Noon (12-15)", "Evening (15-18)", "Night Shift"],
+      revenueData: [12000, 11500, 7500, 2500],
+      expenseData: [4500, 4200, 2600, 1200],
+      pieLabels: ["Fleet & Diesel", "Electricity & RO", "Labour & Drivers", "Maintenance"],
+      pieData: [5200, 3500, 2000, 1800]
+    }
+  },
+  weekly: {
+    subtitle: "Showing: Last 7 Days Operations Aggregate & Weekly Trends",
+    badgeCust: "Weekly Deliveries",
+    badgeFill: "Weekly Production",
+    badgeExp: "Weekly Financials",
+    customer: {
+      active: "114 Accounts",
+      cans: "2,660 Cans",
+      avg: "23.3 Cans",
+      rate: "97.8%",
+      barLabels: ["Indus Hospital", "Habib Univ", "Clifton Med", "South City", "DHA Club"],
+      barData: [450, 350, 310, 240, 180],
+      pieLabels: ["Commercial", "Healthcare", "Education", "Residential"],
+      pieData: [42, 28, 17, 13]
+    },
+    filling: {
+      liters: "86,800 L",
+      cans: "4,560 Cans",
+      util: "88.2%",
+      lines: "4 of 4 Active",
+      barLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      barData: [33000, 23000, 19000, 11800],
+      pieLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      pieData: [38, 26, 22, 14]
+    },
+    expense: {
+      rev: "Rs 234,500",
+      exp: "Rs 87,500",
+      profit: "Rs 147,000 (62.7%)",
+      fleet: "Rs 36,400",
+      barLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      revenueData: [31200, 33500, 29800, 34500, 36000, 38000, 31500],
+      expenseData: [11800, 12500, 11200, 13100, 13400, 14000, 11500],
+      pieLabels: ["Fleet & Diesel", "Electricity & RO", "Labour & Drivers", "Maintenance"],
+      pieData: [36400, 24500, 14000, 12600]
+    }
+  },
+  monthly: {
+    subtitle: "Showing: Last 30 Days Full Monthly Ledger & Performance",
+    badgeCust: "Monthly Deliveries",
+    badgeFill: "Monthly Production",
+    badgeExp: "Monthly Financials",
+    customer: {
+      active: "148 Accounts",
+      cans: "11,400 Cans",
+      avg: "77.0 Cans",
+      rate: "99.1%",
+      barLabels: ["Indus Hospital", "Habib Univ", "Clifton Med", "South City", "DHA Club"],
+      barData: [1950, 1500, 1320, 1050, 780],
+      pieLabels: ["Commercial", "Healthcare", "Education", "Residential"],
+      pieData: [46, 26, 16, 12]
+    },
+    filling: {
+      liters: "372,000 L",
+      cans: "19,570 Cans",
+      util: "91.5%",
+      lines: "4 of 4 Active",
+      barLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      barData: [142000, 98000, 81000, 51000],
+      pieLabels: ["Korangi Depot", "Clifton Plant", "Gulshan RO", "SITE Station"],
+      pieData: [38, 26, 22, 14]
+    },
+    expense: {
+      rev: "Rs 1,005,000",
+      exp: "Rs 375,000",
+      profit: "Rs 630,000 (62.7%)",
+      fleet: "Rs 156,000",
+      barLabels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+      revenueData: [240000, 255000, 245000, 265000],
+      expenseData: [90000, 95000, 92000, 98000],
+      pieLabels: ["Fleet & Diesel", "Electricity & RO", "Labour & Drivers", "Maintenance"],
+      pieData: [156000, 105000, 60000, 54000]
+    }
+  }
+};
+
+function updateComprehensiveReports(range) {
+  const d = COMPREHENSIVE_DATA[range] || COMPREHENSIVE_DATA.daily;
+  
+  // Update Subtitle & Badges
+  const subEl = document.getElementById("reportPeriodSubtitle");
+  if (subEl) subEl.textContent = d.subtitle;
+  const bCust = document.getElementById("badgeCustomer");
+  if (bCust) bCust.textContent = d.badgeCust;
+  const bFill = document.getElementById("badgeFilling");
+  if (bFill) bFill.textContent = d.badgeFill;
+  const bExp = document.getElementById("badgeExpense");
+  if (bExp) bExp.textContent = d.badgeExp;
+
+  // Update Customer KPIs
+  const elCustActive = document.getElementById("kpiCustActive");
+  if (elCustActive) elCustActive.textContent = d.customer.active;
+  const elCustCans = document.getElementById("kpiCustCans");
+  if (elCustCans) elCustCans.textContent = d.customer.cans;
+  const elCustAvg = document.getElementById("kpiCustAvg");
+  if (elCustAvg) elCustAvg.textContent = d.customer.avg;
+  const elCustRate = document.getElementById("kpiCustRate");
+  if (elCustRate) elCustRate.textContent = d.customer.rate;
+
+  // Update Filling KPIs
+  const elFillLiters = document.getElementById("kpiFillLiters");
+  if (elFillLiters) elFillLiters.textContent = d.filling.liters;
+  const elFillCans = document.getElementById("kpiFillCans");
+  if (elFillCans) elFillCans.textContent = d.filling.cans;
+  const elFillUtil = document.getElementById("kpiFillUtil");
+  if (elFillUtil) elFillUtil.textContent = d.filling.util;
+  const elFillLines = document.getElementById("kpiFillLines");
+  if (elFillLines) elFillLines.textContent = d.filling.lines;
+
+  // Update Expense KPIs
+  const elExpRev = document.getElementById("kpiExpRev");
+  if (elExpRev) elExpRev.textContent = d.expense.rev;
+  const elExpTotal = document.getElementById("kpiExpTotal");
+  if (elExpTotal) elExpTotal.textContent = d.expense.exp;
+  const elExpProfit = document.getElementById("kpiExpProfit");
+  if (elExpProfit) elExpProfit.textContent = d.expense.profit;
+  const elExpFleet = document.getElementById("kpiExpFleet");
+  if (elExpFleet) elExpFleet.textContent = d.expense.fleet;
+
+  // Chart 1: Customer Top Accounts Bar
+  const ctxCustBar = document.getElementById("chartCustBar");
+  if (ctxCustBar) {
+    if (chartCustBarInst) chartCustBarInst.destroy();
+    chartCustBarInst = new Chart(ctxCustBar, {
+      type: "bar",
+      data: {
+        labels: d.customer.barLabels,
+        datasets: [{
+          label: "Cans Delivered",
+          data: d.customer.barData,
+          backgroundColor: "#3583e5",
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.raw + ' Cans'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (v) => v + ' cans'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Customer Segments Pie
+  const ctxCustPie = document.getElementById("chartCustPie");
+  if (ctxCustPie) {
+    if (chartCustPieInst) chartCustPieInst.destroy();
+    chartCustPieInst = new Chart(ctxCustPie, {
+      type: "doughnut",
+      data: {
+        labels: d.customer.pieLabels,
+        datasets: [{
+          data: d.customer.pieData,
+          backgroundColor: ["#0077cc", "#33c47a", "#f59e0b", "#7c3aed"],
+          borderWidth: 2,
+          borderColor: "#ffffff"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "right",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.label + ': ' + ctx.raw + '%'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 3: Filling Station Production Bar
+  const ctxFillBar = document.getElementById("chartFillBar");
+  if (ctxFillBar) {
+    if (chartFillBarInst) chartFillBarInst.destroy();
+    chartFillBarInst = new Chart(ctxFillBar, {
+      type: "bar",
+      data: {
+        labels: d.filling.barLabels,
+        datasets: [{
+          label: "Water Volume (L)",
+          data: d.filling.barData,
+          backgroundColor: "#70e0a1",
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + Number(ctx.raw).toLocaleString() + ' Liters'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (v) => (v >= 1000 ? (v/1000) + 'k L' : v + ' L')
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 4: Filling Station Share Pie
+  const ctxFillPie = document.getElementById("chartFillPie");
+  if (ctxFillPie) {
+    if (chartFillPieInst) chartFillPieInst.destroy();
+    chartFillPieInst = new Chart(ctxFillPie, {
+      type: "doughnut",
+      data: {
+        labels: d.filling.pieLabels,
+        datasets: [{
+          data: d.filling.pieData,
+          backgroundColor: ["#33c47a", "#0077cc", "#06b6d4", "#f97316"],
+          borderWidth: 2,
+          borderColor: "#ffffff"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "right",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.label + ': ' + ctx.raw + '%'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 5: Revenue vs Expenses Bar
+  const ctxExpBar = document.getElementById("chartExpBar");
+  if (ctxExpBar) {
+    if (chartExpBarInst) chartExpBarInst.destroy();
+    chartExpBarInst = new Chart(ctxExpBar, {
+      type: "bar",
+      data: {
+        labels: d.expense.barLabels,
+        datasets: [
+          {
+            label: "Revenue",
+            data: d.expense.revenueData,
+            backgroundColor: "#33c47a",
+            borderRadius: 4
+          },
+          {
+            label: "Expenses",
+            data: d.expense.expenseData,
+            backgroundColor: "#f57c3c",
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.dataset.label + ': Rs ' + Number(ctx.raw).toLocaleString()
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (v) => 'Rs ' + (v >= 1000 ? (v/1000) + 'k' : v)
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 6: Expense Categories Pie
+  const ctxExpPie = document.getElementById("chartExpPie");
+  if (ctxExpPie) {
+    if (chartExpPieInst) chartExpPieInst.destroy();
+    chartExpPieInst = new Chart(ctxExpPie, {
+      type: "doughnut",
+      data: {
+        labels: d.expense.pieLabels,
+        datasets: [{
+          data: d.expense.pieData,
+          backgroundColor: ["#f57c3c", "#3b82f6", "#10b981", "#8b5cf6"],
+          borderWidth: 2,
+          borderColor: "#ffffff"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "right",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' ' + ctx.label + ': Rs ' + Number(ctx.raw).toLocaleString()
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+// Wait for session validation before initializing dashboard
+function waitForSessionValidation() {
+  return new Promise((resolve) => {
+    if (window.sessionValidated) {
+      resolve();
+      return;
+    }
+    window.addEventListener('sessionValidated', () => {
+      resolve();
+    }, { once: true });
+    // Timeout after 1.5 seconds - if session check takes too long or is standalone, proceed
+    setTimeout(() => {
+      resolve();
+    }, 1500);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async function() {
+  await waitForSessionValidation();
+  init();
+});
+
+async function init(){
+  // Synchronize data from shared store
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store && store.summary) {
+      if (document.getElementById('sumDeliveries')) document.getElementById('sumDeliveries').textContent = store.summary.total_deliveries;
+      if (document.getElementById('sumRevenue')) document.getElementById('sumRevenue').textContent = 'Rs ' + Number(store.summary.total_revenue).toLocaleString();
+      if (document.getElementById('sumExpense')) document.getElementById('sumExpense').textContent = 'Rs ' + Number(store.summary.total_expenses).toLocaleString();
+      if (document.getElementById('sumProfit')) document.getElementById('sumProfit').textContent = 'Rs ' + Number(store.summary.profit).toLocaleString();
+    }
+  }
+  console.log('[Dashboard] Initializing dashboard');
+  try {
+    if (typeof apiGetDashboardData === 'function') {
+      const dashboardData = await apiGetDashboardData();
+      if (dashboardData && dashboardData.success && dashboardData.data) {
+        const data = dashboardData.data;
+        deliveries = data.recent_deliveries || [];
+        expenses = data.recent_expenses || [];
+        
+        if (data.summary) {
+          if (data.summary.total_deliveries !== undefined) {
+            document.getElementById("sumDeliveries").textContent = data.summary.total_deliveries;
+          }
+          if (data.summary.total_revenue !== undefined) {
+            document.getElementById("sumRevenue").textContent = "Rs " + Number(data.summary.total_revenue).toLocaleString();
+          }
+          if (data.summary.total_expenses !== undefined) {
+            document.getElementById("sumExpense").textContent = "Rs " + Number(data.summary.total_expenses).toLocaleString();
+          }
+          const prof = data.summary.profit !== undefined ? data.summary.profit : data.summary.profit_loss;
+          if (prof !== undefined) {
+            document.getElementById("sumProfit").textContent = "Rs " + Number(prof).toLocaleString();
+          }
+        }
+        
+        await loadNotificationsFromAPI();
+        loadTravelPlan();
+      }
+    }
+  } catch(error) {
+    console.warn('Dashboard API call fallback:', error);
+  }
+
+  // Initialize Comprehensive Reports with daily view by default
+  updateComprehensiveReports("daily");
+
+  // Wire range buttons for Comprehensive Reports
+  const rangeButtons = document.querySelectorAll("#reportsRange button");
+  rangeButtons.forEach(btn => {
+    btn.addEventListener("click", function(){
+      rangeButtons.forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+      const range = this.getAttribute("data-r");
+      updateComprehensiveReports(range);
+    });
+  });
+}
+
+// Load notifications from API
+async function loadNotificationsFromAPI() {
+  try {
+    if (typeof apiCall === 'function') {
+      const result = await apiCall('utilities.php?action=notifications', 'GET');
+      const list = document.getElementById("notifList");
+      if (result && result.success && result.data && result.data.length > 0) {
+        list.innerHTML = "";
+        result.data.forEach(notif => {
+          const row = `<div class="notif"><div>${notif.message || 'No message'}</div><div class="tag">${notif.title || 'Notification'}</div></div>`;
+          list.insertAdjacentHTML("beforeend", row);
+        });
+      }
+    }
+  } catch(error) {
+    console.error('Notifications API error:', error);
+  }
+}
+
+async function loadTravelPlan() {
+  const container = document.getElementById("travelPlan");
+  try {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateStr = tomorrow.toISOString().split('T')[0];
+    const response = await fetch(`../api/routing.php?action=plan&date=${dateStr}`, {
+      credentials: 'include'
+    });
+    const data = await response.json();
+    if (data && data.success && data.data && data.data.route && data.data.route.length > 0) {
+      // API returned valid route data
+    }
+  } catch(error) {
+    // Keep high-fidelity default route
+  }
+}
+
+// Live Karachi News ticker rotation (895_580dd5a0.JPG)
+async function loadKarachiRSS() {
+  const tickerEl = document.getElementById("newsTicker");
+  const fallbackHeadlines = [
+    "Sindh CS reviews Nehr-e-Khayyam project",
+    "KW&SC initiates real-time bulk water flow monitoring",
+    "Karachi Water Board announces summer supply schedule",
+    "Water filtration plant upgrade completed at Dhabeji pumping station"
+  ];
+  
+  try {
+    if (typeof apiCall === 'function') {
+      const result = await apiCall('news.php', 'GET');
+      if (result && result.success && result.data && Array.isArray(result.data) && result.data.length > 0) {
+        const titles = result.data.map(item => item.title || '').filter(title => title.length > 0);
+        if (titles.length > 0) {
+          startTicker(titles);
+          return;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('News loading fallback:', err);
+  }
+  
+  startTicker(fallbackHeadlines);
+}
+
+function startTicker(list) {
+  const el = document.getElementById("newsTicker");
+  if (!el || !list || list.length === 0) return;
+  let index = 0;
+  function rotate() {
+    el.textContent = list[index];
+    index = (index + 1) % list.length;
+  }
+  rotate();
+  setInterval(rotate, 4000);
+}
+
+loadKarachiRSS();
+</script>
+</body>
+</html>

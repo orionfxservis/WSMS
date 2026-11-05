@@ -1349,7 +1349,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* Main Dashboard Container */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4">
+      <main className="w-full px-3 sm:px-4 lg:px-5 pt-4">
         {/* LIVE KARACHI NEWS TICKER matching user screenshot (895_580dd5a0.JPG) */}
         <NewsTicker />
 
@@ -2093,6 +2093,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </button>
               </div>
             )}
+
+            {/* 4 Summary Overview Cards matching Supply Section: Today, Yesterday, Last Week, Last Month */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                <span className="text-xs text-[#666666] block">Today</span>
+                <span className="text-xl font-bold text-[#0077cc]">652 Cans</span>
+              </div>
+              <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                <span className="text-xs text-[#666666] block">Yesterday</span>
+                <span className="text-xl font-bold text-emerald-700">580 Cans</span>
+              </div>
+              <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                <span className="text-xs text-[#666666] block">Last Week</span>
+                <span className="text-xl font-bold text-amber-600">4,560 Cans</span>
+              </div>
+              <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                <span className="text-xs text-[#666666] block">Last Month</span>
+                <span className="text-xl font-bold text-[#222222]">19,570 Cans</span>
+              </div>
+            </div>
 
             {/* CARD 1: Add Filling Entry Form matching filling.html */}
             <section className="bg-white rounded-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-4 sm:p-5">

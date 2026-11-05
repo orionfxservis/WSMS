@@ -16,6 +16,8 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [isLabourMobileMode, setIsLabourMobileMode] = useState(false);
+  const [labourMobile, setLabourMobile] = useState('');
 
   // Signup wizard state
   const [signupStep, setSignupStep] = useState<1 | 2 | 3>(1);
@@ -62,6 +64,47 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
         onSuccessLogin(role, loginEmail);
       }
     }, 700);
+  };
+
+  const handleLabourMobileLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    const clean = labourMobile.replace(/[^0-9]/g, '');
+    if (clean.length < 10) {
+      setErrorMsg('Please enter a valid mobile number (e.g. 03001234567).');
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      let driverName = 'Muhammad Aslam';
+      let vehicleName = 'Van #KHI-482';
+      try {
+        const stored = localStorage.getItem('wsms_labour_accounts');
+        if (stored) {
+          const list = JSON.parse(stored);
+          const found = list.find((a: any) => (a.mobile || '').replace(/[^0-9]/g, '') === clean);
+          if (found) {
+            driverName = found.name;
+            vehicleName = found.vehicle || vehicleName;
+          }
+        }
+      } catch (err) {}
+
+      localStorage.setItem('active_labour_name', driverName);
+      localStorage.setItem('active_labour_mobile', clean);
+      localStorage.setItem('active_labour_vehicle', vehicleName);
+      localStorage.setItem('userRole', 'labour');
+      localStorage.setItem('userName', driverName);
+
+      setSuccessMsg(`✓ Welcome, ${driverName}! Verified via Mobile (${clean}). Accessing Today's Supply...`);
+      if (onSuccessLogin) {
+        onSuccessLogin('labour', `${driverName} (${clean})`);
+      }
+    }, 600);
   };
 
   const handleDemoSelect = (role: UserRole) => {
@@ -281,7 +324,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
       )}
 
       {/* -------------------- LOGIN FORM -------------------- */}
-      {activeTab === 'login' && (
+      {activeTab === 'login' && !isLabourMobileMode && (
         <form
           id="panel-login"
           role="tabpanel"
@@ -364,6 +407,23 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
             <span>{isLoading ? 'Signing In...' : 'Sign In'}</span>
           </button>
 
+          {/* Quick Toggle for Field Labour Mobile Login */}
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsLabourMobileMode(true);
+                setErrorMsg(null);
+                setSuccessMsg(null);
+              }}
+              className="w-full py-2.5 px-3 border border-sky-300 bg-sky-50 hover:bg-sky-100/80 rounded-xl text-xs font-bold text-[#0077cc] transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+              title="Field labour logs in with Mobile Number only (No Password required)"
+            >
+              <Truck className="w-4 h-4 text-[#0077cc]" />
+              <span>Field Labour? Login with Mobile No (No Password)</span>
+            </button>
+          </div>
+
           {/* Quick Demo Credentials matching dashboard palette */}
           <div className="pt-3 border-t border-[#eef2f7]">
             <span className="block text-[11px] font-bold text-[#666666] uppercase tracking-wider mb-2 text-center">
@@ -398,6 +458,77 @@ export const AuthCard: React.FC<AuthCardProps> = ({ onSuccessLogin }) => {
                 <span>Labour</span>
               </button>
             </div>
+          </div>
+        </form>
+      )}
+
+      {/* -------------------- FIELD LABOUR MOBILE LOGIN FORM (NO PASSWORD) -------------------- */}
+      {activeTab === 'login' && isLabourMobileMode && (
+        <form
+          id="panel-login-labour"
+          role="tabpanel"
+          aria-labelledby="tab-login"
+          onSubmit={handleLabourMobileLogin}
+          className="space-y-4"
+        >
+          <div className="bg-sky-50 border border-sky-200 rounded-xl p-3 text-xs text-sky-900 flex items-start gap-2.5 shadow-2xs">
+            <Truck className="w-5 h-5 text-[#0077cc] shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-sky-950 font-bold block">Field Labour Mobile Login</strong>
+              <span className="text-[11px] text-sky-800 leading-tight block mt-0.5">
+                Sub-accounts are created in <strong>User Settings</strong>. Drivers simply enter their registered mobile number — no password required!
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="labour-mobile-input"
+              className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5"
+            >
+              Registered Driver Mobile Number
+            </label>
+            <input
+              id="labour-mobile-input"
+              type="tel"
+              required
+              autoFocus
+              placeholder="e.g. 03001234567"
+              value={labourMobile}
+              onChange={(e) => setLabourMobile(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder:text-slate-400 focus:bg-white focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/20 transition-all outline-none font-mono"
+            />
+            <span className="text-[11px] text-slate-500 mt-1 block">
+              Default demo mobile: <button type="button" onClick={() => setLabourMobile('03001234567')} className="text-[#0077cc] underline font-semibold cursor-pointer">03001234567 (Aslam Driver)</button>
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full mt-2 py-2.5 px-4 rounded-[8px] font-semibold text-white bg-[#0077cc] hover:bg-[#005fa3] shadow-xs active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#0077cc]"
+          >
+            {isLoading ? (
+              <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <Truck className="w-4 h-4" />
+            )}
+            <span>{isLoading ? 'Verifying Mobile Account...' : 'Open Today\'s Mobile Supply'}</span>
+          </button>
+
+          <div className="pt-2 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setIsLabourMobileMode(false);
+                setErrorMsg(null);
+                setSuccessMsg(null);
+              }}
+              className="text-xs text-[#0077cc] hover:underline font-semibold cursor-pointer inline-flex items-center gap-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to Standard Supplier Login (Email & Password)</span>
+            </button>
           </div>
         </form>
       )}

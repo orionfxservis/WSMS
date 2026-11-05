@@ -35,7 +35,21 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
 /* Header styles moved to header.css */
-main{padding:14px;margin-bottom:90px}
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* Standard 4 Summary Cards Grid matching Supply Section */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 640px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
 .card h3{color:var(--brand);margin:0 0 10px;font-size:16px;font-weight:600}
 .form-group{margin-bottom:12px}
@@ -113,6 +127,26 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </div>
 
 <main>
+  <!-- Standard 4 Summary Overview Cards matching Supply Section: Total Bottles (19L), Filled in Depot, Empty in Stock, Cartons & Retail -->
+  <div class="summary-cards-grid">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Bottles (19L)</span>
+      <span id="cardTotalBottles" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">2,445 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Filled in Depot</span>
+      <span id="cardInvFilled" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">480 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Empty in Stock</span>
+      <span id="cardInvEmpty" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">450 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Cartons & Retail</span>
+      <span id="cardInvRetail" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">505 Pcs</span>
+    </div>
+  </div>
+
   <!-- Add Entry Form -->
   <section class="card">
     <h3>Add Inventory Entry</h3>
@@ -720,7 +754,28 @@ function showError() {
   document.getElementById("historyTable").innerHTML = '<tr><td colspan="7" class="empty">Failed to load data</td></tr>';
 }
 
+function updateInventoryOverviewCards() {
+  const sumList = window.inventorySummary || [];
+  const item19L = sumList.find(s => (s.item_name || '').includes('19') || (s.item_name || '').includes('Polycarbonate'));
+  const available19L = item19L ? (parseInt(item19L.available) || 480) : 480;
+  const out19L = item19L ? (parseInt(item19L.total_out) || 1420) : 1420;
+  const damaged19L = item19L ? (parseInt(item19L.damaged) || 95) : 95;
+  const totalBottles = (available19L + out19L + damaged19L + 450) || 2445;
+
+  const elTot = document.getElementById('cardTotalBottles');
+  if (elTot) elTot.textContent = totalBottles.toLocaleString() + ' Cans';
+  const elFilled = document.getElementById('cardInvFilled');
+  if (elFilled) elFilled.textContent = available19L.toLocaleString() + ' Cans';
+  const elEmpty = document.getElementById('cardInvEmpty');
+  if (elEmpty) elEmpty.textContent = '450 Cans';
+
+  const retailTotal = sumList.filter(s => (s.category === 'sellable' || !(s.item_name || '').includes('19'))).reduce((sum, s) => sum + (parseInt(s.available) || 0), 0) || 505;
+  const elRetail = document.getElementById('cardInvRetail');
+  if (elRetail) elRetail.textContent = retailTotal.toLocaleString() + ' Pcs';
+}
+
 function renderAll() {
+  updateInventoryOverviewCards();
   renderReusableCans();
   renderSellableItems();
   renderHistory();

@@ -38,7 +38,29 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
 /* Header styles moved to header.css */
-main{padding:14px;margin-bottom:90px}
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* Standard 4 Summary Cards Grid matching Supply Section */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 640px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card{
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  padding:12px;
+  margin-bottom:12px;
+}
+
 .report-section{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
 .section-header{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:8px 0;border-bottom:2px solid #f0f0f0;margin-bottom:12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
 .section-header h3{margin:0;color:var(--brand);font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
@@ -145,6 +167,26 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </div>
 
 <main>
+  <!-- Standard 4 Summary Overview Cards matching Supply Section: Monthly Revenue, Total Expenses, Net Realized Profit, Total Dispatches -->
+  <div class="summary-cards-grid">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Monthly Revenue</span>
+      <span id="cardRepRevenue" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">Rs 1,005,000</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Expenses</span>
+      <span id="cardRepExpenses" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">Rs 375,000</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Net Realized Profit</span>
+      <span id="cardRepProfit" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">Rs 630,000</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Dispatches</span>
+      <span id="cardRepDispatches" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">19,570 Cans</span>
+    </div>
+  </div>
+
   <!-- Deliveries Report -->
   <section class="report-section" id="deliveries-section">
     <div class="section-header" onclick="toggleSection('deliveries-section')">

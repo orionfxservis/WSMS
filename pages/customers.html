@@ -34,7 +34,21 @@
 <style>
 :root{--brand:#0077cc}
 body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
-main{padding:14px;margin-bottom:90px;max-width:1100px;margin-left:auto;margin-right:auto}
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* Standard 4 Summary Cards Grid matching Supply Section */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 640px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:16px;margin-bottom:14px}
 .card h3{color:var(--brand);margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:700}
 input,select,button{width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;margin-bottom:10px;font-family:inherit;font-size:14px;box-sizing:border-box}
@@ -133,6 +147,26 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </div>
 
 <main>
+  <!-- Standard 4 Summary Overview Cards matching Supply Section: Total Customers, Active Accounts, Cans with Customers, Pending Balance -->
+  <div class="summary-cards-grid">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Customers</span>
+      <span id="cardTotalCustomers" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">148 Accounts</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Active Accounts</span>
+      <span id="cardActiveCustomers" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">114 Active</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Cans with Customers</span>
+      <span id="cardPendingCans" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">450 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Pending Balance</span>
+      <span id="cardPendingBalance" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">Rs 28,400</span>
+    </div>
+  </div>
+
   <!-- Customer Management Form Card -->
   <section class="card">
     <h3 id="formTitle">
@@ -319,6 +353,23 @@ async function loadItemRates(customerRates = {}) {
   }
 }
 
+function updateCustomerOverviewCards(customers) {
+  const list = (Array.isArray(customers) && customers.length > 0) ? customers : FALLBACK_CUSTOMERS;
+  const total = list.length;
+  const active = list.filter(c => (parseInt(c.pending_cans) > 0 || parseFloat(c.deposit) > 0 || parseFloat(c.pending_payment) > 0)).length || list.length;
+  const totalPendingCans = list.reduce((sum, c) => sum + (parseInt(c.pending_cans) || 0), 0);
+  const totalPendingBal = list.reduce((sum, c) => sum + (parseFloat(c.pending_payment) || 0), 0);
+
+  const elTotal = document.getElementById('cardTotalCustomers');
+  if (elTotal) elTotal.textContent = total + ' Accounts';
+  const elActive = document.getElementById('cardActiveCustomers');
+  if (elActive) elActive.textContent = active + ' Active';
+  const elCans = document.getElementById('cardPendingCans');
+  if (elCans) elCans.textContent = totalPendingCans.toLocaleString() + ' Cans';
+  const elBal = document.getElementById('cardPendingBalance');
+  if (elBal) elBal.textContent = 'Rs ' + totalPendingBal.toLocaleString();
+}
+
 async function loadCustomers(search = '') {
   try {
     const url = search ? `customers.php?action=list&search=${encodeURIComponent(search)}` : 'customers.php?action=list';
@@ -331,10 +382,12 @@ async function loadCustomers(search = '') {
     allCustomers = sorted;
     renderCustomers(sorted);
     updateSortIcons();
+    updateCustomerOverviewCards(fullCustomers);
     document.getElementById('customerCount').textContent = `(${fullCustomers.length} Total)`;
   } catch(e) {
     console.error(e);
     renderCustomers(FALLBACK_CUSTOMERS);
+    updateCustomerOverviewCards(FALLBACK_CUSTOMERS);
   }
 }
 

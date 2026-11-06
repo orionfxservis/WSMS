@@ -13,6 +13,9 @@
 <style id="session-block-style">
   body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
+
+
+
 </style>
 
 <script>
@@ -66,6 +69,1082 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 .popup-footer{padding:0 18px 18px;text-align:center}
 .popup-btn{background:var(--brand);color:#fff;border:none;border-radius:6px;padding:8px 24px;font-size:14px;font-weight:600;cursor:pointer}
 .popup-btn:hover{background:#005fa3}
+
+/* Professional Compact Supply Form & Table Styling */
+.supply-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  border: 1px solid #e2e8f0;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+}
+.supply-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.supply-card-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.supply-title-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #e0f2fe;
+  color: #0077cc;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+.supply-card-title h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+.supply-card-hint {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 400;
+}
+.supply-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 12px;
+  row-gap: 8px;
+}
+.supply-field {
+  display: flex;
+  flex-direction: column;
+}
+.supply-field.col-span-2 {
+  grid-column: span 2;
+}
+.supply-field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+.supply-field label span.ast {
+  color: #ef4444;
+  margin-left: 2px;
+  font-weight: 700;
+}
+.supply-field input,
+.supply-field select {
+  width: 100% !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 9px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  line-height: 29px !important;
+  font-family: inherit !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.supply-field input:focus,
+.supply-field select:focus {
+  border-color: #0077cc !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.14) !important;
+}
+.supply-field input.readonly-box {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+  cursor: default !important;
+  font-weight: 600 !important;
+}
+.supply-field input.amount-box {
+  background-color: #f0f7ff !important;
+  border-color: #bae6fd !important;
+  color: #0077cc !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  cursor: default !important;
+}
+.supply-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.btn-submit-supply {
+  background: #0077cc !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 16px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease !important;
+  margin: 0 !important;
+  width: auto !important;
+  box-shadow: 0 1px 2px rgba(0, 119, 204, 0.2) !important;
+}
+.btn-submit-supply:hover {
+  background: #005fa3 !important;
+  box-shadow: 0 2px 4px rgba(0, 119, 204, 0.3) !important;
+}
+.btn-submit-supply:active {
+  background: #004d85 !important;
+}
+
+/* =========================================================
+   Recent Deliveries Professional Table Spec Styling
+   ========================================================= */
+.card.deliveries-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 18px 20px;
+  margin-bottom: 24px;
+}
+
+.deliveries-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.deliveries-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deliveries-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deliveries-truck-icon {
+  width: 20px;
+  height: 20px;
+  color: #0077cc;
+  flex-shrink: 0;
+}
+
+.deliveries-title-wrap h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.records-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 9999px;
+  margin-left: 4px;
+}
+
+.deliveries-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-box-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon-svg {
+  position: absolute;
+  left: 10px;
+  width: 14px;
+  height: 14px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 200px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 10px 0 30px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  color: #1e293b !important;
+  background: #ffffff !important;
+  outline: none;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search-input:focus {
+  border-color: #0077cc !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
+}
+
+.btn-export-csv {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 13px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  width: auto !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  transition: background 0.15s, border-color 0.15s !important;
+}
+
+.btn-export-csv:hover {
+  background: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.btn-export-csv svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Table Wrapper & Rounded Blue Header */
+.deliveries-table-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.recent-deliveries-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  font-size: 12.5px;
+  margin: 0;
+}
+
+.recent-deliveries-table thead th {
+  background: #0077cc !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 10px 14px !important;
+  text-align: left !important;
+  border: none !important;
+  white-space: nowrap;
+}
+
+.recent-deliveries-table thead th.th-num {
+  width: 38px;
+  text-align: center !important;
+}
+
+.recent-deliveries-table thead th.th-action {
+  width: 60px;
+  text-align: center !important;
+}
+
+.recent-deliveries-table tbody td {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.recent-deliveries-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+.recent-deliveries-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Column Formatting */
+.col-num {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.col-date {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.col-cust .cust-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.col-cust .cust-loc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.col-cust .loc-pin-svg {
+  width: 11px;
+  height: 11px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+/* Cans formatting: +45 / -40 = 5 */
+.col-cans {
+  white-space: nowrap;
+  font-size: 12.5px;
+}
+
+.cans-del {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.cans-slash {
+  color: #64748b;
+  font-weight: 500;
+  margin-left: 3px;
+}
+
+.cans-equal {
+  color: #94a3b8;
+  margin: 0 4px;
+}
+
+.cans-bal.cans-bal-orange {
+  color: #d97706;
+  font-weight: 700;
+}
+
+.cans-bal.cans-bal-zero {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Amount formatting */
+.col-amount {
+  color: #0077cc !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  white-space: nowrap;
+}
+
+/* Payment pill badges */
+.pay-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-pay-cash {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge-pay-credit {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.badge-pay-digital {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* Status pill badges */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-delivered {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+}
+
+.status-transit {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0284c7;
+}
+
+.status-pending {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0284c7;
+}
+
+/* Trash delete button */
+.col-action {
+  text-align: center;
+}
+
+.btn-trash-action {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  color: #f87171 !important;
+  margin: 0 !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+
+.btn-trash-action:hover {
+  background: #fee2e2 !important;
+  color: #ef4444 !important;
+}
+
+.trash-icon-svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 900px) {
+  .supply-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .supply-field.col-span-2 {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 560px) {
+  .supply-grid {
+    grid-template-columns: 1fr;
+  }
+  .supply-field.col-span-2 {
+    grid-column: span 1;
+  }
+  .supply-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .btn-submit-supply {
+    width: 100% !important;
+    justify-content: center;
+  }
+}
+
+
+/* =========================================================
+   Weekly Supply Schedule Spec Styling
+   ========================================================= */
+.card.schedule-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.schedule-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.schedule-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.schedule-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.schedule-cal-icon {
+  width: 20px;
+  height: 20px;
+  color: #0077cc;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.schedule-title-wrap h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.schedule-subtitle {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.role-pill-admin {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 10.5px;
+  font-weight: 700;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.schedule-header-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.day-filter-group {
+  display: inline-flex;
+  background: #f1f5f9;
+  padding: 2px;
+  border-radius: 8px;
+  gap: 2px;
+}
+
+.day-filter-btn {
+  background: transparent !important;
+  color: #475569 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  padding: 4px 9px !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  width: auto !important;
+  transition: all 0.15s ease !important;
+}
+
+.day-filter-btn:hover {
+  color: #0077cc !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.day-filter-btn.active {
+  background: #ffffff !important;
+  color: #0077cc !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+}
+
+.btn-add-schedule {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 14px !important;
+  background: #0077cc !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  width: auto !important;
+  box-shadow: 0 1px 2px rgba(0, 119, 204, 0.2) !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.btn-add-schedule:hover {
+  background: #005fa3 !important;
+}
+
+/* Notice Bar */
+.schedule-notice-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 11.5px;
+  color: #475569;
+}
+
+.notice-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notice-shield-icon {
+  width: 14px;
+  height: 14px;
+  color: #0077cc;
+  flex-shrink: 0;
+}
+
+.notice-sync-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #a7f3d0;
+}
+
+/* Table */
+.schedule-table-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.weekly-schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  font-size: 12.5px;
+  margin: 0;
+}
+
+.weekly-schedule-table thead th {
+  background: #0077cc !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 10px 14px !important;
+  text-align: left !important;
+  border: none !important;
+  white-space: nowrap;
+}
+
+.weekly-schedule-table tbody td {
+  padding: 10px 14px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.weekly-schedule-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+.weekly-schedule-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Day Badges */
+.day-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.day-mon { background: #e0f2fe; color: #0284c7; }
+.day-tue { background: #f3e8ff; color: #7e22ce; }
+.day-wed { background: #ecfdf5; color: #047857; }
+.day-thu { background: #fef3c7; color: #b45309; }
+.day-fri { background: #fee2e2; color: #b91c1c; }
+.day-sat { background: #e0e7ff; color: #4338ca; }
+.day-sun { background: #f1f5f9; color: #475569; }
+
+/* Time slot pills */
+.slot-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.slot-morning { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.slot-afternoon { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+.slot-evening { background: #ede9fe; color: #6d28d9; border: 1px solid #ddd6fe; }
+
+.btn-dispatch-route {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 3px 9px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  background: #f0fdf4 !important;
+  color: #15803d !important;
+  border: 1px solid #bbf7d0 !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  transition: all 0.15s ease !important;
+}
+.btn-dispatch-route:hover {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+/* Modal Styling */
+.schedule-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.schedule-modal-overlay.show {
+  display: flex;
+}
+
+.schedule-modal-box {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.schedule-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.modal-icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #e0f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn {
+  background: transparent !important;
+  border: none !important;
+  font-size: 20px !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+}
+.modal-close-btn:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.schedule-modal-body {
+  padding: 16px 18px;
+}
+
+.modal-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.modal-field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+
+.modal-field input,
+.modal-field select {
+  width: 100% !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 10px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  color: #0f172a !important;
+  background: #ffffff !important;
+  outline: none;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+.modal-field input:focus,
+.modal-field select:focus {
+  border-color: #0077cc !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
+}
+
+/* Interactive Layout Preview Card inside modal */
+.schedule-preview-card {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 12px 0 14px 0;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.preview-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #0077cc;
+}
+
+.preview-note {
+  font-size: 10.5px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.preview-body {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.preview-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preview-day-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.preview-cust-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.preview-area-tag {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.preview-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preview-cans {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.preview-time {
+  font-size: 11px;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.preview-footer-note {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 10.5px;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.schedule-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.btn-cancel-modal {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  padding: 0 14px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  width: auto !important;
+}
+
+.btn-save-schedule {
+  background: #0077cc !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 0 16px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  width: auto !important;
+}
+.btn-save-schedule:hover {
+  background: #005fa3 !important;
+}
+
 </style>
   <link rel="icon" type="image/png" href="../logo.png" />
 </head>
@@ -88,12 +1167,58 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'">
+    <a href="settings.html" title="Manage Profile & Sub-Accounts" style="display:inline-block;text-decoration:none;"><img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'"></a>
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
 
 <main>
+  <!-- Active Field Labour Mobile Supply Banner -->
+  <div id="driverMobileBanner" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#007bdb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;">
+          <i class="fi fi-rr-truck-side"></i>
+        </div>
+        <div>
+          <strong id="driverBannerName" style="color:#1e3a8a;font-size:14px;display:block;">Muhammad Aslam</strong>
+          <span id="driverBannerDetails" style="color:#64748b;font-size:11px;">Van #KHI-482 · Mobile: 0300-1234567</span>
+        </div>
+      </div>
+      <span style="background:#22c55e;color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;">
+        ● Active On Duty
+      </span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const mobile = urlParams.get('mobile') || (typeof localStorage !== 'undefined' ? localStorage.getItem('active_labour_mobile') : null);
+      if (mobile) {
+        try {
+          const stored = localStorage.getItem('wsms_labour_accounts');
+          const cleanMobile = mobile.replace(/[^0-9]/g, '');
+          let driver = null;
+          if (stored) {
+            const list = JSON.parse(stored);
+            driver = list.find(a => (a.mobile || '').replace(/[^0-9]/g, '') === cleanMobile);
+          }
+          if (!driver) {
+            driver = { name: 'Muhammad Aslam', vehicle: 'Van #KHI-482', mobile: cleanMobile, quota: 35 };
+          }
+          const banner = document.getElementById('driverMobileBanner');
+          const nameEl = document.getElementById('driverBannerName');
+          const detEl = document.getElementById('driverBannerDetails');
+          if (banner && nameEl && detEl) {
+            nameEl.textContent = driver.name + ' (Field Labour)';
+            detEl.textContent = (driver.vehicle || 'Van #KHI-482') + ' · Mobile: ' + (driver.mobile || cleanMobile) + (driver.quota ? ' · Today\'s Quota: ' + driver.quota + ' Cans' : '');
+            banner.style.display = 'block';
+          }
+        } catch (e) {}
+      }
+    })();
+  </script>
   <!-- Standard 4 Summary Overview Cards matching Dashboard -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:10px;margin-bottom:12px;">
     <div class="card" style="margin-bottom:0;padding:12px;">
@@ -114,60 +1239,207 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
   </div>
 
-  <!-- Add Supply Record Card matching https://orionfxservis.github.io/WSMS/pages/supply.html -->
-  <section class="card">
-    <h3>Add Supply Record</h3>
-    <select id="customer" onchange="onCustomerChange()">
-      <option value="">Select Customer</option>
-    </select>
-    
-    <input type="date" id="date"/>
-    
-    <select id="item" onchange="onItemChange()">
-      <option value="">Select Item</option>
-    </select>
-    
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-      <input type="number" id="rate" placeholder="Rate" step="0.01" min="0" style="flex:1;min-width:100px;" oninput="calculateFinalRate()"/>
-      <input type="number" id="discount" placeholder="Discount" step="0.01" min="0" style="flex:1;min-width:100px;" oninput="calculateFinalRate()"/>
-      <input type="number" id="finalRate" placeholder="Final Rate" step="0.01" min="0" readonly style="background:#f0f0f0;flex:1;min-width:100px;"/>
+      <!-- Add Supply Record Card matching exact UI specifications -->
+  <section class="card supply-card">
+    <div class="supply-card-header">
+      <div class="supply-card-title">
+        <span class="supply-title-plus">+</span>
+        <h3>Add Supply Record</h3>
+      </div>
+      <span class="supply-card-hint">
+        Auto-calculates Final Rate (Rate &ndash; Discount) and Total Billing Amount
+      </span>
     </div>
-    
+
     <input type="hidden" id="canSize"/>
-    <div id="canFields">
-      <input type="number" id="delivered" placeholder="Cans Delivered"/>
-      <input type="number" id="received" placeholder="Cans Returned"/>
-      <input type="number" id="balance" placeholder="Cans Balance" disabled/>
-    </div>
-    
     <input type="hidden" id="time"/>
-    <select id="paymentType">
-      <option value="">Select Payment Type</option>
-      <option value="Cash">Cash</option>
-      <option value="Credit">Credit</option>
-    </select>
-    
-    <input type="number" id="amount" placeholder="Total Amount (Rs)" readonly style="background:#f0f0f0;"/>
-    <button onclick="addSupply()">Add Supply</button>
+
+    <div class="supply-grid">
+      <!-- Row 1: Customer (2 columns), Date (1 column), Item / Size (1 column) -->
+      <div class="supply-field col-span-2">
+        <label for="customer">Customer <span class="ast">*</span></label>
+        <select id="customer" onchange="onCustomerChange()">
+          <option value="">Select Customer</option>
+        </select>
+      </div>
+
+      <div class="supply-field">
+        <label for="date">Date <span class="ast">*</span></label>
+        <input type="date" id="date"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="item">Item / Size <span class="ast">*</span></label>
+        <select id="item" onchange="onItemChange()">
+          <option value="">Select Item</option>
+        </select>
+      </div>
+
+      <!-- Row 2: Rate (Rs) *, Discount (Rs), Final Rate (Rs), Payment Mode * -->
+      <div class="supply-field">
+        <label for="rate">Rate (Rs) <span class="ast">*</span></label>
+        <input type="number" id="rate" step="0.01" min="0" oninput="calculateFinalRate()"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="discount">Discount (Rs)</label>
+        <input type="number" id="discount" step="0.01" min="0" oninput="calculateFinalRate()"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="finalRate">Final Rate (Rs)</label>
+        <input type="number" id="finalRate" step="0.01" min="0" readonly class="readonly-box"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="paymentType">Payment Mode <span class="ast">*</span></label>
+        <select id="paymentType">
+          <option value="Cash" selected>Cash</option>
+          <option value="Credit">Credit</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="JazzCash / EasyPaisa">JazzCash / EasyPaisa</option>
+        </select>
+      </div>
+
+      <!-- Row 3: Cans Delivered *, Cans Returned, Cans Balance, Total Amount (Rs) -->
+      <div class="supply-field">
+        <label for="delivered">Cans Delivered <span class="ast">*</span></label>
+        <input type="number" id="delivered" min="0" oninput="calcAmount()"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="received">Cans Returned</label>
+        <input type="number" id="received" min="0" oninput="calcBalance()"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="balance">Cans Balance</label>
+        <input type="number" id="balance" readonly class="readonly-box"/>
+      </div>
+
+      <div class="supply-field">
+        <label for="amount">Total Amount (Rs)</label>
+        <input type="text" id="amount" readonly class="amount-box"/>
+      </div>
+    </div>
+
+    <!-- Row 4: Submit Button right-aligned -->
+    <div class="supply-footer-actions">
+      <button type="button" class="btn-submit-supply" onclick="addSupply()">
+        <span>+</span> Add Supply Record
+      </button>
+    </div>
   </section>
 
-  <!-- Recent Deliveries Table Card -->
-  <section class="card">
-    <h3>Recent Deliveries</h3>
-    <div class="table-wrap">
-      <table>
+      <!-- Weekly Supply Schedule Card -->
+  <section class="card schedule-card">
+    <div class="schedule-card-header">
+      <div class="schedule-header-left">
+        <div class="schedule-title-wrap">
+          <svg viewBox="0 0 24 24" class="schedule-cal-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h3>Weekly Supply Schedule</h3>
+              <span id="scheduleCountBadge" class="records-pill">4 Routes</span>
+            </div>
+            <p class="schedule-subtitle">Divide supply on a weekly route basis for smooth, automated field operations.</p>
+          </div>
+        </div>
+      </div>
+      <div class="schedule-header-right">
+        <!-- Day filter pills -->
+        <div class="day-filter-group">
+          <button type="button" class="day-filter-btn active" onclick="filterScheduleByDay('All')">All</button>
+          <button type="button" class="day-filter-btn" onclick="filterScheduleByDay('Monday')">Mon</button>
+          <button type="button" class="day-filter-btn" onclick="filterScheduleByDay('Tuesday')">Tue</button>
+          <button type="button" class="day-filter-btn" onclick="filterScheduleByDay('Wednesday')">Wed</button>
+          <button type="button" class="day-filter-btn" onclick="filterScheduleByDay('Thursday')">Thu</button>
+          <button type="button" class="day-filter-btn" onclick="filterScheduleByDay('Friday')">Fri</button>
+          <button type="button" class="day-filter-btn" onclick="filterScheduleByDay('Saturday')">Sat</button>
+        </div>
+        <!-- Add Schedule Button -->
+        <button type="button" class="btn-add-schedule" onclick="openScheduleModal()">
+          <span style="font-size: 15px; font-weight: 700; line-height: 1;">+</span>
+          <span>Add Schedule</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Schedule Table -->
+    <div class="schedule-table-wrap">
+      <table class="weekly-schedule-table">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Customer Name</th>
-            <th>Cans</th>
-            <th>Amount</th>
-            <th>Payment</th>
-            <th>Status</th>
+            <th class="th-day">Day</th>
+            <th class="th-area">Area</th>
+            <th class="th-cust">Customer</th>
+            <th class="th-cans">Cans</th>
+            <th class="th-time">Time</th>
+            <th class="th-status">Status</th>
+            <th class="th-action">Action</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleTableBody">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Recent Deliveries Table Card matching exact UI specifications -->
+  <section class="card deliveries-card">
+    <div class="deliveries-card-header">
+      <div class="deliveries-header-left">
+        <div class="deliveries-title-wrap">
+          <svg viewBox="0 0 24 24" class="deliveries-truck-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <h3>Recent Deliveries</h3>
+          <span id="recordCountBadge" class="records-pill">5 Records</span>
+        </div>
+      </div>
+      <div class="deliveries-header-right">
+        <div class="search-box-wrap">
+          <svg viewBox="0 0 24 24" class="search-icon-svg" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="deliverySearchInput" class="search-input" placeholder="Search deliveries..." oninput="filterDeliveries()"/>
+        </div>
+        <button type="button" class="btn-export-csv" onclick="exportDeliveriesCSV()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export CSV</span>
+        </button>
+      </div>
+    </div>
+    <div class="deliveries-table-wrap">
+      <table class="recent-deliveries-table">
+        <thead>
+          <tr>
+            <th class="th-num">#</th>
+            <th class="th-date">Date</th>
+            <th class="th-customer">Customer Name &amp; Location</th>
+            <th class="th-cans">Cans (Del / Ret / Bal)</th>
+            <th class="th-amount">Amount</th>
+            <th class="th-payment">Payment</th>
+            <th class="th-status">Status</th>
+            <th class="th-action">Action</th>
           </tr>
         </thead>
         <tbody id="supplyTable">
-          <tr><td colspan="6" style="text-align:center;">Loading deliveries...</td></tr>
+          <tr><td colspan="8" style="text-align:center;padding:18px;color:#888;">Loading deliveries...</td></tr>
         </tbody>
       </table>
     </div>
@@ -182,6 +1454,100 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </nav>
 
 <!-- Popup Modal -->
+<!-- Modal: Add Weekly Schedule Form -->
+<div id="scheduleModal" class="schedule-modal-overlay" onclick="closeScheduleModalOnOverlay(event)">
+  <div class="schedule-modal-box">
+    <div class="schedule-modal-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="modal-icon-badge">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0077cc" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">Add Weekly Schedule</h3>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeScheduleModal()" aria-label="Close modal">&times;</button>
+    </div>
+
+    <form id="scheduleForm" onsubmit="handleSaveSchedule(event)" class="schedule-modal-body">
+      <!-- Row 1: Delivery Day & Time Slot -->
+      <div class="modal-grid-2">
+        <div class="modal-field">
+          <label for="schedDay">Delivery Day <span class="ast">*</span></label>
+          <select id="schedDay" required onchange="updateSchedulePreview()">
+            <option value="Monday" selected>Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        </div>
+
+        <div class="modal-field">
+          <label for="schedTimeSlot">Time Slot</label>
+          <select id="schedTimeSlot" onchange="updateSchedulePreview()">
+            <option value="Morning" selected>Morning</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 2: Area & Expected Cans -->
+      <div class="modal-grid-2">
+        <div class="modal-field">
+          <label for="schedArea">Area <span class="ast">*</span></label>
+          <input type="text" id="schedArea" required placeholder="e.g. Gulshan, DHA, PECHS" oninput="updateSchedulePreview()" value="Gulshan"/>
+        </div>
+
+        <div class="modal-field">
+          <label for="schedCans">Expected Cans</label>
+          <input type="number" id="schedCans" min="1" placeholder="e.g. 10" oninput="updateSchedulePreview()" value="10"/>
+        </div>
+      </div>
+
+      <!-- Row 3: Customer -->
+      <div class="modal-field">
+        <label for="schedCustomer">Customer <span class="ast">*</span></label>
+        <input type="text" id="schedCustomer" required placeholder="e.g. Ahmed Traders" oninput="updateSchedulePreview()" value="Ahmed Traders"/>
+      </div>
+
+      <!-- Live Interactive Layout Preview -->
+      <div class="schedule-preview-card">
+        <div class="preview-header">
+          <span class="preview-badge">Preview schedule record</span>
+          <span class="preview-note">Interactive layout preview only</span>
+        </div>
+        <div class="preview-body" id="scheduleLivePreview">
+          <div class="preview-main">
+            <span class="preview-day-tag" id="prevDayTag">Monday</span>
+            <span class="preview-cust-name" id="prevCustName">Ahmed Traders</span>
+            <span class="preview-area-tag" id="prevAreaTag">· Gulshan</span>
+          </div>
+          <div class="preview-meta">
+            <span class="preview-cans" id="prevCans">10 Cans</span>
+            <span class="preview-time" id="prevTime">Morning Slot</span>
+            <span class="status-pill status-delivered">Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="schedule-modal-footer">
+        <button type="button" class="btn-cancel-modal" onclick="closeScheduleModal()">Cancel</button>
+        <button type="submit" class="btn-save-schedule">
+          <span>+</span> Save Schedule
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div id="popupOverlay" class="popup-overlay" onclick="closePopupOnOverlay(event)">
   <div class="popup-modal">
     <div class="popup-header">
@@ -229,6 +1595,7 @@ function closePopupOnOverlay(e) {
 
 // Canonical fallback data matching app
 const FALLBACK_CUSTOMERS = [
+  { id: 100, name: 'Al-Madina General Hospital', phone: '0300-2194857', discount: 15, rates: { 'item-19L': { rate: 60, discount: 20, final: 40 }, 'item-12L': { rate: 40, discount: 10, final: 30 } } },
   { id: 101, name: 'Metro Cash & Carry (Staff Canteen)', phone: '0300-1234567', discount: 20, rates: { 'item-19L': { rate: 60, discount: 20, final: 48 }, 'item-12L': { rate: 40, discount: 10, final: 30 } } },
   { id: 102, name: 'Indus Hospital & Health Network', phone: '0321-9876543', discount: 0, rates: { 'item-19L': { rate: 60, discount: 0, final: 60 }, 'item-12L': { rate: 40, discount: 0, final: 40 } } },
   { id: 103, name: 'Dolmen Mall Food Court', phone: '0333-2345678', discount: 15, rates: { 'item-19L': { rate: 60, discount: 15, final: 51 }, 'item-12L': { rate: 40, discount: 10, final: 30 } } },
@@ -249,16 +1616,282 @@ const FALLBACK_ITEMS = [
 ];
 
 const FALLBACK_DELIVERIES = [
-  { id: 1, date: '2026-10-20', customer_name: 'Metro Cash & Carry', delivered: 30, total: 6000, payment_mode: 'Cash', status: 'Delivered' },
-  { id: 2, date: '2026-10-20', customer_name: 'Indus Hospital & Health Network', delivered: 25, total: 5000, payment_mode: 'Credit', status: 'Delivered' },
-  { id: 3, date: '2026-10-20', customer_name: 'Dolmen Mall Food Court', delivered: 40, total: 8000, payment_mode: 'Cash', status: 'Delivered' },
-  { id: 4, date: '2026-10-20', customer_name: 'Aga Khan Labs Executive Wing', delivered: 15, total: 3000, payment_mode: 'Cash', status: 'Delivered' },
-  { id: 5, date: '2026-10-20', customer_name: 'Dr. Tariq Dental Clinic', delivered: 8, total: 1600, payment_mode: 'Cash', status: 'Delivered' },
-  { id: 6, date: '2026-10-20', customer_name: 'Ayesha Manzil Bakery & Cafe', delivered: 14, total: 2800, payment_mode: 'Credit', status: 'Delivered' }
+  {
+    id: 1,
+    date: '10:45 AM Today',
+    customer_name: 'Metro Tower Residences (Management)',
+    location: 'Block 4, Clifton Tower A & B, Karachi',
+    delivered: 45,
+    received: 40,
+    balance: 5,
+    total: 9000,
+    payment_mode: 'Credit',
+    status: 'Delivered'
+  },
+  {
+    id: 2,
+    date: '11:15 AM Today',
+    customer_name: 'Al-Madina Bakery & Cafe',
+    location: 'Shop 14, Commercial Lane 2, DHA Phase 5',
+    delivered: 15,
+    received: 15,
+    balance: 0,
+    total: 3000,
+    payment_mode: 'Cash',
+    status: 'Delivered'
+  },
+  {
+    id: 3,
+    date: 'Estimated 1:30 PM',
+    customer_name: 'Apex Tech Solutions Ltd.',
+    location: '5th Floor, Executive Heights, Shahrah-e-Faisal',
+    delivered: 20,
+    received: 18,
+    balance: 2,
+    total: 4000,
+    payment_mode: 'Digital Pay',
+    status: 'In-Transit'
+  },
+  {
+    id: 4,
+    date: 'Scheduled 2:45 PM',
+    customer_name: 'Gulshan Medical Complex',
+    location: 'Block 13, University Road',
+    delivered: 30,
+    received: 25,
+    balance: 5,
+    total: 6000,
+    payment_mode: 'Credit',
+    status: 'Pending'
+  },
+  {
+    id: 5,
+    date: 'Scheduled 3:30 PM',
+    customer_name: 'Bilal Supermarket & Grocery',
+    location: 'Main Market, Bahadurabad',
+    delivered: 25,
+    received: 25,
+    balance: 0,
+    total: 5000,
+    payment_mode: 'Cash',
+    status: 'Pending'
+  }
 ];
+
+// =========================================================
+// Weekly Supply Schedule Master Logic
+// =========================================================
+const INITIAL_WEEKLY_SCHEDULE = [
+  { id: 1, day: 'Monday', area: 'Gulshan', customer: 'Ahmed Traders', cans: 10, time: 'Morning', status: 'Active' },
+  { id: 2, day: 'Monday', area: 'Gulshan', customer: 'Ali Residence', cans: 5, time: 'Evening', status: 'Active' },
+  { id: 3, day: 'Tuesday', area: 'DHA', customer: 'City School', cans: 20, time: 'Morning', status: 'Active' },
+  { id: 4, day: 'Wednesday', area: 'PECHS', customer: 'Royal Apartments', cans: 15, time: 'Afternoon', status: 'Active' },
+  { id: 5, day: 'Thursday', area: 'Clifton', customer: 'Habib Bank Regional HQ', cans: 25, time: 'Morning', status: 'Active' },
+  { id: 6, day: 'Friday', area: 'North Nazimabad', customer: 'Fatima Heights', cans: 12, time: 'Afternoon', status: 'Active' }
+];
+
+let weeklySchedule = [];
+let activeScheduleDayFilter = 'All';
+
+function loadWeeklySchedule() {
+  try {
+    const saved = localStorage.getItem('wsms_weekly_schedule');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        weeklySchedule = parsed;
+        renderWeeklySchedule();
+        return;
+      }
+    }
+  } catch (e) {}
+
+  weeklySchedule = [...INITIAL_WEEKLY_SCHEDULE];
+  renderWeeklySchedule();
+}
+
+function saveWeeklyScheduleToStorage() {
+  try {
+    localStorage.setItem('wsms_weekly_schedule', JSON.stringify(weeklySchedule));
+  } catch (e) {}
+}
+
+function renderWeeklySchedule() {
+  const tbody = document.getElementById('scheduleTableBody');
+  const countBadge = document.getElementById('scheduleCountBadge');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const filtered = activeScheduleDayFilter === 'All'
+    ? weeklySchedule
+    : weeklySchedule.filter(s => s.day === activeScheduleDayFilter);
+
+  if (countBadge) {
+    countBadge.textContent = `${filtered.length} Route${filtered.length === 1 ? '' : 's'}`;
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:22px;color:#64748b;font-size:12.5px;">No schedule routes found for ${activeScheduleDayFilter}. Click "+ Add Schedule" to create one.</td></tr>`;
+    return;
+  }
+
+  filtered.forEach(s => {
+    let dayClass = 'day-mon';
+    if (s.day === 'Tuesday') dayClass = 'day-tue';
+    else if (s.day === 'Wednesday') dayClass = 'day-wed';
+    else if (s.day === 'Thursday') dayClass = 'day-thu';
+    else if (s.day === 'Friday') dayClass = 'day-fri';
+    else if (s.day === 'Saturday') dayClass = 'day-sat';
+    else if (s.day === 'Sunday') dayClass = 'day-sun';
+
+    let slotClass = 'slot-morning';
+    if (s.time === 'Afternoon') slotClass = 'slot-afternoon';
+    else if (s.time === 'Evening') slotClass = 'slot-evening';
+
+    tbody.innerHTML += `
+    <tr>
+      <td><span class="day-tag ${dayClass}">${s.day}</span></td>
+      <td><strong>${s.area}</strong></td>
+      <td style="font-weight:600;color:#0f172a;">${s.customer}</td>
+      <td><strong>${s.cans}</strong> <span style="font-size:11px;color:#64748b;">Cans</span></td>
+      <td><span class="slot-pill ${slotClass}">${s.time}</span></td>
+      <td><span class="status-pill status-delivered">● ${s.status || 'Active'}</span></td>
+      <td style="white-space:nowrap;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button type="button" class="btn-dispatch-route" onclick="dispatchRouteToForm('${s.customer.replace(/'/g, "\\'")}', ${s.cans})" title="Load into Add Supply Form">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Dispatch
+          </button>
+          <button type="button" class="btn-trash-action" onclick="deleteScheduleRoute(${s.id})" title="Delete route">
+            <svg viewBox="0 0 24 24" class="trash-icon-svg" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  });
+}
+
+function filterScheduleByDay(day) {
+  activeScheduleDayFilter = day;
+  const buttons = document.querySelectorAll('.day-filter-btn');
+  buttons.forEach(btn => {
+    if (btn.textContent === (day === 'All' ? 'All' : day.substring(0, 3))) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  renderWeeklySchedule();
+}
+
+function openScheduleModal() {
+  const modal = document.getElementById('scheduleModal');
+  if (modal) {
+    modal.classList.add('show');
+    updateSchedulePreview();
+  }
+}
+
+function closeScheduleModal() {
+  const modal = document.getElementById('scheduleModal');
+  if (modal) modal.classList.remove('show');
+}
+
+function closeScheduleModalOnOverlay(e) {
+  if (e.target.id === 'scheduleModal') {
+    closeScheduleModal();
+  }
+}
+
+function updateSchedulePreview() {
+  const day = document.getElementById('schedDay')?.value || 'Monday';
+  const area = document.getElementById('schedArea')?.value || 'Gulshan';
+  const cust = document.getElementById('schedCustomer')?.value || 'Ahmed Traders';
+  const cans = document.getElementById('schedCans')?.value || '10';
+  const time = document.getElementById('schedTimeSlot')?.value || 'Morning';
+
+  const prevDay = document.getElementById('prevDayTag');
+  const prevCust = document.getElementById('prevCustName');
+  const prevArea = document.getElementById('prevAreaTag');
+  const prevCans = document.getElementById('prevCans');
+  const prevTime = document.getElementById('prevTime');
+
+  if (prevDay) prevDay.textContent = day;
+  if (prevCust) prevCust.textContent = cust;
+  if (prevArea) prevArea.textContent = '· ' + area;
+  if (prevCans) prevCans.textContent = cans + ' Cans';
+  if (prevTime) prevTime.textContent = time + ' Slot';
+}
+
+function handleSaveSchedule(e) {
+  e.preventDefault();
+  const day = document.getElementById('schedDay').value;
+  const area = document.getElementById('schedArea').value.trim();
+  const customer = document.getElementById('schedCustomer').value.trim();
+  const cans = parseInt(document.getElementById('schedCans').value, 10) || 10;
+  const time = document.getElementById('schedTimeSlot').value;
+
+  if (!area || !customer) {
+    showPopup('Please fill in both Area and Customer name.', 'Validation Error');
+    return;
+  }
+
+  const newRoute = {
+    id: Date.now(),
+    day,
+    area,
+    customer,
+    cans,
+    time,
+    status: 'Active'
+  };
+
+  weeklySchedule.push(newRoute);
+  saveWeeklyScheduleToStorage();
+  renderWeeklySchedule();
+  closeScheduleModal();
+  showPopup(`✓ Added weekly route for ${customer} on ${day} (${area})!`, 'Schedule Added');
+}
+
+function deleteScheduleRoute(id) {
+  weeklySchedule = weeklySchedule.filter(s => s.id !== id);
+  saveWeeklyScheduleToStorage();
+  renderWeeklySchedule();
+}
+
+function dispatchRouteToForm(customerName, cansQty) {
+  const custSelect = document.getElementById('customer');
+  if (custSelect) {
+    let found = false;
+    for (let i = 0; i < custSelect.options.length; i++) {
+      if (custSelect.options[i].text.toLowerCase().includes(customerName.toLowerCase())) {
+        custSelect.selectedIndex = i;
+        found = true;
+        break;
+      }
+    }
+    if (found) {
+      onCustomerChange();
+    }
+  }
+
+  const deliveredInput = document.getElementById('delivered');
+  if (deliveredInput) {
+    deliveredInput.value = cansQty;
+    calcAmount();
+  }
+
+  const supplyCard = document.querySelector('.supply-card');
+  if (supplyCard) {
+    supplyCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  showPopup(`Dispatched route for ${customerName} (${cansQty} Cans). Ready to record in Add Supply!`, 'Route Dispatched');
+}
 
 async function init() {
   updateOverviewCards();
+  loadWeeklySchedule();
   const today = new Date();
   const dateStr = today.toISOString().split("T")[0];
   const dateInput = document.getElementById("date");
@@ -308,6 +1941,25 @@ async function init() {
   const receivedInput = document.getElementById("received");
   if (deliveredInput) deliveredInput.addEventListener("input", calcAmount);
   if (receivedInput) receivedInput.addEventListener("input", calcBalance);
+
+  // Pre-select sample values matching UI spec
+  const custSelect = document.getElementById("customer");
+  const itemSelect = document.getElementById("item");
+  if (custSelect && custSelect.options.length > 1) {
+    custSelect.selectedIndex = 1;
+    await onCustomerChange();
+  }
+  if (itemSelect && itemSelect.options.length > 1) {
+    itemSelect.selectedIndex = 1;
+    onItemChange();
+  }
+  if (deliveredInput && !deliveredInput.value) {
+    deliveredInput.value = 30;
+  }
+  if (receivedInput && !receivedInput.value) {
+    receivedInput.value = 25;
+  }
+  calcAmount();
 
   startAutoRefresh();
 
@@ -368,7 +2020,9 @@ function populateCustomerDropdown() {
   customers.forEach(x => {
     const customerId = x.id || '';
     const customerName = x.name || '';
-    c.innerHTML += `<option value="${customerId}">${customerName}</option>`;
+    const phonePart = x.phone ? ' (' + x.phone + ')' : '';
+    const discPart = x.discount ? ' - Disc: Rs ' + x.discount : '';
+    c.innerHTML += `<option value="${customerId}">${customerName}${phonePart}${discPart}</option>`;
   });
 }
 
@@ -381,8 +2035,9 @@ function populateItemDropdown() {
   inventoryItems.forEach(item => {
     const id = item.item_id || item.id || item.name;
     const name = item.item_name || item.name || id;
+    const baseRate = item.default_rate ? ' (Base: Rs ' + item.default_rate + ')' : '';
     itemIdToNameMap[id] = name;
-    itemSelect.innerHTML += `<option value="${id}">${name}</option>`;
+    itemSelect.innerHTML += `<option value="${id}">${name}${baseRate}</option>`;
   });
 }
 
@@ -427,12 +2082,15 @@ async function loadDeliveries() {
   // Load from WSMS_STORE or fallback
   if (typeof WSMS_STORE !== 'undefined') {
     const store = WSMS_STORE.get();
-    if (store && store.deliveries && store.deliveries.length > 0) {
+    if (store && store.deliveries && store.deliveries.length > 0 && store.deliveries.some(d => d.location)) {
       deliveries = store.deliveries.map(d => ({
         id: d.id,
-        date: d.date || '2026-10-20',
+        date: d.date || '10:45 AM Today',
         customer_name: d.customer || d.customer_name || 'Customer',
-        delivered: d.cans || d.delivered || 0,
+        location: d.location || 'Karachi, Sindh',
+        delivered: d.cans !== undefined ? d.cans : (d.delivered || 0),
+        received: d.received !== undefined ? d.received : (d.emptyCollected || 0),
+        balance: d.balance !== undefined ? d.balance : ((d.cans || d.delivered || 0) - (d.received || 0)),
         total: d.amount || d.total || 0,
         payment_mode: d.payment_mode || 'Cash',
         status: d.status || 'Delivered'
@@ -553,32 +2211,54 @@ function onItemChange() {
 }
 
 function calculateFinalRate() {
-  const rate = parseFloat(document.getElementById("rate").value) || 0;
-  const discount = parseFloat(document.getElementById("discount").value) || 0;
+  const rateVal = document.getElementById("rate").value;
+  const discVal = document.getElementById("discount").value;
+  const finalEl = document.getElementById("finalRate");
+  if (!finalEl) return;
 
-  if (rate <= 0) {
-    document.getElementById("finalRate").value = '';
+  if (rateVal === '') {
+    finalEl.value = '';
+    calcAmount();
     return;
   }
 
-  const finalRate = Math.max(0, rate - Math.max(0, discount));
-  document.getElementById("finalRate").value = finalRate.toFixed(2);
+  const rate = parseFloat(rateVal) || 0;
+  const discount = parseFloat(discVal) || 0;
+  const finalRate = Math.max(0, rate - discount);
+  finalEl.value = finalRate;
   calcAmount();
 }
 
 function calcAmount() {
-  const quantity = Number(document.getElementById("delivered").value) || 0;
-  const finalRate = Number(document.getElementById("finalRate").value) || 0;
-  const total = quantity * finalRate;
-  document.getElementById("amount").value = total.toFixed(2);
+  const dVal = document.getElementById("delivered").value;
+  const finalRateVal = document.getElementById("finalRate").value;
+  const amtEl = document.getElementById("amount");
+  if (!amtEl) return;
+
+  if (dVal !== '' && finalRateVal !== '') {
+    const qty = parseFloat(dVal) || 0;
+    const fr = parseFloat(finalRateVal) || 0;
+    const total = qty * fr;
+    amtEl.value = 'Rs ' + total.toLocaleString();
+  } else {
+    amtEl.value = '';
+  }
   calcBalance();
 }
 
 function calcBalance() {
-  const d = Number(document.getElementById("delivered").value) || 0;
-  const r = Number(document.getElementById("received").value) || 0;
-  const balance = d - r;
-  document.getElementById("balance").value = balance;
+  const dVal = document.getElementById("delivered").value;
+  const rVal = document.getElementById("received").value;
+  const balEl = document.getElementById("balance");
+  if (!balEl) return;
+
+  if (dVal !== '' || rVal !== '') {
+    const d = parseFloat(dVal) || 0;
+    const r = parseFloat(rVal) || 0;
+    balEl.value = d - r;
+  } else {
+    balEl.value = '';
+  }
 }
 
 async function addSupply() {
@@ -586,7 +2266,8 @@ async function addSupply() {
   const deliveredQty = Number(document.getElementById("delivered").value) || 0;
   const receivedQty = Number(document.getElementById("received").value) || 0;
   const paymentMode = document.getElementById("paymentType").value;
-  const total = Number(document.getElementById("amount").value) || 0;
+  const amtRaw = document.getElementById("amount").value || '0';
+  const total = parseFloat(String(amtRaw).replace(/[^0-9.]/g, '')) || 0;
   const rate = Number(document.getElementById("rate").value) || 0;
   const discount = Number(document.getElementById("discount").value) || 0;
   const finalRate = Number(document.getElementById("finalRate").value) || 0;
@@ -611,13 +2292,20 @@ async function addSupply() {
     return;
   }
 
+  const now = new Date();
+  const timeFormatted = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' Today';
+  const foundCust = customers.find(c => String(c.id) === String(selectedCustomerId));
+  const loc = foundCust && foundCust.location ? foundCust.location : 'Shahrah-e-Faisal, Karachi';
+
   const entry = {
     id: Date.now(),
     customer_id: selectedCustomerId,
     customer_name: selectedCustomerName,
-    date: dateValue || new Date().toISOString().split("T")[0],
+    location: loc,
+    date: timeFormatted,
     delivered: deliveredQty,
     received: receivedQty,
+    balance: deliveredQty - receivedQty,
     rate: rate,
     discount: discount,
     final_rate: finalRate,
@@ -692,32 +2380,144 @@ function resetForm() {
   document.getElementById("date").value = today.toISOString().split("T")[0];
 }
 
-function renderTable() {
+function filterDeliveries() {
+  const searchInput = document.getElementById("deliverySearchInput");
+  const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+  renderTable(query);
+}
+
+function exportDeliveriesCSV() {
+  if (!deliveries || deliveries.length === 0) {
+    showPopup('No delivery records to export.', 'Export CSV');
+    return;
+  }
+  let csv = '#,Date,Customer Name,Location,Delivered,Returned,Balance,Amount (Rs),Payment Mode,Status\n';
+  deliveries.forEach((d, idx) => {
+    const num = idx + 1;
+    const date = `"${(d.date || '').replace(/"/g, '""')}"`;
+    const cust = `"${(d.customer_name || d.customer || '').replace(/"/g, '""')}"`;
+    const loc = `"${(d.location || 'Karachi').replace(/"/g, '""')}"`;
+    const del = d.delivered !== undefined ? d.delivered : (d.cans || 0);
+    const ret = d.received !== undefined ? d.received : (d.emptyCollected || 0);
+    const bal = d.balance !== undefined ? d.balance : (del - ret);
+    const amt = d.total || d.amount || 0;
+    const pay = `"${(d.payment_mode || 'Cash').replace(/"/g, '""')}"`;
+    const status = `"${(d.status || 'Delivered').replace(/"/g, '""')}"`;
+    csv += `${num},${date},${cust},${loc},${del},${ret},${bal},${amt},${pay},${status}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `WSMS_Recent_Deliveries_${new Date().toISOString().split('T')[0]}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function deleteDelivery(id) {
+  deliveries = deliveries.filter(d => String(d.id) !== String(id));
+  if (typeof WSMS_STORE !== 'undefined') {
+    const store = WSMS_STORE.get();
+    if (store && store.deliveries) {
+      store.deliveries = store.deliveries.filter(d => String(d.id) !== String(id));
+      if (WSMS_STORE.recalculate) WSMS_STORE.recalculate(store);
+      WSMS_STORE.set(store);
+    }
+  }
+  const searchInput = document.getElementById("deliverySearchInput");
+  const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+  renderTable(query);
+}
+
+function renderTable(searchFilter = '') {
   const t = document.getElementById("supplyTable");
+  const countBadge = document.getElementById("recordCountBadge");
   if (!t) return;
   t.innerHTML = "";
 
-  if (!deliveries || !Array.isArray(deliveries) || deliveries.length === 0) {
-    t.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:18px;color:#888;">No deliveries found</td></tr>`;
+  const query = (searchFilter || '').toLowerCase().trim();
+  const filtered = query
+    ? deliveries.filter(d =>
+        (d.customer_name || d.customer || '').toLowerCase().includes(query) ||
+        (d.location || '').toLowerCase().includes(query) ||
+        (d.date || '').toLowerCase().includes(query) ||
+        (d.status || '').toLowerCase().includes(query) ||
+        (d.payment_mode || '').toLowerCase().includes(query)
+      )
+    : deliveries;
+
+  if (countBadge) {
+    countBadge.textContent = `${filtered.length} Record${filtered.length === 1 ? '' : 's'}`;
+  }
+
+  if (!filtered || filtered.length === 0) {
+    t.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:#64748b;font-size:13px;">No deliveries matching your search</td></tr>';
     return;
   }
 
-  deliveries.forEach(d => {
-    const date = d.date || "-";
-    const customerName = d.customer_name || d.customer || "-";
-    const cansDelivered = d.delivered || d.cans || 0;
-    const totalAmount = parseFloat(d.total || d.amount || 0).toLocaleString();
-    const paymentMode = d.payment_mode || "Cash";
-    const status = d.status || "Delivered";
+  filtered.forEach((d, index) => {
+    const num = index + 1;
+    const date = d.date || '-';
+    const customerName = d.customer_name || d.customer || 'Unnamed Customer';
+    const location = d.location || d.address || 'Karachi, Sindh';
+    const delivered = Number(d.delivered !== undefined ? d.delivered : (d.cans || 0));
+    const received = Number(d.received !== undefined ? d.received : (d.emptyCollected || 0));
+    const balance = d.balance !== undefined ? Number(d.balance) : (delivered - received);
+    const amountNum = parseFloat(d.total || d.amount || 0);
+    const amountFormatted = 'Rs ' + amountNum.toLocaleString();
+    const paymentMode = d.payment_mode || d.paymentMethod || 'Cash';
+    const status = d.status || 'Delivered';
+
+    // Payment badge styling
+    let payClass = 'badge-pay-cash';
+    if (paymentMode === 'Credit') payClass = 'badge-pay-credit';
+    else if (paymentMode.toLowerCase().includes('digital') || paymentMode.toLowerCase().includes('jazz') || paymentMode.toLowerCase().includes('transfer')) payClass = 'badge-pay-digital';
+
+    // Status badge styling
+    let statusBadge = '';
+    const stNorm = status.toLowerCase();
+    if (stNorm === 'delivered') {
+      statusBadge = '<span class="status-pill status-delivered">✓ Delivered</span>';
+    } else if (stNorm.includes('transit')) {
+      statusBadge = '<span class="status-pill status-transit">In-Transit</span>';
+    } else {
+      statusBadge = '<span class="status-pill status-pending">Pending</span>';
+    }
+
+    // Balance color
+    const balColorClass = balance > 0 ? 'cans-bal-orange' : 'cans-bal-zero';
 
     t.innerHTML += `
-    <tr>
-      <td>${date}</td>
-      <td style="font-weight:600;color:#0077cc;">${customerName}</td>
-      <td><strong>${cansDelivered}</strong></td>
-      <td style="color:#28a745;font-weight:600;">Rs ${totalAmount}</td>
-      <td><span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;background:${paymentMode === 'Cash' ? '#e8f5e9;color:#2e7d32' : '#fff3e0;color:#e65100'}">${paymentMode}</span></td>
-      <td><span style="color:#0077cc;font-weight:600;">✓ ${status}</span></td>
+    <tr class="delivery-row" data-id="${d.id}">
+      <td class="col-num">${num}</td>
+      <td class="col-date">${date}</td>
+      <td class="col-cust">
+        <div class="cust-title">${customerName}</div>
+        <div class="cust-loc">
+          <svg viewBox="0 0 24 24" class="loc-pin-svg" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span>${location}</span>
+        </div>
+      </td>
+      <td class="col-cans">
+        <span class="cans-del">+${delivered}</span>
+        <span class="cans-slash">/ -${received}</span>
+        <span class="cans-equal">=</span>
+        <span class="cans-bal ${balColorClass}">${balance}</span>
+      </td>
+      <td class="col-amount">${amountFormatted}</td>
+      <td class="col-pay"><span class="pay-pill ${payClass}">${paymentMode}</span></td>
+      <td class="col-status">${statusBadge}</td>
+      <td class="col-action">
+        <button type="button" class="btn-trash-action" onclick="deleteDelivery('${d.id}')" title="Delete record" aria-label="Delete delivery">
+          <svg viewBox="0 0 24 24" class="trash-icon-svg" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+      </td>
     </tr>`;
   });
 }

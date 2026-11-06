@@ -599,7 +599,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 
 
 /* =========================================================
-   Weekly Supply Schedule Spec Styling
+   Weekly Supply Schedule Spec Styling (Updated)
    ========================================================= */
 .card.schedule-card {
   background: #ffffff;
@@ -616,7 +616,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .schedule-header-left {
@@ -652,20 +652,6 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   font-size: 12px;
   color: #64748b;
   font-weight: 400;
-}
-
-.role-pill-admin {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  color: #475569;
-  font-size: 10.5px;
-  font-weight: 700;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
 }
 
 .schedule-header-right {
@@ -737,49 +723,10 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   background: #005fa3 !important;
 }
 
-/* Notice Bar */
-.schedule-notice-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  font-size: 11.5px;
-  color: #475569;
-}
-
-.notice-left {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.notice-shield-icon {
-  width: 14px;
-  height: 14px;
-  color: #0077cc;
-  flex-shrink: 0;
-}
-
-.notice-sync-tag {
-  font-size: 10.5px;
-  font-weight: 600;
-  color: #059669;
-  background: #ecfdf5;
-  padding: 2px 7px;
-  border-radius: 4px;
-  border: 1px solid #a7f3d0;
-}
-
-/* Table */
+/* Schedule Table */
 .schedule-table-wrap {
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto;
   border: 1px solid #e2e8f0;
 }
 
@@ -787,23 +734,23 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   width: 100%;
   border-collapse: collapse;
   background: #ffffff;
-  font-size: 12.5px;
+  font-size: 12px;
   margin: 0;
 }
 
 .weekly-schedule-table thead th {
   background: #0077cc !important;
   color: #ffffff !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
-  padding: 10px 14px !important;
+  padding: 10px 12px !important;
   text-align: left !important;
   border: none !important;
   white-space: nowrap;
 }
 
 .weekly-schedule-table tbody td {
-  padding: 10px 14px !important;
+  padding: 9px 12px !important;
   border-bottom: 1px solid #f1f5f9 !important;
   color: #1e293b;
   vertical-align: middle;
@@ -820,9 +767,9 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 /* Day Badges */
 .day-tag {
   display: inline-block;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 11.5px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 11px;
   font-weight: 700;
 }
 .day-mon { background: #e0f2fe; color: #0284c7; }
@@ -838,20 +785,57 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 9999px;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
 }
 .slot-morning { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
 .slot-afternoon { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
 .slot-evening { background: #ede9fe; color: #6d28d9; border: 1px solid #ddd6fe; }
 
+/* Numeric badges */
+.badge-assign-cans {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  background: #f1f5f9;
+  color: #0f172a;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11.5px;
+  border: 1px solid #e2e8f0;
+}
+
+.badge-rec-cans {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  background: #fef3c7;
+  color: #b45309;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11.5px;
+  border: 1px solid #fde68a;
+}
+
+.badge-del-cans {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  background: #ecfdf5;
+  color: #047857;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11.5px;
+  border: 1px solid #a7f3d0;
+}
+
 .btn-dispatch-route {
   display: inline-flex !important;
   align-items: center !important;
   gap: 4px !important;
-  padding: 3px 9px !important;
+  padding: 3px 8px !important;
   font-size: 11px !important;
   font-weight: 600 !important;
   background: #f0fdf4 !important;
@@ -897,7 +881,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   border-radius: 12px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 520px;
+  max-width: 720px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
   animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -952,17 +936,23 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   padding: 16px 18px;
 }
 
-.modal-grid-2 {
+/* 4-column responsive grid */
+.modal-grid-4 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .modal-grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .modal-field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
 }
 
 .modal-field label {
@@ -971,7 +961,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   color: #475569;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .modal-field input,
@@ -980,10 +970,10 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   height: 32px !important;
   min-height: 32px !important;
   max-height: 32px !important;
-  padding: 0 10px !important;
+  padding: 0 8px !important;
   border: 1px solid #cbd5e1 !important;
   border-radius: 6px !important;
-  font-size: 12.5px !important;
+  font-size: 12px !important;
   color: #0f172a !important;
   background: #ffffff !important;
   outline: none;
@@ -997,13 +987,76 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
 }
 
+/* Consumers selection table inside modal */
+.modal-consumer-table-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  max-height: 210px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  background: #ffffff;
+}
+
+.modal-consumer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.modal-consumer-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  text-align: left;
+}
+
+.modal-consumer-table tbody td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.modal-consumer-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.modal-qty-input {
+  width: 65px !important;
+  height: 27px !important;
+  min-height: 27px !important;
+  max-height: 27px !important;
+  padding: 0 6px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 4px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
+  display: block;
+}
+
+.modal-qty-input:focus {
+  border-color: #0077cc !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
+  outline: none;
+}
+
 /* Interactive Layout Preview Card inside modal */
 .schedule-preview-card {
   background: #f8fafc;
   border: 1px dashed #cbd5e1;
   border-radius: 8px;
-  padding: 10px 12px;
-  margin: 12px 0 14px 0;
+  padding: 9px 12px;
+  margin-bottom: 12px;
 }
 
 .preview-header {
@@ -1055,7 +1108,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 }
 
 .preview-cust-name {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   color: #0f172a;
 }
@@ -1087,23 +1140,12 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   font-weight: 600;
 }
 
-.preview-footer-note {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 6px;
-  font-size: 10.5px;
-  color: #64748b;
-  line-height: 1.3;
-}
-
 .schedule-modal-footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  margin-top: 8px;
-  padding-top: 10px;
+  padding-top: 8px;
   border-top: 1px solid #f1f5f9;
 }
 
@@ -1299,9 +1341,9 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <h3>Weekly Supply Schedule</h3>
-              <span id="scheduleCountBadge" class="records-pill">4 Routes</span>
+              <span id="scheduleCountBadge" class="records-pill">6 Routes</span>
             </div>
-            <p class="schedule-subtitle">Divide supply on a weekly route basis for smooth, automated field operations.</p>
+            <p class="schedule-subtitle">Divide supply by Delivery Day, Time Slot, Area, Block, Assigned, Received &amp; Deliver Canes.</p>
           </div>
         </div>
       </div>
@@ -1324,18 +1366,21 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
       </div>
     </div>
 
-    <!-- Schedule Table -->
+    <!-- Schedule Table: DELIVERY DAY - TIME SLOT - AREA - BLOCK - ASSIGN CANES - RECEIVED CANES - DELIVER CANES - CONSUMER -->
     <div class="schedule-table-wrap">
       <table class="weekly-schedule-table">
         <thead>
           <tr>
-            <th class="th-day">Day</th>
-            <th class="th-area">Area</th>
-            <th class="th-cust">Customer</th>
-            <th class="th-cans">Cans</th>
-            <th class="th-time">Time</th>
-            <th class="th-status">Status</th>
-            <th class="th-action">Action</th>
+            <th class="th-day">DELIVERY DAY</th>
+            <th class="th-slot">TIME SLOT</th>
+            <th class="th-area">AREA</th>
+            <th class="th-block">BLOCK</th>
+            <th class="th-assign" style="text-align: center;">ASSIGN CANES</th>
+            <th class="th-rec" style="text-align: center;">RECEIVED CANES</th>
+            <th class="th-del" style="text-align: center;">DELIVER CANES</th>
+            <th class="th-consumer">CONSUMER</th>
+            <th class="th-status" style="text-align: center;">STATUS</th>
+            <th class="th-action" style="text-align: center;">ACTION</th>
           </tr>
         </thead>
         <tbody id="scheduleTableBody">
@@ -1427,11 +1472,11 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
 
     <form id="scheduleForm" onsubmit="handleSaveSchedule(event)" class="schedule-modal-body">
-      <!-- Row 1: Delivery Day & Time Slot -->
-      <div class="modal-grid-2">
+      <!-- Row: DELIVERY DAY - TIME SLOT - AREA - BLOCK -->
+      <div class="modal-grid-4">
         <div class="modal-field">
-          <label for="schedDay">Delivery Day <span class="ast">*</span></label>
-          <select id="schedDay" required onchange="updateSchedulePreview()">
+          <label for="schedDay">DELIVERY DAY <span class="ast">*</span></label>
+          <select id="schedDay" required onchange="onSchedFiltersChange()">
             <option value="Monday" selected>Monday</option>
             <option value="Tuesday">Tuesday</option>
             <option value="Wednesday">Wednesday</option>
@@ -1443,32 +1488,65 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
         </div>
 
         <div class="modal-field">
-          <label for="schedTimeSlot">Time Slot</label>
-          <select id="schedTimeSlot" onchange="updateSchedulePreview()">
+          <label for="schedTimeSlot">TIME SLOT <span class="ast">*</span></label>
+          <select id="schedTimeSlot" onchange="onSchedFiltersChange()">
             <option value="Morning" selected>Morning</option>
             <option value="Afternoon">Afternoon</option>
             <option value="Evening">Evening</option>
           </select>
         </div>
-      </div>
 
-      <!-- Row 2: Area & Expected Cans -->
-      <div class="modal-grid-2">
         <div class="modal-field">
-          <label for="schedArea">Area <span class="ast">*</span></label>
-          <input type="text" id="schedArea" required placeholder="e.g. Gulshan, DHA, PECHS" oninput="updateSchedulePreview()" value="Gulshan"/>
+          <label for="schedArea">AREA <span class="ast">*</span></label>
+          <select id="schedArea" required onchange="onAreaChange()">
+            <option value="Gulshan" selected>Gulshan</option>
+            <option value="DHA">DHA</option>
+            <option value="PECHS">PECHS</option>
+            <option value="Clifton">Clifton</option>
+            <option value="Federal B Area">Federal B Area</option>
+            <option value="North Nazimabad">North Nazimabad</option>
+            <option value="Korangi">Korangi</option>
+            <option value="Bahria Town">Bahria Town</option>
+            <option value="Saddar">Saddar</option>
+            <option value="Bahadurabad">Bahadurabad</option>
+            <option value="Shahrah-e-Faisal">Shahrah-e-Faisal</option>
+          </select>
         </div>
 
         <div class="modal-field">
-          <label for="schedCans">Expected Cans</label>
-          <input type="number" id="schedCans" min="1" placeholder="e.g. 10" oninput="updateSchedulePreview()" value="10"/>
+          <label for="schedBlock">BLOCK</label>
+          <select id="schedBlock" onchange="onBlockChange()">
+            <option value="All">All Blocks</option>
+          </select>
         </div>
       </div>
 
-      <!-- Row 3: Customer -->
-      <div class="modal-field">
-        <label for="schedCustomer">Customer <span class="ast">*</span></label>
-        <input type="text" id="schedCustomer" required placeholder="e.g. Ahmed Traders" oninput="updateSchedulePreview()" value="Ahmed Traders"/>
+      <!-- Consumers Table in Area / Block -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin: 4px 0 6px 0;">
+        <span style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.3px;">
+          Customers in <span id="modalAreaBadge" style="color: #0077cc;">Gulshan</span> (<span id="modalCustCount">0</span> Found)
+        </span>
+        <button type="button" onclick="addCustomConsumerRow()" style="width: auto; padding: 2px 8px; font-size: 11px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; cursor: pointer;">
+          + Add Other Consumer
+        </button>
+      </div>
+
+      <div class="modal-consumer-table-wrap">
+        <table class="modal-consumer-table">
+          <thead>
+            <tr>
+              <th style="width: 28px; text-align: center;"><input type="checkbox" id="selectAllModalCust" checked onchange="toggleSelectAllModalCust(this)"/></th>
+              <th>CONSUMER</th>
+              <th>BLOCK</th>
+              <th style="text-align: center;">ASSIGN CANES</th>
+              <th style="width: 95px; text-align: center;">RECEIVED CANES</th>
+              <th style="width: 95px; text-align: center;">DELIVER CANES</th>
+            </tr>
+          </thead>
+          <tbody id="modalCustomerTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
       </div>
 
       <!-- Live Interactive Layout Preview -->
@@ -1481,10 +1559,10 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
           <div class="preview-main">
             <span class="preview-day-tag" id="prevDayTag">Monday</span>
             <span class="preview-cust-name" id="prevCustName">Ahmed Traders</span>
-            <span class="preview-area-tag" id="prevAreaTag">· Gulshan</span>
+            <span class="preview-area-tag" id="prevAreaTag">· Gulshan (Block 13)</span>
           </div>
           <div class="preview-meta">
-            <span class="preview-cans" id="prevCans">10 Cans</span>
+            <span class="preview-cans" id="prevCans">10 Assigned</span>
             <span class="preview-time" id="prevTime">Morning Slot</span>
             <span class="status-pill status-delivered">Active</span>
           </div>
@@ -1634,14 +1712,37 @@ const FALLBACK_DELIVERIES = [
 
 // =========================================================
 // Weekly Supply Schedule Master Logic
+// Columns: DELIVERY DAY - TIME SLOT - AREA - BLOCK - ASSIGN CANES - RECEIVED CANES - DELIVER CANES - CONSUMER
 // =========================================================
+const WEEKLY_SCHEDULE_CUSTOMERS = [
+  { name: 'Ahmed Traders', area: 'Gulshan', block: 'Block 13', assigned_cans: 10 },
+  { name: 'Ali Residence', area: 'Gulshan', block: 'Block 13', assigned_cans: 5 },
+  { name: 'Gulshan Medical Complex', area: 'Gulshan', block: 'Block 13', assigned_cans: 30 },
+  { name: 'Metro Cash & Carry (Staff Canteen)', area: 'Gulshan', block: 'Block 1', assigned_cans: 30 },
+  { name: 'Al-Madina General Hospital', area: 'Gulshan', block: 'Block 6', assigned_cans: 30 },
+  { name: 'City School', area: 'DHA', block: 'Phase 5', assigned_cans: 20 },
+  { name: 'Al-Madina Bakery & Cafe', area: 'DHA', block: 'Phase 5', assigned_cans: 15 },
+  { name: 'Royal Apartments', area: 'PECHS', block: 'Block 2', assigned_cans: 15 },
+  { name: 'Dolmen Mall Food Court', area: 'Clifton', block: 'Block 4', assigned_cans: 40 },
+  { name: 'Metro Tower Residences', area: 'Clifton', block: 'Block 4', assigned_cans: 45 },
+  { name: 'Habib Bank Regional HQ', area: 'Clifton', block: 'Block 5', assigned_cans: 25 },
+  { name: 'Apex Tech Solutions Ltd.', area: 'Shahrah-e-Faisal', block: 'Executive Heights', assigned_cans: 20 },
+  { name: 'Dr. Tariq Dental Clinic', area: 'Shahrah-e-Faisal', block: 'Nursery', assigned_cans: 8 },
+  { name: 'Ayesha Manzil Bakery & Cafe', area: 'Federal B Area', block: 'Block 7', assigned_cans: 14 },
+  { name: 'Fatima Heights', area: 'North Nazimabad', block: 'Block H', assigned_cans: 12 },
+  { name: 'Indus Hospital & Health Network', area: 'Korangi', block: 'Sector 31', assigned_cans: 25 },
+  { name: 'Bahria Town Sector B Villa 12', area: 'Bahria Town', block: 'Sector B', assigned_cans: 16 },
+  { name: 'Siddiqui Law Associates', area: 'Saddar', block: 'Court Road', assigned_cans: 10 },
+  { name: 'Bilal Supermarket & Grocery', area: 'Bahadurabad', block: 'Main Market', assigned_cans: 25 }
+];
+
 const INITIAL_WEEKLY_SCHEDULE = [
-  { id: 1, day: 'Monday', area: 'Gulshan', customer: 'Ahmed Traders', cans: 10, time: 'Morning', status: 'Active' },
-  { id: 2, day: 'Monday', area: 'Gulshan', customer: 'Ali Residence', cans: 5, time: 'Evening', status: 'Active' },
-  { id: 3, day: 'Tuesday', area: 'DHA', customer: 'City School', cans: 20, time: 'Morning', status: 'Active' },
-  { id: 4, day: 'Wednesday', area: 'PECHS', customer: 'Royal Apartments', cans: 15, time: 'Afternoon', status: 'Active' },
-  { id: 5, day: 'Thursday', area: 'Clifton', customer: 'Habib Bank Regional HQ', cans: 25, time: 'Morning', status: 'Active' },
-  { id: 6, day: 'Friday', area: 'North Nazimabad', customer: 'Fatima Heights', cans: 12, time: 'Afternoon', status: 'Active' }
+  { id: 1, day: 'Monday', time: 'Morning', area: 'Gulshan', block: 'Block 13', assignCans: 10, receivedCans: 10, deliverCans: 10, consumer: 'Ahmed Traders', status: 'Active' },
+  { id: 2, day: 'Monday', time: 'Evening', area: 'Gulshan', block: 'Block 13', assignCans: 5, receivedCans: 5, deliverCans: 5, consumer: 'Ali Residence', status: 'Active' },
+  { id: 3, day: 'Tuesday', time: 'Morning', area: 'DHA', block: 'Phase 5', assignCans: 20, receivedCans: 18, deliverCans: 20, consumer: 'City School', status: 'Active' },
+  { id: 4, day: 'Wednesday', time: 'Afternoon', area: 'PECHS', block: 'Block 2', assignCans: 15, receivedCans: 15, deliverCans: 15, consumer: 'Royal Apartments', status: 'Active' },
+  { id: 5, day: 'Thursday', time: 'Morning', area: 'Clifton', block: 'Block 5', assignCans: 25, receivedCans: 22, deliverCans: 25, consumer: 'Habib Bank Regional HQ', status: 'Active' },
+  { id: 6, day: 'Friday', time: 'Afternoon', area: 'North Nazimabad', block: 'Block H', assignCans: 12, receivedCans: 10, deliverCans: 12, consumer: 'Fatima Heights', status: 'Active' }
 ];
 
 let weeklySchedule = [];
@@ -1649,7 +1750,7 @@ let activeScheduleDayFilter = 'All';
 
 function loadWeeklySchedule() {
   try {
-    const saved = localStorage.getItem('wsms_weekly_schedule');
+    const saved = localStorage.getItem('wsms_weekly_schedule_v2');
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
@@ -1666,7 +1767,7 @@ function loadWeeklySchedule() {
 
 function saveWeeklyScheduleToStorage() {
   try {
-    localStorage.setItem('wsms_weekly_schedule', JSON.stringify(weeklySchedule));
+    localStorage.setItem('wsms_weekly_schedule_v2', JSON.stringify(weeklySchedule));
   } catch (e) {}
 }
 
@@ -1685,7 +1786,7 @@ function renderWeeklySchedule() {
   }
 
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:22px;color:#64748b;font-size:12.5px;">No schedule routes found for ${activeScheduleDayFilter}. Click "+ Add Schedule" to create one.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:22px;color:#64748b;font-size:12.5px;">No schedule routes found for ${activeScheduleDayFilter}. Click "+ Add Schedule" to create one.</td></tr>`;
     return;
   }
 
@@ -1705,14 +1806,17 @@ function renderWeeklySchedule() {
     tbody.innerHTML += `
     <tr>
       <td><span class="day-tag ${dayClass}">${s.day}</span></td>
-      <td><strong>${s.area}</strong></td>
-      <td style="font-weight:600;color:#0f172a;">${s.customer}</td>
-      <td><strong>${s.cans}</strong> <span style="font-size:11px;color:#64748b;">Cans</span></td>
       <td><span class="slot-pill ${slotClass}">${s.time}</span></td>
-      <td><span class="status-pill status-delivered">● ${s.status || 'Active'}</span></td>
-      <td style="white-space:nowrap;">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <button type="button" class="btn-dispatch-route" onclick="dispatchRouteToForm('${s.customer.replace(/'/g, "\\'")}', ${s.cans})" title="Load into Add Supply Form">
+      <td><strong>${s.area}</strong></td>
+      <td>${s.block || '-'}</td>
+      <td style="text-align:center;"><span class="badge-assign-cans">${s.assignCans || s.cans || 0}</span></td>
+      <td style="text-align:center;"><span class="badge-rec-cans">${s.receivedCans !== undefined ? s.receivedCans : (s.cans || 0)}</span></td>
+      <td style="text-align:center;"><span class="badge-del-cans">${s.deliverCans !== undefined ? s.deliverCans : (s.cans || 0)}</span></td>
+      <td style="font-weight:600;color:#0f172a;">${s.consumer || s.customer}</td>
+      <td style="text-align:center;"><span class="status-pill status-delivered">● ${s.status || 'Active'}</span></td>
+      <td style="white-space:nowrap;text-align:center;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
+          <button type="button" class="btn-dispatch-route" onclick="dispatchRouteToForm('${(s.consumer || s.customer).replace(/'/g, "\\'")}', ${s.deliverCans || s.cans || 10}, ${s.receivedCans || 0})" title="Load into Add Supply Form">
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             Dispatch
           </button>
@@ -1742,7 +1846,7 @@ function openScheduleModal() {
   const modal = document.getElementById('scheduleModal');
   if (modal) {
     modal.classList.add('show');
-    updateSchedulePreview();
+    onAreaChange();
   }
 }
 
@@ -1757,12 +1861,146 @@ function closeScheduleModalOnOverlay(e) {
   }
 }
 
+function onAreaChange() {
+  const areaSelect = document.getElementById('schedArea');
+  const blockSelect = document.getElementById('schedBlock');
+  const areaBadge = document.getElementById('modalAreaBadge');
+  const area = areaSelect ? areaSelect.value : 'Gulshan';
+  if (areaBadge) areaBadge.textContent = area;
+
+  // Populate blocks for this area
+  const matchingCustomers = WEEKLY_SCHEDULE_CUSTOMERS.filter(c => c.area.toLowerCase() === area.toLowerCase());
+  const uniqueBlocks = [...new Set(matchingCustomers.map(c => c.block).filter(Boolean))];
+
+  if (blockSelect) {
+    blockSelect.innerHTML = '<option value="All">All Blocks</option>';
+    uniqueBlocks.forEach(b => {
+      blockSelect.innerHTML += `<option value="${b}">${b}</option>`;
+    });
+  }
+
+  renderModalCustomerRows();
+}
+
+function onBlockChange() {
+  renderModalCustomerRows();
+}
+
+function onSchedFiltersChange() {
+  updateSchedulePreview();
+}
+
+function renderModalCustomerRows() {
+  const area = document.getElementById('schedArea')?.value || 'Gulshan';
+  const block = document.getElementById('schedBlock')?.value || 'All';
+  const tbody = document.getElementById('modalCustomerTableBody');
+  const countEl = document.getElementById('modalCustCount');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+
+  let list = WEEKLY_SCHEDULE_CUSTOMERS.filter(c => c.area.toLowerCase() === area.toLowerCase());
+  if (block !== 'All') {
+    list = list.filter(c => c.block.toLowerCase() === block.toLowerCase());
+  }
+
+  if (countEl) countEl.textContent = list.length;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:16px;color:#64748b;">No preloaded customers for ${area} ${block !== 'All' ? '(' + block + ')' : ''}. Click "+ Add Other Consumer" to add one.</td></tr>`;
+    updateSchedulePreview();
+    return;
+  }
+
+  list.forEach((c, idx) => {
+    tbody.innerHTML += `
+    <tr class="modal-cust-row">
+      <td style="text-align:center;">
+        <input type="checkbox" class="cust-row-select" checked onchange="updateSchedulePreview()"/>
+      </td>
+      <td>
+        <strong class="cust-row-name" style="color:#0f172a;">${c.name}</strong>
+      </td>
+      <td>
+        <span class="cust-row-block" style="color:#64748b;">${c.block}</span>
+      </td>
+      <td style="text-align:center;">
+        <span class="badge-assign-cans cust-row-assign" data-val="${c.assigned_cans}">${c.assigned_cans} Cans</span>
+      </td>
+      <td style="text-align:center;">
+        <input type="number" class="modal-qty-input cust-row-rec" value="${c.assigned_cans}" min="0" oninput="updateSchedulePreview()"/>
+      </td>
+      <td style="text-align:center;">
+        <input type="number" class="modal-qty-input cust-row-del" value="${c.assigned_cans}" min="0" oninput="updateSchedulePreview()"/>
+      </td>
+    </tr>`;
+  });
+
+  updateSchedulePreview();
+}
+
+function toggleSelectAllModalCust(master) {
+  const checkboxes = document.querySelectorAll('.cust-row-select');
+  checkboxes.forEach(cb => cb.checked = master.checked);
+  updateSchedulePreview();
+}
+
+function addCustomConsumerRow() {
+  const tbody = document.getElementById('modalCustomerTableBody');
+  const area = document.getElementById('schedArea')?.value || 'Gulshan';
+  const block = document.getElementById('schedBlock')?.value !== 'All' ? document.getElementById('schedBlock').value : 'Block 1';
+  if (!tbody) return;
+
+  const tr = document.createElement('tr');
+  tr.className = 'modal-cust-row';
+  tr.innerHTML = `
+    <td style="text-align:center;">
+      <input type="checkbox" class="cust-row-select" checked onchange="updateSchedulePreview()"/>
+    </td>
+    <td>
+      <input type="text" class="cust-row-name-input" placeholder="Consumer Name *" style="width:100% !important;height:26px !important;padding:0 6px !important;font-size:12px !important;border:1px solid #cbd5e1 !important;border-radius:4px !important;" oninput="updateSchedulePreview()"/>
+    </td>
+    <td>
+      <input type="text" class="cust-row-block-input" value="${block}" style="width:70px !important;height:26px !important;padding:0 6px !important;font-size:12px !important;border:1px solid #cbd5e1 !important;border-radius:4px !important;"/>
+    </td>
+    <td style="text-align:center;">
+      <input type="number" class="cust-row-assign-input modal-qty-input" value="10" min="1" oninput="updateSchedulePreview()"/>
+    </td>
+    <td style="text-align:center;">
+      <input type="number" class="modal-qty-input cust-row-rec" value="10" min="0" oninput="updateSchedulePreview()"/>
+    </td>
+    <td style="text-align:center;">
+      <input type="number" class="modal-qty-input cust-row-del" value="10" min="0" oninput="updateSchedulePreview()"/>
+    </td>
+  `;
+  tbody.insertBefore(tr, tbody.firstChild);
+  updateSchedulePreview();
+}
+
 function updateSchedulePreview() {
   const day = document.getElementById('schedDay')?.value || 'Monday';
-  const area = document.getElementById('schedArea')?.value || 'Gulshan';
-  const cust = document.getElementById('schedCustomer')?.value || 'Ahmed Traders';
-  const cans = document.getElementById('schedCans')?.value || '10';
   const time = document.getElementById('schedTimeSlot')?.value || 'Morning';
+  const area = document.getElementById('schedArea')?.value || 'Gulshan';
+  const block = document.getElementById('schedBlock')?.value || 'All';
+
+  const rows = document.querySelectorAll('.modal-cust-row');
+  let selectedCount = 0;
+  let totalAssigned = 0;
+  let firstSelectedName = '';
+
+  rows.forEach(row => {
+    const isChecked = row.querySelector('.cust-row-select')?.checked;
+    if (isChecked) {
+      selectedCount++;
+      const nameEl = row.querySelector('.cust-row-name') || row.querySelector('.cust-row-name-input');
+      const name = nameEl ? (nameEl.value || nameEl.textContent || '').trim() : '';
+      if (!firstSelectedName && name) firstSelectedName = name;
+
+      const assignEl = row.querySelector('.cust-row-assign') || row.querySelector('.cust-row-assign-input');
+      const assign = parseInt(assignEl?.dataset?.val || assignEl?.value || 0, 10) || 0;
+      totalAssigned += assign;
+    }
+  });
 
   const prevDay = document.getElementById('prevDayTag');
   const prevCust = document.getElementById('prevCustName');
@@ -1771,40 +2009,80 @@ function updateSchedulePreview() {
   const prevTime = document.getElementById('prevTime');
 
   if (prevDay) prevDay.textContent = day;
-  if (prevCust) prevCust.textContent = cust;
-  if (prevArea) prevArea.textContent = '· ' + area;
-  if (prevCans) prevCans.textContent = cans + ' Cans';
-  if (prevTime) prevTime.textContent = time + ' Slot';
+  if (prevCust) {
+    if (selectedCount > 1) {
+      prevCust.textContent = `${firstSelectedName || 'Consumers'} + ${selectedCount - 1} more`;
+    } else if (selectedCount === 1) {
+      prevCust.textContent = firstSelectedName || '1 Consumer';
+    } else {
+      prevCust.textContent = 'No consumer selected';
+    }
+  }
+  if (prevArea) prevArea.textContent = `· ${area} (${block !== 'All' ? block : 'All Blocks'})`;
+  if (prevCans) prevCans.textContent = `${totalAssigned} Cans Assigned (${selectedCount} Consumers)`;
+  if (prevTime) prevTime.textContent = `${time} Slot`;
 }
 
 function handleSaveSchedule(e) {
   e.preventDefault();
   const day = document.getElementById('schedDay').value;
-  const area = document.getElementById('schedArea').value.trim();
-  const customer = document.getElementById('schedCustomer').value.trim();
-  const cans = parseInt(document.getElementById('schedCans').value, 10) || 10;
   const time = document.getElementById('schedTimeSlot').value;
+  const area = document.getElementById('schedArea').value;
 
-  if (!area || !customer) {
-    showPopup('Please fill in both Area and Customer name.', 'Validation Error');
+  const rows = document.querySelectorAll('.modal-cust-row');
+  const newRoutes = [];
+
+  rows.forEach((row, i) => {
+    const isChecked = row.querySelector('.cust-row-select')?.checked;
+    if (!isChecked) return;
+
+    let consumer = '';
+    const nameEl = row.querySelector('.cust-row-name');
+    const nameInput = row.querySelector('.cust-row-name-input');
+    if (nameEl) consumer = nameEl.textContent.trim();
+    else if (nameInput) consumer = nameInput.value.trim();
+
+    if (!consumer) return;
+
+    let block = '';
+    const blockEl = row.querySelector('.cust-row-block');
+    const blockInput = row.querySelector('.cust-row-block-input');
+    if (blockEl) block = blockEl.textContent.trim();
+    else if (blockInput) block = blockInput.value.trim();
+
+    let assignCans = 10;
+    const assignBadge = row.querySelector('.cust-row-assign');
+    const assignInput = row.querySelector('.cust-row-assign-input');
+    if (assignBadge) assignCans = parseInt(assignBadge.dataset.val, 10) || 10;
+    else if (assignInput) assignCans = parseInt(assignInput.value, 10) || 10;
+
+    const receivedCans = parseInt(row.querySelector('.cust-row-rec')?.value, 10) || 0;
+    const deliverCans = parseInt(row.querySelector('.cust-row-del')?.value, 10) || assignCans;
+
+    newRoutes.push({
+      id: Date.now() + i,
+      day,
+      time,
+      area,
+      block: block || 'Block 1',
+      assignCans,
+      receivedCans,
+      deliverCans,
+      consumer,
+      status: 'Active'
+    });
+  });
+
+  if (newRoutes.length === 0) {
+    showPopup('Please select or add at least one consumer to schedule.', 'No Consumers Selected');
     return;
   }
 
-  const newRoute = {
-    id: Date.now(),
-    day,
-    area,
-    customer,
-    cans,
-    time,
-    status: 'Active'
-  };
-
-  weeklySchedule.push(newRoute);
+  weeklySchedule.unshift(...newRoutes);
   saveWeeklyScheduleToStorage();
   renderWeeklySchedule();
   closeScheduleModal();
-  showPopup(`✓ Added weekly route for ${customer} on ${day} (${area})!`, 'Schedule Added');
+  showPopup(`✓ Successfully added ${newRoutes.length} route${newRoutes.length > 1 ? 's' : ''} for ${day} (${area})!`, 'Schedule Saved');
 }
 
 function deleteScheduleRoute(id) {
@@ -1813,12 +2091,12 @@ function deleteScheduleRoute(id) {
   renderWeeklySchedule();
 }
 
-function dispatchRouteToForm(customerName, cansQty) {
+function dispatchRouteToForm(consumerName, deliverQty, receivedQty) {
   const custSelect = document.getElementById('customer');
   if (custSelect) {
     let found = false;
     for (let i = 0; i < custSelect.options.length; i++) {
-      if (custSelect.options[i].text.toLowerCase().includes(customerName.toLowerCase())) {
+      if (custSelect.options[i].text.toLowerCase().includes(consumerName.toLowerCase())) {
         custSelect.selectedIndex = i;
         found = true;
         break;
@@ -1831,16 +2109,22 @@ function dispatchRouteToForm(customerName, cansQty) {
 
   const deliveredInput = document.getElementById('delivered');
   if (deliveredInput) {
-    deliveredInput.value = cansQty;
-    calcAmount();
+    deliveredInput.value = deliverQty || 10;
   }
+
+  const returnedInput = document.getElementById('returned');
+  if (returnedInput) {
+    returnedInput.value = receivedQty !== undefined ? receivedQty : 0;
+  }
+
+  calcAmount();
 
   const supplyCard = document.querySelector('.supply-card');
   if (supplyCard) {
     supplyCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  showPopup(`Dispatched route for ${customerName} (${cansQty} Cans). Ready to record in Add Supply!`, 'Route Dispatched');
+  showPopup(`Dispatched route for ${consumerName}: ${deliverQty} Cans Delivered, ${receivedQty || 0} Cans Received loaded into Add Supply Record!`, 'Route Dispatched');
 }
 
 async function init() {

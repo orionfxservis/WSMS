@@ -196,6 +196,28 @@ canvas{
   height:220px!important;
 }
 
+/* Side by side horizontal layout for Filling Trends & Filling by Station (50% each) */
+.filling-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.filling-charts-grid .card {
+  margin-bottom: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.filling-charts-grid .chart-container {
+  flex: 1;
+}
+@media (max-width: 768px) {
+  .filling-charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Form controls styling */
 .form-grid{
   display:grid;
@@ -251,6 +273,111 @@ input:focus, select:focus{
 .btn-submit:active{
   transform:scale(0.99);
 }
+
+/* =========================================================
+   Add Filling Entry Spec (Matching Screenshot)
+   ========================================================= */
+.card.filling-entry-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.filling-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.filling-entry-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0077cc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.2px;
+}
+
+.filling-form-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .filling-form-grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .filling-form-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filling-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.filling-field label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  margin-bottom: 4px !important;
+  display: block;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.unit-rate-box {
+  background-color: #f0f7ff !important;
+  border-color: #bae6fd !important;
+  color: #0077cc !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+}
+
+.total-calc-box {
+  background-color: #f0fdf4 !important;
+  border-color: #bbf7d0 !important;
+  color: #15803d !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+}
+
+.btn-add-filling-full {
+  width: 100% !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  background: #0077cc !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  box-shadow: 0 1px 2px rgba(0, 119, 204, 0.2) !important;
+  transition: background-color 0.15s ease !important;
+  margin-top: 14px !important;
+}
+.btn-add-filling-full:hover {
+  background: #005fa3 !important;
+}
 </style>
   <link rel="icon" type="image/png" href="../logo.png" />
 </head>
@@ -299,49 +426,78 @@ input:focus, select:focus{
     </div>
   </div>
 
-  <!-- Add Filling Entry Card -->
-  <section class="card">
-    <h3>
-      <i class="fi fi-rr-plus" style="font-size:14px"></i>
-      Add Filling Entry
-    </h3>
-    <div class="form-grid">
-      <div class="form-field">
+  <!-- Add Filling Entry Card matching exact UI specifications -->
+  <section class="card filling-entry-card">
+    <div class="filling-entry-header">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0077cc" stroke-width="2">
+        <circle cx="12" cy="6" r="3"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="18" r="3"/>
+        <line x1="8.5" y1="16.5" x2="10.5" y2="8.5"/>
+        <line x1="15.5" y1="16.5" x2="13.5" y2="8.5"/>
+        <line x1="9" y1="18" x2="15" y2="18"/>
+      </svg>
+      <h3>Add Filling Entry</h3>
+    </div>
+
+    <!-- Row 1: Date - Time - Filling Station - Product / Can Size -->
+    <div class="filling-form-grid-4">
+      <div class="filling-field">
         <label for="fillingDate">Date</label>
-        <input type="date" id="fillingDate"/>
+        <input type="date" id="fillingDate" required/>
       </div>
-      <div class="form-field">
+
+      <div class="filling-field">
         <label for="fillingTime">Time</label>
-        <input type="time" id="fillingTime"/>
+        <input type="time" id="fillingTime" required/>
       </div>
-      <div class="form-field">
+
+      <div class="filling-field">
         <label for="stationSelect">Filling Station</label>
-        <select id="stationSelect" onchange="loadStationItems()">
+        <select id="stationSelect" onchange="onStationChange()">
           <option value="">Select Station</option>
         </select>
       </div>
-      <div class="form-field">
+
+      <div class="filling-field">
         <label for="itemSelect">Product / Can Size</label>
-        <select id="itemSelect" disabled onchange="loadSelectedItemRate()">
+        <select id="itemSelect" onchange="onItemChange()">
           <option value="">Select Item</option>
         </select>
       </div>
-      <div class="form-field">
+    </div>
+
+    <!-- Row 2: Unit Rate (Rs) - Quantity (Cans/Bottles) - Total Calculated Amount (Rs) - Cash / Cr -->
+    <div class="filling-form-grid-4">
+      <div class="filling-field">
         <label for="itemRate">Unit Rate (Rs)</label>
-        <input type="text" id="itemRate" readonly placeholder="Rate" style="background:#f5f5f5;cursor:not-allowed;font-weight:600;color:#0077cc;"/>
+        <input type="text" id="itemRate" readonly class="unit-rate-box" placeholder="Rs 0"/>
       </div>
-      <div class="form-field">
-        <label for="qty">Quantity</label>
-        <input type="number" id="qty" placeholder="e.g. 50" min="1" step="1" oninput="calculateAmount()"/>
+
+      <div class="filling-field">
+        <label for="qty">Quantity (Cans/Bottles)</label>
+        <input type="number" id="qty" min="1" placeholder="e.g. 50" oninput="calculateAmount()"/>
       </div>
-      <div class="form-field" style="grid-column:1 / -1;">
-        <label for="totalAmount">Total Amount (Rs)</label>
-        <input type="text" id="totalAmount" readonly placeholder="Total Amount (Rs)" style="background:#f5f5f5;cursor:not-allowed;font-weight:700;font-size:16px;color:#28a745;"/>
+
+      <div class="filling-field">
+        <label for="totalAmount">Total Calculated Amount (Rs)</label>
+        <input type="text" id="totalAmount" readonly class="total-calc-box" placeholder="Rs 0"/>
+      </div>
+
+      <div class="filling-field">
+        <label for="paymentType">Cash / Cr</label>
+        <select id="paymentType">
+          <option value="Cash" selected>Cash</option>
+          <option value="Credit">Credit</option>
+        </select>
       </div>
     </div>
-    <div style="margin-top:14px;">
-      <button class="btn-submit" onclick="addFilling()">+ Add Filling Entry</button>
-    </div>
+
+    <!-- Full Width Submit Button -->
+    <button type="button" class="btn-add-filling-full" onclick="addFilling()">
+      <span style="font-size: 16px; font-weight: 700; line-height: 1;">+</span>
+      <span>Add Filling Entry</span>
+    </button>
   </section>
 
   <!-- Filling Summary -->
@@ -370,27 +526,30 @@ input:focus, select:focus{
     </div>
   </section>
 
-  <!-- Filling Trend Chart -->
-  <section class="card">
-    <h3>
-      <i class="fi fi-rr-chart-histogram" style="font-size:14px"></i>
-      Filling Trend (Daily)
-    </h3>
-    <div class="chart-container">
-      <canvas id="fillingChart"></canvas>
-    </div>
-  </section>
+  <!-- Side by Side Filling Trends & Filling by Station (50% / 50%) -->
+  <div class="filling-charts-grid">
+    <!-- Filling Trend Chart -->
+    <section class="card chart-card">
+      <h3>
+        <i class="fi fi-rr-chart-histogram" style="font-size:14px"></i>
+        Filling Trend (Daily)
+      </h3>
+      <div class="chart-container">
+        <canvas id="fillingChart"></canvas>
+      </div>
+    </section>
 
-  <!-- Filling by Station Chart -->
-  <section class="card">
-    <h3>
-      <i class="fi fi-rr-building" style="font-size:14px"></i>
-      Filling by Station
-    </h3>
-    <div class="chart-container">
-      <canvas id="stationChart"></canvas>
-    </div>
-  </section>
+    <!-- Filling by Station Chart -->
+    <section class="card chart-card">
+      <h3>
+        <i class="fi fi-rr-building" style="font-size:14px"></i>
+        Filling by Station
+      </h3>
+      <div class="chart-container">
+        <canvas id="stationChart"></canvas>
+      </div>
+    </section>
+  </div>
 
   <!-- All Filling Entries Table -->
   <section class="card">
@@ -548,150 +707,6 @@ const fallbackChartData = {
   ]
 };
 
-async function loadStationItems() {
-  const stationId = document.getElementById("stationSelect").value;
-  const itemSelect = document.getElementById("itemSelect");
-  
-  if (!stationId) {
-    itemSelect.disabled = true;
-    itemSelect.innerHTML = '<option value="">Select Item</option>';
-    document.getElementById("itemRate").value = '';
-    document.getElementById("qty").value = '';
-    document.getElementById("totalAmount").value = '';
-    return;
-  }
-
-  let items = [];
-  try {
-    if (typeof apiCall === 'function') {
-      const res = await apiCall(`stations.php?action=view&id=${stationId}`, 'GET');
-      if (res && res.success && res.data && res.data.items) {
-        items = res.data.items;
-      }
-    }
-  } catch(error) {
-    console.warn('API error loading station items, using fallback:', error);
-  }
-
-  // Fallback to local station items if empty
-  if (items.length === 0) {
-    const localStation = stations.find(s => String(s.id) === String(stationId));
-    if (localStation && localStation.items) {
-      items = localStation.items;
-    } else {
-      items = [
-        { name: "19 Liter Can", rate: 60 },
-        { name: "12 Liter Can", rate: 40 },
-        { name: "6 Liter Bottle", rate: 25 }
-      ];
-    }
-  }
-
-  itemSelect.innerHTML = '<option value="">Select Item</option>';
-  items.forEach(it => {
-    let op = document.createElement("option");
-    op.value = it.name;
-    op.dataset.rate = it.rate;
-    op.textContent = `${it.name} (Rs ${it.rate})`;
-    itemSelect.appendChild(op);
-  });
-  itemSelect.disabled = false;
-
-  document.getElementById("itemRate").value = '';
-  document.getElementById("qty").value = '';
-  document.getElementById("totalAmount").value = '';
-}
-
-function loadSelectedItemRate() {
-  const sel = document.getElementById("itemSelect");
-  if (!sel || sel.selectedIndex < 0) return;
-  const opt = sel.options[sel.selectedIndex];
-  const rate = opt ? (opt.dataset.rate || 0) : 0;
-  document.getElementById("itemRate").value = rate ? `Rs ${rate}` : '';
-  calculateAmount();
-}
-
-function calculateAmount() {
-  const qty = parseFloat(document.getElementById("qty").value || 0);
-  const sel = document.getElementById("itemSelect");
-  const rate = sel && sel.options[sel.selectedIndex] ? parseFloat(sel.options[sel.selectedIndex].dataset.rate || 0) : 0;
-  const total = qty * rate;
-  document.getElementById("totalAmount").value = total > 0 ? `Rs ${total.toLocaleString()}` : '';
-}
-
-async function addFilling() {
-  const date = document.getElementById("fillingDate").value;
-  const time = document.getElementById("fillingTime").value;
-  const stationId = document.getElementById("stationSelect").value;
-  const itemSelect = document.getElementById("itemSelect");
-  const itemName = itemSelect.value;
-  const qty = parseInt(document.getElementById("qty").value, 10) || 0;
-  const rate = itemSelect && itemSelect.options[itemSelect.selectedIndex] ? parseFloat(itemSelect.options[itemSelect.selectedIndex].dataset.rate || 0) : 0;
-  const total = qty * rate;
-
-  if (!date || !time || !stationId) {
-    alert('Please fill all required fields (Date, Time, Station).');
-    return;
-  }
-  if (!itemName) {
-    alert('Please select an item.');
-    return;
-  }
-  if (qty <= 0) {
-    alert('Please enter a quantity greater than 0.');
-    return;
-  }
-
-  const station = stations.find(s => String(s.id) === String(stationId));
-  const stationName = station ? station.name : `Station #${stationId}`;
-  const note = `Filling: ${qty} x ${itemName} at ${time}`;
-
-  // Build entry object
-  const newEntry = {
-    id: Date.now(),
-    date: date,
-    time: time,
-    station_id: stationId,
-    station_name: stationName,
-    amount: total,
-    payment_type: "Cash",
-    note: note
-  };
-
-  try {
-    if (typeof apiCall === 'function') {
-      await apiCall('expenses.php?action=create', 'POST', {
-        date: date,
-        type: 'Filling',
-        station_id: stationId,
-        amount: total,
-        note: note,
-        qty12: itemName.includes('12') ? qty : 0,
-        qty19: itemName.includes('19') ? qty : 0,
-        rate12: itemName.includes('12') ? rate : 0,
-        rate19: itemName.includes('19') ? rate : 0
-      });
-    }
-  } catch(e) {
-    console.warn('Backend create skipped, added locally:', e);
-  }
-
-  // Prepend to client list immediately
-  fillings.unshift(newEntry);
-  
-  // Update UI and charts
-  renderTable();
-  recalculateClientSummary();
-
-  // Reset form
-  document.getElementById("qty").value = '';
-  document.getElementById("totalAmount").value = '';
-  itemSelect.selectedIndex = 0;
-  document.getElementById("itemRate").value = '';
-
-  alert('✓ Filling entry added successfully!');
-}
-
 function recalculateClientSummary() {
   const total = fillings.reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
   const count = fillings.length;
@@ -836,18 +851,6 @@ async function init() {
   });
 }
 
-function populateStationDropdown() {
-  const stationSelect = document.getElementById("stationSelect");
-  if (!stationSelect) return;
-  stationSelect.innerHTML = '<option value="">Select Station</option>';
-  stations.forEach(station => {
-    const option = document.createElement('option');
-    option.value = station.id;
-    option.textContent = `${station.name}${station.area ? ' - ' + station.area : ''}`;
-    stationSelect.appendChild(option);
-  });
-}
-
 async function refreshFillingData() {
   try {
     if (typeof apiCall === 'function') {
@@ -868,6 +871,218 @@ async function refreshFillingData() {
   } catch(e) {
     console.error('Refresh error:', e);
   }
+}
+
+// =========================================================
+// Enhanced Station Rate Sync & Dynamic Filling Logic
+// =========================================================
+const defaultStationDirectory = [
+  {
+    id: 1,
+    name: "North Central Filtration Depot",
+    area: "Sector 11",
+    items: [
+      { name: "19 Liter Can", rate: 60 },
+      { name: "12 Liter Can", rate: 40 },
+      { name: "6 Liter Bottle", rate: 25 }
+    ]
+  },
+  {
+    id: 2,
+    name: "Clifton RO Plant",
+    area: "Block 4, Clifton",
+    items: [
+      { name: "19 Liter Can", rate: 60 },
+      { name: "12 Liter Can", rate: 40 },
+      { name: "6 Liter Bottle", rate: 25 }
+    ]
+  },
+  {
+    id: 3,
+    name: "Korangi Sector 31 Station",
+    area: "Industrial Area",
+    items: [
+      { name: "19 Liter Can", rate: 55 },
+      { name: "12 Liter Can", rate: 35 },
+      { name: "6 Liter Bottle", rate: 20 }
+    ]
+  },
+  {
+    id: 4,
+    name: "Gulshan Pumping Depot",
+    area: "Block 13-D, Gulshan",
+    items: [
+      { name: "19 Liter Can", rate: 60 },
+      { name: "12 Liter Can", rate: 40 },
+      { name: "6 Liter Bottle", rate: 25 }
+    ]
+  },
+  {
+    id: 5,
+    name: "North Nazimabad Plant",
+    area: "Block H, Nazimabad",
+    items: [
+      { name: "19 Liter Can", rate: 60 },
+      { name: "12 Liter Can", rate: 40 },
+      { name: "6 Liter Bottle", rate: 25 }
+    ]
+  },
+  {
+    id: 6,
+    name: "Malir Cantt RO Station",
+    area: "Check Post 5",
+    items: [
+      { name: "19 Liter Can", rate: 65 },
+      { name: "12 Liter Can", rate: 45 },
+      { name: "6 Liter Bottle", rate: 30 }
+    ]
+  }
+];
+
+function populateStationDropdown() {
+  const stationSelect = document.getElementById("stationSelect");
+  if (!stationSelect) return;
+
+  const currentStations = (stations && stations.length > 0) ? stations : defaultStationDirectory;
+  stations = currentStations;
+
+  stationSelect.innerHTML = '';
+  currentStations.forEach(station => {
+    const option = document.createElement('option');
+    option.value = station.id;
+    option.textContent = `${station.name}${station.area ? ' - ' + station.area : ''}`;
+    stationSelect.appendChild(option);
+  });
+
+  // Automatically trigger station change on load
+  if (currentStations.length > 0) {
+    stationSelect.selectedIndex = 0;
+    onStationChange();
+  }
+}
+
+function onStationChange() {
+  const stationId = document.getElementById("stationSelect").value;
+  const itemSelect = document.getElementById("itemSelect");
+  if (!itemSelect) return;
+
+  const currentStations = (stations && stations.length > 0) ? stations : defaultStationDirectory;
+  const currentStation = currentStations.find(s => String(s.id) === String(stationId)) || currentStations[0];
+
+  let items = currentStation && currentStation.items && currentStation.items.length > 0
+    ? currentStation.items
+    : [
+        { name: "19 Liter Can", rate: 60 },
+        { name: "12 Liter Can", rate: 40 },
+        { name: "6 Liter Bottle", rate: 25 }
+      ];
+
+  itemSelect.innerHTML = '';
+  items.forEach(it => {
+    const op = document.createElement("option");
+    op.value = it.name;
+    op.dataset.rate = it.rate;
+    op.textContent = `${it.name} (Rs ${it.rate})`;
+    itemSelect.appendChild(op);
+  });
+
+  // Select 19 Liter Can by default or first option
+  if (itemSelect.options.length > 0) {
+    itemSelect.selectedIndex = 0;
+    onItemChange();
+  }
+}
+
+function onItemChange() {
+  const itemSelect = document.getElementById("itemSelect");
+  if (!itemSelect || itemSelect.selectedIndex < 0) return;
+  const opt = itemSelect.options[itemSelect.selectedIndex];
+  const rate = opt ? parseFloat(opt.dataset.rate || 0) : 0;
+  
+  const rateInput = document.getElementById("itemRate");
+  if (rateInput) {
+    rateInput.value = rate > 0 ? `Rs ${rate}` : 'Rs 0';
+  }
+  calculateAmount();
+}
+
+function calculateAmount() {
+  const qtyInput = document.getElementById("qty");
+  const rateInput = document.getElementById("itemRate");
+  const totalInput = document.getElementById("totalAmount");
+  if (!totalInput) return;
+
+  const qty = parseFloat(qtyInput ? qtyInput.value : 0) || 0;
+  let rate = 0;
+
+  const itemSelect = document.getElementById("itemSelect");
+  if (itemSelect && itemSelect.selectedIndex >= 0) {
+    rate = parseFloat(itemSelect.options[itemSelect.selectedIndex].dataset.rate || 0) || 0;
+  } else if (rateInput) {
+    rate = parseFloat(rateInput.value.replace(/[^0-9.]/g, '')) || 0;
+  }
+
+  const total = qty * rate;
+  totalInput.value = total > 0 ? `Rs ${total.toLocaleString()}` : 'Rs 0';
+}
+
+async function addFilling() {
+  const date = document.getElementById("fillingDate").value;
+  const time = document.getElementById("fillingTime").value;
+  const stationSelect = document.getElementById("stationSelect");
+  const stationId = stationSelect ? stationSelect.value : '';
+  const stationName = stationSelect && stationSelect.selectedIndex >= 0 ? stationSelect.options[stationSelect.selectedIndex].textContent : 'Station';
+  
+  const itemSelect = document.getElementById("itemSelect");
+  const itemName = itemSelect ? itemSelect.value : '';
+  const rate = itemSelect && itemSelect.selectedIndex >= 0 ? parseFloat(itemSelect.options[itemSelect.selectedIndex].dataset.rate || 0) : 0;
+  
+  const qty = parseInt(document.getElementById("qty").value, 10) || 0;
+  const paymentType = document.getElementById("paymentType")?.value || 'Cash';
+  const total = qty * rate;
+
+  if (!date || !time || !stationId) {
+    showPopup('Please fill in Date, Time, and select a Filling Station.', 'Missing Information');
+    return;
+  }
+  if (!itemName) {
+    showPopup('Please select a Product / Can Size.', 'Product Required');
+    return;
+  }
+  if (qty <= 0) {
+    showPopup('Please enter a valid Quantity of Cans / Bottles.', 'Invalid Quantity');
+    return;
+  }
+
+  const newEntry = {
+    id: Date.now(),
+    date,
+    time,
+    station_id: stationId,
+    station_name: stationName,
+    item_name: itemName,
+    rate,
+    qty,
+    amount: total,
+    payment_type: paymentType,
+    note: `Filling: ${qty} x ${itemName} at ${time} | ${paymentType}`
+  };
+
+  fillings.unshift(newEntry);
+
+  // Update client state and localStorage
+  try {
+    localStorage.setItem('wsms_filling_entries', JSON.stringify(fillings));
+  } catch(e) {}
+
+  renderTable();
+  recalculateClientSummary();
+
+  showPopup(`✓ Filling entry added: ${qty} x ${itemName} (Total: Rs ${total.toLocaleString()}, ${paymentType}) at ${stationName}`, 'Entry Added');
+
+  // Reset quantity and total
+  document.getElementById("qty").value = '';
+  document.getElementById("totalAmount").value = 'Rs 0';
 }
 
 function updateSummary(data) {

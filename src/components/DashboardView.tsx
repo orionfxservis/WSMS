@@ -3364,54 +3364,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 )}
               </div>
               <div className="flex items-center gap-2">
-                {activeModal === 'customers' && (
-                  <a
-                    href="./pages/customers.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
-                    title="Open standalone customers.html in new tab"
-                  >
-                    <span>/pages/customers.html</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {activeModal === 'stations' && (
-                  <a
-                    href="./pages/stations.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
-                    title="Open standalone stations.html in new tab"
-                  >
-                    <span>/pages/stations.html</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {activeModal === 'inventory' && (
-                  <a
-                    href="./pages/inventory.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
-                    title="Open standalone inventory.html in new tab"
-                  >
-                    <span>/pages/inventory.html</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-                {activeModal === 'reports' && (
-                  <a
-                    href="./pages/report.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-[#0077cc] bg-blue-50 hover:bg-blue-100 rounded-md border border-blue-200 transition-colors"
-                    title="Open standalone report.html in new tab"
-                  >
-                    <span>/pages/report.html</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
+                <button
+                  type="button"
+                  onClick={() => setActiveModal(null)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-[#0077cc] hover:bg-[#005fa3] rounded-lg shadow-xs transition-colors cursor-pointer"
+                  title="Back to Dashboard"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Back to Dashboard</span>
+                </button>
                 <button
                   type="button"
                   onClick={() => setActiveModal(null)}

@@ -230,3 +230,230 @@ body .header {
 main {
   margin-top: 0 !important;
 }
+
+/* =========================================================
+   Unified Bottom Navigation Menu for WSMS
+   Standardized height, 25% equal width, font sizing & alignment across all pages
+   ========================================================= */
+nav.bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+nav.bottom-nav a {
+  flex: 1 1 0 !important;
+  width: 25% !important;
+  max-width: 25% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  color: #475569 !important;
+  border-bottom: 3.5px solid transparent !important;
+  box-sizing: border-box !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease !important;
+  white-space: nowrap !important;
+}
+
+nav.bottom-nav a:hover {
+  color: #0077cc !important;
+  background-color: #f8fafc !important;
+}
+
+nav.bottom-nav a.active {
+  color: #0077cc !important;
+  border-bottom: 3.5px solid #0077cc !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure page content never collides with the fixed bottom menu */
+body {
+  padding-bottom: 64px !important;
+}
+
+/* =========================================================
+   Unified WSMS Input Fields & Modal Controls Standard
+   Matching supply.html (31px compact, professional enterprise style)
+   ========================================================= */
+
+/* All Text and Number Inputs across all forms and cards */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+select,
+.form-control,
+.modal-field input,
+.modal-field select,
+.popup-modal input,
+.popup-modal select,
+.modal-content input,
+.modal-content select {
+  width: 100% !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 10px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 12.5px !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* Focused State */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+select:focus,
+.form-control:focus,
+.modal-field input:focus,
+.modal-field select:focus,
+.popup-modal input:focus,
+.popup-modal select:focus,
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: #0077cc !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
+}
+
+/* Readonly fields (matching supply.html .readonly-box) */
+input[readonly],
+select:disabled,
+.readonly-box {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+  cursor: default !important;
+  font-weight: 600 !important;
+}
+
+/* Calculated Amount boxes (matching supply.html .amount-box) */
+.amount-box,
+input#amount,
+input#totalAmount {
+  background-color: #f0f7ff !important;
+  border-color: #bae6fd !important;
+  color: #0077cc !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+}
+
+/* Search inputs with icons */
+.search-box input,
+.search-input,
+input#search,
+input#searchStations,
+input#searchItem,
+input#deliverySearchInput {
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  background-color: #ffffff !important;
+}
+
+/* Textareas (proportionally compact and clean) */
+textarea,
+.form-group textarea {
+  width: 100% !important;
+  min-height: 60px !important;
+  padding: 6px 10px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 12.5px !important;
+  color: #0f172a !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+  resize: vertical;
+}
+
+textarea:focus {
+  border-color: #0077cc !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
+}
+
+/* Form labels above inputs (compact, clean uppercase styling) */
+label,
+.form-field label,
+.modal-field label,
+.form-group label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+  margin-bottom: 4px !important;
+  display: block;
+}
+
+/* Modal and Popup input fields */
+.popup-modal input,
+.popup-modal select,
+.modal-content input,
+.modal-content select {
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  font-size: 12.5px !important;
+}
+
+/* Buttons paired with input rows */
+.btn-input-pair,
+button.btn-input-pair,
+.btn-manage-types,
+button[onclick="toggleCustomerMap()"] {
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  padding: 0 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}

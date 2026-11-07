@@ -15,6 +15,54 @@
 <style id="session-block-style">
   body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
+
+/* Back to Dashboard Button */
+.header .back-dashboard-btn,
+.back-dashboard-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.header .back-dashboard-btn:hover,
+.back-dashboard-btn:hover {
+  background: #ffffff !important;
+  color: #007bdb !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  opacity: 1 !important;
+}
+
+.back-dashboard-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 680px) {
+  .back-dashboard-btn span {
+    display: none !important;
+  }
+  .back-dashboard-btn {
+    padding: 7px 10px !important;
+  }
+}
+
 </style>
 
 <script>
@@ -593,6 +641,11 @@ nav.bottom-nav a.active {
   </a>
 
   <div class="header-right">
+    <a href="dashboard.html" class="back-dashboard-btn" title="Back to Dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Back to Dashboard</span>
+    </a>
+
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" style="background: rgba(255,255,255,0.2); border-radius: 8px; padding: 3px 6px;" title="Manage User Settings">
         <i class="fi fi-rr-settings" style="color: #ffffff;"></i>
@@ -855,22 +908,10 @@ nav.bottom-nav a.active {
 
 <!-- Bottom Navigation Bar -->
 <nav class="bottom-nav">
-  <a href="dashboard.html">
-    <i class="fi fi-rr-home"></i>
-    <span>Home</span>
-  </a>
-  <a href="filling.html">
-    <i class="fi fi-rr-fill"></i>
-    <span>Filling</span>
-  </a>
-  <a href="supply.html">
-    <i class="fi fi-rr-truck-side"></i>
-    <span>Supply</span>
-  </a>
-  <a href="expense.html">
-    <i class="fi fi-rr-money-bill-wave"></i>
-    <span>Expense</span>
-  </a>
+  <a href="dashboard.html">Home</a>
+  <a href="filling.html">Filling</a>
+  <a href="supply.html">Supply</a>
+  <a href="expense.html">Expense</a>
 </nav>
 
 <!-- Toast Notification -->

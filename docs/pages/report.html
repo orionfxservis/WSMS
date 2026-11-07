@@ -12,6 +12,54 @@
 <style id="session-block-style">
   body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
+
+/* Back to Dashboard Button */
+.header .back-dashboard-btn,
+.back-dashboard-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.header .back-dashboard-btn:hover,
+.back-dashboard-btn:hover {
+  background: #ffffff !important;
+  color: #007bdb !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  opacity: 1 !important;
+}
+
+.back-dashboard-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 680px) {
+  .back-dashboard-btn span {
+    display: none !important;
+  }
+  .back-dashboard-btn {
+    padding: 7px 10px !important;
+  }
+}
+
 </style>
 <script>
   if (typeof sessionStorage !== 'undefined') {
@@ -87,9 +135,64 @@ th{background:var(--brand);color:#fff;font-weight:600;font-size:12px}
 tbody tr:hover{background:#f9f9fa}
 .chart-container{position:relative;height:250px;width:100%;margin-bottom:12px}
 .charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
-nav.bottom-nav a{text-decoration:none;color:#444}
-nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+
+/* Unified Fixed Bottom Navigation Bar matching WSMS Standard */
+nav.bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+nav.bottom-nav a {
+  flex: 1 1 0 !important;
+  width: 25% !important;
+  max-width: 25% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  color: #475569 !important;
+  border-bottom: 3.5px solid transparent !important;
+  box-sizing: border-box !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease !important;
+  white-space: nowrap !important;
+}
+nav.bottom-nav a:hover {
+  color: #0077cc !important;
+  background-color: #f8fafc !important;
+}
+nav.bottom-nav a.active {
+  color: #0077cc !important;
+  border-bottom: 3.5px solid #0077cc !important;
+  font-weight: 700 !important;
+}
+body {
+  padding-bottom: 64px !important;
+}
+
 @media(max-width:768px){
   /* Header responsive styles moved to header.css */
   main{padding:10px;margin-bottom:90px}
@@ -112,8 +215,6 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   th{font-size:10px;padding:8px 4px}
   .chart-container{height:220px;margin-bottom:10px}
   .charts-grid{grid-template-columns:1fr;gap:10px}
-  nav.bottom-nav{padding:10px 0;font-size:13px}
-  nav.bottom-nav a{padding:0 4px}
 }
 @media(max-width:480px){
   /* Header responsive styles moved to header.css */
@@ -132,7 +233,6 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   th,td{padding:6px 4px;font-size:10px}
   th{font-size:9px}
   .chart-container{height:200px;margin-bottom:8px}
-  nav.bottom-nav{padding:8px 0;font-size:12px}
 }
 @media(max-width:360px){
   .summary-totals{grid-template-columns:1fr}
@@ -158,6 +258,11 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
   </a>
   <div class="header-right">
+    <a href="dashboard.html" class="back-dashboard-btn" title="Back to Dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Back to Dashboard</span>
+    </a>
+
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
@@ -616,7 +721,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
   <a href="dashboard.html">Home</a>
   <a href="filling.html">Filling</a>
   <a href="supply.html">Supply</a>
-  <a href="expense.html" class="active">Expense</a>
+  <a href="expense.html">Expense</a>
 </nav>
 
 <script>

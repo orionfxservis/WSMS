@@ -13,6 +13,54 @@
 <style id="session-block-style">
   body { visibility: visible; overflow: auto; }
   body.session-validated { visibility: visible; overflow: auto; }
+
+/* Back to Dashboard Button */
+.header .back-dashboard-btn,
+.back-dashboard-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.header .back-dashboard-btn:hover,
+.back-dashboard-btn:hover {
+  background: #ffffff !important;
+  color: #007bdb !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  opacity: 1 !important;
+}
+
+.back-dashboard-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 680px) {
+  .back-dashboard-btn span {
+    display: none !important;
+  }
+  .back-dashboard-btn {
+    padding: 7px 10px !important;
+  }
+}
+
 </style>
 <script>
   if (typeof sessionStorage !== 'undefined') {
@@ -62,9 +110,64 @@ tbody tr:hover{background:#f0f7ff}
 tbody tr{cursor:pointer;transition:background .15s}
 .search-box{display:flex;gap:6px;margin-bottom:10px}
 .search-box input{flex:1;margin-bottom:0}
-nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
-nav.bottom-nav a{text-decoration:none;color:#444;transition:color .2s}
-nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+
+/* Unified Fixed Bottom Navigation Bar matching WSMS Standard */
+nav.bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+nav.bottom-nav a {
+  flex: 1 1 0 !important;
+  width: 25% !important;
+  max-width: 25% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  color: #475569 !important;
+  border-bottom: 3.5px solid transparent !important;
+  box-sizing: border-box !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease !important;
+  white-space: nowrap !important;
+}
+nav.bottom-nav a:hover {
+  color: #0077cc !important;
+  background-color: #f8fafc !important;
+}
+nav.bottom-nav a.active {
+  color: #0077cc !important;
+  border-bottom: 3.5px solid #0077cc !important;
+  font-weight: 700 !important;
+}
+body {
+  padding-bottom: 64px !important;
+}
+
 .popup-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;opacity:0;transition:opacity 0.3s ease}
 .popup-overlay.show{display:flex;opacity:1}
 .popup-modal{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:90%;width:340px;padding:0;overflow:hidden;transform:scale(0.9);transition:transform 0.3s ease}
@@ -138,6 +241,11 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
   </a>
   <div class="header-right">
+    <a href="dashboard.html" class="back-dashboard-btn" title="Back to Dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Back to Dashboard</span>
+    </a>
+
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
@@ -178,7 +286,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     <input id="c_phone" type="tel" placeholder="Whatsapp Number (e.g., 0300-1234567)" pattern="[0-9]{4}-[0-9]{7}" maxlength="12" oninput="formatPhoneNumber(this)"/>
     <div style="display:flex;gap:6px;margin-bottom:10px;">
       <input id="c_address" placeholder="Address (Area, Street, Karachi)" style="flex:1;margin-bottom:0;"/>
-      <button type="button" onclick="toggleCustomerMap()" style="width:auto;padding:10px 16px;margin-bottom:0;background:#28a745;white-space:nowrap;">📍 Map</button>
+      <button type="button" onclick="toggleCustomerMap()" style="width:auto;height:31px;min-height:31px;max-height:31px;padding:0 14px;margin-bottom:0;background:#28a745;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;font-weight:600;border:none;box-sizing:border-box;">📍 Map</button>
     </div>
     <div id="customerMapContainer" style="height:250px;width:100%;margin-bottom:10px;border:1px solid #ccc;border-radius:6px;display:none;"></div>
     <input type="hidden" id="c_latitude"/>
@@ -209,7 +317,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
     
     <div id="saveButtonContainer" style="margin-top:12px;">
-      <button id="saveBtn" onclick="saveCustomer()">Save Customer</button>
+      <button id="saveBtn" onclick="saveCustomer()" style="height:34px;min-height:34px;font-size:13px;border-radius:6px;font-weight:600;">Save Customer</button>
     </div>
     <div id="deleteButtonContainer" style="display:none;margin-top:8px;">
       <button id="deleteBtn" onclick="confirmDeleteCustomer()" style="background:#dc3545;color:white;border-radius:6px;width:100%;padding:10px;border:none;font-weight:600;cursor:pointer;">Delete Customer</button>

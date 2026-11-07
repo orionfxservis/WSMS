@@ -1,45 +1,59 @@
 /**
  * Unified Header Styles for WSMS
  * Standardized header with consistent height, padding, and formatting
- * Completely isolated from other CSS to prevent overrides
+ * Completely isolated from other CSS to prevent overrides across all pages
  */
 
 /* Header Container */
+.header,
+.header * {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
+  box-sizing: border-box !important;
+}
+
 .header {
-  width: 100%;
+  width: 100% !important;
   background: #007bdb !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   padding: 10px 16px !important;
-  height: 70px;
+  height: 70px !important;
+  min-height: 70px !important;
+  max-height: 70px !important;
   box-sizing: border-box !important;
   margin: 0 !important;
-  position: relative;
-  z-index: 1000;
+  position: relative !important;
+  z-index: 1000 !important;
 }
 
 /* Header Left Section (Logo & Company Name) */
 .header-left {
   display: flex !important;
   align-items: center !important;
-  gap: 10px;
+  gap: 10px !important;
   text-decoration: none !important;
   color: inherit !important;
+  flex-shrink: 0 !important;
 }
 
 .header-logo-container {
-  width: 42px;
-  height: 42px;
-  background: #ffffff;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3px;
-  overflow: hidden;
-  flex-shrink: 0;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  max-width: 42px !important;
+  max-height: 42px !important;
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 3px !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15) !important;
+  box-sizing: border-box !important;
 }
 
 .header-logo-container img {
@@ -52,64 +66,66 @@
 }
 
 .header-brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.15 !important;
 }
 
 .header-brand-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
 }
 
 .header-logo {
   font-size: 20px !important;
-  color: white !important;
+  color: #ffffff !important;
   font-weight: 800 !important;
   margin: 0 !important;
   padding: 0 !important;
   line-height: 1 !important;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.5px !important;
 }
 
 .header-portal-tag {
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #dbeafe;
-  background: rgba(255,255,255,0.2);
-  padding: 2px 5px;
-  border-radius: 3px;
-  letter-spacing: 0.5px;
-  line-height: 1;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  color: #dbeafe !important;
+  background: rgba(255,255,255,0.2) !important;
+  padding: 2px 5px !important;
+  border-radius: 3px !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1 !important;
 }
 
 .header-company-name {
-  font-size: 11px;
-  color: #dbeafe;
-  font-weight: 500;
-  margin-top: 3px;
+  font-size: 11px !important;
+  color: #dbeafe !important;
+  font-weight: 500 !important;
+  margin-top: 3px !important;
+  white-space: nowrap !important;
+  line-height: 1.2 !important;
 }
 
 @media (max-width: 620px) {
   .header-company-name {
-    display: none;
+    display: none !important;
   }
 }
 
-/* Header Right Section (User Info) */
+/* Header Right Section (User Info & Controls) */
 .header-right {
   display: flex !important;
   align-items: center !important;
-  gap: 14px;
+  gap: 14px !important;
 }
 
 /* Header Icons Container */
 .header-icons {
   display: flex !important;
   align-items: center !important;
-  gap: 12px;
+  gap: 12px !important;
 }
 
 .header-icon-link {
@@ -121,30 +137,51 @@
   height: auto !important;
   padding: 0 !important;
   margin: 0 !important;
-  transition: opacity 0.2s ease;
+  line-height: 1 !important;
+  transition: opacity 0.2s ease !important;
 }
 
 .header-icon-link:hover {
-  opacity: 0.8;
+  opacity: 0.8 !important;
 }
 
 .header-icon-link i {
-  font-size: 22px;
-  color: #ffffff;
-  display: inline-block;
+  font-size: 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+  color: #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
 }
 
-/* User Profile Image */
-.header-right img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid white;
-  display: block;
-  padding: 0;
-  margin: 0;
-  flex-shrink: 0;
+/* User Profile Image & Link */
+.header-right a {
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+
+.header-right img,
+.header-right a img,
+#headerUserImage {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #ffffff !important;
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+  background-color: #f1f5f9 !important;
 }
 
 /* User Name (hidden per user request) */
@@ -152,16 +189,19 @@
   display: none !important;
 }
 
-/* Logout Button - Must override all page-specific button styles */
+/* Logout Button - Standardized pill button across all pages */
 .header .logout-btn,
 .header button.logout-btn,
 .logout-btn {
-  background: white !important;
+  background: #ffffff !important;
   color: #007bdb !important;
   padding: 6px 14px !important;
   border-radius: 20px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   width: auto !important;
   min-width: auto !important;
   max-width: none !important;
@@ -171,15 +211,68 @@
   margin: 0 !important;
   display: inline-block !important;
   flex-shrink: 0 !important;
-  transition: opacity 0.2s ease;
+  line-height: 1.2 !important;
+  cursor: pointer !important;
+  transition: opacity 0.2s ease, background 0.2s ease !important;
 }
 
+.header .logout-btn:hover,
 .logout-btn:hover {
-  opacity: 0.9;
+  opacity: 0.9 !important;
+  background: #ffffff !important;
+  color: #007bdb !important;
 }
 
+.header .logout-btn:active,
 .logout-btn:active {
-  opacity: 0.8;
+  opacity: 0.8 !important;
+}
+
+/* Back to Dashboard Button */
+.header .back-dashboard-btn,
+.back-dashboard-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.header .back-dashboard-btn:hover,
+.back-dashboard-btn:hover {
+  background: #ffffff !important;
+  color: #007bdb !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  opacity: 1 !important;
+}
+
+.back-dashboard-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 680px) {
+  .back-dashboard-btn span {
+    display: none !important;
+  }
+  .back-dashboard-btn {
+    padding: 7px 10px !important;
+  }
 }
 
 /* Override any global styles that might affect header */
@@ -199,15 +292,6 @@
   min-width: auto !important;
   max-width: none !important;
   margin: 0 !important;
-}
-
-/* Profile Image - Enforce correct sizing and shape */
-#headerUserImage {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 50% !important;
-  object-fit: cover !important;
-  border: 2px solid white !important;
 }
 
 .header h1,
@@ -291,217 +375,6 @@ nav.bottom-nav a.active {
   font-weight: 700 !important;
 }
 
-/* Ensure page content never collides with the fixed bottom menu */
 body {
   padding-bottom: 64px !important;
-}
-
-/* =========================================================
-   Unified WSMS Input Fields & Modal Controls Standard
-   Matching supply.html (31px compact, professional enterprise style)
-   ========================================================= */
-
-/* All Text and Number Inputs across all forms and cards */
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-input[type="tel"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-select,
-.form-control,
-.modal-field input,
-.modal-field select,
-.popup-modal input,
-.popup-modal select,
-.modal-content input,
-.modal-content select {
-  width: 100% !important;
-  height: 31px !important;
-  min-height: 31px !important;
-  max-height: 31px !important;
-  padding: 0 10px !important;
-  border: 1px solid #cbd5e1 !important;
-  border-radius: 6px !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  font-size: 12.5px !important;
-  color: #0f172a !important;
-  background-color: #ffffff !important;
-  box-sizing: border-box !important;
-  outline: none !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-}
-
-/* Focused State */
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="date"]:focus,
-input[type="time"]:focus,
-input[type="tel"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="search"]:focus,
-select:focus,
-.form-control:focus,
-.modal-field input:focus,
-.modal-field select:focus,
-.popup-modal input:focus,
-.popup-modal select:focus,
-.modal-content input:focus,
-.modal-content select:focus {
-  border-color: #0077cc !important;
-  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
-}
-
-/* Readonly fields (matching supply.html .readonly-box) */
-input[readonly],
-select:disabled,
-.readonly-box {
-  background-color: #f8fafc !important;
-  border-color: #e2e8f0 !important;
-  color: #334155 !important;
-  cursor: default !important;
-  font-weight: 600 !important;
-}
-
-/* Calculated Amount boxes (matching supply.html .amount-box) */
-.amount-box,
-input#amount,
-input#totalAmount {
-  background-color: #f0f7ff !important;
-  border-color: #bae6fd !important;
-  color: #0077cc !important;
-  font-weight: 700 !important;
-  font-size: 13px !important;
-}
-
-/* Search inputs with icons */
-.search-box input,
-.search-input,
-input#search,
-input#searchStations,
-input#searchItem,
-input#deliverySearchInput {
-  height: 31px !important;
-  min-height: 31px !important;
-  max-height: 31px !important;
-  padding: 0 10px !important;
-  font-size: 12px !important;
-  border: 1px solid #cbd5e1 !important;
-  border-radius: 6px !important;
-  background-color: #ffffff !important;
-}
-
-/* Textareas (proportionally compact and clean) */
-textarea,
-.form-group textarea {
-  width: 100% !important;
-  min-height: 60px !important;
-  padding: 6px 10px !important;
-  border: 1px solid #cbd5e1 !important;
-  border-radius: 6px !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  font-size: 12.5px !important;
-  color: #0f172a !important;
-  box-sizing: border-box !important;
-  outline: none !important;
-  resize: vertical;
-}
-
-textarea:focus {
-  border-color: #0077cc !important;
-  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.15) !important;
-}
-
-/* Form labels above inputs (compact, clean uppercase styling) */
-label,
-.form-field label,
-.modal-field label,
-.form-group label {
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  color: #475569 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.3px !important;
-  margin-bottom: 4px !important;
-  display: block;
-}
-
-/* Modal and Popup input fields */
-.popup-modal input,
-.popup-modal select,
-.modal-content input,
-.modal-content select {
-  height: 31px !important;
-  min-height: 31px !important;
-  max-height: 31px !important;
-  font-size: 12.5px !important;
-}
-
-/* Buttons paired with input rows */
-.btn-input-pair,
-button.btn-input-pair,
-.btn-manage-types,
-button[onclick="toggleCustomerMap()"] {
-  height: 31px !important;
-  min-height: 31px !important;
-  max-height: 31px !important;
-  padding: 0 14px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  border-radius: 6px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
-}
-
-
-/* Back to Dashboard Button */
-.header .back-dashboard-btn,
-.back-dashboard-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 7px !important;
-  background: rgba(255, 255, 255, 0.18) !important;
-  color: #ffffff !important;
-  padding: 6px 14px !important;
-  border-radius: 20px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  transition: all 0.2s ease !important;
-  white-space: nowrap !important;
-  line-height: 1 !important;
-  box-sizing: border-box !important;
-  cursor: pointer !important;
-  flex-shrink: 0 !important;
-}
-
-.header .back-dashboard-btn:hover,
-.back-dashboard-btn:hover {
-  background: #ffffff !important;
-  color: #007bdb !important;
-  border-color: #ffffff !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
-  opacity: 1 !important;
-}
-
-.back-dashboard-btn svg {
-  width: 14px !important;
-  height: 14px !important;
-  stroke: currentColor !important;
-  flex-shrink: 0 !important;
-}
-
-@media (max-width: 680px) {
-  .back-dashboard-btn span {
-    display: none !important;
-  }
-  .back-dashboard-btn {
-    padding: 7px 10px !important;
-  }
 }

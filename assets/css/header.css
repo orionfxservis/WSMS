@@ -457,3 +457,51 @@ button[onclick="toggleCustomerMap()"] {
   justify-content: center !important;
   box-sizing: border-box !important;
 }
+
+
+/* Back to Dashboard Button */
+.header .back-dashboard-btn,
+.back-dashboard-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.header .back-dashboard-btn:hover,
+.back-dashboard-btn:hover {
+  background: #ffffff !important;
+  color: #007bdb !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  opacity: 1 !important;
+}
+
+.back-dashboard-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 680px) {
+  .back-dashboard-btn span {
+    display: none !important;
+  }
+  .back-dashboard-btn {
+    padding: 7px 10px !important;
+  }
+}

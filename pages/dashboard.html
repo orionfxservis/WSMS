@@ -60,7 +60,7 @@ body{
 }
 
 /* Header styles */
-main{padding:12px 12px 90px 12px}
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
 
 /* summary cards - reduced height by 15% matching 897_406ce25c.JPG */
 .grid-summary{
@@ -133,13 +133,13 @@ main{padding:12px 12px 90px 12px}
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0;
   background: #ffffff;
   border: 2px solid #0077cc;
   border-radius: 10px;
   padding: 12px 10px;
   text-align: center;
-  min-height: 72px;
+  min-height: 52px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   transition: all 0.15s ease;
   box-sizing: border-box;
@@ -152,7 +152,7 @@ main{padding:12px 12px 90px 12px}
 
 .quick-card-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   color: #0077cc;
   text-decoration: none;
   cursor: pointer;
@@ -547,34 +547,18 @@ nav.bottom-nav a.active{
   <section class="quick-links" aria-label="Quick Navigation">
     <div class="quick-card" onclick="location.href='customers.html'" style="cursor: pointer;" title="Open Customers Management">
       <a href="customers.html" class="quick-card-title">Customers</a>
-      <a href="customers.html" class="quick-card-badge" title="Open /pages/customers.html">
-        <span>/pages/customers.html</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-      </a>
     </div>
 
     <div class="quick-card" onclick="location.href='stations.html'" style="cursor: pointer;" title="Open Filling Stations">
       <a href="stations.html" class="quick-card-title">Filling Stations</a>
-      <a href="stations.html" class="quick-card-badge" title="Open /pages/stations.html">
-        <span>/pages/stations.html</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-      </a>
     </div>
 
     <div class="quick-card" onclick="location.href='inventory.html'" style="cursor: pointer;" title="Open Inventory Management">
       <a href="inventory.html" class="quick-card-title">Inventory</a>
-      <a href="inventory.html" class="quick-card-badge" title="Open /pages/inventory.html">
-        <span>/pages/inventory.html</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-      </a>
     </div>
 
     <div class="quick-card" onclick="location.href='report.html'" style="cursor: pointer;" title="Open Daily Reports">
       <a href="report.html" class="quick-card-title">Reports</a>
-      <a href="report.html" class="quick-card-badge" title="Open /pages/report.html">
-        <span>/pages/report.html</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-      </a>
     </div>
   </section>
 

@@ -118,22 +118,24 @@ main{padding:12px 12px 90px 12px}
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  justify-content: center;
+  gap: 0;
   background: #ffffff;
   border: 2px solid #0077cc;
   border-radius: 10px;
-  padding: 10px 8px;
+  padding: 12px 10px;
+  min-height: 52px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.04);
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 .quick-card:hover {
   background: #f0f7ff;
 }
 .quick-card-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   color: #0077cc;
   text-decoration: none;
   cursor: pointer;
@@ -316,7 +318,7 @@ nav.bottom-nav a.active{
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <img id="headerUserImage" src="../assets/default-user.png" alt="User" onerror="this.src='../logo.png'">
+    <img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'">
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
@@ -384,33 +386,17 @@ nav.bottom-nav a.active{
 
   <!-- Quick links matching Sample 03 Design -->
   <section class="quick-links">
-    <div class="quick-card">
+    <div class="quick-card" onclick="location.href='customers.html'" style="cursor: pointer;" title="Open Customers Management">
       <a href="customers.html" class="quick-card-title">Customers</a>
-      <a href="customers.html" class="quick-card-badge" title="Open customers.html">
-        <span>/pages/customers.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
-      </a>
     </div>
-    <div class="quick-card">
+    <div class="quick-card" onclick="location.href='stations.html'" style="cursor: pointer;" title="Open Filling Stations">
       <a href="stations.html" class="quick-card-title">Filling Stations</a>
-      <a href="stations.html" class="quick-card-badge" title="Open stations.html">
-        <span>/pages/stations.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
-      </a>
     </div>
-    <div class="quick-card">
+    <div class="quick-card" onclick="location.href='inventory.html'" style="cursor: pointer;" title="Open Inventory Management">
       <a href="inventory.html" class="quick-card-title">Inventory</a>
-      <a href="inventory.html" class="quick-card-badge" title="Open inventory.html">
-        <span>/pages/inventory.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
-      </a>
     </div>
-    <div class="quick-card">
+    <div class="quick-card" onclick="location.href='report.html'" style="cursor: pointer;" title="Open Daily Reports">
       <a href="report.html" class="quick-card-title">Reports</a>
-      <a href="report.html" class="quick-card-badge" title="Open report.html">
-        <span>/pages/report.html</span>
-        <i class="fi fi-rr-arrow-up-right-from-square"></i>
-      </a>
     </div>
   </section>
 

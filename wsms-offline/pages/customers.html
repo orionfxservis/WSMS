@@ -4,7 +4,9 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Customers - WSMS</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
 <link rel="stylesheet" href="../assets/css/style.css"/>
 <link rel="stylesheet" href="../assets/css/header.css"/>
@@ -33,8 +35,22 @@
 <script src="../assets/js/status-banner.js"></script>
 <style>
 :root{--brand:#0077cc}
-body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden}
-main{padding:14px;margin-bottom:90px;max-width:1100px;margin-left:auto;margin-right:auto}
+body{margin:0;background:#f5f7fa;color:#333;overflow-x:hidden;font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif !important;}
+main{padding:14px;margin-bottom:90px;width:100%;box-sizing:border-box}
+
+/* Standard 4 Summary Cards Grid matching Supply Section */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 640px) {
+  .summary-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:16px;margin-bottom:14px}
 .card h3{color:var(--brand);margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:700}
 input,select,button{width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;margin-bottom:10px;font-family:inherit;font-size:14px;box-sizing:border-box}
@@ -48,9 +64,64 @@ tbody tr:hover{background:#f0f7ff}
 tbody tr{cursor:pointer;transition:background .15s}
 .search-box{display:flex;gap:6px;margin-bottom:10px}
 .search-box input{flex:1;margin-bottom:0}
-nav.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #ddd;padding:14px 0;font-size:15px;font-weight:600;box-shadow:0 -2px 6px rgba(0,0,0,.08);z-index:9}
-nav.bottom-nav a{text-decoration:none;color:#444;transition:color .2s}
-nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);padding-bottom:3px}
+
+/* Unified Fixed Bottom Navigation Bar matching WSMS Standard */
+nav.bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+nav.bottom-nav a {
+  flex: 1 1 0 !important;
+  width: 25% !important;
+  max-width: 25% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  color: #475569 !important;
+  border-bottom: 3.5px solid transparent !important;
+  box-sizing: border-box !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease !important;
+  white-space: nowrap !important;
+}
+nav.bottom-nav a:hover {
+  color: #0077cc !important;
+  background-color: #f8fafc !important;
+}
+nav.bottom-nav a.active {
+  color: #0077cc !important;
+  border-bottom: 3.5px solid #0077cc !important;
+  font-weight: 700 !important;
+}
+body {
+  padding-bottom: 64px !important;
+}
+
 .popup-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;opacity:0;transition:opacity 0.3s ease}
 .popup-overlay.show{display:flex;opacity:1}
 .popup-modal{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-width:90%;width:340px;padding:0;overflow:hidden;transform:scale(0.9);transition:transform 0.3s ease}
@@ -111,7 +182,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
 </div>
 
 <div class="header">
-    <a href="dashboard.html" class="header-left" title="WSMS Dashboard">
+  <a href="dashboard.html" class="header-left" title="WSMS Dashboard" style="text-decoration:none;">
     <div class="header-logo-container">
       <img src="../assets/img/logo/logo.png" alt="WSMS Logo" onerror="this.src='../assets/img/logo.png'"/>
     </div>
@@ -124,15 +195,55 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
   </a>
   <div class="header-right">
+    <a href="dashboard.html" class="back-dashboard-btn" title="Back to Dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Back to Dashboard</span>
+    </a>
+
     <div class="header-icons">
       <a href="settings.html" class="header-icon-link" title="Manage User Settings"><i class="fi fi-rr-settings"></i></a>
     </div>
-    <img id="headerUserImage" src="../assets/default-user.png" alt="User">
+    <a href="settings.html" title="Manage Profile & Sub-Accounts" style="display:inline-block;text-decoration:none;"><img id="headerUserImage" src="../assets/default-user.png" alt="Operator Profile Picture" onerror="this.src='../logo.png'"></a>
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </div>
+<script>
+  (function() {
+    try {
+      var img = document.getElementById('headerUserImage');
+      var pic = localStorage.getItem('userImage') || localStorage.getItem('userDP');
+      if (pic && img) {
+        if (pic.startsWith('./assets/')) pic = '.' + pic;
+        else if (pic.startsWith('assets/')) pic = '../' + pic;
+        img.src = pic;
+      }
+    } catch(e) {}
+  })();
+</script>
+
+
 
 <main>
+  <!-- Standard 4 Summary Overview Cards matching Supply Section: Total Customers, Active Accounts, Cans with Customers, Pending Balance -->
+  <div class="summary-cards-grid">
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Total Customers</span>
+      <span id="cardTotalCustomers" style="font-size:18px;font-weight:700;color:var(--brand);display:block;margin-top:2px;">148 Accounts</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Active Accounts</span>
+      <span id="cardActiveCustomers" style="font-size:18px;font-weight:700;color:#047857;display:block;margin-top:2px;">114 Active</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Cans with Customers</span>
+      <span id="cardPendingCans" style="font-size:18px;font-weight:700;color:#d97706;display:block;margin-top:2px;">450 Cans</span>
+    </div>
+    <div class="card" style="margin-bottom:0;padding:12px;">
+      <span style="font-size:11px;color:#666;display:block;">Pending Balance</span>
+      <span id="cardPendingBalance" style="font-size:18px;font-weight:700;color:#222;display:block;margin-top:2px;">Rs 28,400</span>
+    </div>
+  </div>
+
   <!-- Customer Management Form Card -->
   <section class="card">
     <h3 id="formTitle">
@@ -144,7 +255,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     <input id="c_phone" type="tel" placeholder="Whatsapp Number (e.g., 0300-1234567)" pattern="[0-9]{4}-[0-9]{7}" maxlength="12" oninput="formatPhoneNumber(this)"/>
     <div style="display:flex;gap:6px;margin-bottom:10px;">
       <input id="c_address" placeholder="Address (Area, Street, Karachi)" style="flex:1;margin-bottom:0;"/>
-      <button type="button" onclick="toggleCustomerMap()" style="width:auto;padding:10px 16px;margin-bottom:0;background:#28a745;white-space:nowrap;">📍 Map</button>
+      <button type="button" onclick="toggleCustomerMap()" style="width:auto;height:31px;min-height:31px;max-height:31px;padding:0 14px;margin-bottom:0;background:#28a745;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;font-weight:600;border:none;box-sizing:border-box;">📍 Map</button>
     </div>
     <div id="customerMapContainer" style="height:250px;width:100%;margin-bottom:10px;border:1px solid #ccc;border-radius:6px;display:none;"></div>
     <input type="hidden" id="c_latitude"/>
@@ -175,7 +286,7 @@ nav.bottom-nav a.active{color:var(--brand);border-bottom:3px solid var(--brand);
     </div>
     
     <div id="saveButtonContainer" style="margin-top:12px;">
-      <button id="saveBtn" onclick="saveCustomer()">Save Customer</button>
+      <button id="saveBtn" onclick="saveCustomer()" style="height:34px;min-height:34px;font-size:13px;border-radius:6px;font-weight:600;">Save Customer</button>
     </div>
     <div id="deleteButtonContainer" style="display:none;margin-top:8px;">
       <button id="deleteBtn" onclick="confirmDeleteCustomer()" style="background:#dc3545;color:white;border-radius:6px;width:100%;padding:10px;border:none;font-weight:600;cursor:pointer;">Delete Customer</button>
@@ -319,6 +430,23 @@ async function loadItemRates(customerRates = {}) {
   }
 }
 
+function updateCustomerOverviewCards(customers) {
+  const list = (Array.isArray(customers) && customers.length > 0) ? customers : FALLBACK_CUSTOMERS;
+  const total = list.length;
+  const active = list.filter(c => (parseInt(c.pending_cans) > 0 || parseFloat(c.deposit) > 0 || parseFloat(c.pending_payment) > 0)).length || list.length;
+  const totalPendingCans = list.reduce((sum, c) => sum + (parseInt(c.pending_cans) || 0), 0);
+  const totalPendingBal = list.reduce((sum, c) => sum + (parseFloat(c.pending_payment) || 0), 0);
+
+  const elTotal = document.getElementById('cardTotalCustomers');
+  if (elTotal) elTotal.textContent = total + ' Accounts';
+  const elActive = document.getElementById('cardActiveCustomers');
+  if (elActive) elActive.textContent = active + ' Active';
+  const elCans = document.getElementById('cardPendingCans');
+  if (elCans) elCans.textContent = totalPendingCans.toLocaleString() + ' Cans';
+  const elBal = document.getElementById('cardPendingBalance');
+  if (elBal) elBal.textContent = 'Rs ' + totalPendingBal.toLocaleString();
+}
+
 async function loadCustomers(search = '') {
   try {
     const url = search ? `customers.php?action=list&search=${encodeURIComponent(search)}` : 'customers.php?action=list';
@@ -331,10 +459,12 @@ async function loadCustomers(search = '') {
     allCustomers = sorted;
     renderCustomers(sorted);
     updateSortIcons();
+    updateCustomerOverviewCards(fullCustomers);
     document.getElementById('customerCount').textContent = `(${fullCustomers.length} Total)`;
   } catch(e) {
     console.error(e);
     renderCustomers(FALLBACK_CUSTOMERS);
+    updateCustomerOverviewCards(FALLBACK_CUSTOMERS);
   }
 }
 

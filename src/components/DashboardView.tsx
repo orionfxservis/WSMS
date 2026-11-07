@@ -1468,84 +1468,56 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
             {/* QUICK LINKS matching dashboard.html */}
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3.5" aria-label="Quick Navigation">
-              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+              <div
+                onClick={() => setActiveModal('customers')}
+                className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex items-center justify-center hover:bg-blue-50/50 transition-colors cursor-pointer min-h-[48px]"
+                title="Open Customers Management"
+              >
                 <button
                   type="button"
-                  onClick={() => setActiveModal('customers')}
                   className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
                 >
                   Customers
                 </button>
-                <a
-                  href="./pages/customers.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
-                  title="Open /pages/customers.html"
-                >
-                  <span>/pages/customers.html</span>
-                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
-                </a>
               </div>
 
-              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+              <div
+                onClick={() => setActiveModal('stations')}
+                className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex items-center justify-center hover:bg-blue-50/50 transition-colors cursor-pointer min-h-[48px]"
+                title="Open Filling Stations"
+              >
                 <button
                   type="button"
-                  onClick={() => setActiveModal('stations')}
                   className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
                 >
                   Filling Stations
                 </button>
-                <a
-                  href="./pages/stations.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
-                  title="Open /pages/stations.html"
-                >
-                  <span>/pages/stations.html</span>
-                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
-                </a>
               </div>
 
-              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+              <div
+                onClick={() => setActiveModal('inventory')}
+                className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex items-center justify-center hover:bg-blue-50/50 transition-colors cursor-pointer min-h-[48px]"
+                title="Open Inventory Management"
+              >
                 <button
                   type="button"
-                  onClick={() => setActiveModal('inventory')}
                   className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
                 >
                   Inventory
                 </button>
-                <a
-                  href="./pages/inventory.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
-                  title="Open /pages/inventory.html"
-                >
-                  <span>/pages/inventory.html</span>
-                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
-                </a>
               </div>
 
-              <div className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between gap-1.5 hover:bg-blue-50/50 transition-colors">
+              <div
+                onClick={() => setActiveModal('reports')}
+                className="rounded-[10px] p-2.5 sm:p-3 text-center border-2 border-[#0077cc] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.04)] flex items-center justify-center hover:bg-blue-50/50 transition-colors cursor-pointer min-h-[48px]"
+                title="Open Daily Reports"
+              >
                 <button
                   type="button"
-                  onClick={() => setActiveModal('reports')}
                   className="font-bold text-[#0077cc] text-sm hover:underline cursor-pointer"
                 >
                   Reports
                 </button>
-                <a
-                  href="./pages/report.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-mono text-[#0077cc] bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded border border-blue-200 transition-colors no-underline"
-                  title="Open /pages/report.html"
-                >
-                  <span>/pages/report.html</span>
-                  <ExternalLink className="w-2.5 h-2.5 shrink-0" />
-                </a>
               </div>
             </section>
 

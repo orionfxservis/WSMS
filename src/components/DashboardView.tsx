@@ -3282,67 +3282,69 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           - Active state has brand blue text (#0077cc) and 3px solid blue underline bar
           ========================================================================= */}
       <nav
-        className="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-[#dddddd] shadow-[0_-2px_10px_rgba(0,0,0,0.08)] z-50 py-3"
+        className="fixed bottom-0 left-0 right-0 w-full h-[52px] min-h-[52px] max-h-[52px] bg-white border-t border-[#e2e8f0] shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50 flex flex-row items-stretch justify-center p-0 m-0 box-border"
         aria-label="Dashboard Bottom Navigation"
       >
-        <div className="max-w-3xl mx-auto flex justify-around items-center px-4">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveBottomNav('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1 text-center ${
-              activeBottomNav === 'home'
-                ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-            }`}
-          >
-            Home
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveBottomNav('filling');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1 text-center ${
-              activeBottomNav === 'filling'
-                ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-            }`}
-          >
-            Filling
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveBottomNav('supply');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1 text-center ${
-              activeBottomNav === 'supply'
-                ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-            }`}
-          >
-            Supply
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveBottomNav('expense');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className={`text-sm sm:text-base font-bold transition-all cursor-pointer px-4 py-1 text-center ${
-              activeBottomNav === 'expense'
-                ? 'text-[#0077cc] border-b-[3px] border-[#0077cc] pb-1'
-                : 'text-[#444444] hover:text-[#0077cc] pb-1 border-b-[3px] border-transparent'
-            }`}
-          >
-            Expense
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveBottomNav('home');
+            setActiveModal(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex-1 w-1/4 max-w-[25%] h-full flex items-center justify-center text-center text-[15px] font-semibold leading-none cursor-pointer border-b-[3.5px] p-0 m-0 transition-colors whitespace-nowrap ${
+            activeBottomNav === 'home' && !activeModal
+              ? 'text-[#0077cc] border-[#0077cc] font-bold'
+              : 'text-[#475569] border-transparent hover:text-[#0077cc] hover:bg-[#f8fafc]'
+          }`}
+        >
+          Home
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveBottomNav('filling');
+            setActiveModal(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex-1 w-1/4 max-w-[25%] h-full flex items-center justify-center text-center text-[15px] font-semibold leading-none cursor-pointer border-b-[3.5px] p-0 m-0 transition-colors whitespace-nowrap ${
+            activeBottomNav === 'filling' && !activeModal
+              ? 'text-[#0077cc] border-[#0077cc] font-bold'
+              : 'text-[#475569] border-transparent hover:text-[#0077cc] hover:bg-[#f8fafc]'
+          }`}
+        >
+          Filling
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveBottomNav('supply');
+            setActiveModal(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex-1 w-1/4 max-w-[25%] h-full flex items-center justify-center text-center text-[15px] font-semibold leading-none cursor-pointer border-b-[3.5px] p-0 m-0 transition-colors whitespace-nowrap ${
+            activeBottomNav === 'supply' && !activeModal
+              ? 'text-[#0077cc] border-[#0077cc] font-bold'
+              : 'text-[#475569] border-transparent hover:text-[#0077cc] hover:bg-[#f8fafc]'
+          }`}
+        >
+          Supply
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveBottomNav('expense');
+            setActiveModal(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex-1 w-1/4 max-w-[25%] h-full flex items-center justify-center text-center text-[15px] font-semibold leading-none cursor-pointer border-b-[3.5px] p-0 m-0 transition-colors whitespace-nowrap ${
+            activeBottomNav === 'expense' && !activeModal
+              ? 'text-[#0077cc] border-[#0077cc] font-bold'
+              : 'text-[#475569] border-transparent hover:text-[#0077cc] hover:bg-[#f8fafc]'
+          }`}
+        >
+          Expense
+        </button>
       </nav>
 
       {/* INTERACTIVE MODALS FOR QUICK LINKS */}
@@ -3465,6 +3467,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     </button>
                   </div>
                 )}
+
+                {/* 4 Summary Overview Cards matching Customers Section */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Total Customers</span>
+                    <span className="text-lg font-bold text-[#0077cc] block mt-0.5">{customersList.length} Accounts</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Active Accounts</span>
+                    <span className="text-lg font-bold text-[#047857] block mt-0.5">{customersList.filter(c => c.pending_cans > 0 || c.deposit > 0).length || customersList.length} Active</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Cans with Customers</span>
+                    <span className="text-lg font-bold text-[#d97706] block mt-0.5">{customersList.reduce((s, c) => s + (c.pending_cans || 0), 0)} Cans</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Pending Balance</span>
+                    <span className="text-lg font-bold text-[#222222] block mt-0.5">Rs {customersList.reduce((s, c) => s + (c.pending_payment || 0), 0).toLocaleString()}</span>
+                  </div>
+                </div>
 
                 {/* CARD 1: CUSTOMER MANAGEMENT FORM (matching customers.html) */}
                 <section className="bg-[#fbfdff] border border-[#dbe6f5] rounded-xl p-4 sm:p-5 shadow-xs">
@@ -3932,6 +3954,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </div>
                 )}
 
+                {/* 4 Summary Overview Cards matching Stations Section */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Total Stations</span>
+                    <span className="text-lg font-bold text-[#0077cc] block mt-0.5">{stationProfiles.length} Stations</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Active Operating</span>
+                    <span className="text-lg font-bold text-[#047857] block mt-0.5">{stationProfiles.filter(s => s.claimed_status === 'active').length} Active</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Daily Filling Capacity</span>
+                    <span className="text-lg font-bold text-[#d97706] block mt-0.5">28,500 L/day</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Average Fill Rate</span>
+                    <span className="text-lg font-bold text-[#222222] block mt-0.5">Rs 55 / Can</span>
+                  </div>
+                </div>
+
                 {/* Subnav Tabs */}
                 <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
                   <button
@@ -4224,6 +4266,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     </button>
                   </div>
                 )}
+
+                {/* 4 Summary Overview Cards matching Inventory Section */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Total Bottles (19L)</span>
+                    <span className="text-lg font-bold text-[#0077cc] block mt-0.5">2,445 Cans</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Filled in Depot</span>
+                    <span className="text-lg font-bold text-[#047857] block mt-0.5">480 Cans</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Empty in Stock</span>
+                    <span className="text-lg font-bold text-[#d97706] block mt-0.5">450 Cans</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Cartons & Retail</span>
+                    <span className="text-lg font-bold text-[#222222] block mt-0.5">505 Pcs</span>
+                  </div>
+                </div>
 
                 {/* Edit Entry Modal */}
                 {editingInvEntry && (
@@ -4692,27 +4754,23 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
             {activeModal === 'reports' && (
               <div className="space-y-4 text-xs">
-                {/* Metric Summary Cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  <div className="p-3 bg-blue-50/60 border border-blue-200 rounded-lg">
-                    <span className="text-[11px] text-slate-500 font-medium block">Total Revenue (Today)</span>
-                    <strong className="text-base text-[#0077cc] font-bold block mt-0.5">Rs {sumRevenue.toLocaleString()}</strong>
-                    <span className="text-[10px] text-slate-400">Settled & Invoiced</span>
+                {/* 4 Summary Overview Cards matching Reports Section */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Monthly Revenue</span>
+                    <span className="text-lg font-bold text-[#0077cc] block mt-0.5">Rs 1,005,000</span>
                   </div>
-                  <div className="p-3 bg-red-50/60 border border-red-200 rounded-lg">
-                    <span className="text-[11px] text-slate-500 font-medium block">Operational Expenses</span>
-                    <strong className="text-base text-red-600 font-bold block mt-0.5">Rs {sumExpense.toLocaleString()}</strong>
-                    <span className="text-[10px] text-slate-400">Fuel, Power & Labor</span>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Total Expenses</span>
+                    <span className="text-lg font-bold text-[#047857] block mt-0.5">Rs 375,000</span>
                   </div>
-                  <div className="p-3 bg-emerald-50/60 border border-emerald-200 rounded-lg">
-                    <span className="text-[11px] text-slate-500 font-medium block">Net Operating Profit</span>
-                    <strong className="text-base text-emerald-700 font-bold block mt-0.5">Rs {sumProfit.toLocaleString()}</strong>
-                    <span className="text-[10px] text-emerald-600 font-semibold">+63.8% Net Margin</span>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Net Realized Profit</span>
+                    <span className="text-lg font-bold text-[#d97706] block mt-0.5">Rs 630,000</span>
                   </div>
-                  <div className="p-3 bg-purple-50/60 border border-purple-200 rounded-lg">
-                    <span className="text-[11px] text-slate-500 font-medium block">Total Deliveries</span>
-                    <strong className="text-base text-purple-700 font-bold block mt-0.5">{deliveries.length} Dispatches</strong>
-                    <span className="text-[10px] text-purple-600 font-semibold">100% On Schedule</span>
+                  <div className="bg-white p-3.5 rounded-xl border border-[#eef2f7] shadow-xs">
+                    <span className="text-xs text-[#666666] block">Total Dispatches</span>
+                    <span className="text-lg font-bold text-[#222222] block mt-0.5">19,570 Cans</span>
                   </div>
                 </div>
 

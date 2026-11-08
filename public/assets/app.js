@@ -329,9 +329,9 @@ React keys must be passed directly to JSX without using spread:
                             children: "Mobile / WhatsApp Helpline"
                           }, void 0, false),
                           (0, E.jsxDEV)("a", {
-                            href: "tel:+923001234567",
+                            href: "tel:+923082135367",
                             className: "text-sm font-bold text-[#222222] hover:text-[#0077cc] transition-colors",
-                            children: "+92 (300) 123-4567 · +92 (21) 3456-7890"
+                            children: "+92 (308) 213-5367"
                           }, void 0, false),
                           (0, E.jsxDEV)("span", {
                             className: "text-[11px] text-slate-400 block mt-0.5",
@@ -364,9 +364,9 @@ React keys must be passed directly to JSX without using spread:
                             children: "Official Email Support"
                           }, void 0, false),
                           (0, E.jsxDEV)("a", {
-                            href: "mailto:support@wsms.pk",
+                            href: "mailto:info@orionfx.net",
                             className: "text-sm font-bold text-[#222222] hover:text-[#0077cc] transition-colors",
-                            children: "support@wsms.pk · info@orionfx.net"
+                            children: "info@orionfx.net"
                           }, void 0, false),
                           (0, E.jsxDEV)("span", {
                             className: "text-[11px] text-slate-400 block mt-0.5",
@@ -460,7 +460,7 @@ React keys must be passed directly to JSX without using spread:
                   children: [
                     (0, E.jsxDEV)("h3", {
                       className: "text-lg sm:text-xl font-bold text-[#222222]",
-                      children: "Send an Enquiry to Orion Fx"
+                      children: "Send an Enquiry WSMS"
                     }, void 0, false),
                     (0, E.jsxDEV)("p", {
                       className: "text-xs sm:text-sm text-[#666666] mt-1",
@@ -514,7 +514,7 @@ React keys must be passed directly to JSX without using spread:
                               value: f.fullName,
                               onChange: (e) => setF({ ...f, fullName: e.target.value }),
                               placeholder: "e.g. Tariq Mehmood",
-                              className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all"
+                              className: "contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]", style: { width: "100%", height: "31px", minHeight: "31px", maxHeight: "31px", padding: "0 10px", fontSize: "12.5px", lineHeight: "29px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none" }
                             }, void 0, false)
                           ]
                         }, void 0, true),
@@ -529,7 +529,7 @@ React keys must be passed directly to JSX without using spread:
                               value: f.businessName,
                               onChange: (e) => setF({ ...f, businessName: e.target.value }),
                               placeholder: "e.g. Al-Madina Mineral Water",
-                              className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all"
+                              className: "contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]", style: { width: "100%", height: "31px", minHeight: "31px", maxHeight: "31px", padding: "0 10px", fontSize: "12.5px", lineHeight: "29px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none" }
                             }, void 0, false)
                           ]
                         }, void 0, true)
@@ -553,7 +553,7 @@ React keys must be passed directly to JSX without using spread:
                               value: f.phone,
                               onChange: (e) => setF({ ...f, phone: e.target.value }),
                               placeholder: "e.g. 0300-1234567",
-                              className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all"
+                              className: "contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]", style: { width: "100%", height: "31px", minHeight: "31px", maxHeight: "31px", padding: "0 10px", fontSize: "12.5px", lineHeight: "29px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none" }
                             }, void 0, false)
                           ]
                         }, void 0, true),
@@ -568,7 +568,7 @@ React keys must be passed directly to JSX without using spread:
                               value: f.email,
                               onChange: (e) => setF({ ...f, email: e.target.value }),
                               placeholder: "e.g. name@company.pk",
-                              className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all"
+                              className: "contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]", style: { width: "100%", height: "31px", minHeight: "31px", maxHeight: "31px", padding: "0 10px", fontSize: "12.5px", lineHeight: "29px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none" }
                             }, void 0, false)
                           ]
                         }, void 0, true)
@@ -592,7 +592,7 @@ React keys must be passed directly to JSX without using spread:
                               value: f.city,
                               onChange: (e) => setF({ ...f, city: e.target.value }),
                               placeholder: "e.g. Karachi, Lahore, Rawalpindi",
-                              className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all"
+                              className: "contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]", style: { width: "100%", height: "31px", minHeight: "31px", maxHeight: "31px", padding: "0 10px", fontSize: "12.5px", lineHeight: "29px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none" }
                             }, void 0, false)
                           ]
                         }, void 0, true),
@@ -609,7 +609,7 @@ React keys must be passed directly to JSX without using spread:
                               required: true,
                               value: f.enquiryType,
                               onChange: (e) => setF({ ...f, enquiryType: e.target.value }),
-                              className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all text-slate-800",
+                              className: "contact-wsms-select w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all text-[#0f172a]", style: { width: "100%", height: "31px", minHeight: "31px", maxHeight: "31px", padding: "0 10px", fontSize: "12.5px", lineHeight: "29px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none" },
                               children: [
                                 (0, E.jsxDEV)("option", { value: "", children: "Select enquiry type" }, void 0, false),
                                 (0, E.jsxDEV)("option", { value: "demo", children: "Product Demonstration" }, void 0, false),
@@ -635,11 +635,11 @@ React keys must be passed directly to JSX without using spread:
                         }, void 0, true),
                         (0, E.jsxDEV)("textarea", {
                           required: true,
-                          rows: 4,
+                          rows: 3,
                           value: f.message,
                           onChange: (e) => setF({ ...f, message: e.target.value }),
                           placeholder: "Tell us about your operations, daily cane volume, or questions...",
-                          className: "w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all resize-y"
+                          className: "contact-wsms-textarea w-full px-2.5 py-1.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all resize-y placeholder:text-slate-400 text-[#0f172a]", style: { width: "100%", padding: "8px 10px", fontSize: "12.5px", lineHeight: "18px", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#0f172a", backgroundColor: "#ffffff", boxSizing: "border-box", outline: "none", resize: "vertical", minHeight: "72px" }
                         }, void 0, false)
                       ]
                     }, void 0, true),
@@ -648,7 +648,7 @@ React keys must be passed directly to JSX without using spread:
                       children: [
                         (0, E.jsxDEV)("button", {
                           type: "submit",
-                          className: "w-full sm:w-auto px-8 py-3.5 bg-[#0077cc] hover:bg-[#005fa3] text-white font-bold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer",
+                          className: "contact-wsms-btn w-full sm:w-auto px-6 py-2.5 bg-[#0077cc] hover:bg-[#005fa3] text-white font-bold text-xs sm:text-sm rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer", style: { height: "36px", minHeight: "36px", maxHeight: "36px", backgroundColor: "#0077cc", color: "#ffffff", fontSize: "13px", fontWeight: 700, borderRadius: "6px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", padding: "0 20px" },
                           children: [
                             (0, E.jsxDEV)("svg", {
                               viewBox: "0 0 24 24",

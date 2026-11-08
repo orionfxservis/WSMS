@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Smartphone, ShieldCheck, Droplet, ArrowRight, LayoutDashboard } from 'lucide-react';
+import { Menu, X, Smartphone, ShieldCheck, Droplet, ArrowRight } from 'lucide-react';
 import { AppViewMode } from '../types';
 
 interface NavbarProps {
@@ -182,26 +182,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 Overview
               </button>
 
-              {/* 2. Live Dashboard */}
-              <button
-                type="button"
-                onClick={() => {
-                  window.location.href = './pages/dashboard.html';
-                }}
-                className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
-                  activeView === 'dashboard'
-                    ? 'bg-white text-[#007bdb] border-white shadow-sm'
-                    : 'bg-white/15 text-white border-white/30 hover:bg-white/25'
-                }`}
-                aria-label="Open Live Dashboard"
-                title="Live WSMS Dashboard with News Feed and Summary Cards"
-              >
-                <LayoutDashboard className="w-3.5 h-3.5" />
-                <span>Live Dashboard</span>
-                <span className="w-2 h-2 rounded-full bg-[#70e0a1] animate-pulse" />
-              </button>
-
-              {/* 3. Field Hub */}
+              {/* 2. Field Hub */}
               <button
                 type="button"
                 onClick={() => {
@@ -321,25 +302,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               Overview
             </button>
 
-            {/* 2. Live Dashboard */}
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                window.location.href = './pages/dashboard.html';
-              }}
-              className="text-left py-2 px-3 rounded-lg bg-white/20 border border-white/40 text-white font-bold text-base flex items-center justify-between w-full"
-            >
-              <span className="flex items-center gap-2">
-                <LayoutDashboard className="w-4 h-4 text-white" />
-                Live Dashboard
-              </span>
-              <span className="text-xs bg-[#33c47a] text-white font-bold px-2 py-0.5 rounded-full">
-                Live
-              </span>
-            </button>
-
-            {/* 3. Field Hub */}
+            {/* 2. Field Hub */}
             <button
               type="button"
               onClick={() => {

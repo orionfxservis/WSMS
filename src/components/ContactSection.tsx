@@ -77,10 +77,10 @@ export const ContactSection: React.FC = () => {
                     Mobile / WhatsApp Helpline
                   </h4>
                   <a
-                    href="tel:+923001234567"
+                    href="tel:+923082135367"
                     className="text-sm font-bold text-[#222222] hover:text-[#0077cc] transition-colors"
                   >
-                    +92 (300) 123-4567 · +92 (21) 3456-7890
+                    +92 (308) 213-5367
                   </a>
                   <span className="text-[11px] text-slate-400 block mt-0.5">
                     Direct assistance for Pakistani mineral water plants & distributors
@@ -98,10 +98,10 @@ export const ContactSection: React.FC = () => {
                     Official Email Support
                   </h4>
                   <a
-                    href="mailto:support@wsms.pk"
+                    href="mailto:info@orionfx.net"
                     className="text-sm font-bold text-[#222222] hover:text-[#0077cc] transition-colors"
                   >
-                    support@wsms.pk · info@orionfx.net
+                    info@orionfx.net
                   </a>
                   <span className="text-[11px] text-slate-400 block mt-0.5">
                     Responses typically within 2 business hours
@@ -141,9 +141,9 @@ export const ContactSection: React.FC = () => {
           {/* Right Column: Contact Form */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-2xl border border-[#e2e8f0] p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,119,204,0.06)]">
-              <div className="mb-6 pb-4 border-b border-slate-100">
+              <div className="mb-5 pb-3 border-b border-slate-100">
                 <h3 className="text-lg sm:text-xl font-bold text-[#222222]">
-                  Send an Enquiry to Orion Fx
+                  Send an Enquiry WSMS
                 </h3>
                 <p className="text-xs sm:text-sm text-[#666666] mt-1">
                   Please fill in your details below. Our technical team will review your requirements.
@@ -151,7 +151,7 @@ export const ContactSection: React.FC = () => {
               </div>
 
               {submitted && (
-                <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm flex items-start gap-3 animate-in fade-in">
+                <div className="mb-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm flex items-start gap-3 animate-in fade-in">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <strong className="block font-bold">Enquiry Recorded!</strong>
@@ -162,11 +162,14 @@ export const ContactSection: React.FC = () => {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {/* Full Name */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label
+                      className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                      style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                    >
                       Full Name <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -175,13 +178,17 @@ export const ContactSection: React.FC = () => {
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       placeholder="e.g. Tariq Mehmood"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all placeholder:text-slate-400"
+                      className="contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]"
+                      style={{ width: '100%', height: '31px', minHeight: '31px', maxHeight: '31px', padding: '0 10px', fontSize: '12.5px', lineHeight: '29px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none' }}
                     />
                   </div>
 
                   {/* Business Name */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label
+                      className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                      style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                    >
                       Business Name
                     </label>
                     <input
@@ -189,15 +196,19 @@ export const ContactSection: React.FC = () => {
                       value={formData.businessName}
                       onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                       placeholder="e.g. Al-Madina Mineral Water"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all placeholder:text-slate-400"
+                      className="contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]"
+                      style={{ width: '100%', height: '31px', minHeight: '31px', maxHeight: '31px', padding: '0 10px', fontSize: '12.5px', lineHeight: '29px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none' }}
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {/* Mobile / WhatsApp */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label
+                      className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                      style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                    >
                       Mobile / WhatsApp <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -206,13 +217,17 @@ export const ContactSection: React.FC = () => {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="e.g. 0300-1234567"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all placeholder:text-slate-400"
+                      className="contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]"
+                      style={{ width: '100%', height: '31px', minHeight: '31px', maxHeight: '31px', padding: '0 10px', fontSize: '12.5px', lineHeight: '29px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none' }}
                     />
                   </div>
 
                   {/* Email Address */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label
+                      className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                      style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                    >
                       Email Address
                     </label>
                     <input
@@ -220,15 +235,19 @@ export const ContactSection: React.FC = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="e.g. name@company.pk"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all placeholder:text-slate-400"
+                      className="contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]"
+                      style={{ width: '100%', height: '31px', minHeight: '31px', maxHeight: '31px', padding: '0 10px', fontSize: '12.5px', lineHeight: '29px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none' }}
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {/* City */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label
+                      className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                      style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                    >
                       City <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -237,20 +256,25 @@ export const ContactSection: React.FC = () => {
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       placeholder="e.g. Karachi, Lahore, Rawalpindi"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all placeholder:text-slate-400"
+                      className="contact-wsms-input w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all placeholder:text-slate-400 text-[#0f172a]"
+                      style={{ width: '100%', height: '31px', minHeight: '31px', maxHeight: '31px', padding: '0 10px', fontSize: '12.5px', lineHeight: '29px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none' }}
                     />
                   </div>
 
                   {/* Enquiry Type */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    <label
+                      className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                      style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                    >
                       Enquiry Type <span className="text-red-500">*</span>
                     </label>
                     <select
                       required
                       value={formData.enquiryType}
                       onChange={(e) => setFormData({ ...formData, enquiryType: e.target.value })}
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all text-slate-800"
+                      className="contact-wsms-select w-full h-[31px] px-2.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all text-[#0f172a]"
+                      style={{ width: '100%', height: '31px', minHeight: '31px', maxHeight: '31px', padding: '0 10px', fontSize: '12.5px', lineHeight: '29px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none' }}
                     >
                       <option value="">Select enquiry type</option>
                       <option value="demo">Product Demonstration</option>
@@ -265,31 +289,36 @@ export const ContactSection: React.FC = () => {
 
                 {/* Message */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  <label
+                    className="contact-wsms-label block text-xs font-semibold text-slate-700 mb-1"
+                    style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#475569', marginBottom: '4px' }}
+                  >
                     Message <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     required
-                    rows={4}
+                    rows={3}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell us about your operations, daily cane volume, or questions..."
-                    className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077cc] focus:border-transparent bg-slate-50/50 hover:bg-white focus:bg-white transition-all resize-y placeholder:text-slate-400"
+                    className="contact-wsms-textarea w-full px-2.5 py-1.5 text-xs sm:text-[12.5px] border border-[#cbd5e1] rounded-md focus:outline-none focus:border-[#0077cc] focus:ring-2 focus:ring-[#0077cc]/15 bg-white transition-all resize-y placeholder:text-slate-400 text-[#0f172a]"
+                    style={{ width: '100%', padding: '8px 10px', fontSize: '12.5px', lineHeight: '18px', border: '1px solid #cbd5e1', borderRadius: '6px', color: '#0f172a', backgroundColor: '#ffffff', boxSizing: 'border-box', outline: 'none', resize: 'vertical', minHeight: '72px' }}
                   />
                 </div>
 
                 {/* Submit Action */}
-                <div className="pt-2">
+                <div className="pt-1">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[#0077cc] hover:bg-[#005fa3] active:bg-[#004b80] text-white font-bold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                    className="contact-wsms-btn w-full sm:w-auto px-6 py-2.5 bg-[#0077cc] hover:bg-[#005fa3] active:bg-[#004b80] text-white font-bold text-xs sm:text-sm rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                    style={{ height: '36px', minHeight: '36px', maxHeight: '36px', backgroundColor: '#0077cc', color: '#ffffff', fontSize: '13px', fontWeight: 700, borderRadius: '6px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '0 20px' }}
                   >
                     <Send className="w-4 h-4" />
                     <span>Send Enquiry</span>
                   </button>
 
                   {/* Form preview only disclaimer note */}
-                  <p className="text-xs text-slate-500 italic mt-3 flex items-center gap-1.5">
+                  <p className="text-xs text-slate-500 italic mt-2.5 flex items-center gap-1.5">
                     <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                     <span>Form preview only — submission is not connected yet.</span>
                   </p>

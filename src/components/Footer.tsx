@@ -94,7 +94,7 @@ SECTION 9. CONTACT: Orion Fx Support.`,
             </p>
 
             <div className="text-xs text-slate-300 space-y-1 pt-1">
-              <div><strong className="text-white">Official Contact & Support:</strong> support@wsms.pk · +92 (21) 3456-7890</div>
+              <div><strong className="text-white">Official Contact & Support:</strong> info@orionfx.net · +92 (308) 213-5367</div>
               <div><strong className="text-white">Headquarters:</strong> Shahrah-e-Faisal, Karachi, Sindh, Pakistan</div>
             </div>
 

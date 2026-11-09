@@ -25,6 +25,13 @@ const ViewSkeleton: React.FC<{ title: string }> = ({ title }) => (
 
 export default function App() {
   const [activeView, setActiveView] = useState<AppViewMode>('landing');
+
+  // Ensure 'dashboard' view always navigates directly to the standalone dashboard.html
+  useEffect(() => {
+    if (activeView === 'dashboard') {
+      window.location.href = './pages/dashboard.html';
+    }
+  }, [activeView]);
   const [inventory, setInventory] = useState<CanInventory>(initialInventory);
   const [deliveries, setDeliveries] = useState<DeliveryRecord[]>(initialDeliveries);
   const [stations] = useState<StationData[]>(initialStations);
@@ -104,16 +111,12 @@ export default function App() {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveView('dashboard');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-[11px] font-bold bg-slate-900 text-white hover:bg-slate-800 px-3 py-1 rounded-full shadow-xs cursor-pointer transition-colors"
+              <a
+                href="./pages/dashboard.html"
+                className="text-[11px] font-bold bg-slate-900 text-white hover:bg-slate-800 px-3 py-1 rounded-full shadow-xs cursor-pointer transition-colors no-underline inline-block"
               >
                 Go to Dashboard
-              </button>
+              </a>
               <button
                 type="button"
                 onClick={() => setAuthenticatedUser(null)}
@@ -228,16 +231,12 @@ export default function App() {
                   WSMS Field Hub · Real-Time Operations Node
                 </span>
                 <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveView('dashboard');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                  <a
+                    href="./pages/dashboard.html"
                     className="text-white hover:text-blue-100 font-semibold underline cursor-pointer"
                   >
                     Go to Dashboard
-                  </button>
+                  </a>
                   <span>·</span>
                   <button
                     type="button"
